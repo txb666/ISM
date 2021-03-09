@@ -13,6 +13,5 @@ namespace ISM.WebApp.DAO
         bool isStaffAlreadyExist(string account, string email);
         void createStaff(string fullname, string email, string account, DateTime startDate, DateTime? endDate, bool status);
         void editStaff(int id, string fullname, string email, string account, DateTime startDate, DateTime? endDate, bool status);
-
     }
 }
