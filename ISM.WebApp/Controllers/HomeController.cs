@@ -29,7 +29,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Login")]
+        [HttpPost, ActionName("Index")]
         public async Task<IActionResult> Login(string txtAccount, string txtPassword)
         {
             Account newAccount = new Account();
