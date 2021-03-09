@@ -13,15 +13,15 @@ namespace ISM.WebApp.Models
         public int studentGroup_id { get; set; }
         public string email { get; set; }
         public string account { get; set; }
-        public bool? status { get; set; }
-        public bool? isFirstLoggedIn { get; set; }
+        public bool status { get; set; }
+        public bool isFirstLoggedIn { get; set; }
         public string password { get; set; }
         public DateTime startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public DateTime endDate { get; set; }
         public string fullname { get; set; }
         public string nationality { get; set; }
         public DateTime dob { get; set; }
-        public bool? gender { get; set; }
+        public bool gender { get; set; }
         public string emergency_contact { get; set; }
 
         public User()
