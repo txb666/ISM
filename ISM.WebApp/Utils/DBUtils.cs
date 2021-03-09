@@ -13,7 +13,7 @@ namespace ISM.WebApp.Utils
         {
             try
             {
-                string connectionString = "Data Source=DESKTOP-6ODLUJD;Initial Catalog=ISM;Integrated Security=true;";
+                string connectionString = "Data Source=localhost;Initial Catalog=ISM;Integrated Security=true;";
                 return new SqlConnection(connectionString);
             }
             catch (Exception e)

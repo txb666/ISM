@@ -235,23 +235,29 @@
                         }
                         @if (Model.status == true)
                         {
-                            <option value="true" selected>Male</option>
+                            <option value="true" selected>Active</option>
                         }
                         else
                         {
-                            <option value="true">Male</option>
+                            <option value="true">Active</option>
                         }
                         @if (Model.status == false)
                         {
-                            <option value="false" selected>Female</option>
+                            <option value="false" selected>Inactive</option>
                         }
                         else
                         {
-                            <option value="false">Female</option>
+                            <option value="false">Inactive</option>
                         }
                     </select>
-                    <input id="startDateFrom" name="startDateFrom" type="date" />
-                    <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">X</button>
+                    <input id="startDateFrom" name="startDateFrom" type="date" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")"/>
+                    <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>
+                    <input id="startDateTo" name="startDateTo" type="date" value="@(Model.startDateTo.HasValue?Model.startDateTo.Value.ToString("yyyy-MM-dd"):"")"/>
+                    <button type="button" onclick="document.getElementById('startDateTo').valueAsDate = null">Clear</button>
+                    <input id="endDateFrom" name="endDateFrom" type="date" value="@(Model.endDateFrom.HasValue?Model.endDateFrom.Value.ToString("yyyy-MM-dd"):"")"/>
+                    <button type="button" onclick="document.getElementById('endDateFrom').valueAsDate = null">Clear</button>
+                    <input id="endDateTo" name="endDateTo" type="date" value="@(Model.endDateTo.HasValue?Model.endDateTo.Value.ToString("yyyy-MM-dd"):"")"/>
+                    <button type="button" onclick="document.getElementById('endDateTo').valueAsDate = null">Clear</button>
                     <input type="hidden" name="page" id="inputPage" />
                     <button type="submit" onclick="search(1);">Search</button>
                 </form>
@@ -281,10 +287,10 @@
                                         @item.account
                                     </td>
                                     <td>
-                                        @item.startDate
+                                        @(item.startDate.HasValue?item.startDate.Value.ToString("dd-MM-yyyy"):"")
                                     </td>
                                     <td>
-                                        @item.endDate
+                                        @(item.endDate.HasValue?item.endDate.Value.ToString("dd-MM-yyyy"):"")
                                     </td>
                                     <td>
                                         @if (item.status == true)
