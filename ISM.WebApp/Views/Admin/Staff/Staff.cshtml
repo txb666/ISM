@@ -288,10 +288,10 @@
                                         @item.account
                                     </td>
                                     <td>
-                                        @item.startDate.ToString("dd-MM-yyyy")
+                                        @(item.startDate.HasValue?item.startDate.Value.ToString("dd-MM-yyyy"):"")
                                     </td>
                                     <td>
-                                        @item.endDate.ToString("dd-MM-yyyy")
+                                        @(item.endDate.HasValue?item.endDate.Value.ToString("dd-MM-yyyy"):"")
                                     </td>
                                     <td>
                                         @if (item.status == true)
