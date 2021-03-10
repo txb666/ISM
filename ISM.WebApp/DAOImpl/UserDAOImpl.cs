@@ -12,7 +12,7 @@ namespace ISM.WebApp.DAOImpl
 {
     public class UserDAOImpl : UserDAO
     {
-        public void createStaff(string fullname, string email, string account, DateTime startDate, DateTime? endDate, bool status)
+        public int createStaff(string fullname, string email, string account, DateTime? startDate, DateTime? endDate, bool status)
         {
             SqlConnection con = null;
             string sql = "insert into Users(role_id,fullname,email,account,[password],[start_date],end_date,[status],isFirstLoggedIn)"
@@ -21,6 +21,10 @@ namespace ISM.WebApp.DAOImpl
             SqlCommand com = null;
             try
             {
+                if (isStaffAlreadyExist(account, email)==true)
+                {
+                    return 0;
+                }
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
@@ -34,14 +38,19 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@password"].Value = account;
                 com.Parameters.Add("@start_date", SqlDbType.Date);
                 com.Parameters["@start_date"].Value = startDate;
-                if (endDate != null)
+                if (startDate == null)
                 {
-                    com.Parameters.Add("@end_date", SqlDbType.Date);
-                    com.Parameters["@end_date"].Value = endDate;
+                    com.Parameters["@start_date"].Value = DBNull.Value;
+                }
+                com.Parameters.Add("@end_date", SqlDbType.Date);
+                com.Parameters["@end_date"].Value = endDate;
+                if (endDate == null)
+                {
+                    com.Parameters["@end_date"].Value = DBNull.Value;
                 }
                 com.Parameters.Add("@status", SqlDbType.Bit);
                 com.Parameters["@status"].Value = status;
-                com.ExecuteNonQuery();
+                return com.ExecuteNonQuery();
             }
             catch (Exception e)
             {
@@ -51,9 +60,10 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, null, null);
             }
+            return 0;
         }
 
-        public void editStaff(int user_id, string fullname, string email, string account, DateTime startDate, DateTime? endDate, bool status)
+        public void editStaff(int user_id, string fullname, string email, string account, DateTime? startDate, DateTime? endDate, bool status)
         {
             SqlConnection con = null;
             string sql = "update Users set fullname=@fullname, email=@email, account=@account,[start_date]=@start_date,end_date=@end_date,[status]=@status"
@@ -71,14 +81,25 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@email", SqlDbType.NVarChar);
                 com.Parameters["@email"].Value = email;
                 com.Parameters.Add("@account", SqlDbType.NVarChar);
-                com.Parameters["@account"].Value = account;         
+                com.Parameters["@account"].Value = account;
                 com.Parameters.Add("@start_date", SqlDbType.Date);
-                com.Parameters["@start_date"].Value = startDate;
-                if (endDate != null)
+                if (startDate != null)
+                {      
+                    com.Parameters["@start_date"].Value = startDate;
+                }
+                else
                 {
-                    com.Parameters.Add("@end_date", SqlDbType.Date);
-                    com.Parameters["@end_date"].Value = endDate;
-                }             
+                    com.Parameters["@start_date"].Value = null;
+                }
+                com.Parameters.Add("@end_date", SqlDbType.Date);
+                if (startDate != null)
+                {
+                    com.Parameters["@start_date"].Value = startDate;
+                }
+                else
+                {
+                    com.Parameters["@start_date"].Value = null;
+                }
                 com.Parameters.Add("@status", SqlDbType.Bit);
                 com.Parameters["@status"].Value = status;
                 com.ExecuteNonQuery();
@@ -290,7 +311,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@email", SqlDbType.NVarChar);
                 com.Parameters["@email"].Value = email;
                 com.Parameters.Add("@account", SqlDbType.NVarChar);
-                com.Parameters["@email"].Value = email;
+                com.Parameters["@account"].Value = account;
                 count = (int)com.ExecuteScalar();
                 if (count == 0)
                 {
