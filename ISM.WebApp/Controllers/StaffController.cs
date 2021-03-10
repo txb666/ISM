@@ -28,7 +28,7 @@ namespace ISM.WebApp.Controllers
             StaffIndexViewModel viewmodel = new StaffIndexViewModel();
             viewmodel.page = page;
             viewmodel.pageSize = 3;
-            viewmodel.totalPage = PagingUtils.calculateTotalPage(userDAO.getTotalStaff(fullname,email,account,status,startDateFrom,startDateTo,endDateFrom,endDateTo), viewmodel.pageSize);
+            viewmodel.totalPage = PagingUtils.calculateTotalPage(userDAO.getTotalStaff(fullname,email,account,status,startDateFrom,startDateTo,endDateFrom,endDateTo),viewmodel.pageSize);
             viewmodel.staffs = userDAO.GetStaff(viewmodel.page, viewmodel.pageSize, fullname, email, account, status,startDateFrom,startDateTo,endDateFrom,endDateTo);
             viewmodel.fullname = fullname;
             viewmodel.email = email;
