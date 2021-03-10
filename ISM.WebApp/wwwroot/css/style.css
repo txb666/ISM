@@ -120,7 +120,10 @@ color: red !important;
 /* POP UP CSS */
 
 .paginglink {
-    padding: 2px;
-    border: 1px solid black;
+    padding: 4px;
+    margin-left: 10px;
+}
+.currentlink{
+    margin-left: 10px;
 }
 
