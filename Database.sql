@@ -302,7 +302,7 @@ create table [Student_Group] (
 	duration_start date not null,
 	duration_end date not null,
 	home_univercity nvarchar(255),
-	note text,
+	note nvarchar(255),
 	created_date datetime,
 	modified_date datetime
 )
