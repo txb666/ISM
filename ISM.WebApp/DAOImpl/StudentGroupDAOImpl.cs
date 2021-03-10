@@ -122,6 +122,12 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@coordinator", SqlDbType.NVarChar);
                     com.Parameters["@coordinator"].Value = coordinator;
                 }
+                //if (year > 0)
+                //{
+                //    where += " and [year] = @year";
+                //    com.Parameters.Add("@year", SqlDbType.Int);
+                //    com.Parameters["@year"].Value = year;
+                //}
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
@@ -145,7 +151,7 @@ namespace ISM.WebApp.DAOImpl
                     studentGroup.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
                     if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
                     {
-                        studentGroup.home_university = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        studentGroup.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
                     }
                     studentGroup.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
                     if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
@@ -203,6 +209,12 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@coordinator", SqlDbType.NVarChar);
                     com.Parameters["@coordinator"].Value = coordinator;
                 }
+                //if (year > 0)
+                //{
+                //    where += " and [year] = @year";
+                //    com.Parameters.Add("@year", SqlDbType.Int);
+                //    com.Parameters["@year"].Value = year;
+                //}
                 sql = "select count(*) from Student_Group a, Programs b, Coordinators c,Users d, Campus e " +
                     "where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id " +
                     "and c.staff_id = d.[user_id] and e.campus_id = a.campus_id" + where;

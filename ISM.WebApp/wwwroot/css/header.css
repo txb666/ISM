@@ -1,0 +1,213 @@
+.logo-user{
+    width: 100%;
+    height: 100%;
+}
+.dropbtn {
+  background-image: url(~/image/user.jpg);
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: red;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {
+background-color: white;
+text-decoration: none;
+}
+.show {
+  display: block;
+}
+
+.icon-button{
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 50px;
+height: 50px;
+margin-top: 15px;
+margin-left: 15px;
+color: #333333;
+background: #dddddd;
+border: none;
+outline: none;
+border-radius: 50%;
+}
+.icon-button__badge{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+/* #navbarSupportedContent{
+  background: rgba(0,0,0,0.2);
+  margin-left: 20px;
+} */
+
+ /* CSS NavBar */
+ul li{
+  font-size: 19px;
+  margin: 3px;
+  font-family: sans-serif;
+  background-color: white;
+}
+.dropdown-description{
+  display: none;
+  position: absolute;
+  background-color: white;
+  z-index: 1;
+}
+.dropdowns{
+  position: relative;
+  display: inline-block;
+}
+
+ .dropdowns:hover .dropdown-description{
+display: block;
+color: red !important;
+}
+
+
+/* POP UP CSS */
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+ }
+ 
+ #xmas-popup .popup-content{
+  width: 500px;
+  height: 650px;
+  background: white;
+  margin: 10px auto;
+  position: relative;
+  border: 5px solid #fff;
+ }
+
+ /* POP UP ASSIGN */
+ .popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+ }
+ 
+ #xmas-popup-assign .popup-content-assign{
+  width: 500px;
+  height: 500px;
+  background: white;
+  margin: 10px auto;
+  position: relative;
+  border: 5px solid #fff;
+ }
+
+ .table-scroll{
+   height: 350px;
+   overflow-y: scroll;
+ }
+ 
+ /* .close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 50%;
+  background: #222;
+  border: 3px solid #fff;
+  color: #fff;
+  text-decoration: none;
+  line-height: 0;
+  padding: 9px 0 11px;
+  width: 20px;
+  text-align: center;
+ } */
+   
+ .popup:target {
+   display: block;
+ }
+
+
+ .dropbtn_search {
+  /* background-image: url(../images/user.jpg);
+  background-size: cover; */
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown_search {
+  position: relative;
+  display: inline-block;
+  
+}
+
+.dropdown-content_search {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.show_search {
+  display: inline-block;
+}
+
+.aaa{
+  margin-left: 10px;
+  background-color: red;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width:500px){
+  .col-xl-1{
+    width: 100px  !important;
+  }
+
+  .col-xl-10 {
+    max-width: 250px !important;
+  }
+  img{
+    max-width: 250px;
+  }
+}
