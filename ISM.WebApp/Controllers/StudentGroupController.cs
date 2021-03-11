@@ -18,13 +18,13 @@ namespace ISM.WebApp.Controllers
         {
             this.studentGroupDAO = studentGroupDAO;
         }
-        public IActionResult Index(int year = 1, string program = "", DateTime? duration_start = null, DateTime? duration_end = null, string home_univercity = "", string campus = "", string coordinator = "", string note = "", int page = 1)
+        public IActionResult Index(int year = 0, string program = "", DateTime? duration_start = null, DateTime? duration_end = null, string home_univercity = "", string campus = "", string coordinator = "", string note = "", int page = 1)
         {
             StudentGroupIndexViewModel studentGroupViewModel = new StudentGroupIndexViewModel();
             studentGroupViewModel.page = page;
-            studentGroupViewModel.pageSize = 3;
-            studentGroupViewModel.totalPage = PagingUtils.calculateTotalPage(studentGroupDAO.getTotalStudentGroup(program, home_univercity, campus, coordinator), studentGroupViewModel.pageSize);
-            studentGroupViewModel.studentGroups = studentGroupDAO.GetStudentGroups(studentGroupViewModel.page, studentGroupViewModel.pageSize, program, home_univercity, campus, coordinator);
+            studentGroupViewModel.pageSize = 5;
+            studentGroupViewModel.totalPage = PagingUtils.calculateTotalPage(studentGroupDAO.getTotalStudentGroup(year, program, home_univercity, campus, coordinator), studentGroupViewModel.pageSize);
+            studentGroupViewModel.studentGroups = studentGroupDAO.GetStudentGroups(studentGroupViewModel.page, studentGroupViewModel.pageSize, year, program, home_univercity, campus, coordinator);
             studentGroupViewModel.year = year;
             studentGroupViewModel.program = program;
             studentGroupViewModel.duration_start = duration_start;
