@@ -120,6 +120,8 @@ color: red !important;
   border: 5px solid #fff;
  }
 
+
+
  /* POP UP ASSIGN */
  .popup {
   position: fixed;
@@ -130,6 +132,7 @@ color: red !important;
   background: rgba(0,0,0,0.6);
   display: none;
  }
+
  
  #xmas-popup-assign .popup-content-assign{
   width: 500px;
@@ -139,6 +142,28 @@ color: red !important;
   position: relative;
   border: 5px solid #fff;
  }
+/* POP UP ASSIGN1 */
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+}
+
+
+#xmas-popup-assign1 .popup-content-assign1 {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+
+
 
  .table-scroll{
    height: 350px;
