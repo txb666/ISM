@@ -26,7 +26,7 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Views/Admin/Visa/How_to_apply_visa.cshtml");
         }
 
         [HttpPost, ActionName("Index")]
