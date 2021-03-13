@@ -26,7 +26,7 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Index()
         {
-            return View("/Views/Admin/Contact us/Available_time.cshtml");
+            return View();
         }
 
         [HttpPost, ActionName("Index")]
