@@ -50,7 +50,55 @@ namespace ISM.WebApp.DAOImpl
             }
         }
 
-        public List<Passport> GetPassports(int page, int pageSize, string account, string picture, string student_name, string passport_number, DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo, string issuing_authority)
+        public Passport GetPassportById(int id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            Passport passport = new Passport();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (id != 0)
+                {
+                    where += " and a.passport_id=@id";
+                    com.Parameters.Add("@id", SqlDbType.Int);
+                    com.Parameters["@id"].Value = id;
+                }
+                sql = "select * from (select b.account,a.passport_id,b.fullname,a.passport_number,a.picture," +
+                      "a.[start_date],a.expired_date,a.issuing_authority from Passports a, Users b " +
+                      "where a.student_id = b.[user_id]" + where + ") as temp";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    passport.passport_id = (int)reader.GetValue(reader.GetOrdinal("passport_id"));
+                    passport.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    passport.student_name = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    passport.expried_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return passport;
+        }
+
+        public List<Passport> GetPassports(int page, int pageSize, int id, string account, string picture, string student_name, string passport_number, DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo, string issuing_authority)
         {
             int from = page * pageSize - (pageSize - 1);
             int to = page * pageSize;
@@ -66,51 +114,57 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
+                if (id != 0)
+                {
+                    where += " and a.passport_id=@id";
+                    com.Parameters.Add("@id", SqlDbType.Int);
+                    com.Parameters["@id"].Value = id;
+                }
                 if (!string.IsNullOrEmpty(account))
                 {
-                    where += " and upper(account) like upper('%' + @account + '%')";
+                    where += " and upper(b.account) like upper('%' + @account + '%')";
                     com.Parameters.Add("@account", SqlDbType.NVarChar);
                     com.Parameters["@account"].Value = account;
                 }
                 if (!string.IsNullOrEmpty(student_name))
                 {
-                    where += " and upper(fullname) like upper('%' + @student_name + '%')";
+                    where += " and upper(b.fullname) like upper('%' + @student_name + '%')";
                     com.Parameters.Add("@student_name", SqlDbType.NVarChar);
                     com.Parameters["@student_name"].Value = student_name;
                 }
                 if (!string.IsNullOrEmpty(passport_number))
                 {
-                    where += " and upper(email) like upper('%' + @passport_number + '%')";
+                    where += " and upper(a.passport_number) like upper('%' + @passport_number + '%')";
                     com.Parameters.Add("@passport_number", SqlDbType.NVarChar);
                     com.Parameters["@passport_number"].Value = passport_number;
                 }
                 if (!string.IsNullOrEmpty(issuing_authority))
                 {
-                    where += " and upper(issuing_authority) like upper('%' + @issuing_authority + '%')";
+                    where += " and upper(a.issuing_authority) like upper('%' + @issuing_authority + '%')";
                     com.Parameters.Add("@account", SqlDbType.NVarChar);
                     com.Parameters["@issuing_authority"].Value = issuing_authority;
                 }
                 if (start_dateFrom != null)
                 {
-                    where += " and start_date>=@start_dateFrom";
+                    where += " and a.[start_date]>=@start_dateFrom";
                     com.Parameters.Add("@start_dateFrom", SqlDbType.Date);
                     com.Parameters["@start_dateFrom"].Value = start_dateFrom;
                 }
                 if (start_dateTo != null)
                 {
-                    where += " and start_date<=@start_dateTo";
+                    where += " and a.[start_date]<=@start_dateTo";
                     com.Parameters.Add("@start_dateTo", SqlDbType.Date);
                     com.Parameters["@start_dateTo"].Value = start_dateTo;
                 }
                 if (expried_dateFrom != null)
                 {
-                    where += " and end_date>=@expried_dateFrom";
+                    where += " and a.end_date>=@expried_dateFrom";
                     com.Parameters.Add("@expried_dateFrom", SqlDbType.Date);
                     com.Parameters["@expried_dateFrom"].Value = expried_dateFrom;
                 }
                 if (expried_dateTo != null)
                 {
-                    where += " and end_date<=@expried_dateTo";
+                    where += " and a.end_date<=@expried_dateTo";
                     com.Parameters.Add("@expried_dateTo", SqlDbType.Date);
                     com.Parameters["@expried_dateTo"].Value = expried_dateTo;
                 }
@@ -148,7 +202,7 @@ namespace ISM.WebApp.DAOImpl
             return passports;
         }
 
-        public int GetTotalPassports(string account, string picture, string student_name, string passport_number, DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo, string issuing_authority)
+        public int GetTotalPassports(int id, string account, string picture, string student_name, string passport_number, DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo, string issuing_authority)
         {
             SqlConnection con = null;
             string sql = "";
@@ -161,6 +215,12 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
+                if (id != 0)
+                {
+                    where += " and a.passport_id=@id";
+                    com.Parameters.Add("@id", SqlDbType.Int);
+                    com.Parameters["@id"].Value = id;
+                }
                 if (!string.IsNullOrEmpty(account))
                 {
                     where += " and upper(account) like upper('%' + @account + '%')";
