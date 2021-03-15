@@ -20,6 +20,27 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css">
+    <script>
+
+        function myFunction1() {
+            document.getElementById("myDropdown_search").classList.toggle("show_search_staff");
+        }
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown_search");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
     <style>
         .dropbtn {
             background: white;
@@ -185,12 +206,55 @@
         <div style="height: 500px; background-color: white;">
             <h1 style="text-align: center;">Staff</h1>
             <div style="height: 50px;">
+                <div class="dropdown_search">
+                    <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
+                    <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+                        <form style="width: 320px;">
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                                <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                            </div>
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                                <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                            </div>
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                                <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                            </div>
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                                <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                            </div>
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date:</label>
+                                <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
+                                <option style="width:200px; border-radius:5px">
+                                    <select>
+                                        A
+                                    </select>
+                                    <select>
+                                        A
+                                    </select>
+                                </option>
+                            </div>
+                            <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+
+                        </form>
+                    </div>
+                </div>
+
                 <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
                     <a style="text-decoration: none;" href="#xmas-popup">Create</a>
                 </button>
                 <br>
                 <!-- SEARCH FORM -->
-                <div class="btn-group">
+                @*<div class="btn-group">
                     <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                         Search
@@ -211,8 +275,8 @@
                             </div>
                             <div class="form-group row">
                                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
-                                <input name="startDateFrom" type="date" style="width: 200px; border-radius: 5px;" id="startDateFrom" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                                @* <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>*@
+                                <input name="startDateFrom" type="date" style="width: 200px; border-radius: 5px;" id="startDateFrom" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")">-->
+                                 <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>
                             </div>
                             <div class="form-group row">
                                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
@@ -262,49 +326,49 @@
                             <button type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
                         </form>
                     </div>
-                </div>
+                </div>*@
 
                 @*  <form id="searchForm" asp-controller="Staff" asp-action="Index" method="get">
-                        <input type="text" name="fullname" value="@Model.fullname" />
-                        <input type="text" name="email" value="@Model.email" />
-                        <input type="text" name="account" value="@Model.account" />
-                        <select name="status">
-                            @if (Model.status == null)
-                            {
-                                <option value="" selected>All</option>
-                            }
-                            else
-                            {
-                                <option value="">All</option>
-                            }
-                            @if (Model.status == true)
-                            {
-                                <option value="true" selected>Active</option>
-                            }
-                            else
-                            {
-                                <option value="true">Active</option>
-                            }
-                            @if (Model.status == false)
-                            {
-                                <option value="false" selected>Inactive</option>
-                            }
-                            else
-                            {
-                                <option value="false">Inactive</option>
-                            }
-                        </select>
-                        <input id="startDateFrom" name="startDateFrom" type="date" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")" />
-                        <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>
-                        <input id="startDateTo" name="startDateTo" type="date" value="@(Model.startDateTo.HasValue?Model.startDateTo.Value.ToString("yyyy-MM-dd"):"")" />
-                        <button type="button" onclick="document.getElementById('startDateTo').valueAsDate = null">Clear</button>
-                        <input id="endDateFrom" name="endDateFrom" type="date" value="@(Model.endDateFrom.HasValue?Model.endDateFrom.Value.ToString("yyyy-MM-dd"):"")" />
-                        <button type="button" onclick="document.getElementById('endDateFrom').valueAsDate = null">Clear</button>
-                        <input id="endDateTo" name="endDateTo" type="date" value="@(Model.endDateTo.HasValue?Model.endDateTo.Value.ToString("yyyy-MM-dd"):"")" />
-                        <button type="button" onclick="document.getElementById('endDateTo').valueAsDate = null">Clear</button>
-                        <input type="hidden" name="page" id="inputPage" />
-                        <button type="submit" onclick="search(1);">Search</button>
-                    </form>*@
+            <input type="text" name="fullname" value="@Model.fullname" />
+            <input type="text" name="email" value="@Model.email" />
+            <input type="text" name="account" value="@Model.account" />
+            <select name="status">
+                @if (Model.status == null)
+                {
+                    <option value="" selected>All</option>
+                }
+                else
+                {
+                    <option value="">All</option>
+                }
+                @if (Model.status == true)
+                {
+                    <option value="true" selected>Active</option>
+                }
+                else
+                {
+                    <option value="true">Active</option>
+                }
+                @if (Model.status == false)
+                {
+                    <option value="false" selected>Inactive</option>
+                }
+                else
+                {
+                    <option value="false">Inactive</option>
+                }
+            </select>
+            <input id="startDateFrom" name="startDateFrom" type="date" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")" />
+            <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>
+            <input id="startDateTo" name="startDateTo" type="date" value="@(Model.startDateTo.HasValue?Model.startDateTo.Value.ToString("yyyy-MM-dd"):"")" />
+            <button type="button" onclick="document.getElementById('startDateTo').valueAsDate = null">Clear</button>
+            <input id="endDateFrom" name="endDateFrom" type="date" value="@(Model.endDateFrom.HasValue?Model.endDateFrom.Value.ToString("yyyy-MM-dd"):"")" />
+            <button type="button" onclick="document.getElementById('endDateFrom').valueAsDate = null">Clear</button>
+            <input id="endDateTo" name="endDateTo" type="date" value="@(Model.endDateTo.HasValue?Model.endDateTo.Value.ToString("yyyy-MM-dd"):"")" />
+            <button type="button" onclick="document.getElementById('endDateTo').valueAsDate = null">Clear</button>
+            <input type="hidden" name="page" id="inputPage" />
+            <button type="submit" onclick="search(1);">Search</button>
+        </form>*@
                 <br />
                 <div>
                     <table class="table table-bordered">

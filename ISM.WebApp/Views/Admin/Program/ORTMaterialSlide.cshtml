@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;"> ORT Material/ Slide </h1>
+    <div style="height:50px">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 250px; margin-top: 10px;">
+                <form style="width: 320px;">
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                        <select style="width:200px; border-radius:5px">
+                            <option>A</option>
+                            <option>A</option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Material:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                  
+                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+
+                </form>
+            </div>
+        </div>
+
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;">Delete</a>
+        </button>
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Edit</a>
+        </button>
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Create</a>
+        </button>
+    </div>
+    <br>
+    <br>
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Program</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Mark</td>
+
+                </tr>
+        </table>
+
+
+    </div>
+
+
+
+    <div id="xmas-popup-assign" class="popup">
+        <div class="popup-content-assign" style="height:400px">
+            <form>
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Material</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                    <select style="width:300px; margin-left:30px; border-radius:5px">
+                        <option>A</option>
+                        <option>A</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Material:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+
+
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success">
+                        Save
+                    </button>
+
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        function myFunction1() {
+            document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_material_slide");
+        }
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown_search");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
+
+</div>
+</html>

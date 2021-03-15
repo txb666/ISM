@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;"> Orientation Schedule </h1>
+    <div style="height:50px">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 200px; margin-top: 10px;">
+                <form>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student's Account:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Name:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Account</th>
+                    <th scope="col">Full Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                </tr>
+        </table>
+
+
+    </div>
+    <div>
+        <button class="btn btn-info" style="margin-left:40%">Student Schedule</button>
+    </div>
+
+
+
+    <script>
+
+        function myFunction1() {
+            document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule");
+        }
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown_search");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+    </script>
+
+</div>
+</html>

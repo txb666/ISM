@@ -193,8 +193,8 @@ color: red !important;
  .dropbtn_search {
   /* background-image: url(../images/user.jpg);
   background-size: cover; */
-  width: 50px;
-  height: 50px;
+/*  width: 50px;
+  height: 50px;*/
   margin-top: 10px;
   padding: 16px;
   font-size: 16px;
@@ -275,3 +275,26 @@ color: red !important;
 .show_search_passport {
     display: block;
 }
+.show_search_preapprovalvisa {
+    display: block;
+}
+.show_search_visa {
+    display: block;
+}
+.show_search_orientation_schedule {
+    display: block;
+}
+.show_search_orientation_schedule_student {
+    display: block;
+}
+.show_search_orientation_material_slide {
+    display: block;
+}
+.show_search_orientation_material {
+    display: block;
+}
+.show_search_staff{
+    display:block;
+}
+ 
+ 

@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;"> FAQs </h1>
+    <div style="height:50px">
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;">Delete</a>
+        </button>
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Edit</a>
+        </button>
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Create</a>
+        </button>
+    </div>
+    <br>
+    <br>
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Answer</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Mark</td>
+
+                </tr>
+        </table>
+
+
+    </div>
+
+
+
+    <div id="xmas-popup-assign" class="popup">
+        <div class="popup-content-assign" style="height:300px">
+            <form>
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Question:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Answer:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success">
+                        Save
+                    </button>
+
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+
+
+
+
+    
+
+</div>
+</html>
