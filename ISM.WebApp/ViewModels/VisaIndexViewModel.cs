@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.ViewModels
 {
-    public class PassportIndexViewModel
+    public class VisaIndexViewModel
     {
-        public List<Passport> passports { get; set; }
+        public List<Visa> visalist { get; set; }
         public int page { get; set; }
         public int totalPage { get; set; }
         public int pageSize { get; set; }
-        public int passport_id { get; set; }
+        public int visa_id { get; set; }
         public string account { get; set; }
         public string picture { get; set; }
         public string student_name { get; set; }
-        public string passport_number { get; set; }
+        public string entry_port { get; set; }
         public DateTime? start_dateFrom { get; set; }
         public DateTime? start_dateTo { get; set; }
         public DateTime? expried_dateFrom { get; set; }
         public DateTime? expried_dateTo { get; set; }
-        public string issuing_authority { get; set; }
+        public DateTime? entry_dateFrom { get; set; }
+        public DateTime? entry_dateTo { get; set; }
     }
 }
