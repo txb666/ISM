@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
         private readonly AccountDAO _accountDAO;
 
-        public HomeController(ILogger<HomeController> logger, AccountDAO accountDAO)
+        public LoginController(ILogger<LoginController> logger, AccountDAO accountDAO)
         {
             _logger = logger;
             _accountDAO = accountDAO;
