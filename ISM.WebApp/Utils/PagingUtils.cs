@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Utils
 {
-    public class PagingUtils
+    public static class PagingUtils
     {
         public static String hyperlink(String number, String text)
         {

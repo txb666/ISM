@@ -1,11 +1,13 @@
-﻿@model ISM.WebApp.ViewModels.StudentGroupIndexViewModel
+﻿@model ISM.WebApp.ViewModels.StudentGroupEditViewModel
 @{
     Layout = null;
 }
-
+@{
+    var coordinatorList = Json.Serialize(Model.coordinatorList).ToString();
+    var tableList = Json.Serialize(Model.group.coordinators).ToString();
+}
 <!doctype html>
 <html lang="en">
-
 <head>
     <title>FPT INTERNATIONAL MANAGE STUDENT</title>
     <!-- Required meta tags -->
@@ -40,32 +42,16 @@
                 }
             }
         }
-
-
-        // function myFunction1() {
-        //     document.getElementById("myDropdown_search").classList.toggle("show_search");
-        // }
-
-        // // Close the dropdown if the user clicks outside of it
-        // window.onclick = function (event) {
-        //     if (!event.target.matches('.dropbtn_search')) {
-        //         var dropdowns = document.getElementsByClassName("dropdown-content_search");
-        //         var i;
-        //         for (i = 0; i < dropdowns.length; i++) {
-        //             var openDropdown = dropdowns[i];
-        //             if (openDropdown.classList.contains('show_search')) {
-        //                 openDropdown.classList.remove('show_search');
-        //             }
-        //         }
-        //     }
-        // }
-
+        window.onload = function () {
+            document.getElementById("initializeButton").click();
+        };
     </script>
 
 
 </head>
 
 <body>
+    <button id="initializeButton" style="display: none;" onclick="initializeEdit(@coordinatorList,@tableList);">hidden</button>
     <div class="container-fluid logo-user">
         <div class="row" style="height:100px;">
             <div class="col-xl-9">
@@ -217,154 +203,96 @@
                 </ul>
             </div>
         </nav>
-        <div style="height: 500px; background-color: white;">
-            <h1 style="text-align: center;">Student Group</h1>
 
-            <div style="height: 50px;">
-
-                <!-- SEARCH FORM -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                        Search
-                    </button>
-                    <div class="dropdown-menu">
-                        <form style="width: 320px;" asp-controller="StudentGroup" asp-action="Index" id="searchForm">
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Year:</label>
-                                <input type="number" name="year" style="width: 200px; border-radius: 5px;" value="@Model.year">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                                <select name="program" class="fomr-control" style="border-radius: 5px; width: 200px;">
-                                    @if (string.IsNullOrEmpty(Model.program))
-                                    {
-                                        <option value="" selected>All</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="">All</option>
-                                    }
-                                    @for (int i = 0; i < Model.programList.Count; i++)
-                                    {
-                                        if (Model.programList[i].program_name.Equals(Model.program))
-                                        {
-                                            <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                                    Home
-                                    University:
-                                </label>
-                                <input type="text" name="home_univercity" style="width: 200px; border-radius: 5px;" value="@Model.home_univercity">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
-                                <select name="campus" class="fomr-control" style="border-radius: 5px; width: 200px;">
-                                    @if (string.IsNullOrEmpty(Model.campus))
-                                    {
-                                        <option value="" selected>All</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="">All</option>
-                                    }
-                                    @for (int i = 0; i < Model.campusList.Count; i++)
-                                    {
-                                        if (Model.campusList[i].campus_name.Equals(Model.campus))
-                                        {
-                                            <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <input type="hidden" name="page" id="inputPage" />
-                            <button id="searchButton" class="btn btn-info" style="margin-left: 150px;" type="button" onclick="search(1);"> Search</button>
-                        </form>
-                    </div>
-                </div>            
-                <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
-                    <a style="text-decoration: none;" href="/StudentGroup/Create">Create</a>
-                </button>
-                <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
-                    <a style="text-decoration: none;" href="#xmas-popup-assign">Assign</a>
-                </button>
-            </div>
-            <br>
-            <br>
-            <div class="table-scroll">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Year</th>
-                            <th scope="col">Program</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Home University</th>
-                            <th scope="col">Campus</th>
-                            <th scope="col">Coordinator</th>
-                            <th scope="col">Note</th>
-                            <th scope="col"> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.studentGroups)
+        <form id="editStudentGroupForm">
+            <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>          
+            <div class="form-group row">
+                <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id"/>
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_program" disabled>
+                    @for (int i = 0; i < Model.programList.Count; i++)
+                    {
+                        if (Model.group.program_id == Model.programList[i].programm_id)
                         {
-                            <tr>
-                                <td>
-                                    @item.year
-                                </td>
-                                <td>
-                                    @item.program_name
-                                </td>
-                                <td>
-                                    @item.duration_start
-                                </td>
-                                <td>
-                                    @item.duration_end
-                                </td>
-                                <td>
-                                    @item.home_university
-                                </td>
-                                <td>
-                                    @item.campus_name
-                                </td>
-                                @{ 
-                                    List<String> stringList = new List<string>();
-                                    for(int i = 0; i < item.coordinators.Count; i++)
-                                    {
-                                        stringList.Add(item.coordinators[i].account);
-                                    }
-                                }
-                                <td>
-                                    @ISM.WebApp.Utils.FormatUtil.semicolonStringList(stringList)
-                                </td>
-                                <td>
-                                    @item.note
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.studentGroup_id">Edit</a>
-                                </td>
-                            </tr>
+                            <option value="@Model.programList[i].programm_id" selected>@Model.programList[i].program_name</option>
                         }
-                    </tbody>
-                </table>      
+                        else
+                        {
+                            <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
+                        }
+                    }
+                </select>
             </div>
-            <div>
-                @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
+                <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_start" value="@Model.group.duration_start.ToString("yyyy-MM-dd")" disabled>
             </div>
-        </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
+                <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_end" value="@Model.group.duration_end.ToString("yyyy-MM-dd")" disabled>
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
+                <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_home_univercity" value="@Model.group.home_university" disabled>
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
+                    @for (int i = 1; i < Model.campusList.Count; i++)
+                    {
+                        if (Model.group.campus_id == Model.campusList[i].campus_id)
+                        {
+                            <option value="@Model.campusList[i].campus_id" selected>@Model.campusList[i].campus_name</option>
+                        }
+                        else
+                        {
+                        <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
+                <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note" value="@Model.group.note">
+            </div>
+            <h3>Coordinator Management</h3>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
+                <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
+                    @if (Model.coordinatorList.Count > 0)
+                    {
+                        <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
+                    }
+                    @for (int i = 1; i < Model.coordinatorList.Count; i++)
+                    {
+                        <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
+                    }
+                </select>
+            </div>           
+            <button type="button" onclick='addCoordinator();'>Add</button>
+            <table id="create_coordinatorTable" class="table table-bordered">
+                <tr>
+                    <th scope="col">Coordinator</th>
+                    <th scope="col"> </th>
+                </tr>
+                @for (int i = 0; i < Model.group.coordinators.Count; i++)
+                {
+                    <tr>
+                        <td> @Model.group.coordinators[i].account </td>
+                        <td> <button onclick="deleteCoordinator('@Model.group.coordinators[i].user_id')">delete</button> </td>
+                    </tr>
+                }
+            </table>
+            <div class="form-group row">
+                <button onclick="editStudentGroup();" style="margin-left: 190px; width: 80px;" type="button"
+                        class="btn btn-success">
+                    Save
+                </button>
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+        </form>
     </div>
 
     <footer>
@@ -403,17 +331,6 @@
         </div>
     </footer>
 
-
-
-
-
-
-
-
-
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -423,8 +340,8 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/StudentGroup.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

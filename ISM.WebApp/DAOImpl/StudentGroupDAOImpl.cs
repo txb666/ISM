@@ -12,7 +12,13 @@ namespace ISM.WebApp.DAOImpl
 {
     public class StudentGroupDAOImpl : StudentGroupDAO
     {
-        public void assignCoordinator(int staff_id, int studentGroup_id)
+        private class CoordinatorMapping
+        {
+            public int studentGroup_id { get; set; }
+            public string account { get; set; }
+            public int user_id { get; set; }
+        }
+        public int assignCoordinator(int staff_id, int studentGroup_id)
         {
             SqlConnection con = null;
             string sql = "insert into Coordinators(staff_id,studentGroup_id) values(@staff_id,@studentGroup_id)";
@@ -26,8 +32,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@staff_id"].Value = staff_id;
                 com.Parameters.Add("@studentGroup_id", SqlDbType.Int);
                 com.Parameters["@studentGroup_id"].Value = studentGroup_id;
-
-                com.ExecuteNonQuery();
+                return com.ExecuteNonQuery();
             }
             catch (Exception e)
             {
@@ -37,21 +42,27 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, null, null);
             }
+            return 0;
         }
 
-        public void createStudentGroup(int year, int program_id, int campus_id, DateTime? duration_start, DateTime? duration_end, string home_univercity, string note)
+        public bool createStudentGroup(int program_id, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity, string note, List<int> coordinators)
         {
             SqlConnection con = null;
-            string sql = "insert into Student_Group([year],program_id,campus_id,duration_start,duration_end,home_univercity,note)" +
-                        "values(@year,@program_id,@campus_id,@duration_start,@duration_end,@home_univercity,@note)";
+            string sql = "insert into Student_Group([year],program_id,campus_id,duration_start,duration_end,home_univercity,note)"
+                        + " values(@year,@program_id,@campus_id,@duration_start,@duration_end,@home_univercity,@note);"
+                        + " select SCOPE_IDENTITY();";
             SqlCommand com = null;
             try
             {
+                if (isStudentGroupExist(program_id, campus_id, duration_start, duration_end, home_univercity))
+                {
+                    return false;
+                }
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
                 com.Parameters.Add("@year", SqlDbType.Int);
-                com.Parameters["@year"].Value = year;
+                com.Parameters["@year"].Value = duration_start.Year;
                 com.Parameters.Add("@program_id", SqlDbType.Int);
                 com.Parameters["@program_id"].Value = program_id;
                 com.Parameters.Add("@campus_id", SqlDbType.Int);
@@ -62,10 +73,23 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@duration_end"].Value = duration_end;
                 com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
                 com.Parameters["@home_univercity"].Value = home_univercity;
+                if (home_univercity == null)
+                {
+                    com.Parameters["@home_univercity"].Value = DBNull.Value;
+                }
                 com.Parameters.Add("@note", SqlDbType.Text);
                 com.Parameters["@note"].Value = note;
-
-                com.ExecuteNonQuery();
+                if (note == null)
+                {
+                    com.Parameters["@note"].Value = DBNull.Value;
+                }
+                decimal inserted_idraw = (decimal)com.ExecuteScalar();
+                int inserted_id = Convert.ToInt32(inserted_idraw);
+                for (int i = 0; i < coordinators.Count; i++)
+                {
+                    assignCoordinator(coordinators[i], inserted_id);
+                }
+                return true;
             }
             catch (Exception e)
             {
@@ -75,14 +99,107 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, null, null);
             }
+            return false;
         }
+    
 
-        public void editStudentGroup()
-        {
-            
-        }
+        /* public List<StudentGroup> GetStudentGroups(int page, int pageSize, int year, string program, string home_univercity, string campus, string coordinator)
+         {
+             int from = page * pageSize - (pageSize - 1);
+             int to = page * pageSize;
+             SqlConnection con = null;
+             string sql = "";
+             SqlDataReader reader = null;
+             SqlCommand com = null;
+             List<StudentGroup> studentGroups = new List<StudentGroup>();
+             try
+             {
+                 con = DBUtils.GetConnection();
+                 con.Open();
+                 com = new SqlCommand();
+                 com.Connection = con;
+                 string where = "";
+                 if (!string.IsNullOrEmpty(program))
+                 {
+                     where += " and upper(temp4.[program_name]) like upper('%' + @program + '%')";
+                     com.Parameters.Add("@program", SqlDbType.NVarChar);
+                     com.Parameters["@program"].Value = program;
+                 }
+                 if (!string.IsNullOrEmpty(home_univercity))
+                 {
+                     where += " and upper(temp4.home_univercity) like upper('%' + @home_univercity + '%')";
+                     com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                     com.Parameters["@home_univercity"].Value = home_univercity;
+                 }
+                 if (!string.IsNullOrEmpty(campus))
+                 {
+                     where += " and upper(temp4.campus_name) like upper('%' + @campus + '%')";
+                     com.Parameters.Add("@campus", SqlDbType.NVarChar);
+                     com.Parameters["@campus"].Value = campus;
+                 }
+                 if (!string.IsNullOrEmpty(coordinator))
+                 {
+                     where += " and upper(temp4.fullname) like upper('%' + @coordinator + '%')";
+                     com.Parameters.Add("@coordinator", SqlDbType.NVarChar);
+                     com.Parameters["@coordinator"].Value = coordinator;
+                 }
+                 if (year != 0)
+                 {
+                     where += " and temp4.[year] = @year";
+                     com.Parameters.Add("@year", SqlDbType.Int);
+                     com.Parameters["@year"].Value = year;
+                 }
+                 com.Parameters.Add("@from", SqlDbType.Int);
+                 com.Parameters["@from"].Value = from;
+                 com.Parameters.Add("@to", SqlDbType.Int);
+                 com.Parameters["@to"].Value = to;
+                 sql = "select * from (select temp4.student_group_id,temp4.[program_name],temp4.[year],temp4.duration_start,temp4.duration_end," +
+                       "temp4.home_univercity,temp4.note,temp4.campus_name,temp4.fullname,ROW_NUMBER() over (order by student_group_id asc) as " +
+                       "rownumber from (select distinct temp3.student_group_id,temp3.[program_name],temp3.[year],temp3.duration_start,temp3.duration_end," +
+                       "temp3.home_univercity, temp3.note, temp3.campus_name, temp3.fullname from(select temp1.student_group_id,temp1.[program_name]," +
+                       "temp1.[year],temp1.duration_start,temp1.duration_end,temp1.home_univercity,temp1.note, temp1.campus_name," +
+                       "substring((select '; ' + temp2.fullname as [text()] from (select a.student_group_id,b.[program_name],a.[year]," +
+                       "a.duration_start,a.duration_end,a.home_univercity,a.note,d.fullname,e.campus_name from Student_Group a, Programs b, " +
+                       "Coordinators c, Users d, Campus e where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and " +
+                       "c.staff_id = d.[user_id] and a.campus_id = e.campus_id) as temp2 where temp1.student_group_id = temp2.student_group_id " +
+                       "for xml path ('')),2,1000) as fullname from(select a.student_group_id, b.[program_name], a.[year], a.duration_start, " +
+                       "a.duration_end, a.home_univercity, a.note, d.fullname, e.campus_name from Student_Group a, Programs b, Coordinators c, " +
+                       "Users d, Campus e where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] " +
+                       "and a.campus_id = e.campus_id) as temp1) as temp3) as temp4 where 1=1 " + where + ") as temp5 where temp5.rownumber >=@from and temp5.rownumber <=@to";
+                 com.CommandText = sql;
+                 reader = com.ExecuteReader();
+                 while (reader.Read())
+                 {
+                     StudentGroup studentGroup = new StudentGroup();
+                     studentGroup.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                     studentGroup.year = (int)reader.GetValue(reader.GetOrdinal("year"));
+                     studentGroup.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                     studentGroup.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                     studentGroup.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
+                     if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                     {
+                         studentGroup.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                     }
+                     studentGroup.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                     if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                     {
+                         studentGroup.coordinator = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                     }
+                     studentGroups.Add(studentGroup);
+                 }
+             }
+             catch (Exception e)
+             {
+                 Console.WriteLine(e.Message);
+             }
+             finally
+             {
+                 DBUtils.closeAllResource(con, com, reader, null);
+             }
+             return studentGroups;
+         }*/
 
-        public List<StudentGroup> GetStudentGroups(int page, int pageSize, int year, string program, string home_univercity, string campus, string coordinator)
+        public List<StudentGroup> GetStudentGroups(int page, int pageSize, int? year, string program, string home_univercity, string campus)
         {
             int from = page * pageSize - (pageSize - 1);
             int to = page * pageSize;
@@ -91,8 +208,10 @@ namespace ISM.WebApp.DAOImpl
             SqlDataReader reader = null;
             SqlCommand com = null;
             List<StudentGroup> studentGroups = new List<StudentGroup>();
+            List<CoordinatorMapping> mappings = new List<CoordinatorMapping>();
             try
             {
+                mappings = GetCoordinatorMappings();
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand();
@@ -100,31 +219,25 @@ namespace ISM.WebApp.DAOImpl
                 string where = "";
                 if (!string.IsNullOrEmpty(program))
                 {
-                    where += " and upper(temp4.[program_name]) like upper('%' + @program + '%')";
+                    where += " and upper(b.[program_name]) like upper('%' + @program + '%')";
                     com.Parameters.Add("@program", SqlDbType.NVarChar);
                     com.Parameters["@program"].Value = program;
                 }
                 if (!string.IsNullOrEmpty(home_univercity))
                 {
-                    where += " and upper(temp4.home_univercity) like upper('%' + @home_univercity + '%')";
+                    where += " and upper(a.home_univercity) like upper('%' + @home_univercity + '%')";
                     com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
                     com.Parameters["@home_univercity"].Value = home_univercity;
                 }
                 if (!string.IsNullOrEmpty(campus))
                 {
-                    where += " and upper(temp4.campus_name) like upper('%' + @campus + '%')";
+                    where += " and upper(c.campus_name) like upper('%' + @campus + '%')";
                     com.Parameters.Add("@campus", SqlDbType.NVarChar);
                     com.Parameters["@campus"].Value = campus;
-                }
-                if (!string.IsNullOrEmpty(coordinator))
+                }              
+                if (year != null)
                 {
-                    where += " and upper(temp4.fullname) like upper('%' + @coordinator + '%')";
-                    com.Parameters.Add("@coordinator", SqlDbType.NVarChar);
-                    com.Parameters["@coordinator"].Value = coordinator;
-                }
-                if (year != 0)
-                {
-                    where += " and temp4.[year] = @year";
+                    where += " and a.[year] = @year";
                     com.Parameters.Add("@year", SqlDbType.Int);
                     com.Parameters["@year"].Value = year;
                 }
@@ -132,42 +245,44 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
                 com.Parameters["@to"].Value = to;
-                sql = "select * from (select temp4.student_group_id,temp4.[program_name],temp4.[year],temp4.duration_start,temp4.duration_end," +
-                      "temp4.home_univercity,temp4.note,temp4.campus_name,temp4.fullname,ROW_NUMBER() over (order by student_group_id asc) as " +
-                      "rownumber from (select distinct temp3.student_group_id,temp3.[program_name],temp3.[year],temp3.duration_start,temp3.duration_end," +
-                      "temp3.home_univercity, temp3.note, temp3.campus_name, temp3.fullname from(select temp1.student_group_id,temp1.[program_name]," +
-                      "temp1.[year],temp1.duration_start,temp1.duration_end,temp1.home_univercity,temp1.note, temp1.campus_name," +
-                      "substring((select '; ' + temp2.fullname as [text()] from (select a.student_group_id,b.[program_name],a.[year]," +
-                      "a.duration_start,a.duration_end,a.home_univercity,a.note,d.fullname,e.campus_name from Student_Group a, Programs b, " +
-                      "Coordinators c, Users d, Campus e where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and " +
-                      "c.staff_id = d.[user_id] and a.campus_id = e.campus_id) as temp2 where temp1.student_group_id = temp2.student_group_id " +
-                      "for xml path ('')),2,1000) as fullname from(select a.student_group_id, b.[program_name], a.[year], a.duration_start, " +
-                      "a.duration_end, a.home_univercity, a.note, d.fullname, e.campus_name from Student_Group a, Programs b, Coordinators c, " +
-                      "Users d, Campus e where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] " +
-                      "and a.campus_id = e.campus_id) as temp1) as temp3) as temp4 where 1=1 " + where + ") as temp5 where temp5.rownumber >=@from and temp5.rownumber <=@to";
+                sql = "select * from (select ROW_NUMBER() over(order by student_group_id asc) rownumber, a.student_group_id,b.[program_name],c.campus_name,a.[year],a.[duration_start],a.[duration_end],a.home_univercity,a.note"
+                    + " from Student_Group a, Programs b, Campus c"
+                    + " where a.program_id=b.program_id and a.campus_id=c.campus_id"+where+") temptable"
+                    + " where rownumber>=@from and rownumber<=@to";
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    StudentGroup studentGroup = new StudentGroup();
-                    studentGroup.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
-                    studentGroup.year = (int)reader.GetValue(reader.GetOrdinal("year"));
-                    studentGroup.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
-                    studentGroup.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
-                    studentGroup.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
+                    StudentGroup group = new StudentGroup();
+                    group.studentGroup_id= (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    group.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    group.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                    group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
+                    group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                    group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
                     if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
                     {
-                        studentGroup.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                        group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
                     }
-                    studentGroup.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
                     {
-                        studentGroup.coordinator = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        group.note = (string)reader.GetValue(reader.GetOrdinal("note"));
                     }
-                    studentGroups.Add(studentGroup);
+                    group.coordinators = new List<User>();
+                    for(int i = 0; i < mappings.Count; i++)
+                    {
+                        if (mappings[i].studentGroup_id == group.studentGroup_id)
+                        {
+                            User u = new User();
+                            u.user_id = mappings[i].user_id;
+                            u.account = mappings[i].account;
+                            group.coordinators.Add(u);
+                        }
+                    }
+                    studentGroups.Add(group);
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -178,7 +293,40 @@ namespace ISM.WebApp.DAOImpl
             return studentGroups;
         }
 
-        public int getTotalStudentGroup(int year, string program, string home_univercity, string campus, string coordinator)
+        private List<CoordinatorMapping> GetCoordinatorMappings()
+        {
+            SqlConnection con = null;
+            string sql = "select a.studentGroup_id,b.account,b.[user_id] from Coordinators a, Users b where a.staff_id=b.[user_id]";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<CoordinatorMapping> mappings = new List<CoordinatorMapping>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    CoordinatorMapping mapping = new CoordinatorMapping();
+                    mapping.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("studentGroup_id"));
+                    mapping.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    mapping.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    mappings.Add(mapping);                   
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return mappings;
+        }
+
+            public int getTotalStudentGroup(int? year, string program, string home_univercity, string campus)
         {
             SqlConnection con = null;
             string sql = "";
@@ -193,51 +341,31 @@ namespace ISM.WebApp.DAOImpl
                 string where = "";
                 if (!string.IsNullOrEmpty(program))
                 {
-                    where += " and upper(temp5.[program_name]) like upper('%' + @program + '%')";
+                    where += " and upper([program_name]) like upper('%' + @program + '%')";
                     com.Parameters.Add("@program", SqlDbType.NVarChar);
                     com.Parameters["@program"].Value = program;
                 }
                 if (!string.IsNullOrEmpty(home_univercity))
                 {
-                    where += " and upper(temp5.home_univercity) like upper('%' + @home_univercity + '%')";
+                    where += " and upper(home_univercity) like upper('%' + @home_univercity + '%')";
                     com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
                     com.Parameters["@home_univercity"].Value = home_univercity;
                 }
                 if (!string.IsNullOrEmpty(campus))
                 {
-                    where += " and upper(temp5.campus_name) like upper('%' + @campus + '%')";
+                    where += " and upper(campus_name) like upper('%' + @campus + '%')";
                     com.Parameters.Add("@campus", SqlDbType.NVarChar);
                     com.Parameters["@campus"].Value = campus;
                 }
-                if (!string.IsNullOrEmpty(coordinator))
+                if (year != null)
                 {
-                    where += " and upper(temp5.fullname) like upper('%' + @coordinator + '%')";
-                    com.Parameters.Add("@coordinator", SqlDbType.NVarChar);
-                    com.Parameters["@coordinator"].Value = coordinator;
-                }
-                if (year != 0)
-                {
-                    where += " and temp5.[year] = @year";
+                    where += " and [year] = @year";
                     com.Parameters.Add("@year", SqlDbType.Int);
                     com.Parameters["@year"].Value = year;
                 }
-                sql = "select count(*) from (select temp4.student_group_id,temp4.[program_name],temp4.[year]," +
-                      "temp4.duration_start,temp4.duration_end,temp4.home_univercity,temp4.note,temp4.campus_name," +
-                      "temp4.fullname from (select distinct temp3.student_group_id,temp3.[program_name],temp3.[year]," +
-                      "temp3.duration_start,temp3.duration_end,temp3.home_univercity, temp3.note, temp3.campus_name, " +
-                      "temp3.fullname from(select temp1.student_group_id,temp1.[program_name],temp1.[year],temp1.duration_start," +
-                      "temp1.duration_end,temp1.home_univercity,temp1.note, temp1.campus_name,substring((select '; ' + temp2.fullname as [text()] " +
-                      "from (select a.student_group_id,b.[program_name],a.[year],a.duration_start,a.duration_end,a.home_univercity,a.note,d.fullname," +
-                      "e.campus_name from Student_Group a, Programs b, Coordinators c, Users d, Campus e where a.program_id = b.program_id " +
-                      "and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] and a.campus_id = e.campus_id) as temp2 " +
-                      "where temp1.student_group_id = temp2.student_group_id for xml path ('')),2,1000) as fullname " +
-                      "from(select a.student_group_id, b.[program_name], a.[year], a.duration_start, a.duration_end, " +
-                      "a.home_univercity, a.note, d.fullname, e.campus_name from Student_Group a, Programs b, Coordinators c, " +
-                      "Users d, Campus e where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] " +
-                      "and a.campus_id = e.campus_id) as temp1) as temp3) as temp4 ) as temp5 where 1=1" + where;
+                sql = "select count(*) from Student_Group where 1=1" + where;
                 com.CommandText = sql;
                 totalStudentGroup = (int)com.ExecuteScalar();
-
             }
             catch (Exception e)
             {
@@ -249,5 +377,169 @@ namespace ISM.WebApp.DAOImpl
             }
             return totalStudentGroup;
         }
+      
+        public bool isStudentGroupExist(int program_id, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity)
+        {
+            SqlConnection con = null;
+            string sql = "select count(*) from Student_Group"
+                        + " where program_id=@program_id and campus_id=@campus_id and duration_start=@duration_start and duration_end=@duration_end and home_univercity=@home_univercity";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<StudentGroup> studentGroups = new List<StudentGroup>();
+            bool isExist = true;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@program_id", SqlDbType.Int);
+                com.Parameters["@program_id"].Value = program_id;
+                com.Parameters.Add("@campus_id", SqlDbType.Int);
+                com.Parameters["@campus_id"].Value = campus_id;
+                com.Parameters.Add("@duration_start", SqlDbType.Date);
+                com.Parameters["@duration_start"].Value = duration_start;
+                com.Parameters.Add("@duration_end", SqlDbType.Date);
+                com.Parameters["@duration_end"].Value = duration_end;
+                com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                com.Parameters["@home_univercity"].Value = home_univercity;
+                if (home_univercity == null)
+                {
+                    com.Parameters["@home_univercity"].Value = DBNull.Value;
+                }
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    isExist = false;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return isExist;
+        }
+
+        public bool resetCoordinator(int studentGroup_id)
+        {
+            SqlConnection con = null;
+            string sql = "delete from Coordinators where studentGroup_id=@studentGroup_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@studentGroup_id", SqlDbType.Int);
+                com.Parameters["@studentGroup_id"].Value = studentGroup_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public StudentGroup getStudentGroupById(int studentGroup_id)
+        {
+            SqlConnection con = null;
+            string sql = "select * from Student_Group where student_group_id=@studentGroup_id";
+            SqlCommand com = null;
+            SqlDataReader reader = null;
+            StudentGroup group = null;
+            List<CoordinatorMapping> mappings = new List<CoordinatorMapping>();
+            try
+            {
+                mappings = GetCoordinatorMappings();
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@studentGroup_id", SqlDbType.Int);
+                com.Parameters["@studentGroup_id"].Value = studentGroup_id;
+                reader = com.ExecuteReader();
+                group = new StudentGroup();
+                while (reader.Read())
+                {                   
+                    group.studentGroup_id = studentGroup_id;
+                    group.program_id = (int)reader.GetValue(reader.GetOrdinal("program_id"));
+                    group.campus_id = (int)reader.GetValue(reader.GetOrdinal("campus_id"));
+                    group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
+                    group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                    group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
+                    group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
+                    {
+                        group.note = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    }
+                }
+                group.coordinators = new List<User>();
+                for(int i = 0; i < mappings.Count; i++)
+                {
+                    if (group.studentGroup_id == mappings[i].studentGroup_id)
+                    {
+                        User u = new User();
+                        u.user_id = mappings[i].user_id;
+                        u.account = mappings[i].account;
+                        group.coordinators.Add(u);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return group;
+        }
+
+        public bool editStudentGroup(int studentGroup_id, string note, List<int> coordinators)
+        {
+            SqlConnection con = null;
+            string sql = "update Student_Group set note=@note where student_group_id=@studentGroup_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@studentGroup_id", SqlDbType.Int);
+                com.Parameters["@studentGroup_id"].Value = studentGroup_id;
+                com.Parameters.Add("@note", SqlDbType.Text);
+                com.Parameters["@note"].Value = note;
+                if (note == null)
+                {
+                    com.Parameters["@note"].Value = DBNull.Value;
+                }
+                com.ExecuteNonQuery();
+                resetCoordinator(studentGroup_id);
+                for(int i = 0; i < coordinators.Count; i++)
+                {
+                    assignCoordinator(coordinators[i], studentGroup_id);
+                }
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+      
     }
 }

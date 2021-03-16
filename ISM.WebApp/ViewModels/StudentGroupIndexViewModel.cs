@@ -12,7 +12,7 @@ namespace ISM.WebApp.ViewModels
         public int page { get; set; }
         public int totalPage { get; set; }
         public int pageSize { get; set; }
-        public int year { get; set; }
+        public int? year { get; set; }
         public string program { get; set; }
         public DateTime? duration_start { get; set; }
         public DateTime? duration_end { get; set; }
@@ -20,5 +20,7 @@ namespace ISM.WebApp.ViewModels
         public string campus { get; set; }
         public string coordinator { get; set; }
         public string note { get; set; }
+        public List<ProgramStudy> programList { get; set; }
+        public List<Campus> campusList { get; set; }
     }
 }

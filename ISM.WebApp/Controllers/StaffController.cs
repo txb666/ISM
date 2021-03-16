@@ -21,8 +21,6 @@ namespace ISM.WebApp.Controllers
             userDAO = u;
         }
 
-
-
         public IActionResult Index(string fullname = "", string email = "", string account = "", bool? status = null,DateTime? startDateFrom=null,DateTime? startDateTo=null,DateTime? endDateFrom=null, DateTime? endDateTo=null, int page = 1)
         {
             StaffIndexViewModel viewmodel = new StaffIndexViewModel();
@@ -45,6 +43,24 @@ namespace ISM.WebApp.Controllers
         {
             int result=userDAO.createStaff(fullname, email, account, startDate, endDate, status);
             /*return RedirectToAction("Index");*/
+            return result;
+        }
+
+        public bool IsStaffAlreadyExist(string account, string email)
+        {
+            bool result = userDAO.isStaffAlreadyExist(account, email);
+            return result;
+        }
+
+        public bool isEmailExist(string email)
+        {
+            bool result = userDAO.isEmailExist(email);
+            return result;
+        }
+
+        public bool Edit(int id, string fullname, string email, DateTime? startDate, DateTime? endDate, bool status, string originalEmail)
+        {
+            bool result = userDAO.editStaff(id, fullname, email, startDate, endDate, status, originalEmail);
             return result;
         }
     }
