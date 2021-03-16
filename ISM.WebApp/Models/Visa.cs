@@ -13,7 +13,7 @@ namespace ISM.WebApp.Models
         public string student_name { get; set; }
         public string picture { get; set; }
         public DateTime start_date { get; set; }
-        public DateTime expried_date { get; set; }
+        public DateTime expired_date { get; set; }
         public DateTime date_entry { get; set; }
         public string entry_port { get; set; }
     }

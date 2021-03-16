@@ -12,8 +12,8 @@ namespace ISM.WebApp.DAOImpl
 {
     public class VisaDAOImpl : VisaDAO
     {
-        public int GetTotalVisa(int id, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo,
+        public int GetTotalVisa(string account, string picture, string student_name,
+            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port)
         {
             SqlConnection con = null;
@@ -27,12 +27,6 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
-                if (id != 0)
-                {
-                    where += " and a.visa_id=@id";
-                    com.Parameters.Add("@id", SqlDbType.Int);
-                    com.Parameters["@id"].Value = id;
-                }
                 if (!string.IsNullOrEmpty(account))
                 {
                     where += " and upper(b.account) like upper('%' + @account + '%')";
@@ -63,17 +57,17 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@start_dateTo", SqlDbType.Date);
                     com.Parameters["@start_dateTo"].Value = start_dateTo;
                 }
-                if (expried_dateFrom != null)
+                if (expired_dateFrom != null)
                 {
-                    where += " and a.expried_date>=@expried_dateFrom";
-                    com.Parameters.Add("@expried_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expried_dateFrom"].Value = expried_dateFrom;
+                    where += " and a.expired_date>=@expired_dateFrom";
+                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
+                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
                 }
-                if (expried_dateTo != null)
+                if (expired_dateTo != null)
                 {
-                    where += " and a.expried_date<=@expried_dateTo";
-                    com.Parameters.Add("@expried_dateTo", SqlDbType.Date);
-                    com.Parameters["@expried_dateTo"].Value = expried_dateTo;
+                    where += " and a.expired_date<=@expired_dateTo";
+                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
+                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
                 }
                 if (entry_dateFrom != null)
                 {
@@ -103,8 +97,8 @@ namespace ISM.WebApp.DAOImpl
             return totalVisa;
         }
 
-        public List<Visa> GetVisa(int page, int pageSize, int id, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo,
+        public List<Visa> GetVisa(int page, int pageSize, string account, string picture, string student_name,
+            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port)
         {
             int from = page * pageSize - (pageSize - 1);
@@ -121,12 +115,6 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
-                if (id != 0)
-                {
-                    where += " and a.visa_id=@id";
-                    com.Parameters.Add("@id", SqlDbType.Int);
-                    com.Parameters["@id"].Value = id;
-                }
                 if (!string.IsNullOrEmpty(account))
                 {
                     where += " and upper(b.account) like upper('%' + @account + '%')";
@@ -157,17 +145,17 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@start_dateTo", SqlDbType.Date);
                     com.Parameters["@start_dateTo"].Value = start_dateTo;
                 }
-                if (expried_dateFrom != null)
+                if (expired_dateFrom != null)
                 {
-                    where += " and a.expried_date>=@expried_dateFrom";
-                    com.Parameters.Add("@expried_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expried_dateFrom"].Value = expried_dateFrom;
+                    where += " and a.expired_date>=@expired_dateFrom";
+                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
+                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
                 }
-                if (expried_dateTo != null)
+                if (expired_dateTo != null)
                 {
-                    where += " and a.expried_date<=@expried_dateTo";
-                    com.Parameters.Add("@expried_dateTo", SqlDbType.Date);
-                    com.Parameters["@expried_dateTo"].Value = expried_dateTo;
+                    where += " and a.expired_date<=@expired_dateTo";
+                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
+                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
                 }
                 if (entry_dateFrom != null)
                 {
@@ -185,7 +173,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
                 com.Parameters["@to"].Value = to;
-                sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.[start_date],a.expired_date," +
+                sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.date_entry,a.[start_date],a.expired_date," +
                       "ROW_NUMBER() over (order by a.visa_id asc) as rownumber from Visa a, Users b where a.student_id = b.[user_id])"+where+" " +
                       "as temp where temp.rownumber>=@from and temp.rownumber<=@to";
                 com.CommandText = sql;
@@ -200,7 +188,7 @@ namespace ISM.WebApp.DAOImpl
                     visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
                     visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
                     visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
-                    visa.expried_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
                     visalist.Add(visa);
                 }
             }

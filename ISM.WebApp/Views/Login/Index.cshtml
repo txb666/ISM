@@ -41,11 +41,11 @@
                         <!-- login slide start -->
                         <form class="padding-40px" style="margin-top: 100px;" method="post" asp-controller="Login" asp-action="Index">
                             <div class="form-group user-name-field">
-                                <input type="text" class="form-control" placeholder="Username" name="txtAccount">
+                                <input type="text" class="form-control" placeholder="Username" name="txtAccount" required>
                                 <div class="field-icon"><i class="ion-person"></i></div>
                             </div>
                             <div class="form-group margin-bottom-30px forgot-password-field">
-                                <input type="password" class="form-control" placeholder="Password" name="txtPassword">
+                                <input type="password" class="form-control" placeholder="Password" name="txtPassword" required>
                                 <div class="field-icon"><i class="ion-locked"></i></div>
                             </div>
                             <div class="form-group sign-in-btn">

@@ -1,445 +1,154 @@
 ﻿@model ISM.WebApp.ViewModels.PassportIndexViewModel
 @{
-    Layout = null;
+    ViewData["Title"] = "Passport Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<!doctype html>
-<html lang="en">
 
-<head>
-    <title>FPT INTERNATIONAL MANAGE STUDENT</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="~/css/header.css">
-    <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
-    <link rel="stylesheet" href="~/css/footer.css">
-
-    <script>
-        /* When the user clicks on the button,
-        toggle between hiding and showing the dropdown content */
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-
-
-        //function myFunction1() {
-        //    document.getElementById("myDropdown_search").classList.toggle("show_search");
-        //}
-
-        //// Close the dropdown if the user clicks outside of it
-        //window.onclick = function (event) {
-        //    if (!event.target.matches('.dropbtn_search')) {
-        //        var dropdowns = document.getElementsByClassName("dropdown-content_search");
-        //        var i;
-        //        for (i = 0; i < dropdowns.length; i++) {
-        //            var openDropdown = dropdowns[i];
-        //            if (openDropdown.classList.contains('show_search')) {
-        //                openDropdown.classList.remove('show_search');
-        //            }
-        //        }
-        //    }
-        //}
-
-        function myFunction1() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_passport");
-        }
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-    </script>
-
-
-</head>
-
-<body>
-    <div class="container-fluid logo-user">
-        <div class="row" style="height:100px;">
-            <div class="col-xl-9">
-                <img src="~/image/fpt.png" />
-            </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-1">
-                <button type="button" class="icon-button">
-                    <span class="material-icons">notifications</span>
-                    <a><span class="icon-button__badge">25</span> </a>
-                </button>
-            </div>
-            <div class="col-xl-1">
-                <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn"></button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <a href="#home">My Infor</a>
-                        <a href="#about">Log Out</a>
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Passport</h1>
+    <div style="height: 50px;">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="background-color:aquamarine;" class="dropbtn_search">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+                <form style="width: 320px;" asp-controller="Passport" asp-action="Index" method="get">
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                     </div>
-                </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                        <input name="student_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.student_name">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
+                        <input name="passport_number" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.passport_number">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
+                        <input name="start_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="start_dateFrom" value="@(Model.start_dateFrom.HasValue?Model.start_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
+                        @*<button type="button" onclick="document.getElementById('start_dateFrom').valueAsDate = null">Clear</button>*@
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
+                        <input name="start_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="start_dateTo" value="@(Model.start_dateTo.HasValue?Model.start_dateTo.Value.ToString("yyyy-MM-dd"):"")">
+                        @*<button type="button" onclick="document.getElementById('start_dateTo').valueAsDate = null">Clear</button>*@
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date From</label>
+                        <input name="expired_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="expired_dateFrom" value="@(Model.expired_dateFrom.HasValue?Model.expired_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
+                        @*<button type="button" onclick="document.getElementById('expired_dateFrom').valueAsDate = null">Clear</button>*@
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date To</label>
+                        <input name="expired_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="expired_dateTo" value="@(Model.expired_dateTo.HasValue?Model.expired_dateTo.Value.ToString("yyyy-MM-dd"):"")">
+                        @*<button type="button" onclick="document.getElementById('expired_dateTo').valueAsDate = null">Clear</button>*@
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
+                        <input name="issuing_authority" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.issuing_authority">
+                    </div>
+                    <input type="hidden" name="page" id="inputPage" />
+                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                </form>
             </div>
         </div>
-        <!-- <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-left: 50px;">
-            <a class="navbar-brand" style="margin-left: 0;" href="#">
-                <!-- <img src="images/fpt.png" /> -->
-
-
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"
-                    style="background-color: blueviolet;">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Staff</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Student
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Student Group</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Manage Student</a>
-
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Visa & Passport
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Pre-Approval Visa Letter</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Visa</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Passport</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Insurance
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Insurance Instruction</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student Insurance</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Pre-departure
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">What to pack</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student's Flight</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Handbook</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Accomodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">General Agenda</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Program
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Orientation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Detailed agenda</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Accommodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Transportation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Program material</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Surveys</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Program Materials</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Local recommendation
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Da Nang</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ho Chi Minh</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ha Noi</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Can Tho</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
-                            Job services
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">I want a Job</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Job Vancancies</a>
-
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#">FAQs</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div style="height: 500px; background-color: white;">
-            <h1 style="text-align: center;">Passport</h1>
-            <div style="height: 50px;">
-                <div class="dropdown_search">
-                    <button onclick="myFunction1()" style="background-color:aquamarine;" class="dropbtn_search">Search</button>
-                    <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                        <form style="width: 320px;" asp-controller="Passport" asp-action="Index" method="get">
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                                <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                                <input name="student_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.student_name">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                                <input name="passport_number" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.passport_number">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
-                                <input name="start_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="start_dateFrom" value="@(Model.start_dateFrom.HasValue?Model.start_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                                @*<button type="button" onclick="document.getElementById('start_dateFrom').valueAsDate = null">Clear</button>*@
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
-                                <input name="start_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="start_dateTo" value="@(Model.start_dateTo.HasValue?Model.start_dateTo.Value.ToString("yyyy-MM-dd"):"")">
-                                @*<button type="button" onclick="document.getElementById('start_dateTo').valueAsDate = null">Clear</button>*@
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date From</label>
-                                <input name="expried_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="expried_dateFrom" value="@(Model.expried_dateFrom.HasValue?Model.expried_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                                @*<button type="button" onclick="document.getElementById('expried_dateFrom').valueAsDate = null">Clear</button>*@
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date To</label>
-                                <input name="expried_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="expried_dateTo" value="@(Model.expried_dateTo.HasValue?Model.expried_dateTo.Value.ToString("yyyy-MM-dd"):"")">
-                                @*<button type="button" onclick="document.getElementById('expried_dateTo').valueAsDate = null">Clear</button>*@
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
-                                <input name="issuing_authority" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.issuing_authority">
-                            </div>
-                            <input type="hidden" name="page" id="inputPage" />
-                            <button type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
-                        </form>
-                    </div>
-                </div>
 
 
 
-                @*<button style="float: right; width: 80px;" class="btn btn-success">
+        @*<button style="float: right; width: 80px;" class="btn btn-success">
                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
             </button>*@
-            </div>
-            <br>
-            <br>
-            <div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Account</th>
-                            <th scope="col">Full Name</th>
-                            <th scope="col">Picture</th>
-                            <th scope="col">Passport Number</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">Expired Date</th>
-                            <th scope="col">Issuing Authority</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.passports)
-                        {
-                            <tr>
-                                <td>
-                                    @item.account
-                                </td>
-                                <td id="tdFullname">
-                                    @Html.TextBox("student_name", item.student_name, new { id = "txtStudentName", @readonly = "readonly" })
-                                </td>
-                                <td>
-                                    @item.picture
-                                </td>
-                                <td>
-                                    @item.passport_number
-                                </td>
-                                <td>
-                                    @item.start_date.ToString("yyyy-MM-dd")
-                                </td>
-                                <td>
-                                    @item.expried_date.ToString("yyyy-MM-dd")
-                                </td>
-                                <td>
-                                    @item.issuing_authority
-                                </td>
-                                <td hidden id="passportID">
-                                    @item.passport_id
-                                </td>
-                                <td>
-                                    <button id="btnEdit" style="float: right; width: 80px;" class="btn btn-success">Edit
-                                        @*<a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>*@
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
-            </div>
-            <!-- popup code -->
-            <div id="xmas-popup" class="popup" href="#">
-                <div class="popup-content">
-                    <form>
-                        <h1 style="text-align: center; margin-bottom: 40px;">Edit Passport Information</h1>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                            <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="popupFullname">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="popupPassportNumber">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                            <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="popupStartDate">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
-                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="popupExpriedDate">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="popupIssuing">
-                        </div>
-                        <div class="form-group row">
-                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+    </div>
+    <br>
+    <br>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Account</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">Passport Number</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Expired Date</th>
+                    <th scope="col">Issuing Authority</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.passports)
+                {
+                    <tr>
+                        <td>
+                            @item.account
+                        </td>
+                        <td>
+                            @item.student_name
+                        </td>
+                        <td>
+                            @item.picture
+                        </td>
+                        <td>
+                            @item.passport_number
+                        </td>
+                        <td>
+                            @item.start_date.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @item.expired_date.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @item.issuing_authority
+                        </td>
+                        <td>
+                            <button onclick="editPassport('@item.passport_id', '@item.passport_number', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@item.issuing_authority')" class="btn btn-info">
+                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div style="margin-top: 20px;">
-                <a href="#" style="text-decoration: none;"> How to apply for a Viet Name Passport</a>
-                <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-                    <button class="btn btn-danger">Set Up Notification</button>
-                    <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
-                </i>
-
-            </div>
-
-
-
-        </div>
-
-
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
     </div>
-
-    <footer style="margin-top: 100px;">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
-                        <img class="logo-footer" src="assets/img/logo.png" alt="logo-footer"
-                             data-at2x="assets/img/logo.png">
-                        <p>
-                            FPT là một ngôi trường thân thiện....
-                        </p>
-
-                    </div>
-                    <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
-                        <h3>Contact</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> FPT UNIVERSITY DA NANG</p>
-                        <p><i class="fas fa-phone"></i> Phone: (84+) 123456789</p>
-                        <p>
-                            <i class="fas fa-envelope"></i> Email: <a href="mailto:tranxuanback@gmail.com">tranxuanback@gmail.com</a>
-                        </p>
-                        <p><i class="fab fa-skype"></i> Skype: you_online</p>
-                    </div>
-                    <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
-                        <h3>Follow us</h3>
-                        <p>
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-pinterest"></i></a>
-                        </p>
-                    </div>
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup" href="#">
+        <div class="popup-content">
+            <form id="editPassportForm" asp-controller="Passport" asp-action="Edit" method="post">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Passport Information</h1>
+                <input id="edit_passport_id">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_PassportNumber">
                 </div>
-            </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                    <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_StartDate">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ExpiredDate">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_IssuingAuthority">
+                </div>
+                <div class="form-group row">
+                    <button onclick="validateEditPassport();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-info">Save</button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
         </div>
-    </footer>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-    <script src="~/js/site.js"></script>
-</body>
-</html>
+    </div>
+    <div style="margin-top: 20px;">
+        <a href="#" style="text-decoration: none;"> How to apply for a Viet Name Passport</a>
+        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+            <button class="btn btn-danger">Set Up Notification</button>
+            <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
+        </i>
+    </div>
+</div>

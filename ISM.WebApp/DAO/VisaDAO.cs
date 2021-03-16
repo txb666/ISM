@@ -8,11 +8,11 @@ namespace ISM.WebApp.DAO
 {
     public interface VisaDAO
     {
-        List<Visa> GetVisa(int page, int pageSize, int id, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo,
+        List<Visa> GetVisa(int page, int pageSize, string account, string picture, string student_name,
+            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port);
-        int GetTotalVisa(int id, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expried_dateFrom, DateTime? expried_dateTo,
+        int GetTotalVisa(string account, string picture, string student_name,
+            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port);
 
     }

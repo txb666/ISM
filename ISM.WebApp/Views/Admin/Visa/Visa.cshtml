@@ -1,10 +1,9 @@
-﻿@{
+﻿@model ISM.WebApp.ViewModels.VisaIndexViewModel
+@{
     ViewData["Title"] = "Admin Home Page";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<!doctype html>
 
-<html lang="en">
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;"> Visa </h1>
     <div style="height:50px">
@@ -32,8 +31,6 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date:</label>
                         <input type="date" style="width: 200px; border-radius: 5px;" id="">
                     </div>
-
-
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of entry into Viet Nam:</label>
                         <input type="text" style="width: 200px; border-radius: 5px;" id="">
@@ -42,16 +39,14 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
                         <input type="text" style="width: 200px; border-radius: 5px;" id="">
                     </div>
-
                     <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
-
                 </form>
             </div>
         </div>
 
         <button style="float: right; width: 80px;" class="btn btn-success">
             <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-
+        </button>
     </div>
     <br>
     <br>
@@ -66,28 +61,36 @@
                     <th scope="col">Expired Date</th>
                     <th scope="col">Date of Entry into Viet Nam</th>
                     <th scope="col">Entry Port</th>
-
-
                 </tr>
             </thead>
             <tbody>
+                @foreach (var item in Model.visalist)
+                { 
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>mdo</td>
-                    <td>mdo</td>
-                    <td>mdo</td>
-                    <td>Mark</td>
-
-
-
-
+                    <td>
+                        @item.account
+                    </td>
+                    <td>
+                        @item.student_name
+                    </td>
+                    <td>
+                        @item.picture
+                    </td>
+                    <td>
+                        @item.start_date.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @item.expired_date.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @item.date_entry.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @item.entry_port
+                    </td>
                 </tr>
+                }
         </table>
-
-
-
         <!-- popup code -->
         <div id="xmas-popup" class="popup" href="#">
             <div class="popup-content">
@@ -123,34 +126,23 @@
                             Date of entry into Viet Nam:
                         </label>
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                    </div><div class="form-group row">
-
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                    Entry Port:
-             </label>
-             <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-</div>
-
-
+                    </div>
                     <div class="form-group row">
-                        <button style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success">
-                            Save
-                        </button>
-
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Entry Port:
+                        </label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                         <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
-
                     </div>
                 </form>
             </div>
-
-
-
         </div>
     </div>
-
     <div style="margin-top: 20px;">
         <a href="#" style="text-decoration: none;"> How to renew your Visa</a>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
@@ -182,8 +174,4 @@
         }
 
     </script>
-
-
-
 </div>
-</html>

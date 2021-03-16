@@ -14,7 +14,7 @@ namespace ISM.WebApp.Models
         public string picture { get; set; }
         public string passport_number { get; set; }
         public DateTime start_date { get; set; }
-        public DateTime expried_date { get; set; }
+        public DateTime expired_date { get; set; }
         public string issuing_authority { get; set; }
     }
 }

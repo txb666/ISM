@@ -19,8 +19,8 @@ namespace ISM.WebApp.ViewModels
         public string entry_port { get; set; }
         public DateTime? start_dateFrom { get; set; }
         public DateTime? start_dateTo { get; set; }
-        public DateTime? expried_dateFrom { get; set; }
-        public DateTime? expried_dateTo { get; set; }
+        public DateTime? expired_dateFrom { get; set; }
+        public DateTime? expired_dateTo { get; set; }
         public DateTime? entry_dateFrom { get; set; }
         public DateTime? entry_dateTo { get; set; }
     }
