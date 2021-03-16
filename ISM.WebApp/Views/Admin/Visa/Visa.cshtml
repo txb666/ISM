@@ -8,49 +8,54 @@
     <h1 style="text-align: center;"> Visa </h1>
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
+            <button onclick="search_visa()" style="background-color: aquamarine;" class="dropbtn_search">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form style="width: 320px;">
+                <form style="width: 320px;" id="searchForm" asp-controller="Visa" asp-action="Index" method="get">
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account</label>
+                        <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name</label>
+                        <input name="student_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.student_name">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
+                        <input name="start_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_dateFrom.HasValue?Model.start_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                        <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
+                        <input name="start_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_dateTo.HasValue?Model.start_dateTo.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date:</label>
-                        <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date From</label>
+                        <input name="expired_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_dateFrom.HasValue?Model.expired_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of entry into Viet Nam:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date To</label>
+                        <input name="expired_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_dateTo.HasValue?Model.expired_dateTo.Value.ToString("yyyy-MM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date From</label>
+                        <input name="entry_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.entry_dateFrom.HasValue?Model.entry_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date To</label>
+                        <input name="entry_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.entry_dateTo.HasValue?Model.entry_dateTo.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="entry_port" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.entry_port">
                     </div>
-                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                    <input type="hidden" name="page" id="inputPage">
+                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
                 </form>
             </div>
         </div>
-
-        <button style="float: right; width: 80px;" class="btn btn-success">
-            <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-        </button>
     </div>
     <br>
     <br>
-    <div class="table-scroll">
+    <div>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -61,80 +66,66 @@
                     <th scope="col">Expired Date</th>
                     <th scope="col">Date of Entry into Viet Nam</th>
                     <th scope="col">Entry Port</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.visalist)
-                { 
-                <tr>
-                    <td>
-                        @item.account
-                    </td>
-                    <td>
-                        @item.student_name
-                    </td>
-                    <td>
-                        @item.picture
-                    </td>
-                    <td>
-                        @item.start_date.ToString("yyyy-MM-dd")
-                    </td>
-                    <td>
-                        @item.expired_date.ToString("yyyy-MM-dd")
-                    </td>
-                    <td>
-                        @item.date_entry.ToString("yyyy-MM-dd")
-                    </td>
-                    <td>
-                        @item.entry_port
-                    </td>
-                </tr>
+                {
+                    <tr>
+                        <td>
+                            @item.account
+                        </td>
+                        <td>
+                            @item.student_name
+                        </td>
+                        <td>
+                            @item.picture
+                        </td>
+                        <td>
+                            @item.start_date.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @item.expired_date.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @item.date_entry.ToString("yyyy-MM-dd")
+                        </td>
+                        <td>
+                            @item.entry_port
+                        </td>
+                        <td style="text-align: center;">
+                            <button onclick="editVisa('@item.visa_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date_entry)', '@item.entry_port')" class="btn btn-success">
+                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            </button>
+                        </td>
+                    </tr>
                 }
         </table>
         <!-- popup code -->
         <div id="xmas-popup" class="popup" href="#">
             <div class="popup-content">
-                <form>
+                <form id="editVisaFrom" asp-controller="Visa" asp-action="Edit" method="post">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Visa Information</h1>
+                    <input type="hidden" id="edit_visa_id">
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_startDate">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
+                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expiredDate">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of entry into Viet Nam:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entryDate">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Start Date:
-                        </label>
-                        <input type="date"
-                               style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entryPort">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Expired Date:
-                        </label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Date of entry into Viet Nam:
-                        </label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Entry Port:
-                        </label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                    </div>
-                    <div class="form-group row">
-                        <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                        <button onclick="validateEditVisa();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                         <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
@@ -143,20 +134,54 @@
             </div>
         </div>
     </div>
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+    </div>
     <div style="margin-top: 20px;">
         <a href="#" style="text-decoration: none;"> How to renew your Visa</a>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
             <button class="btn btn-danger">Set Up Notification</button>
             <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
         </i>
-
     </div>
 
     <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
 
-        function myFunction1() {
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn_search')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content_search");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show_search')) {
+                        openDropdown.classList.remove('show_search');
+                    }
+                }
+            }
+        }
+
+        function search_visa() {
             document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
         }
+
         function filterFunction() {
             var input, filter, ul, li, a, i;
             input = document.getElementById("myInput");
@@ -172,6 +197,5 @@
                 }
             }
         }
-
     </script>
 </div>

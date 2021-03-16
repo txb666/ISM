@@ -14,6 +14,6 @@ namespace ISM.WebApp.DAO
         int GetTotalVisa(string account, string picture, string student_name,
             DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port);
-
+        bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port);
     }
 }

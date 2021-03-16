@@ -12,6 +12,41 @@ namespace ISM.WebApp.DAOImpl
 {
     public class VisaDAOImpl : VisaDAO
     {
+        public bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port)
+        {
+            SqlConnection con = null;
+            string sql = "update Visa set [start_date]=@start_date,expired_date=@expired_date,date_entry=@entry_date,entry_port=@entry_port "
+                        + "where visa_id=@visa_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@visa_id", SqlDbType.Int);
+                com.Parameters["@visa_id"].Value = visa_id;
+                com.Parameters.Add("@start_date", SqlDbType.Date);
+                com.Parameters["@start_date"].Value = start_date;
+                com.Parameters.Add("@expired_date", SqlDbType.Date);
+                com.Parameters["@expired_date"].Value = expired_date;
+                com.Parameters.Add("@entry_date", SqlDbType.Date);
+                com.Parameters["@entry_date"].Value = entry_date;
+                com.Parameters.Add("@entry_port", SqlDbType.NVarChar);
+                com.Parameters["@entry_port"].Value = entry_port;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public int GetTotalVisa(string account, string picture, string student_name,
             DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
             DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port)
@@ -82,7 +117,7 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters["@entry_dateTo"].Value = entry_dateTo;
                 }
                 sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.date_entry,a.[start_date],a.expired_date " +
-                      "from Visa a, Users b where a.student_id = b.[user_id]"+where+") as temp";
+                      "from Visa a, Users b where a.student_id = b.[user_id] " + where + ") as temp";
                 com.CommandText = sql;
                 totalVisa = (int)com.ExecuteScalar();
             }
@@ -174,7 +209,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@to", SqlDbType.Int);
                 com.Parameters["@to"].Value = to;
                 sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.date_entry,a.[start_date],a.expired_date," +
-                      "ROW_NUMBER() over (order by a.visa_id asc) as rownumber from Visa a, Users b where a.student_id = b.[user_id])"+where+" " +
+                      "ROW_NUMBER() over (order by a.visa_id asc) as rownumber from Visa a, Users b where a.student_id = b.[user_id] " + where + ") " +
                       "as temp where temp.rownumber>=@from and temp.rownumber<=@to";
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
