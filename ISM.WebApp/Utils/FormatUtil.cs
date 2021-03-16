@@ -27,6 +27,11 @@ namespace ISM.WebApp.Utils
         }
 
         public static List<int> JsonStringToIntegerList(string input) {
+            if (string.IsNullOrEmpty(input) || input.Equals("[]"))
+            {
+                List<int> emptyList = new List<int>();
+                return emptyList;
+            }
             input = input.Replace("[", "");
             input = input.Replace("]", "");
             string[] array = input.Split(",");

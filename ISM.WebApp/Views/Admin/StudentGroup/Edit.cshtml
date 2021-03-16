@@ -238,7 +238,7 @@
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
                 <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
-                    @for (int i = 1; i < Model.campusList.Count; i++)
+                    @for (int i = 0; i < Model.campusList.Count; i++)
                     {
                         if (Model.group.campus_id == Model.campusList[i].campus_id)
                         {

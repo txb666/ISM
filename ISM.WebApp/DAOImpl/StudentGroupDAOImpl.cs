@@ -382,7 +382,7 @@ namespace ISM.WebApp.DAOImpl
         {
             SqlConnection con = null;
             string sql = "select count(*) from Student_Group"
-                        + " where program_id=@program_id and campus_id=@campus_id and duration_start=@duration_start and duration_end=@duration_end and home_univercity=@home_univercity";
+                        + " where program_id=@program_id and campus_id=@campus_id and duration_start=@duration_start and duration_end=@duration_end";
             SqlDataReader reader = null;
             SqlCommand com = null;
             List<StudentGroup> studentGroups = new List<StudentGroup>();
@@ -391,7 +391,8 @@ namespace ISM.WebApp.DAOImpl
             {
                 con = DBUtils.GetConnection();
                 con.Open();
-                com = new SqlCommand(sql, con);
+                com = new SqlCommand();
+                com.Connection = con;
                 com.Parameters.Add("@program_id", SqlDbType.Int);
                 com.Parameters["@program_id"].Value = program_id;
                 com.Parameters.Add("@campus_id", SqlDbType.Int);
@@ -400,12 +401,13 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@duration_start"].Value = duration_start;
                 com.Parameters.Add("@duration_end", SqlDbType.Date);
                 com.Parameters["@duration_end"].Value = duration_end;
-                com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
-                com.Parameters["@home_univercity"].Value = home_univercity;
-                if (home_univercity == null)
+                if (!string.IsNullOrEmpty(home_univercity))
                 {
-                    com.Parameters["@home_univercity"].Value = DBNull.Value;
+                    sql += " and home_univercity=@home_univercity";
+                    com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                    com.Parameters["@home_univercity"].Value = home_univercity;
                 }
+                com.CommandText = sql;
                 int count = (int)com.ExecuteScalar();
                 if (count == 0)
                 {
@@ -475,7 +477,9 @@ namespace ISM.WebApp.DAOImpl
                     group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
                     group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
                     group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
-                    group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity"))){
+                        group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("note")))
                     {
                         group.note = (string)reader.GetValue(reader.GetOrdinal("note"));
