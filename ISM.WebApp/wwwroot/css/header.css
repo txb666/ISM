@@ -293,8 +293,14 @@ color: red !important;
 .show_search_orientation_material {
     display: block;
 }
+.show_search_staff {
+    display: block;
+}
 .show_search_staff{
     display:block;
+}
+.show_search_insurance {
+    display: block;
 }
  
  

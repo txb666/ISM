@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;"> Transportation </h1>
+    <div style="height:50px">
+        <select style="width:70px">
+            <option>USA</option>
+            <option>Viet Nam</option>
+        </select>
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Edit</a>
+        </button>
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;" href="#xmas-popup-assign">Create</a>
+        </button>
+    </div>
+    <br />
+    <br />
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Bus</th>
+                    <th scope="col">Driver</th>
+                    <th scope="col">Itinerary</th>
+                    <th scope="col">Supporter</th>
+                    <th scope="col">Note</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Mark</td>
+                    <td>Mark</td>
+                    <td>Mark</td>
+                    <td>Mark</td>
+                    <td>Mark</td>
+
+                </tr>
+        </table>
+
+    </div>
+
+    <div>
+        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+
+            <button class="btn btn-danger">
+                <a style="text-decoration: none;" href="#xmas-popup">Set Up Notification</a>
+            </button>
+
+        </i>
+    </div>
+
+    <div id="xmas-popup-assign" class="popup">
+        <div class="popup-content-assign" style="height:500px">
+            <form>
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Transportation</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+
+
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success">
+                        Save
+                    </button>
+
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+
+    <div id="xmas-popup" class="popup">
+        <div class="popup-content" style="height:200px">
+            <form>
+                <h1 style="text-align: center; margin-top: 20px;">Student Group</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Hours befor bus start:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                </div>
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success">
+                        Save
+                    </button>
+
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
