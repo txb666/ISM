@@ -38,6 +38,9 @@ namespace ISM.WebApp
             services.AddScoped<AccountDAO, AccountDAOImpl>();
             services.AddScoped<StudentGroupDAO, StudentGroupDAOImpl>();
             services.AddScoped<PassportDAO, PassportDAOImpl>();
+            
+            
+            
             services.AddScoped<VisaDAO, VisaDAOImpl>();
         }
 
