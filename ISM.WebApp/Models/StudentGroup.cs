@@ -16,7 +16,7 @@ namespace ISM.WebApp.Models
         public DateTime duration_start { get; set; }
         public DateTime duration_end { get; set; }
         public string home_university { get; set; }
-        public string coordinator { get; set; }
+        public List<User> coordinators { get; set; }
         public string note { get; set; }
 
     }

@@ -63,14 +63,18 @@ namespace ISM.WebApp.DAOImpl
             return 0;
         }
 
-        public void editStaff(int user_id, string fullname, string email, string account, DateTime? startDate, DateTime? endDate, bool status)
+        public bool editStaff(int user_id, string fullname, string email, DateTime? startDate, DateTime? endDate, bool status, string originalEmail)
         {
             SqlConnection con = null;
-            string sql = "update Users set fullname=@fullname, email=@email, account=@account,[start_date]=@start_date,end_date=@end_date,[status]=@status"
-                        + "where user_id=@user_id";
+            string sql = "update Users set fullname=@fullname, email=@email, [start_date]=@start_date, end_date=@end_date, [status]=@status"
+                        + " where user_id=@user_id";
             SqlCommand com = null;
             try
-            {
+            {         
+                if(isEmailExist(email) && !email.Equals(originalEmail))
+                {
+                    return false;
+                }
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
@@ -80,29 +84,22 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@fullname"].Value = fullname;
                 com.Parameters.Add("@email", SqlDbType.NVarChar);
                 com.Parameters["@email"].Value = email;
-                com.Parameters.Add("@account", SqlDbType.NVarChar);
-                com.Parameters["@account"].Value = account;
                 com.Parameters.Add("@start_date", SqlDbType.Date);
-                if (startDate != null)
-                {      
-                    com.Parameters["@start_date"].Value = startDate;
-                }
-                else
+                com.Parameters["@start_date"].Value = startDate;
+                if (startDate == null)
                 {
-                    com.Parameters["@start_date"].Value = null;
+                    com.Parameters["@start_date"].Value = DBNull.Value;
                 }
                 com.Parameters.Add("@end_date", SqlDbType.Date);
-                if (startDate != null)
+                com.Parameters["@end_date"].Value = endDate;
+                if (endDate == null)
                 {
-                    com.Parameters["@start_date"].Value = startDate;
-                }
-                else
-                {
-                    com.Parameters["@start_date"].Value = null;
+                    com.Parameters["@end_date"].Value = DBNull.Value;
                 }
                 com.Parameters.Add("@status", SqlDbType.Bit);
                 com.Parameters["@status"].Value = status;
                 com.ExecuteNonQuery();
+                return true;
             }
             catch (Exception e)
             {
@@ -112,6 +109,39 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, null, null);
             }
+            return false;
+        }
+
+        public List<User> getAllStaff()
+        {
+            SqlConnection con = null;
+            string sql = "select a.[user_id],a.account from Users a, Roles b where a.role_id=b.role_id and b.role_name='Staff'";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<User> staffs = new List<User>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    User staff = new User();
+                    staff.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    staff.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    staffs.Add(staff);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return staffs;
         }
 
         public List<User> GetStaff(int page, int pageSize, string fullname, string email, string account, bool? status, DateTime? startDateFrom, DateTime? startDateTo, DateTime? endDateFrom, DateTime? endDateTo)
@@ -293,6 +323,38 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, null, null);
             }
             return totalStaff;
+        }
+
+        public bool isEmailExist(string email)
+        {
+            SqlConnection con = null;
+            string sql = "select count(*) from Users where email=@email";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            bool isExist = true;
+            int? count = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@email", SqlDbType.NVarChar);
+                com.Parameters["@email"].Value = email;               
+                count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    isExist = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return isExist;
         }
 
         public bool isStaffAlreadyExist(string account, string email)
