@@ -29,7 +29,7 @@ namespace ISM.WebApp
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Home";
+                    options.LoginPath = "/Login";
                     options.Cookie.Name = "ISMCookie";
                 });
             services.AddControllersWithViews();

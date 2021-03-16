@@ -39,5 +39,11 @@ namespace ISM.WebApp.Controllers
             visaIndexView.entry_dateTo = entry_dateTo;
             return View("Views/Admin/Visa/Visa.cshtml", visaIndexView);
         }
+
+        public bool Edit(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port)
+        {
+            bool result = visaDAO.editVisa(visa_id,start_date,expired_date,entry_date,entry_port);
+            return result;
+        }
     }
 }
