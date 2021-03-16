@@ -8,11 +8,6 @@
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">Staff</h1>
     <div style="height: 50px;">
-
-        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
-            <a style="text-decoration: none;" href="#xmas-popup">Create</a>
-        </button>
-        <br>
         <!-- SEARCH FORM -->
         <div class="dropdown_search">
             <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
@@ -33,22 +28,18 @@
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
                         <input name="startDateFrom" type="date" style="width: 200px; border-radius: 5px;" id="startDateFrom" value="@(Model.startDateFrom.HasValue?Model.startDateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                        @* <button type="button" onclick="document.getElementById('startDateFrom').valueAsDate = null">Clear</button>*@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
                         <input name="startDateTo" type="date" style="width: 200px; border-radius: 5px;" id="startDateTo" value="@(Model.startDateTo.HasValue?Model.startDateTo.Value.ToString("yyyy-MM-dd"):"")">
-                        <button type="button" onclick="document.getElementById('startDateTo').valueAsDate = null">Clear</button>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date From</label>
                         <input name="endDateFrom" type="date" style="width: 200px; border-radius: 5px;" id="endDateFrom" value="@(Model.endDateFrom.HasValue?Model.endDateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                        <button type="button" onclick="document.getElementById('endDateFrom').valueAsDate = null">Clear</button>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date To</label>
                         <input name="endDateTo" type="date" style="width: 200px; border-radius: 5px;" id="endDateTo" value="@(Model.endDateTo.HasValue?Model.endDateTo.Value.ToString("yyyy-MM-dd"):"")">
-                        <button type="button" onclick="document.getElementById('endDateTo').valueAsDate = null">Clear</button>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
@@ -84,8 +75,16 @@
                 </form>
             </div>
         </div>
+
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup">Create</a>
+        </button>
+
+
+    </div>
         <br />
-        <div>
+        <br />
+        <div class="table-scroll">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -141,7 +140,7 @@
 
             <!-- popup code -->
             <div id="xmas-popup" class="popup" href="#">
-                <div class="popup-content">
+                <div class="popup-content"  style="height:500px">
                     <form id="createStaffForm" asp-controller="Staff" asp-action="Create" method="post">
                         <h1 style="text-align: center; margin-top: 20px;">Create Staff</h1>
                         <div class="form-group row">
@@ -180,7 +179,7 @@
             </div>
 
             <div id="xmas-popup2" class="popup" href="#">
-                <div class="popup-content">
+                <div class="popup-content-edit-staff" style="background-color:white">
                     <form id="editStaffForm" asp-controller="Staff" asp-action="Edit" method="post">
                         <h1 style="text-align: center; margin-top: 20px;">Edit Staff</h1>
                         <input type="hidden" name="id" id="edit_id" />
@@ -224,5 +223,4 @@
         <div>
             @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
         </div>
-    </div>
 </div>

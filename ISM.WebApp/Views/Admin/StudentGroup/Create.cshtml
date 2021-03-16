@@ -202,7 +202,105 @@
             </div>
         </nav>
 
-        <form id="createStudentGroupForm">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <form id="createStudentGroupForm">
+                        <h1 style="text-align: center; margin-top: 20px;">Create Student Group</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                            <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_program">
+                                @if (Model.programList.Count > 0)
+                                {
+                                    <option value="@Model.programList[0].programm_id" selected>@Model.programList[0].program_name</option>
+                                }
+                                @for (int i = 1; i < Model.programList.Count; i++)
+                                {
+                                    <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
+
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
+                            <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_start">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
+                            <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_end">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
+                            <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_home_univercity">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                            <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_campus">
+                                @if (Model.campusList.Count > 0)
+                                {
+                                    <option value="@Model.campusList[0].campus_id" selected>@Model.campusList[0].campus_name</option>
+                                }
+                                @for (int i = 1; i < Model.campusList.Count; i++)
+                                {
+                                    <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
+                            <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="col-6">
+                    <form>
+                        <h1 style="text-align:center; margin-top: 20px">Coordinator Management</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
+                            <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
+                                @if (Model.coordinatorList.Count > 0)
+                                {
+                                    <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
+                                }
+                                @for (int i = 1; i < Model.coordinatorList.Count; i++)
+                                {
+                                    <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
+                                }
+                            </select>
+                        </div>
+
+                        <button type="button" onclick='addCoordinator();'>Add</button>
+                        <table id="create_coordinatorTable" class="table table-bordered">
+                        </table>
+                        <div class="form-group row">
+                            <button onclick="createStudentGroup();" style="margin-left: 190px; width: 80px;" type="button"
+                                    class="btn btn-success">
+                                Save
+                            </button>
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                            </button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <center>
+                <button onclick="editStudentGroup();" style=" width: 80px;" type="button"
+                        class="btn btn-success">
+                    Save
+                </button>
+                <button style="width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </center>
+        </div>
+
+        @*<form id="createStudentGroupForm">
             <h1 style="text-align: center; margin-top: 20px;">Create Student Group</h1>      
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
@@ -275,10 +373,10 @@
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
             </div>
-        </form>
+        </form>*@
     </div>
 
-    <footer>
+    <footer style="margin-top: 100px">
         <div class="footer-top">
             <div class="container">
                 <div class="row">

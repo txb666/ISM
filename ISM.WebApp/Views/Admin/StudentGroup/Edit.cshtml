@@ -204,7 +204,112 @@
             </div>
         </nav>
 
-        <form id="editStudentGroupForm">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <form id="editStudentGroupForm">
+                        <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>
+                        <div class="form-group row">
+                            <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id" />
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                            <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_program" disabled>
+                                @for (int i = 0; i < Model.programList.Count; i++)
+                                {
+                                    if (Model.group.program_id == Model.programList[i].programm_id)
+                                    {
+                                        <option value="@Model.programList[i].programm_id" selected>@Model.programList[i].program_name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
+                            <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_start" value="@Model.group.duration_start.ToString("yyyy-MM-dd")" disabled>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
+                            <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_end" value="@Model.group.duration_end.ToString("yyyy-MM-dd")" disabled>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
+                            <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_home_univercity" value="@Model.group.home_university" disabled>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                            <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
+                                @for (int i = 1; i < Model.campusList.Count; i++)
+                                {
+                                    if (Model.group.campus_id == Model.campusList[i].campus_id)
+                                    {
+                                        <option value="@Model.campusList[i].campus_id" selected>@Model.campusList[i].campus_name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
+                            <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note" value="@Model.group.note">
+                        </div>
+
+                        </form>
+                </div>
+
+                <div class="col-6">
+                    <form>
+                        <h1 style="text-align: center; margin-top: 20px;">Coordinator Management</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
+                            <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
+                                @if (Model.coordinatorList.Count > 0)
+                                {
+                                    <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
+                                }
+                                @for (int i = 1; i < Model.coordinatorList.Count; i++)
+                                {
+                                    <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="button" onclick='addCoordinator();'>Add</button>
+                        <table id="create_coordinatorTable" class="table table-bordered">
+                            <tr>
+                                <th scope="col">Coordinator</th>
+                                <th scope="col"> </th>
+                            </tr>
+                            @for (int i = 0; i < Model.group.coordinators.Count; i++)
+                            {
+                                <tr>
+                                    <td> @Model.group.coordinators[i].account </td>
+                                    <td> <button onclick="deleteCoordinator('@Model.group.coordinators[i].user_id')">delete</button> </td>
+                                </tr>
+                            }
+                        </table>
+                    </form>
+
+                </div>
+            </div>
+
+            <center>
+                <button onclick="editStudentGroup();" style=" width: 80px;" type="button"
+                        class="btn btn-success">
+                    Save
+                </button>
+                <button style="width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </center>
+
+        </div>
+
+        @*<form id="editStudentGroupForm">
             <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>          
             <div class="form-group row">
                 <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id"/>
@@ -292,10 +397,10 @@
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
             </div>
-        </form>
+        </form>*@
     </div>
 
-    <footer>
+    <footer style="margin-top:100px">
         <div class="footer-top">
             <div class="container">
                 <div class="row">

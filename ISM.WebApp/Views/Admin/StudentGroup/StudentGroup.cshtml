@@ -8,8 +8,40 @@
     <h1 style="text-align: center;">Student Group</h1>
     <div style="height: 50px;">
         <!-- SEARCH FORM -->
-        <div class="btn-group">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="background-color:aquamarine;" class="dropbtn_search">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+                <form style="width: 320px;" asp-controller="Passport" asp-action="Index" method="get">
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Year:</label>
+                        <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                        <select style="width: 200px ; border-radius:5px">
+                            <option>A</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University</label>
+                        <input name="start_dateTo" type="text" style="width: 200px; border-radius: 5px;" id="start_dateTo" value="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus</label>
+                        <input name="expired_dateFrom" type="text" style="width: 200px; border-radius: 5px;" id="expired_dateFrom" value="">
+                    </div>
+            
+
+                    <input type="hidden" name="page" id="inputPage" />
+                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                </form>
+            </div>
+        </div>
+
+
+        @*<div class="btn-group">
+            <button  type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                 Search
             </button>
@@ -78,12 +110,9 @@
                     <button id="searchButton" class="btn btn-info" style="margin-left: 150px;" type="button" onclick="search(1);"> Search</button>
                 </form>
             </div>
-        </div>
+        </div>*@
         <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
             <a style="text-decoration: none;" href="/StudentGroup/Create">Create</a>
-        </button>
-        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
-            <a style="text-decoration: none;" href="#xmas-popup-assign">Assign</a>
         </button>
     </div>
     <br>
@@ -149,4 +178,7 @@
     <div>
         @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
     </div>
+
+
+
 </div>
