@@ -1,0 +1,270 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Student Information</h1>
+    <div style="height: 50px;">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" class="btn btn-success">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height:450px">
+                <form style="width: 320px;">
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">DOB:</label>
+                        <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
+
+                        <div class="form-check" style="margin-left: 10px;">
+                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                   id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1"
+                                   style="font-weight: bold; font-size: 17px;">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check" style="margin-left: 30px;">
+                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                   id="exampleRadios2" value="option2">
+                            <label class="form-check-label" for="exampleRadios2"
+                                   style="font-weight: bold; font-size: 17px;">
+                                Female
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                        <select class="fomr-control" style="border-radius: 5px; width: 200px;">
+                            <option value="A">Active</option>
+                            <option value="B">DeActive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                        <select class="fomr-control" style="border-radius: 5px; width: 200px;">
+                            <option value="A">Ha Noi</option>
+                            <option value="B">Da Nang</option>
+                            <option value="B">Ho Chi Minh</option>
+                            <option value="B">Can Tho</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Emergency
+                            Contact:
+                        </label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Coodinator:</label>
+                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
+                        <select class="fomr-control" style="border-radius: 5px; width: 200px;">
+                            <option value="A">Active</option>
+                            <option value="B">DeActive</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+
+                </form>
+            </div>
+        </div>
+
+
+        <select style="text-align: center; margin-left: 35%; border-radius: 5px;">
+            <option value="A">Degree Student</option>
+            <option value="B">Mobility Student</option>
+        </select>
+
+        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+
+        </button>
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup">Create</a>
+        </button>
+
+    </div>
+    <br>
+    <br>
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Account</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Nationality</th>
+                    <th scope="col">DOB</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Program</th>
+                    <th scope="col">Campus</th>
+                    <th scope="col">Emergency Contact</th>
+                    <th scope="col">Accomodation</th>
+                    <th scope="col">Coodinator</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>mdo</td>
+                    <td>mdo</td>
+                    <td>mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>mdo</td>
+                    <td>mdo</td>
+                    <td>mdo</td>
+                    <td>mdo</td>
+
+                </tr>
+
+
+        </table>
+
+        <!-- popup code -->
+        <div id="xmas-popup" class="popup" href="#">
+            <div class="popup-content">
+                <form>
+                    <h1 style="text-align: center;">Student Information</h1>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            DOB:
+                        </label>
+                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
+
+                        <div class="form-check" style="margin-left: 40px;">
+                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                   id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1"
+                                   style="font-weight: bold; font-size: 17px;">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check" style="margin-left: 70px;">
+                            <input class="form-check-input" type="radio" name="exampleRadios"
+                                   id="exampleRadios2" value="option2">
+                            <label class="form-check-label" for="exampleRadios2"
+                                   style="font-weight: bold; font-size: 17px;">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                        <select style="margin-left: 30px;border-radius: 5px; width: 300px;">
+                            <option value="A">Active</option>
+                            <option value="B">DeActive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                        <select style="margin-left: 30px;border-radius: 5px; width: 300px;">
+                            <option value="A">Ha Noi</option>
+                            <option value="B">Da Nang</option>
+                            <option value="B">Ho Chi Minh</option>
+                            <option value="B">Can Tho</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Emergency Contact:
+                        </label>
+                        <input type="text" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Accomodation:
+                        </label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Coodinator:
+                        </label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
+                        <select style="margin-left: 30px;border-radius: 5px; width: 300px;">
+                            <option value="A">Active</option>
+                            <option value="B">DeActive</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <button style="margin-left: 190px; width: 80px;" type="button"
+                                class="btn btn-success">
+                            Save
+                        </button>
+
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                        </button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+            <button class="btn btn-success" style="float:right">
+                <a style="text-decoration: none; color: white;" href="#">Extract to Excel</a>
+            </button>
+        
+    </div>
+
+
+
+
+
+</div>
