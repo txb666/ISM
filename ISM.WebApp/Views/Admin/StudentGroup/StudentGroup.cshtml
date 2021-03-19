@@ -11,28 +11,64 @@
         <div class="dropdown_search">
             <button onclick="myFunction1()" style="background-color:aquamarine;" class="dropbtn_search">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form style="width: 320px;" asp-controller="Passport" asp-action="Index" method="get">
+                <form style="width: 320px;" asp-controller="StudentGroup" asp-action="Index" method="get" id="searchForm">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Year:</label>
-                        <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="">
+                        <input type="number" name="year" style="width: 200px; border-radius: 5px;" value="@Model.year">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                        <select style="width: 200px ; border-radius:5px">
-                            <option>A</option>
+                        <select name="program" style="border-radius: 5px; width: 200px;">
+                            @if (string.IsNullOrEmpty(Model.program))
+                            {
+                                <option value="" selected>All</option>
+                            }
+                            else
+                            {
+                                <option value="">All</option>
+                            }
+                            @for (int i = 0; i < Model.programList.Count; i++)
+                            {
+                                if (Model.programList[i].program_name.Equals(Model.program))
+                                {
+                                    <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
+                                }
+                                else
+                                {
+                                    <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
+                                }
+                            }
                         </select>
                     </div>
             
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University</label>
-                        <input name="start_dateTo" type="text" style="width: 200px; border-radius: 5px;" id="start_dateTo" value="">
+                        <input type="text" name="home_univercity" style="width: 200px; border-radius: 5px;" value="@Model.home_univercity">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus</label>
-                        <input name="expired_dateFrom" type="text" style="width: 200px; border-radius: 5px;" id="expired_dateFrom" value="">
-                    </div>
-            
-
+                        <select name="campus" style="border-radius: 5px; width: 200px;">
+                            @if (string.IsNullOrEmpty(Model.campus))
+                            {
+                                <option value="" selected>All</option>
+                            }
+                            else
+                            {
+                                <option value="">All</option>
+                            }
+                            @for (int i = 0; i < Model.campusList.Count; i++)
+                            {
+                                if (Model.campusList[i].campus_name.Equals(Model.campus))
+                                {
+                                    <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
+                                }
+                                else
+                                {
+                                    <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
+                                }
+                            }
+                        </select>
+                    </div>          
                     <input type="hidden" name="page" id="inputPage" />
                     <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
                 </form>
