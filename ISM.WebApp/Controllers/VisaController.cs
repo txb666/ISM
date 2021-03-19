@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Staff")]
     public class VisaController : Controller
     {
         public VisaDAO visaDAO;

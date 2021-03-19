@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class StudentGroupController : Controller
     {
         public StudentGroupDAO studentGroupDAO;

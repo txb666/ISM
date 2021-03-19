@@ -1,4 +1,10 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+}
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -16,25 +22,25 @@
     <link rel="stylesheet" href="~/css/footer.css">
 
     <script>
-    /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
-    function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
         }
-      }
-    }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 
 </head>
@@ -52,9 +58,10 @@
                     <a><span class="icon-button__badge">2</span> </a>
                 </button>
             </div>
-            <div class="col-xl-1" id="logo_user">
+            <div class="col-xl-1" id="logo_user" style="margin-top: 20px !important">
                 <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn"></button>
+                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
                         <a href="#home">My Infor</a>
                         <a>
@@ -102,7 +109,7 @@
                         <a class="nav-link" href="#" id="navbarDropdown">
                             Insurance
                         </a>
-                        
+
                     </li>
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#" id="navbarDropdown">
@@ -130,11 +137,11 @@
                             <a class="dropdown-item" href="#">Orientation material</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Detailed agenda</a>
-                            <div class="dropdown-divider"></div>                          
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Transportation</a>
-                            <div class="dropdown-divider"></div>                          
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Surveys</a>
-                            
+
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -151,7 +158,7 @@
                             <a class="dropdown-item" href="#">Can Tho</a>
                         </div>
                     </li>
-                    
+
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#">FAQs</a>
                     </li>

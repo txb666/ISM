@@ -1,8 +1,12 @@
-﻿using ISM.WebApp.DAO;
+﻿using ISM.WebApp.Constant;
+using ISM.WebApp.DAO;
+using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Staff")]
     public class PassportController : Controller
     {
         public PassportDAO passportDAO;
@@ -22,6 +26,7 @@ namespace ISM.WebApp.Controllers
             DateTime? start_dateFrom = null, DateTime? start_dateTo = null, DateTime? expired_dateFrom = null, DateTime? expired_dateTo = null,
             string issuing_authority = "", int page = 1)
         {
+            var sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             PassportIndexViewModel passportIndexView = new PassportIndexViewModel();
             passportIndexView.page = page;
             passportIndexView.pageSize = 5;

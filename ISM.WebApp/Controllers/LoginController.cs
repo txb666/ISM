@@ -10,6 +10,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using ISM.WebApp.Constant;
 
 namespace ISM.WebApp.Controllers
 {
@@ -32,6 +35,10 @@ namespace ISM.WebApp.Controllers
         [HttpPost, ActionName("Index")]
         public async Task<IActionResult> Login(string txtAccount, string txtPassword)
         {
+            if (string.IsNullOrEmpty(txtAccount) || string.IsNullOrEmpty(txtPassword))
+            {
+                return RedirectToAction("Index");
+            }
             Account newAccount = new Account();
             var accounts = _accountDAO.GetAccounts();
             foreach (Account account in accounts)
@@ -43,55 +50,63 @@ namespace ISM.WebApp.Controllers
             }
 
             if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_id == 2) && (newAccount.status == true))
+                && (newAccount.role_name.Equals("Admin")) && (newAccount.status == true))
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, txtAccount)
+                    new Claim(ClaimTypes.Name, txtAccount),
+                    new Claim(ClaimTypes.Role, "Admin")
                 };
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 var props = new AuthenticationProperties();
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                return View("Views/Staff/Homepage/StaffHomepage.cshtml");
+                HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
             else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_id == 1) && (newAccount.status == true))
+                && (newAccount.role_name.Equals("Staff")) && (newAccount.status == true))
             {
                  var claims = new List<Claim>
                  {
-                     new Claim(ClaimTypes.Name, txtAccount)
+                     new Claim(ClaimTypes.Name, txtAccount),
+                     new Claim(ClaimTypes.Role, "Staff")
                  };
                  var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                  var principal = new ClaimsPrincipal(identity);
                  var props = new AuthenticationProperties();
                  await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                 return View("Views/Admin/Homepage/AdminHomepage.cshtml");
+                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                 return View("Views/Staff/Homepage/StaffHomepage.cshtml");
             }
             else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_id == 3) && (newAccount.status == true))
+                && (newAccount.role_name.Equals("Degree")) && (newAccount.status == true))
             {
                  var claims = new List<Claim>
                  {
-                     new Claim(ClaimTypes.Name, txtAccount)
+                     new Claim(ClaimTypes.Name, txtAccount),
+                     new Claim(ClaimTypes.Role, "Degree")
                  };
                  var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                  var principal = new ClaimsPrincipal(identity);
                  var props = new AuthenticationProperties();
                  await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
                  return View("Views/Degree/Homepage/DegreeHomepage.cshtml");
             }
             else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_id == 4) && (newAccount.status == true))
+                && (newAccount.role_name.Equals("Mobility")) && (newAccount.status == true))
             {
                  var claims = new List<Claim>
                  {
-                     new Claim(ClaimTypes.Name, txtAccount)
+                     new Claim(ClaimTypes.Name, txtAccount),
+                     new Claim(ClaimTypes.Role, "Mobility")
                  };
                  var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                  var principal = new ClaimsPrincipal(identity);
                  var props = new AuthenticationProperties();
                  await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
                  return View("Views/Mobility/Homepage/MobilityHomepage.cshtml");
             }
             else
@@ -103,6 +118,13 @@ namespace ISM.WebApp.Controllers
         [HttpPost, ActionName("Logout")]
         public async Task<IActionResult> Logout()
         {
+            foreach (var item in Request.Cookies.Keys)
+            {
+                if (item == "ISMSession")
+                {
+                    Response.Cookies.Delete(item);
+                }
+            }
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index");
         }

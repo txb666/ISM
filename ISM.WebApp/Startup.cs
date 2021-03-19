@@ -31,7 +31,14 @@ namespace ISM.WebApp
                 {
                     options.LoginPath = "/Login";
                     options.Cookie.Name = "ISMCookie";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
                 });
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "ISMSession";
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.IsEssential = true;
+            });
             services.AddControllersWithViews();
             services.AddScoped<RoleDAO, RoleDAOImpl>();
             services.AddScoped<UserDAO, UserDAOImpl>();
@@ -65,6 +72,8 @@ namespace ISM.WebApp
             app.UseAuthorization();
 
             app.UseCookiePolicy();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

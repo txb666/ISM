@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class StaffController : Controller
     {
         public UserDAO userDAO;

@@ -1,4 +1,10 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+}
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -16,25 +22,25 @@
     <link rel="stylesheet" href="~/css/footer.css">
 
     <script>
-    /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
-    function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
         }
-      }
-    }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 
 </head>
@@ -52,9 +58,10 @@
                     <a><span class="icon-button__badge">2</span> </a>
                 </button>
             </div>
-            <div class="col-xl-1" id="logo_user">
+            <div class="col-xl-1" id="logo_user" style="margin-top: 20px !important">
                 <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn"></button>
+                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
                         <a href="#home">My Infor</a>
                         <a>
@@ -82,7 +89,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                   
+
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#" id="navbarDropdown">
                             Visa & Passport
@@ -97,7 +104,7 @@
                             </a>
                             <a class="dropdown-item" href="#">My visa</a>
                         </div>
-                    </li>                   
+                    </li>
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#" id="navbarDropdown">
                             Insurance
@@ -118,7 +125,7 @@
                             <a class="dropdown-item" href="#">Student's Flight</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Handbook</a>
-                            <div class="dropdown-divider"></div>                           
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">General Agenda</a>
                         </div>
                     </li>
@@ -128,11 +135,11 @@
                         </a>
                         <div class="dropdown-description">
                             <a class="dropdown-item" href="#">Orientation Program</a>
-                            <div class="dropdown-divider"></div>                           
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Accommodation</a>
-                            <div class="dropdown-divider"></div>                                                   
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Surveys</a>
-                            <div class="dropdown-divider"></div>                          
+                            <div class="dropdown-divider"></div>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
