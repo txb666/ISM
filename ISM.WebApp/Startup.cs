@@ -41,6 +41,7 @@ namespace ISM.WebApp
             services.AddScoped<ProgramDAO, ProgramDAOImpl>();
             services.AddScoped<CampusDAO, CampusDAOImpl>();
             services.AddScoped<VisaDAO, VisaDAOImpl>();
+            services.AddScoped<VisaLetterDAO, VisaLettercsDAOImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
