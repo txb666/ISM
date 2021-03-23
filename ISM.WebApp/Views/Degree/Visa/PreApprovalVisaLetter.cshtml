@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+}
+
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align:center">Infomation for Visa Pre-Approval Letter Application</h1>
+    <br />
+    <div style="height: 200px;width:55%;margin:0 auto">
+
+        <form>
+
+            <div class="form-group row">
+                <label style="margin-left: 50px; font-weight: bold; width:150px;">Nationality:</label>
+                <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
+                <input type="email" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 50px; font-weight: bold; width:150px;">What type of Visa do you want to apply?</label>
+                <select style="margin-left: 30px;border-radius: 5px;">
+                    <option value="A">Single entry visa</option>
+                    <option value="B">Multiple entry visa</option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 50px; font-weight: bold; width:150px;">Where do you want to apply and receive your visa? </label>
+                <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 50px; font-weight: bold; width:150px;">What visa period do you want to apply?</label>
+                <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+
+            <div class="form-group row">
+                <button style="margin-left: 220px; width: 80px;" type="button" class="btn btn-success">Save</button>
+
+            </div>
+
+        </form>
+        <div style="float:left">
+            <a style="text-align: center" href="GuideApplycation.cshtml">How to apply for a VietNam Visa</a>
+        </div>
+    </div>
+ 
+
+
+</div>

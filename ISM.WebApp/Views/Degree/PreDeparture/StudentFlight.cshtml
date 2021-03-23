@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+}
+
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Student Flight</h1>
+    <div style="height: 50px;">
+
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+        </button>
+
+
+        <br>
+        <br>
+        <div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <img src="https://www.itwsecuritydivision.com/Portals/0/images/Holographic-Passport-Film.jpg?ver=2017-07-21-120332-683" style="height: 350px;width: 450px" />
+                        <br />
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="inputEmail4">No:</label>
+                            <label>1243423</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">Full Name:</label>
+                            <label>1243423</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">Arrival Date:</label>
+                            <label>1243423</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEmail4">Arrival time in Viet Name:</label>
+                            <label>1243423</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword4">Airport of Departure:</label>
+                            <label>22/8/2020</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Airport of Arrival:</label>
+                            <label>30/8/2021</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- popup code -->
+            <div id="xmas-popup" class="popup" href="#">
+                <div class="popup-content">
+                    <form>
+                        <h1 style="text-align: center; margin-top: 20px;">Student Flight</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival time in Viet Nam:</label>
+                            <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Link Image:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
