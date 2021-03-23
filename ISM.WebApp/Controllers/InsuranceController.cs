@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ISM.WebApp.Constant;
@@ -7,6 +8,7 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,10 +18,12 @@ namespace ISM.WebApp.Controllers
     public class InsuranceController : Controller
     {
         public InsuranceDAO insuranceDAO;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public InsuranceController(InsuranceDAO insuranceDAO)
+        public InsuranceController(InsuranceDAO insuranceDAO, IWebHostEnvironment hostingEnvironment)
         {
             this.insuranceDAO = insuranceDAO;
+            this.hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index(string degreeOrMobility="", string fullname="", string account="", DateTime? startDate=null, DateTime? expiryDate=null , int page=1)
         {
@@ -57,9 +61,26 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        [HttpGet]
         public IActionResult HowTo()
         {
             return View("Views/Admin/Insurance/HowTo.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult HowTo(IFormFile uploadFile)
+        {
+            if (uploadFile != null)
+            {
+                string contentType = uploadFile.ContentType;
+                string filename = "HowTo.pdf";
+                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                string filePath = Path.Combine(article, filename);
+                FileStream stream = new FileStream(filePath, FileMode.Create);
+                uploadFile.CopyTo(stream);
+                stream.Close();
+            }
+            return RedirectToAction("Howto");
         }
     }
 }

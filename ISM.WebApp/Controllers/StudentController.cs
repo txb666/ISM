@@ -80,5 +80,17 @@ namespace ISM.WebApp.Controllers
             bool result = userDAO.isStaffAlreadyExist(account, email);
             return result;
         }
+
+        public bool isEmailExist(string email)
+        {
+            bool result = userDAO.isEmailExist(email);
+            return result;
+        }
+
+        public bool Edit(int id, string fullname, string email, bool status, string originalEmail)
+        {
+            bool result = userDAO.editStudent(id, fullname, email, status, originalEmail);
+            return result;
+        }
     }
 }

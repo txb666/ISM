@@ -187,73 +187,75 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model.students)
+                @foreach (var item in Model.students)
                 {
-                <tr>
-                    <td>
-                        @item.fullname
-                    </td>
-                    <td>
-                        @item.account
-                    </td>
-                    <td>
-                        @item.email
-                    </td>
-                    <td>
-                        @item.nationality
-                    </td>
-                    <td>
-                        @(item.dob.HasValue?item.dob.Value.ToString("dd-MM-yyyy"):"")
-                    </td>
-                    <td>
-                        @if (item.gender == true)
-                        {
-                            @:Male
-                        }
-                        else if(item.gender == false)
-                        {
-                            @:Female
-                        }
-                        else
-                        {
-
-                        }
-                    </td>
-                    <td>
-                        @item.program
-                    </td>
-                    <td>
-                        @item.campus
-                    </td>
-                    <td>
-                        @item.emergency_contact
-                    </td>
-                    @if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
+                    <tr>
                         <td>
-                            @item.home_univercity
+                            @item.fullname
                         </td>
-                    }
-                    <td>
-                    @(item.program_duration_start.ToString("dd/MM/yyyy")+" - "+ (item.program_duration_end.ToString("dd/MM/yyyy")))
-                    </td>
-                    <td>
-                        @item.accomodation
-                    </td>
-                    <td>
-                         @if (item.status == true)
-                        {
-                            @:Active
-                        }
-                        else
-                        {
-                            @:Inactive
-                        }
-                    </td>
-                    <td>
+                        <td>
+                            @item.account
+                        </td>
+                        <td>
+                            @item.email
+                        </td>
+                        <td>
+                            @item.nationality
+                        </td>
+                        <td>
+                            @(item.dob.HasValue?item.dob.Value.ToString("dd-MM-yyyy"):"")
+                        </td>
+                        <td>
+                            @if (item.gender == true)
+                            {
+                                @:Male
+                            }
+                            else if (item.gender == false)
+                            {
+                                @:Female
+                            }
+                            else
+                            {
 
-                    </td>
-                </tr>
+                            }
+                        </td>
+                        <td>
+                            @item.program
+                        </td>
+                        <td>
+                            @item.campus
+                        </td>
+                        <td>
+                            @item.emergency_contact
+                        </td>
+                        @if (Model.degreeOrMobility.Equals("Mobility"))
+                        {
+                            <td>
+                                @item.home_univercity
+                            </td>
+                        }
+                        <td>
+                            @(item.program_duration_start.ToString("dd/MM/yyyy")+" - "+ (item.program_duration_end.ToString("dd/MM/yyyy")))
+                        </td>
+                        <td>
+                            @item.accomodation
+                        </td>
+                        <td>
+                            @if (item.status == true)
+                            {
+                                @:Active
+                            }
+                            else
+                            {
+                                @:Inactive
+                            }
+                        </td>
+                        <td>
+                            <button onclick="editStudent('@item.user_id','@item.fullname','@item.email','@item.account','@item.studentGroup_id','@item.status')">
+                                <a style="text-decoration: none;" href="#xmas-popup2">Edit</a>
+                            </button>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -310,8 +312,60 @@
                 </form>
             </div>
         </div>
+        <div id="xmas-popup2" class="popup" href="#">
+            <div class="popup-content">
+                <form id="editStudentForm">
+                    <h1 style="text-align: center;">Edit Student</h1>
+                    <input type="hidden" id="edit_id" />
+                    <input type="hidden" id="edit_originalEmail" />
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Fullname:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_email">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
+                        <select style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_student_group" disabled>
+                            @foreach (var item in Model.manageGroup)
+                            {
+                                if (Model.degreeOrMobility.Equals("Degree"))
+                                {
+                                    <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy")) </option>
+                                }
+                                else if (Model.degreeOrMobility.Equals("Mobility"))
+                                {
+                                    <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy")+"_"+item.home_university) </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
+                        <select style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_status">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <button onclick="validateEditStudent();" style="margin-left: 190px; width: 80px;" type="button"
+                                class="btn btn-success">
+                            Save
+                        </button>
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
     <div style="margin-top: 20px;">
         <button class="btn btn-success" style="float:right">
             <a style="text-decoration: none; color: white;" href="#">Extract to Excel</a>
