@@ -471,6 +471,7 @@ namespace ISM.WebApp.DAOImpl
                 {
                     User student = new User();
                     student.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    student.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
                     if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
                     {
                         student.fullname= (string)reader.GetValue(reader.GetOrdinal("fullname"));
@@ -804,6 +805,26 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return isExist;
+        }
+
+        public bool editStudent(int id, string fullname, string email, bool status, string originalEmail)
+        {
+            SqlConnection con = null;
+            string sql = "update Users set fullname=@fullname, email=@email, [status]=@status where [user_id]=@id";
+            SqlCommand com = null;
+            try
+            {
+
+            }
+            catch(Exception e)
+            {
+                
+            }
+            finally
+            {
+
+            }
+            return false;
         }
     }
 }
