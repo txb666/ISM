@@ -14,5 +14,6 @@ namespace ISM.WebApp.Models
         public string role_name { get; set; }
         public bool status { get; set; }
         public bool isFirstLoggedIn { get; set; }
+        public bool haveDegree { get; set; }
     }
 }

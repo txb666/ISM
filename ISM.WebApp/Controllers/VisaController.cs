@@ -1,8 +1,12 @@
-﻿using ISM.WebApp.DAO;
+﻿using ISM.WebApp.Constant;
+using ISM.WebApp.DAO;
+using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,25 +22,35 @@ namespace ISM.WebApp.Controllers
         {
             this.visaDAO = visaDAO;
         }
-        public IActionResult Index(string account = "", string student_name = "", string picture = "",
-            string entry_port = "", DateTime? start_dateFrom = null, DateTime? start_dateTo = null, DateTime? expired_dateFrom = null, DateTime? expired_dateTo = null,
-            DateTime? entry_dateFrom = null, DateTime? entry_dateTo = null, int page = 1)
+        public IActionResult Index(string degreeOrMobility = "", string fullname="", string account="", string entry_port="", DateTime? start_date=null, DateTime? expired_date=null, DateTime? date_entry=null, int page=1)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
+            bool haveDegree = isAdmin == true ? true : sessionUser.haveDegree;
+            int current_staff_id = sessionUser.user_id;
+            if (string.IsNullOrEmpty(degreeOrMobility))
+            {
+                if (haveDegree)
+                {
+                    degreeOrMobility = "Degree";
+                }
+                else
+                {
+                    degreeOrMobility = "Mobility";
+                }
+            }
             VisaIndexViewModel visaIndexView = new VisaIndexViewModel();
             visaIndexView.page = page;
             visaIndexView.pageSize = 5;
-            visaIndexView.totalPage = PagingUtils.calculateTotalPage(visaDAO.GetTotalVisa(account, picture, student_name, start_dateFrom, start_dateTo, expired_dateFrom, expired_dateTo, entry_dateFrom, entry_dateTo, entry_port), visaIndexView.pageSize);
-            visaIndexView.visalist = visaDAO.GetVisa(visaIndexView.page, visaIndexView.pageSize, account, picture, student_name, start_dateFrom, start_dateTo, expired_dateFrom, expired_dateTo, entry_dateFrom, entry_dateTo, entry_port);
+            visaIndexView.totalPage = PagingUtils.calculateTotalPage(visaDAO.GetTotalVisa(isAdmin,haveDegree,degreeOrMobility,current_staff_id,account,fullname,start_date,expired_date,date_entry,entry_port), visaIndexView.pageSize);
+            visaIndexView.visalist = visaDAO.GetVisa(isAdmin, haveDegree, degreeOrMobility, current_staff_id, visaIndexView.page, visaIndexView.pageSize, account, fullname, start_date, expired_date, date_entry, entry_port);
             visaIndexView.account = account;
-            visaIndexView.student_name = student_name;
-            visaIndexView.picture = picture;
+            visaIndexView.fullname = fullname;
             visaIndexView.entry_port = entry_port;
-            visaIndexView.start_dateFrom = start_dateFrom;
-            visaIndexView.start_dateTo = start_dateTo;
-            visaIndexView.expired_dateFrom = expired_dateFrom;
-            visaIndexView.expired_dateTo = expired_dateTo;
-            visaIndexView.entry_dateFrom = entry_dateFrom;
-            visaIndexView.entry_dateTo = entry_dateTo;
+            visaIndexView.start_date = start_date;
+            visaIndexView.expired_date = expired_date;
+            visaIndexView.date_entry = date_entry;
+            visaIndexView.degreeOrMobility = degreeOrMobility;
             return View("Views/Admin/Visa/Visa.cshtml", visaIndexView);
         }
 

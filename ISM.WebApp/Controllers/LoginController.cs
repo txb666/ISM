@@ -46,6 +46,7 @@ namespace ISM.WebApp.Controllers
                 if ((txtAccount.ToLower() == account.username.ToLower()) && (txtPassword == account.password))
                 {
                     newAccount = account;
+                    newAccount.haveDegree = _accountDAO.haveDegree(newAccount.user_id);
                 }
             }
 

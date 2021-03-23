@@ -544,6 +544,68 @@ namespace ISM.WebApp.DAOImpl
             }
             return false;
         }
-      
+
+        public List<StudentGroup> GetStudentGroupByStaff(int staff_id, bool isAdmin, string degreeOrMobility)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            if (isAdmin)
+            {
+                sql = " select a.student_group_id,b.campus_id,b.campus_name,c.program_id,c.[program_name],a.[year],a.duration_start,a.duration_end,a.home_univercity,a.note,c.[type] "
+                   + " from Student_Group a, Campus b, Programs c"
+                   + " where a.campus_id=b.campus_id and a.program_id=c.program_id and c.[type]=@degreeOrMobility";
+            }
+            else
+            {
+                sql = " select b.student_group_id,c.campus_id,c.campus_name,d.program_id,d.[program_name],b.[year],b.duration_start,b.duration_end,b.home_univercity,b.note,d.[type]"
+                           + " from Coordinators a, Student_Group b, Campus c, Programs d"
+                           + " where a.studentGroup_id=b.student_group_id and b.campus_id=c.campus_id and b.program_id=d.program_id and a.staff_id=@staff_id and d.[type]=@degreeOrMobility";
+            }
+            SqlCommand com = null;
+            SqlDataReader reader = null;
+            List<StudentGroup> groups = new List<StudentGroup>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.Parameters.Add("@degreeOrMobility", SqlDbType.NVarChar);
+                com.Parameters["@degreeOrMobility"].Value = degreeOrMobility;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    StudentGroup group = new StudentGroup();
+                    group.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    group.campus_id = (int)reader.GetValue(reader.GetOrdinal("campus_id"));
+                    group.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                    group.program_id = (int)reader.GetValue(reader.GetOrdinal("program_id"));
+                    group.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
+                    group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                    group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
+                    if (!reader.IsDBNull("home_univercity"))
+                    {
+                        group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
+                    {
+                        group.note = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    }
+                    group.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    groups.Add(group);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return groups;
+        }
     }
 }

@@ -8,12 +8,8 @@ namespace ISM.WebApp.DAO
 {
     public interface VisaDAO
     {
-        List<Visa> GetVisa(int page, int pageSize, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
-            DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port);
-        int GetTotalVisa(string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
-            DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port);
+        List<Visa> GetVisa(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? start_date, DateTime? expired_date, DateTime? date_entry, string entry_port);
+        int GetTotalVisa(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, string account, string fullname, DateTime? start_date, DateTime? expired_date, DateTime? date_entry, string entry_port);
         bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port);
     }
 }

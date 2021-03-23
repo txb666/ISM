@@ -9,5 +9,6 @@ namespace ISM.WebApp.DAO
     public interface AccountDAO
     {
         List<Account> GetAccounts ();
+        bool haveDegree(int user_id);
     }
 }

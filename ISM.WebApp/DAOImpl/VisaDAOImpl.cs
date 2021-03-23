@@ -47,9 +47,7 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
-        public int GetTotalVisa(string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
-            DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port)
+        public int GetTotalVisa(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, string account, string fullname, DateTime? start_date, DateTime? expired_date, DateTime? date_entry, string entry_port)
         {
             SqlConnection con = null;
             SqlCommand com = null;
@@ -68,11 +66,11 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@account", SqlDbType.NVarChar);
                     com.Parameters["@account"].Value = account;
                 }
-                if (!string.IsNullOrEmpty(student_name))
+                if (!string.IsNullOrEmpty(fullname))
                 {
-                    where += " and upper(b.fullname) like upper('%' + @student_name + '%')";
-                    com.Parameters.Add("@student_name", SqlDbType.NVarChar);
-                    com.Parameters["@student_name"].Value = student_name;
+                    where += " and upper(b.fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = fullname;
                 }
                 if (!string.IsNullOrEmpty(entry_port))
                 {
@@ -80,44 +78,54 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@entry_port", SqlDbType.NVarChar);
                     com.Parameters["@entry_port"].Value = entry_port;
                 }
-                if (start_dateFrom != null)
+                if (start_date != null)
                 {
-                    where += " and a.[start_date]>=@start_dateFrom";
-                    com.Parameters.Add("@start_dateFrom", SqlDbType.Date);
-                    com.Parameters["@start_dateFrom"].Value = start_dateFrom;
+                    where += " and a.[start_date]=@start_date";
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
                 }
-                if (start_dateTo != null)
+                if (expired_date != null)
                 {
-                    where += " and a.[start_date]<=@start_dateTo";
-                    com.Parameters.Add("@start_dateTo", SqlDbType.Date);
-                    com.Parameters["@start_dateTo"].Value = start_dateTo;
+                    where += " and a.expired_date=@expired_date";
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
                 }
-                if (expired_dateFrom != null)
+                if (date_entry != null)
                 {
-                    where += " and a.expired_date>=@expired_dateFrom";
-                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
+                    where += " and a.date_entry=@date_entry";
+                    com.Parameters.Add("@date_entry", SqlDbType.Date);
+                    com.Parameters["@date_entry"].Value = date_entry;
                 }
-                if (expired_dateTo != null)
+                if (degreeOrMobility.Equals("Mobility"))
                 {
-                    where += " and a.expired_date<=@expired_dateTo";
-                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
-                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
+                    if (isAdmin)
+                    {
+                        sql = " select count(*)"
+                            + " from Visa a, Users b, Student_Group c, Programs d"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'" + where;
+                    }
+                    else
+                    {
+                        sql = " select count(*)"
+                            + " from Visa a, Users b, Student_Group c, Programs d, Coordinators e"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and c.student_group_id=e.studentGroup_id and d.[type]='Mobility' and e.staff_id=@current_staff_id" + where;
+                        com.Parameters.Add("@current_staff_id", SqlDbType.Int);
+                        com.Parameters["@current_staff_id"].Value = current_staff_id;
+                    }
                 }
-                if (entry_dateFrom != null)
+                else if (degreeOrMobility.Equals("Degree"))
                 {
-                    where += " and a.entry_date>=@entry_dateFrom";
-                    com.Parameters.Add("@entry_dateFrom", SqlDbType.Date);
-                    com.Parameters["@entry_dateFrom"].Value = entry_dateFrom;
+                    if (haveDegree)
+                    {
+                        sql = " select count(*)"
+                            + " from Visa a, Users b, Student_Group c, Programs d"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Degree'" + where;
+                    }
+                    else
+                    {
+                        return totalVisa;
+                    }
                 }
-                if (entry_dateTo != null)
-                {
-                    where += " and a.entry_date<=@entry_dateTo";
-                    com.Parameters.Add("@entry_dateTo", SqlDbType.Date);
-                    com.Parameters["@entry_dateTo"].Value = entry_dateTo;
-                }
-                sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.date_entry,a.[start_date],a.expired_date " +
-                      "from Visa a, Users b where a.student_id = b.[user_id] " + where + ") as temp";
                 com.CommandText = sql;
                 totalVisa = (int)com.ExecuteScalar();
             }
@@ -132,9 +140,7 @@ namespace ISM.WebApp.DAOImpl
             return totalVisa;
         }
 
-        public List<Visa> GetVisa(int page, int pageSize, string account, string picture, string student_name,
-            DateTime? start_dateFrom, DateTime? start_dateTo, DateTime? expired_dateFrom, DateTime? expired_dateTo,
-            DateTime? entry_dateFrom, DateTime? entry_dateTo, string entry_port)
+        public List<Visa> GetVisa(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? start_date, DateTime? expired_date, DateTime? date_entry, string entry_port)
         {
             int from = page * pageSize - (pageSize - 1);
             int to = page * pageSize;
@@ -156,11 +162,11 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@account", SqlDbType.NVarChar);
                     com.Parameters["@account"].Value = account;
                 }
-                if (!string.IsNullOrEmpty(student_name))
+                if (!string.IsNullOrEmpty(fullname))
                 {
-                    where += " and upper(b.fullname) like upper('%' + @student_name + '%')";
-                    com.Parameters.Add("@student_name", SqlDbType.NVarChar);
-                    com.Parameters["@student_name"].Value = student_name;
+                    where += " and upper(b.fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = fullname;
                 }
                 if (!string.IsNullOrEmpty(entry_port))
                 {
@@ -168,49 +174,67 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@entry_port", SqlDbType.NVarChar);
                     com.Parameters["@entry_port"].Value = entry_port;
                 }
-                if (start_dateFrom != null)
+                if (start_date != null)
                 {
-                    where += " and a.[start_date]>=@start_dateFrom";
-                    com.Parameters.Add("@start_dateFrom", SqlDbType.Date);
-                    com.Parameters["@start_dateFrom"].Value = start_dateFrom;
+                    where += " and a.[start_date]=@start_date";
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
+                }               
+                if (expired_date != null)
+                {
+                    where += " and a.expired_date=@expired_date";
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
                 }
-                if (start_dateTo != null)
+                if (date_entry != null)
                 {
-                    where += " and a.[start_date]<=@start_dateTo";
-                    com.Parameters.Add("@start_dateTo", SqlDbType.Date);
-                    com.Parameters["@start_dateTo"].Value = start_dateTo;
-                }
-                if (expired_dateFrom != null)
-                {
-                    where += " and a.expired_date>=@expired_dateFrom";
-                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
-                }
-                if (expired_dateTo != null)
-                {
-                    where += " and a.expired_date<=@expired_dateTo";
-                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
-                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
-                }
-                if (entry_dateFrom != null)
-                {
-                    where += " and a.entry_date>=@entry_dateFrom";
-                    com.Parameters.Add("@entry_dateFrom", SqlDbType.Date);
-                    com.Parameters["@entry_dateFrom"].Value = entry_dateFrom;
-                }
-                if (entry_dateTo != null)
-                {
-                    where += " and a.entry_date<=@entry_dateTo";
-                    com.Parameters.Add("@entry_dateTo", SqlDbType.Date);
-                    com.Parameters["@entry_dateTo"].Value = entry_dateTo;
+                    where += " and a.date_entry=@date_entry";
+                    com.Parameters.Add("@date_entry", SqlDbType.Date);
+                    com.Parameters["@date_entry"].Value = date_entry;
                 }
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
                 com.Parameters["@to"].Value = to;
-                sql = "select * from(select b.account,b.fullname,a.visa_id,a.picture,a.entry_port,a.date_entry,a.[start_date],a.expired_date," +
-                      "ROW_NUMBER() over (order by a.visa_id asc) as rownumber from Visa a, Users b where a.student_id = b.[user_id] " + where + ") " +
-                      "as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                if (degreeOrMobility.Equals("Mobility"))
+                {
+                    if (isAdmin)
+                    {
+                        sql = " select * from"
+                            + " (select ROW_NUMBER() over (order by a.visa_id asc) rownumber, a.visa_id,a.student_id,b.fullname,b.account,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
+                            + " from Visa a, Users b, Student_Group c, Programs d"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'"+where+")"
+                            + " as temp"
+                            + " where temp.rownumber>=@from and temp.rownumber<=@to";
+                    }
+                    else
+                    {
+                        sql = " select * from"
+                            + " (select ROW_NUMBER() over (order by a.visa_id asc) rownumber, a.visa_id,a.student_id,b.fullname,b.account,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
+                            + " from Visa a, Users b, Student_Group c, Programs d, Coordinators e"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and c.student_group_id=e.studentGroup_id and d.[type]='Mobility' and e.staff_id=@current_staff_id"+where+")"
+                            + " as temp"
+                            + " where temp.rownumber>=@from and temp.rownumber<=@to";
+                        com.Parameters.Add("@current_staff_id", SqlDbType.Int);
+                        com.Parameters["@current_staff_id"].Value = current_staff_id;
+                    }
+                }
+                else if (degreeOrMobility.Equals("Degree"))
+                {
+                    if (haveDegree)
+                    {
+                        sql = " select * from"
+                            + " (select ROW_NUMBER() over (order by a.visa_id asc) rownumber, a.visa_id,a.student_id,b.fullname,b.account,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
+                            + " from Visa a, Users b, Student_Group c, Programs d"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Degree'" + where + ")"
+                            + " as temp"
+                            + " where temp.rownumber>=@from and temp.rownumber<=@to";
+                    }
+                    else
+                    {
+                        return visalist;
+                    }
+                }
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
                 while (reader.Read())
@@ -218,7 +242,7 @@ namespace ISM.WebApp.DAOImpl
                     Visa visa = new Visa();
                     visa.visa_id = (int)reader.GetValue(reader.GetOrdinal("visa_id"));
                     visa.account = (string)reader.GetValue(reader.GetOrdinal("account"));
-                    visa.student_name = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
                     visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
                     visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));

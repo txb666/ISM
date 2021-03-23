@@ -16,5 +16,6 @@ namespace ISM.WebApp.DAO
         bool isStudentGroupExist(int program_id, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity);
         bool resetCoordinator(int studentGroup_id);
         StudentGroup getStudentGroupById(int studentGroup_id);
+        List<StudentGroup> GetStudentGroupByStaff(int staff_id, bool isAdmin, string degreeOrMobility);
     }
 }

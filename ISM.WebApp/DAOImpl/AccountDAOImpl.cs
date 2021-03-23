@@ -52,5 +52,37 @@ namespace ISM.WebApp.DAOImpl
             }
             return null;
         }
+
+        public bool haveDegree(int user_id)
+        {
+            SqlConnection con = null;
+            String sql = " select count(*)"
+                       + " from Users a, Coordinators b, Student_Group c, Programs d"
+                       + " where b.staff_id=a.user_id and b.studentGroup_id=c.student_group_id and d.program_id=c.program_id and a.user_id=@user_id and d.type='Degree'";
+            SqlCommand com = null;
+            bool result = false;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                int count = (int)com.ExecuteScalar();
+                if (count > 0)
+                {
+                    result = true;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return result;
+        }
     }
 }

@@ -8,8 +8,8 @@ namespace ISM.WebApp.DAO
 {
     public interface InsuranceDAO
     {
-        List<Insurance> getInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? startDateFrom, DateTime? startDateTo, DateTime? expiryDateFrom, DateTime? expiryDateTo);
-        int getTotalInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, DateTime? startDateFrom, DateTime? startDateTo, DateTime? expiryDateFrom, DateTime? expiryDateTo);
+        List<Insurance> getInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? startDate, DateTime? expiryDate);
+        int getTotalInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, DateTime? startDate, DateTime? expiryDate);
         bool editInsurance(int insurance_id, DateTime startDate, DateTime expiryDate);
     }
 }

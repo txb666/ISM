@@ -9,6 +9,7 @@ namespace ISM.WebApp.Models
     {
         public int user_id { get; set; }
         public int role_id { get; set; }
+        public int campus_id { get; set; }
         public string campus { get; set; }
         public int studentGroup_id { get; set; }
         public string email { get; set; }
@@ -21,8 +22,14 @@ namespace ISM.WebApp.Models
         public string fullname { get; set; }
         public string nationality { get; set; }
         public DateTime? dob { get; set; }
-        public bool gender { get; set; }
+        public bool? gender { get; set; }
         public string emergency_contact { get; set; }
+        public string accomodation { get; set; }
+        public int program_id { get; set; }
+        public string program { get; set; }
+        public DateTime program_duration_start { get; set; }
+        public DateTime program_duration_end { get; set; }
+        public string home_univercity { get; set; }
 
         public User()
         {

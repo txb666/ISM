@@ -4,17 +4,134 @@
 }
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">Insurance Instruction</h1>
-    <div style="height: 1100px;">
+    <div style="height: 50px;">
         <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
             <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
         </button>
         <br>
         <br>
-        <div style="height: 600px; width: 100%;">
-                <object  data="~/Article/Student-Handbook-Hanoi.docx" width="100%">
-                    <embed src="~/Article/Student-Handbook-Hanoi.docx" width="100%"> </embed>
-                </object>
-
+        <div class="top-bar">
+            <button class="btn" id="prev-page">
+                <i class="fas fa-arrow-circle-left"></i> Prev Page
+            </button>
+            <button class="btn" id="next-page">
+                Next Page <i class="fas fa-arrow-circle-right"></i>
+            </button>
+            <span class="page-info">
+                Page <span id="page-num"></span> of <span id="page-count"></span>
+            </span>
+        </div>
+        <canvas id="pdf-render" style="width:70%;"></canvas>
+        <!-- popup code -->
+        <div id="xmas-popup" class="popup" href="#">
+            <div class="popup-content">
+                <form>
+                    <h1 style="text-align: center; margin-top: 20px;">Insurance Instruction</h1>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                        <textarea name="Text1" cols="40" rows="10"></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+                    </div>
+                </form>
+            </div>
+            <!-- </form> -->
+            <!-- <a href="#" class="close">x</a> -->
         </div>
     </div>
 </div>
+<script>
+    const url = '../Article/Student-Handbook-Hanoi.pdf';
+
+    let pdfDoc = null,
+        pageNum = 1,
+        pageIsRendering = false,
+        pageNumIsPending = null;
+
+    const scale = 3,
+        canvas = document.getElementById('pdf-render'),
+        ctx = canvas.getContext('2d');
+
+    // Render the page
+    const renderPage = num => {
+        pageIsRendering = true;
+        // Get page
+        pdfDoc.getPage(num).then(page => {
+            // Set scale
+            const viewport = page.getViewport({ scale });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderCtx = {
+                canvasContext: ctx,
+                viewport
+            };
+
+            page.render(renderCtx).promise.then(() => {
+                pageIsRendering = false;
+
+                if (pageNumIsPending !== null) {
+                    renderPage(pageNumIsPending);
+                    pageNumIsPending = null;
+                }
+            });
+
+            // Output current page
+            document.getElementById('page-num').textContent = num;
+        });
+    };
+
+    // Check for pages rendering
+    const queueRenderPage = num => {
+        if (pageIsRendering) {
+            pageNumIsPending = num;
+        } else {
+            renderPage(num);
+        }
+    };
+
+    // Show Prev Page
+    const showPrevPage = () => {
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    // Show Next Page
+    const showNextPage = () => {
+        if (pageNum >= pdfDoc.numPages) {
+            return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    // Get Document
+    pdfjsLib
+        .getDocument(url)
+        .promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+
+            document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+            renderPage(pageNum);
+        })
+        .catch(err => {
+            // Display error
+            const div = document.createElement('div');
+            div.className = 'error';
+            div.appendChild(document.createTextNode(err.message));
+            document.querySelector('body').insertBefore(div, canvas);
+            // Remove top bar
+            document.querySelector('.top-bar').style.display = 'none';
+        });
+
+    // Button Events
+    document.querySelector('#prev-page').addEventListener('click', showPrevPage);
+    document.querySelector('#next-page').addEventListener('click', showNextPage);
+
+</script>

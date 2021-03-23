@@ -14,9 +14,8 @@ namespace ISM.WebApp.ViewModels
         public int pageSize { get; set; }
         public string fullname { get; set; }
         public string account { get; set; }
-        public DateTime? startDateFrom { get; set; }
-        public DateTime? startDateTo { get; set; }
-        public DateTime? expiryDateFrom { get; set; }
-        public DateTime? expiryDateTo { get; set; }
+        public DateTime? startDate { get; set; }
+        public DateTime? expiryDate { get; set; }
+        public string degreeOrMobility { get; set; }
     }
 }

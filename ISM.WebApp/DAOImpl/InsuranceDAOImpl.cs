@@ -42,7 +42,7 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
-        public List<Insurance> getInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? startDateFrom, DateTime? startDateTo, DateTime? expiryDateFrom, DateTime? expiryDateTo)
+        public List<Insurance> getInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, int page, int pageSize, string account, string fullname, DateTime? startDate, DateTime? expiryDate)
         {
             int from = page * pageSize - (pageSize - 1);
             int to = page * pageSize;
@@ -70,30 +70,18 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = fullname;
                 }
-                if (startDateFrom != null)
+                if (startDate != null)
                 {
-                    where += " and a.[start_date]>=@startDateFrom";
-                    com.Parameters.Add("@startDateFrom", SqlDbType.Date);
-                    com.Parameters["@startDateFrom"].Value = startDateFrom;
-                }
-                if (startDateTo != null)
+                    where += " and a.[start_date]=@startDate";
+                    com.Parameters.Add("@startDate", SqlDbType.Date);
+                    com.Parameters["@startDate"].Value = startDate;
+                }          
+                if (expiryDate != null)
                 {
-                    where += " and a.[start_date]<=@startDateTo";
-                    com.Parameters.Add("@startDateTo", SqlDbType.Date);
-                    com.Parameters["@startDateTo"].Value = startDateTo;
-                }
-                if (expiryDateFrom != null)
-                {
-                    where += " and a.[expiry_date]>=@expiryDateFrom";
-                    com.Parameters.Add("@expiryDateFrom", SqlDbType.Date);
-                    com.Parameters["@expiryDateFrom"].Value = expiryDateFrom;
-                }
-                if (expiryDateTo != null)
-                {
-                    where += " and a.[expiry_date]<=@expiryDateTo";
-                    com.Parameters.Add("@expiryDateTo", SqlDbType.Date);
-                    com.Parameters["@expiryDateTo"].Value = expiryDateTo;
-                }
+                    where += " and a.[expiry_date]=@expiryDate";
+                    com.Parameters.Add("@expiryDate", SqlDbType.Date);
+                    com.Parameters["@expiryDate"].Value = expiryDate;
+                }        
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
@@ -167,7 +155,7 @@ namespace ISM.WebApp.DAOImpl
             return insurances;
         }
       
-        public int getTotalInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, DateTime? startDateFrom, DateTime? startDateTo, DateTime? expiryDateFrom, DateTime? expiryDateTo)
+        public int getTotalInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, DateTime? startDate, DateTime? expiryDate)
         {
             SqlConnection con = null;
             string sql = "";
@@ -192,29 +180,17 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = fullname;
                 }
-                if (startDateFrom != null)
+                if (startDate != null)
                 {
-                    where += " and a.[start_date]>=@startDateFrom";
-                    com.Parameters.Add("@startDateFrom", SqlDbType.Date);
-                    com.Parameters["@startDateFrom"].Value = startDateFrom;
+                    where += " and a.[start_date]=@startDate";
+                    com.Parameters.Add("@startDate", SqlDbType.Date);
+                    com.Parameters["@startDate"].Value = startDate;
                 }
-                if (startDateTo != null)
+                if (expiryDate != null)
                 {
-                    where += " and a.[start_date]<=@startDateTo";
-                    com.Parameters.Add("@startDateTo", SqlDbType.Date);
-                    com.Parameters["@startDateTo"].Value = startDateTo;
-                }
-                if (expiryDateFrom != null)
-                {
-                    where += " and a.[expiry_date]>=@expiryDateFrom";
-                    com.Parameters.Add("@expiryDateFrom", SqlDbType.Date);
-                    com.Parameters["@expiryDateFrom"].Value = expiryDateFrom;
-                }
-                if (expiryDateTo != null)
-                {
-                    where += " and a.[expiry_date]<=@expiryDateTo";
-                    com.Parameters.Add("@expiryDateTo", SqlDbType.Date);
-                    com.Parameters["@expiryDateTo"].Value = expiryDateTo;
+                    where += " and a.[expiry_date]=@expiryDate";
+                    com.Parameters.Add("@expiryDate", SqlDbType.Date);
+                    com.Parameters["@expiryDate"].Value = expiryDate;
                 }
                 if (degreeOrMobility.Equals("Mobility"))
                 {

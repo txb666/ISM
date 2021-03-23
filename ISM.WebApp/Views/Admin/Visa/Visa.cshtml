@@ -29,36 +29,36 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name</label>
-                        <input name="student_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.student_name">
+                        <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date From</label>
-                        <input name="start_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_dateFrom.HasValue?Model.start_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date</label>
+                        <input name="start_date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_date.HasValue?Model.start_date.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date To</label>
-                        <input name="start_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_dateTo.HasValue?Model.start_dateTo.Value.ToString("yyyy-MM-dd"):"")">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date</label>
+                        <input name="expiry_date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_date.HasValue?Model.expired_date.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date From</label>
-                        <input name="expired_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_dateFrom.HasValue?Model.expired_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expried Date To</label>
-                        <input name="expired_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_dateTo.HasValue?Model.expired_dateTo.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date From</label>
-                        <input name="entry_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.entry_dateFrom.HasValue?Model.entry_dateFrom.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date To</label>
-                        <input name="entry_dateTo" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.entry_dateTo.HasValue?Model.entry_dateTo.Value.ToString("yyyy-MM-dd"):"")">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Entry Into Vietnam</label>
+                        <input name="expired_dateFrom" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date_entry.HasValue?Model.date_entry.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
                         <input name="entry_port" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.entry_port">
                     </div>
+                    <select name="degreeOrMobility" style="width:150px ; margin-left:40%">
+                        @if (Model.degreeOrMobility.Equals("Degree"))
+                        {
+                            <option value="Degree" selected>Degree Student</option>
+                            <option value="Mobility">Mobility Student</option>
+                        }
+                        else
+                        {
+                            <option value="Degree">Degree Student</option>
+                            <option value="Mobility" selected>Mobility Student</option>
+                        }
+                    </select>
                     <input type="hidden" name="page" id="inputPage">
                     <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
                 </form>
@@ -75,7 +75,7 @@
                     <th scope="col">Full Name</th>
                     <th scope="col">Picture</th>
                     <th scope="col">Start Date</th>
-                    <th scope="col">Expired Date</th>
+                    <th scope="col">Expiry Date</th>
                     <th scope="col">Date of Entry into Viet Nam</th>
                     <th scope="col">Entry Port</th>
                     <th></th>
@@ -89,7 +89,7 @@
                             @item.account
                         </td>
                         <td>
-                            @item.student_name
+                            @item.fullname
                         </td>
                         <td>
                             @item.picture

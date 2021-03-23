@@ -18,6 +18,6 @@ namespace ISM.WebApp.Models
         public string home_university { get; set; }
         public List<User> coordinators { get; set; }
         public string note { get; set; }
-
+        public string type { get; set; }
     }
 }

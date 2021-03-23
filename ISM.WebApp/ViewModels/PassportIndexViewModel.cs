@@ -14,12 +14,11 @@ namespace ISM.WebApp.ViewModels
         public int pageSize { get; set; }
         public string account { get; set; }
         public string picture { get; set; }
-        public string student_name { get; set; }
+        public string fullname { get; set; }
         public string passport_number { get; set; }
-        public DateTime? start_dateFrom { get; set; }
-        public DateTime? start_dateTo { get; set; }
-        public DateTime? expired_dateFrom { get; set; }
-        public DateTime? expired_dateTo { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? expired_date { get; set; }      
         public string issuing_authority { get; set; }
+        public string degreeOrMobility { get; set; }
     }
 }

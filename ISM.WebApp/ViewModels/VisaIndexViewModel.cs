@@ -15,13 +15,11 @@ namespace ISM.WebApp.ViewModels
         public int visa_id { get; set; }
         public string account { get; set; }
         public string picture { get; set; }
-        public string student_name { get; set; }
+        public string fullname { get; set; }
         public string entry_port { get; set; }
-        public DateTime? start_dateFrom { get; set; }
-        public DateTime? start_dateTo { get; set; }
-        public DateTime? expired_dateFrom { get; set; }
-        public DateTime? expired_dateTo { get; set; }
-        public DateTime? entry_dateFrom { get; set; }
-        public DateTime? entry_dateTo { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? expired_date { get; set; }
+        public DateTime? date_entry { get; set; }
+        public string degreeOrMobility { get; set; }
     }
 }
