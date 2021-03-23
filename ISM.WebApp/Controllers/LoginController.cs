@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ISM.WebApp.Constant;
-using Quartz;
-using ISM.WebApp.Jobs;
 
 namespace ISM.WebApp.Controllers
 {
@@ -22,39 +20,15 @@ namespace ISM.WebApp.Controllers
     {
         private readonly ILogger<LoginController> _logger;
         private readonly AccountDAO _accountDAO;
-        IScheduler _scheduler;
-        public LoginController(ILogger<LoginController> logger, AccountDAO accountDAO, IScheduler scheduler)
+        public LoginController(ILogger<LoginController> logger, AccountDAO accountDAO)
         {
             _logger = logger;
             _accountDAO = accountDAO;
-            _scheduler = scheduler;
         }
 
         public IActionResult Index()
         {
             return View();
-        }
-
-        public async Task<IActionResult> StartJob()
-        {
-            IJobDetail job = JobBuilder.Create<EmailNotificationJob>()
-                                       .WithIdentity("EmailJob", "ISMJobs")
-                                       .Build();
-
-            ITrigger trigger = TriggerBuilder.Create()
-                                             .WithIdentity("EmailTrigger", "ISMJobs")
-                                             .StartNow()
-                                             .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).WithRepeatCount(2))
-                                             .Build();
-
-            //ITrigger trigger = TriggerBuilder.Create()
-            //                                 .WithIdentity("EmailTrigger", "ISMJobs")
-            //                                 .StartNow()
-            //                                 .WithCronSchedule("0/5 0 0 ? * * *")
-            //                                 .Build();
-
-            await _scheduler.ScheduleJob(job, trigger);
-            return RedirectToAction("Index");
         }
 
         [HttpPost, ActionName("Index")]
