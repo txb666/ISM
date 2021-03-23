@@ -127,17 +127,73 @@ namespace EmailJob
             {
                 foreach (var item in notifications)
                 {
-                    if (item.type.Equals("passport") || item.type.Equals("visa"))
+                    if (item.type.Equals("passport"))
                     {
                         var expiredDate = item.passport_expired;
                         var daysBefore = item.days_before;
                         var totalDays = expiredDate.Subtract(now).Days;
-                        if (totalDays <= daysBefore)
+                        if (totalDays <= daysBefore && totalDays >= 0)
                         {
                             string subject = "Passport Notification";
-                            string body = "Hello " + item.fullname + ",\n\nYour Your " + item.type + " " +
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before it expires. Please renew!";
+                            SendMail(item.email, subject, body);
+                        }
+                    }
+                    if (item.type.Equals("visa"))
+                    {
+                        var expiredDate = item.visa_expired;
+                        var daysBefore = item.days_before;
+                        var totalDays = expiredDate.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
+                        {
+                            string subject = "Visa Notification";
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                          "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before it expires. Please renew!";
+                            SendMail(item.email, subject, body);
+                        }
+                    }
+                    if (item.type.Equals("insurance"))
+                    {
+                        var deadline = item.deadline;
+                        var daysBefore = item.days_before;
+                        var totalDays = deadline.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
+                        {
+                            string subject = "Insurance Notification";
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                          "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before dealine.";
+                            SendMail(item.email, subject, body);
+                        }
+                    }
+                    if (item.type.Equals("flight"))
+                    {
+                        var deadline = item.deadline;
+                        var daysBefore = item.days_before;
+                        var totalDays = deadline.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
+                        {
+                            string subject = "Flight Notification";
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                          "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before dealine.";
+                            SendMail(item.email, subject, body);
+                        }
+                    }
+                    if (item.type.Equals("ort_schedule"))
+                    {
+                        var ort_date = item.ort_date;
+                        var daysBefore = item.days_before;
+                        var totalDays = ort_date.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
+                        {
+                            string subject = "Orientation Notification";
+                            string body = "Hello " + item.fullname + ",\n\nYour orientation " +
+                                          "dealine on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before dealine.";
                             SendMail(item.email, subject, body);
                         }
                     }
