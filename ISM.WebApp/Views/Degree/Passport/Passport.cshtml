@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+}
+
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Passport Infomation</h1>
+    <div style="height: 50px;">
+
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+        </button>
+
+
+        <br>
+        <br>
+        <div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <img src="https://www.itwsecuritydivision.com/Portals/0/images/Holographic-Passport-Film.jpg?ver=2017-07-21-120332-683" style="height: 350px;width: 450px" />
+                        <br />
+                        <a href="#"> How to renew your Passport </a>
+                    </div>
+
+                    <div class="col-6">
+
+
+                        <div class="form-group">
+                            <label for="inputEmail4">Passport Number:</label>
+                            <label>1243423</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword4">Start Date:</label>
+                            <label>22/8/2020</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Expire Date:</label>
+                            <label>30/8/2021</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress2">Issuing Authority:</label>
+                            <label>mfmfmffm</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- popup code -->
+            <div id="xmas-popup" class="popup" href="#">
+                <div class="popup-content">
+                    <form>
+                        <h1 style="text-align: center; margin-top: 20px;">Passport Information</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                            <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Expire Date:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Link Image:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
