@@ -1,19 +1,17 @@
 ﻿using ISM.WebApp.Constant;
+using ISM.WebApp.Helper;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+using Quartz;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Mail;
-using System.Text;
-using System.Xml;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace EmailJob
+namespace ISM.WebApp.Jobs
 {
-    public class EmailJobScheduler
+    public class EmailNotificationJob : IJob
     {
         private List<Notification> GetNotificationsDegree()
         {
@@ -147,52 +145,9 @@ namespace EmailJob
             return null;
         }
 
-        public Config GetConfigs()
+        public Task Execute(IJobExecutionContext context)
         {
-            try
-            {
-                Config config = new Config();
-                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appConfig.json");
-                var configruration = builder.Build();
-                config.email = configruration["email"];
-                config.password = configruration["password"];
-                config.host = configruration["host"];
-                config.port = Int32.Parse(configruration["post"]);
-                return config;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return null;
-        }
-
-        public void SendMail(string toEmail, string subject, string content)
-        {
-            try
-            {
-                Config config = GetConfigs();
-                var fromEmailAdress = new MailAddress(config.email);
-                var toEmailAdress = new MailAddress(toEmail);
-                MailMessage message = new MailMessage(fromEmailAdress, toEmailAdress);
-                message.Subject = subject;
-                message.Body = content;
-
-                var client = new SmtpClient();
-                client.Credentials = new NetworkCredential(config.email, config.password);
-                client.Host = config.host;
-                client.EnableSsl = true;
-                client.Port = config.port;
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        public void Execute()
-        {
+            EmailHelper helper = new EmailHelper();
             var now = DateTime.Now;
             List<Notification> degree_notifications = GetNotificationsDegree();
             List<Notification> mobility_notifications = GetNotificationsMobility();
@@ -212,7 +167,7 @@ namespace EmailJob
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                            SendMail(item.email, subject, body);
+                            helper.SendMail(item.email, subject, body);
                         }
                     }
                     if (item.type.Equals("visa"))
@@ -226,7 +181,7 @@ namespace EmailJob
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                            SendMail(item.email, subject, body);
+                            helper.SendMail(item.email, subject, body);
                         }
                     }
                     if (item.type.Equals("insurance"))
@@ -240,7 +195,7 @@ namespace EmailJob
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before dealine.";
-                            SendMail(item.email, subject, body);
+                            helper.SendMail(item.email, subject, body);
                         }
                     }
                     if (item.type.Equals("flight"))
@@ -254,7 +209,7 @@ namespace EmailJob
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before dealine.";
-                            SendMail(item.email, subject, body);
+                            helper.SendMail(item.email, subject, body);
                         }
                     }
                     if (item.type.Equals("ort_schedule"))
@@ -268,7 +223,7 @@ namespace EmailJob
                             string body = "Hello " + item.fullname + ",\n\nYour orientation " +
                                           "dealine on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before dealine.";
-                            SendMail(item.email, subject, body);
+                            helper.SendMail(item.email, subject, body);
                         }
                     }
                 }
@@ -288,7 +243,7 @@ namespace EmailJob
                                 string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                               "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                                SendMail(item.email, subject, body);
+                                helper.SendMail(item.email, subject, body);
                             }
                         }
                         if (item.type.Equals("visa"))
@@ -302,7 +257,7 @@ namespace EmailJob
                                 string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                               "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                                SendMail(item.email, subject, body);
+                                helper.SendMail(item.email, subject, body);
                             }
                         }
                         if (item.type.Equals("insurance"))
@@ -316,7 +271,7 @@ namespace EmailJob
                                 string body = "Hello " + item.fullname + ",\n\nYour program " +
                                               "start on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left to submit your insurance information.";
-                                SendMail(item.email, subject, body);
+                                helper.SendMail(item.email, subject, body);
                             }
                         }
                         if (item.type.Equals("flight"))
@@ -330,7 +285,7 @@ namespace EmailJob
                                 string body = "Hello " + item.fullname + ",\n\nYour program " +
                                               "start on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left to submit flight ticket information.";
-                                SendMail(item.email, subject, body);
+                                helper.SendMail(item.email, subject, body);
                             }
                         }
                         if (item.type.Equals("Detail_Agenda"))
@@ -344,7 +299,7 @@ namespace EmailJob
                                 string body = "Hello " + item.fullname + ",\n\nThere are " +
                                               "an agenda on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left to submit flight ticket information.";
-                                SendMail(item.email, subject, body);
+                                helper.SendMail(item.email, subject, body);
                             }
                         }
                         if (item.type.Equals("Transportation"))
@@ -362,7 +317,7 @@ namespace EmailJob
                                     string body = "Hello " + item.fullname + ",\n\nToday " + now.ToString("yyyy-MMM-dd") + "" +
                                                   ", the departure time of the bus is " + item.bus_time.ToString("hh:mm tt") + "," +
                                                   " you have " + totalHours.ToString() + " hours left to prepare.";
-                                    SendMail(item.email, subject, body);
+                                    helper.SendMail(item.email, subject, body);
                                 }
                             }
                         }
@@ -373,6 +328,7 @@ namespace EmailJob
             {
                 Console.WriteLine(e.Message);
             }
+            return Task.CompletedTask;
         }
     }
 }

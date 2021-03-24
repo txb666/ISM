@@ -1,5 +1,8 @@
 using ISM.WebApp.DAO;
 using ISM.WebApp.DAOImpl;
+using ISM.WebApp.Jobs;
+using ISM.WebApp.Models;
+using ISM.WebApp.Scheduler;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +10,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -41,6 +47,15 @@ namespace ISM.WebApp
                 options.Cookie.IsEssential = true;
             });
             services.AddControllersWithViews();
+
+            services.AddHostedService<QuartzHostedService>();
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+            services.AddSingleton<EmailNotificationJob>();
+            //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 30 7 1/1 * ? *"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob), cronExpression: "0/5 * * ? * * *"));
+
             services.AddScoped<RoleDAO, RoleDAOImpl>();
             services.AddScoped<UserDAO, UserDAOImpl>();
             services.AddScoped<AccountDAO, AccountDAOImpl>();

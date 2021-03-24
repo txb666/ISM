@@ -16,5 +16,10 @@ namespace ISM.WebApp.Models
         public DateTime visa_expired { get; set; }
         public DateTime deadline { get; set; }
         public DateTime ort_date { get; set; }
+        public int hours_before { get; set; }
+        public DateTime duration_start { get; set; }
+        public DateTime detail_agenda_date { get; set; }
+        public TimeSpan bus_time { get; set; }
+        public DateTime bus_date { get; set; }
     }
 }
