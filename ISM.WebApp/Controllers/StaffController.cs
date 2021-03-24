@@ -21,21 +21,19 @@ namespace ISM.WebApp.Controllers
             userDAO = u;
         }
 
-        public IActionResult Index(string fullname = "", string email = "", string account = "", bool? status = null,DateTime? startDateFrom=null,DateTime? startDateTo=null,DateTime? endDateFrom=null, DateTime? endDateTo=null, int page = 1)
+        public IActionResult Index(string fullname = "", string email = "", string account = "", bool? status = null,DateTime? startDate=null,DateTime? endDate=null, int page = 1)
         {
             StaffIndexViewModel viewmodel = new StaffIndexViewModel();
             viewmodel.page = page;
             viewmodel.pageSize = 5;
-            viewmodel.totalPage = PagingUtils.calculateTotalPage(userDAO.getTotalStaff(fullname,email,account,status,startDateFrom,startDateTo,endDateFrom,endDateTo), viewmodel.pageSize);
-            viewmodel.staffs = userDAO.GetStaff(viewmodel.page, viewmodel.pageSize, fullname, email, account, status,startDateFrom,startDateTo,endDateFrom,endDateTo);
+            viewmodel.totalPage = PagingUtils.calculateTotalPage(userDAO.getTotalStaff(fullname,email,account,status,startDate,endDate), viewmodel.pageSize);
+            viewmodel.staffs = userDAO.GetStaff(viewmodel.page, viewmodel.pageSize, fullname, email, account, status,startDate,endDate);
             viewmodel.fullname = fullname;
             viewmodel.email = email;
             viewmodel.account = account;
             viewmodel.status = status;
-            viewmodel.startDateFrom = startDateFrom;
-            viewmodel.startDateTo = startDateTo;
-            viewmodel.endDateFrom = endDateFrom;
-            viewmodel.endDateTo = endDateTo;
+            viewmodel.startDate = startDate;
+            viewmodel.endDate = endDate;
             return View("Views/Admin/Staff/Staff.cshtml", viewmodel);
         }
 

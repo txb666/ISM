@@ -214,7 +214,7 @@ namespace ISM.WebApp.DAOImpl
             return staffs;
         }
 
-        public List<User> GetStaff(int page, int pageSize, string fullname, string email, string account, bool? status, DateTime? startDateFrom, DateTime? startDateTo, DateTime? endDateFrom, DateTime? endDateTo)
+        public List<User> GetStaff(int page, int pageSize, string fullname, string email, string account, bool? status, DateTime? startDate, DateTime? endDate)
         {
             int from = page * pageSize - (pageSize - 1);
             int to = page * pageSize;
@@ -254,29 +254,17 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@status", SqlDbType.Bit);
                     com.Parameters["@status"].Value = status;
                 }
-                if (startDateFrom != null)
+                if (startDate != null)
                 {
-                    where += " and start_date>=@startDateFrom";
-                    com.Parameters.Add("@startDateFrom", SqlDbType.Date);
-                    com.Parameters["@startDateFrom"].Value = startDateFrom;
+                    where += " and start_date=@startDate";
+                    com.Parameters.Add("@startDate", SqlDbType.Date);
+                    com.Parameters["@startDate"].Value = startDate;
                 }
-                if (startDateTo != null)
+                if (endDate != null)
                 {
-                    where += " and start_date<=@startDateTo";
-                    com.Parameters.Add("@startDateTo", SqlDbType.Date);
-                    com.Parameters["@startDateTo"].Value = startDateTo;
-                }
-                if (endDateFrom != null)
-                {
-                    where += " and end_date>=@endDateFrom";
-                    com.Parameters.Add("@endDateFrom", SqlDbType.Date);
-                    com.Parameters["@endDateFrom"].Value = endDateFrom;
-                }
-                if (endDateTo != null)
-                {
-                    where += " and end_date<=@endDateTo";
-                    com.Parameters.Add("@endDateTo", SqlDbType.Date);
-                    com.Parameters["@endDateTo"].Value = endDateTo;
+                    where += " and end_date=@endDate";
+                    com.Parameters.Add("@endDate", SqlDbType.Date);
+                    com.Parameters["@endDate"].Value = endDate;
                 }
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
@@ -521,7 +509,7 @@ namespace ISM.WebApp.DAOImpl
             return students;
         }
 
-        public int getTotalStaff(string fullname, string email, string account, bool? status, DateTime? startDateFrom, DateTime? startDateTo, DateTime? endDateFrom, DateTime? endDateTo)
+        public int getTotalStaff(string fullname, string email, string account, bool? status, DateTime? startDate, DateTime? endDate)
         {
             SqlConnection con = null;
             string sql = "";
@@ -558,29 +546,17 @@ namespace ISM.WebApp.DAOImpl
                     com.Parameters.Add("@status", SqlDbType.Bit);
                     com.Parameters["@status"].Value = status;
                 }
-                if (startDateFrom != null)
+                if (startDate != null)
                 {
-                    where += " and start_date>=@startDateFrom";
-                    com.Parameters.Add("@startDateFrom", SqlDbType.Date);
-                    com.Parameters["@startDateFrom"].Value = startDateFrom;
+                    where += " and start_date=@startDate";
+                    com.Parameters.Add("@startDate", SqlDbType.Date);
+                    com.Parameters["@startDate"].Value = startDate;
                 }
-                if (startDateTo != null)
+                if (endDate != null)
                 {
-                    where += " and start_date<=@startDateTo";
-                    com.Parameters.Add("@startDateTo", SqlDbType.Date);
-                    com.Parameters["@startDateTo"].Value = startDateTo;
-                }
-                if (endDateFrom != null)
-                {
-                    where += " and end_date>=@endDateFrom";
-                    com.Parameters.Add("@endDateFrom", SqlDbType.Date);
-                    com.Parameters["@endDateFrom"].Value = endDateFrom;
-                }
-                if (endDateTo != null)
-                {
-                    where += " and end_date<=@endDateTo";
-                    com.Parameters.Add("@endDateTo", SqlDbType.Date);
-                    com.Parameters["@endDateTo"].Value = endDateTo;
+                    where += " and end_date=@endDate";
+                    com.Parameters.Add("@endDate", SqlDbType.Date);
+                    com.Parameters["@endDate"].Value = endDate;
                 }
                 sql = "select count(*) from Users a,Roles b where a.role_id=b.role_id and b.role_name='Staff'"+where;
                 com.CommandText = sql;
@@ -814,15 +790,31 @@ namespace ISM.WebApp.DAOImpl
             SqlCommand com = null;
             try
             {
-
+                if (isEmailExist(email) && !email.Equals(originalEmail))
+                {
+                    return false;
+                }
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                com.Parameters["@fullname"].Value = fullname;
+                com.Parameters.Add("@email", SqlDbType.NVarChar);
+                com.Parameters["@email"].Value = email;
+                com.Parameters.Add("@status", SqlDbType.Bit);
+                com.Parameters["@status"].Value = status;
+                com.Parameters.Add("@id", SqlDbType.Int);
+                com.Parameters["@id"].Value = id;
+                com.ExecuteNonQuery();
+                return true;
             }
             catch(Exception e)
             {
-                
+                Console.WriteLine(e.Message);
             }
             finally
             {
-
+                DBUtils.closeAllResource(con, com, null, null);
             }
             return false;
         }

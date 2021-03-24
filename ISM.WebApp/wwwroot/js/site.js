@@ -8,3 +8,8 @@ function search(page) {
     inputPage.value = page;
     form.submit();
 }
+
+function searchDegreeOrMobility() {
+    document.getElementById('search_degreeOrMobility').value = document.getElementById('outside_degreeOrMobility').value;
+    search(1);
+}

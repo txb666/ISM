@@ -15,10 +15,8 @@ namespace ISM.WebApp.ViewModels
         public string fullname { get; set; }
         public string email { get; set; }
         public string account { get; set; }
-        public DateTime? startDateFrom { get; set; }
-        public DateTime? startDateTo { get; set; }
-        public DateTime? endDateFrom { get; set; }
-        public DateTime? endDateTo { get; set; }
+        public DateTime? startDate { get; set; }
+        public DateTime? endDate { get; set; }
         public bool? gender { get; set; }
         public bool? status { get; set; }
 
