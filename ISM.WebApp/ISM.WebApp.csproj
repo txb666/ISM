@@ -8,6 +8,7 @@
     <PackageReference Include="EPPlus" Version="5.6.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Quartz" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>

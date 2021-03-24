@@ -20,7 +20,6 @@ namespace ISM.WebApp.Controllers
     {
         private readonly ILogger<LoginController> _logger;
         private readonly AccountDAO _accountDAO;
-
         public LoginController(ILogger<LoginController> logger, AccountDAO accountDAO)
         {
             _logger = logger;
