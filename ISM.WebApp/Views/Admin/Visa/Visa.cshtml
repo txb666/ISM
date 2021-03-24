@@ -47,7 +47,7 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
                         <input name="entry_port" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.entry_port">
                     </div>
-                    <select name="degreeOrMobility" style="width:150px ; margin-left:40%">
+                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
                         @if (Model.degreeOrMobility.Equals("Degree"))
                         {
                             <option value="Degree" selected>Degree Student</option>
@@ -64,6 +64,18 @@
                 </form>
             </div>
         </div>
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
+        </select>
     </div>
     <br>
     <br>

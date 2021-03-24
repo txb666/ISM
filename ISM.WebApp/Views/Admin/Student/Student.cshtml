@@ -107,7 +107,7 @@
                             Contact:
                         </label>
                         <input type="text" name="emergency_contact" style="width: 200px; border-radius: 5px;" id="" value="@Model.emergency_contact">
-                    </div>         
+                    </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
                         <select name="status" class="fomr-control" style="border-radius: 5px; width: 200px;">
@@ -123,7 +123,7 @@
                                 <option value="true" selected>Active</option>
                                 <option value="false">Inactive</option>
                             }
-                            else if(Model.status == false)
+                            else if (Model.status == false)
                             {
                                 <option value="">All</option>
                                 <option value="true">Active</option>
@@ -131,7 +131,7 @@
                             }
                         </select>
                     </div>
-                    <select name="degreeOrMobility" style="width:150px ; margin-left:40%">
+                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px; margin-left:40%; display:none;">
                         @if (Model.degreeOrMobility.Equals("Degree"))
                         {
                             <option value="Degree" selected>Degree Student</option>
@@ -149,9 +149,17 @@
             </div>
         </div>
 
-        <select style="text-align: center; margin-left: 35%; border-radius: 5px;">
-            <option value="A">Degree Student</option>
-            <option value="B">Mobility Student</option>
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
         </select>
         <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
             <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
@@ -370,5 +378,8 @@
         <button class="btn btn-success" style="float:right">
             <a style="text-decoration: none; color: white;" href="#">Extract to Excel</a>
         </button>
+    </div>
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
     </div>
 </div>

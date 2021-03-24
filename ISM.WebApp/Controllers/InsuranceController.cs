@@ -68,7 +68,7 @@ namespace ISM.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult HowTo(IFormFile uploadFile)
+        public IActionResult HowToPost(IFormFile uploadFile)
         {
             if (uploadFile != null)
             {
@@ -82,5 +82,55 @@ namespace ISM.WebApp.Controllers
             }
             return RedirectToAction("Howto");
         }
+
+        public IActionResult Instruction()
+        {
+           return View("Views/Admin/Insurance/InsuranceInstruction.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult InsuranceClaim()
+        {
+            return View("Views/Admin/Insurance/GuidanceInsuranceClaim.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult InsuranceClaimPost(IFormFile uploadFile)
+        {
+            if (uploadFile != null)
+            {
+                string contentType = uploadFile.ContentType;
+                string filename = "Guidance for Insurance Claim.pdf";
+                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                string filePath = Path.Combine(article, filename);
+                FileStream stream = new FileStream(filePath, FileMode.Create);
+                uploadFile.CopyTo(stream);
+                stream.Close();
+            }
+            return RedirectToAction("InsuranceClaim");
+        }
+
+        [HttpGet]
+        public IActionResult BuyAndExtendNewInsusance()
+        {
+            return View("Views/Admin/Insurance/GuidanceBuyAndExtendNewInsurance.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult BuyAndExtendNewInsusancePost(IFormFile uploadFile)
+        {
+            if (uploadFile != null)
+            {
+                string contentType = uploadFile.ContentType;
+                string filename = "Guidance for buying new health insurance and extending health insurance.pdf";
+                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                string filePath = Path.Combine(article, filename);
+                FileStream stream = new FileStream(filePath, FileMode.Create);
+                uploadFile.CopyTo(stream);
+                stream.Close();
+            }
+            return RedirectToAction("BuyAndExtendNewInsusance");
+        }
+
     }
 }
