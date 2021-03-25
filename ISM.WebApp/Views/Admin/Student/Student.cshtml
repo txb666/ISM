@@ -7,7 +7,7 @@
     <h1 style="text-align: center;">Student Information</h1>
     <div style="height: 50px;">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-success">Search</button>
+            <button onclick="myFunction1()" class="btn btn-info">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height:450px">
                 <form style="width: 320px;" id="searchForm" asp-controller="Student" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -161,11 +161,11 @@
                 <option value="Mobility" selected>Mobility Student</option>
             }
         </select>
-        <button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
-            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+        <button style="float: right; background-color:orangered" class="btn btn-info">
+            <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
         </button>
-        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
-            <a style="text-decoration: none;" href="#xmas-popup">Create</a>
+        <button style="float: right;" class="btn btn-success">
+            <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
         </button>
 
     </div>
@@ -260,7 +260,7 @@
                         </td>
                         <td>
                             <button onclick="editStudent('@item.user_id','@item.fullname','@item.email','@item.account','@item.studentGroup_id','@item.status')">
-                                <a style="text-decoration: none;" href="#xmas-popup2">Edit</a>
+                                <a style="text-decoration: none;" href="#xmas-popup-assign">Edit</a>
                             </button>
                         </td>
                     </tr>
@@ -320,8 +320,8 @@
                 </form>
             </div>
         </div>
-        <div id="xmas-popup2" class="popup" href="#">
-            <div class="popup-content">
+        <div id="xmas-popup-assign" class="popup" href="#">
+            <div class="popup-content-assign">
                 <form id="editStudentForm">
                     <h1 style="text-align: center;">Edit Student</h1>
                     <input type="hidden" id="edit_id" />
