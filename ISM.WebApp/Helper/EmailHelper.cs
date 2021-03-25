@@ -21,10 +21,10 @@ namespace ISM.WebApp.Helper
                                                         .AddEnvironmentVariables();
                 var _config = builder.Build();
                 EmailConfig config = new EmailConfig();
-                config.email = _config.GetSection("EmailConfig").GetSection("email").Value;
-                config.password = _config.GetSection("EmailConfig").GetSection("password").Value;
-                config.host = _config.GetSection("EmailConfig").GetSection("host").Value;
-                config.port = Int32.Parse(_config.GetSection("EmailConfig").GetSection("port").Value);
+                config.email = _config.GetValue<string>("EmailConfig:email");
+                config.password = _config.GetValue<string>("EmailConfig:password");
+                config.host = _config.GetValue<string>("EmailConfig:host");
+                config.port = _config.GetValue<int>("EmailConfig:port");
                 return config;
             }
             catch (Exception e)
@@ -37,8 +37,9 @@ namespace ISM.WebApp.Helper
         {
             try
             {
+                string display = "ISM Notification";
                 EmailConfig config = GetEmailConfig();
-                var fromEmailAdress = new MailAddress(config.email, "ISM Notification");
+                var fromEmailAdress = new MailAddress(config.email,display);
                 var toEmailAdress = new MailAddress(toEmail);
                 MailMessage message = new MailMessage(fromEmailAdress, toEmailAdress);
                 message.Subject = subject;

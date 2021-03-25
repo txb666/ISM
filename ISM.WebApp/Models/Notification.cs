@@ -8,6 +8,8 @@ namespace ISM.WebApp.Models
     public class Notification
     {
         public int user_id { get; set; }
+        public bool isUpdatePassport { get; set; }
+        public bool isUpdateVisa { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         public string type { get; set; }

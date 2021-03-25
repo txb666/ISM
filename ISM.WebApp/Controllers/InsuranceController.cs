@@ -61,6 +61,18 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        public bool NotificationDegree(int days_before, DateTime deadline)
+        {
+            bool result = insuranceDAO.SetupNotificationDegree(days_before, deadline);
+            return result;
+        }
+
+        public bool NotificationMobility(int days_before)
+        {
+            bool result = insuranceDAO.SetupNotificationMobility(days_before);
+            return result;
+        }
+
         [HttpGet]
         public IActionResult HowTo()
         {

@@ -13,5 +13,6 @@ namespace ISM.WebApp.DAO
         bool editPassport(int passport_id, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority);
         //bool isPassportAlreadyExist(string passport_number);
         int createPassport(int student_id, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority);
+        bool CreateOrEdit(int days_before);
     }
 }

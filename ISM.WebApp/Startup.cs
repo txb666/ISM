@@ -56,6 +56,10 @@ namespace ISM.WebApp
             services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 30 7 1/1 * ? *"));
             //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob), cronExpression: "0/5 * * ? * * *"));
 
+            services.AddSingleton<CheckNotificationJob>();
+            services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0 00 3 1/1 * ? *"));
+            //services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0/5 * * ? * * *"));
+
             services.AddScoped<RoleDAO, RoleDAOImpl>();
             services.AddScoped<UserDAO, UserDAOImpl>();
             services.AddScoped<AccountDAO, AccountDAOImpl>();

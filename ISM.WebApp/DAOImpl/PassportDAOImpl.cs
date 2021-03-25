@@ -12,6 +12,35 @@ namespace ISM.WebApp.DAOImpl
 {
     public class PassportDAOImpl : PassportDAO
     {
+        public bool CreateOrEdit(int days_before)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) " +
+                         "where [type] = 'passport') begin update Config set days_before = @days_before where " +
+                         "[type] = 'passport' end else begin insert into Config([type],days_before) " +
+                         "values ('passport',@days_before) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@days_before", SqlDbType.Int);
+                com.Parameters["@days_before"].Value = days_before;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public int createPassport(int student_id, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority)
         {
             throw new NotImplementedException();

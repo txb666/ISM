@@ -59,5 +59,11 @@ namespace ISM.WebApp.Controllers
             bool result = visaDAO.editVisa(visa_id,start_date,expired_date,entry_date,entry_port);
             return result;
         }
+
+        public bool CreateOrEdit(int days_before)
+        {
+            bool result = visaDAO.CreateOrEdit(days_before);
+            return result;
+        }
     }
 }

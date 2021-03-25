@@ -8,6 +8,7 @@ namespace ISM.WebApp.Models
     public class StudentGroup
     {
         public int studentGroup_id { get; set; }
+        public int student_id { get; set; }
         public int program_id { get; set; }
         public string program_name { get; set; }
         public int campus_id { get; set; }

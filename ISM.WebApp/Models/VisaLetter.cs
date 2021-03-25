@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 
 namespace ISM.WebApp.Models
 {
@@ -19,7 +12,6 @@ namespace ISM.WebApp.Models
         public string visa_type { get; set; }
         public string visa_period { get; set; }
         public string apply_receive { get; set; }
-       
         public DateTime dob { get; set; }
         public DateTime expire_date { get; set; }
        
