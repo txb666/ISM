@@ -32,6 +32,14 @@ namespace ISM.WebApp.Jobs
                 {
                     Notification notification = new Notification();
                     notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                    {
+                        notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
+                    {
+                        notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
+                    }
                     notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
                     if (!reader.IsDBNull(reader.GetOrdinal("type")))
@@ -49,10 +57,6 @@ namespace ISM.WebApp.Jobs
                     if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
                     {
                         notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("deadline")))
-                    {
-                        notification.deadline = (DateTime)reader.GetValue(reader.GetOrdinal("deadline"));
                     }
                     if (!reader.IsDBNull(reader.GetOrdinal("ORT_Date")))
                     {
@@ -92,6 +96,14 @@ namespace ISM.WebApp.Jobs
                 {
                     Notification notification = new Notification();
                     notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                    {
+                        notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
+                    {
+                        notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
+                    }
                     notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
                     if (!reader.IsDBNull(reader.GetOrdinal("type")))
@@ -113,10 +125,6 @@ namespace ISM.WebApp.Jobs
                     if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
                     {
                         notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("duration_start")))
-                    {
-                        notification.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
                     }
                     if (!reader.IsDBNull(reader.GetOrdinal("Detail_Agenda_Date")))
                     {
@@ -145,18 +153,135 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
+        private List<InsuranceFlightNotification> GetAllStudentWith(string type)
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<InsuranceFlightNotification> notifications = new List<InsuranceFlightNotification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                if (type.Equals("AllStudentWithout"))
+                {
+                    sql = "select a.duration_start,c.isUpdateFlight,c.isUpdateInsurance,c.[user_id],c.email,c.fullname,a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Users c where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id";
+                }
+                if (type.Equals("AllStudentWithInsurance"))
+                {
+                    sql = "select a.duration_start,c.isUpdateFlight,c.isUpdateInsurance,c.[user_id],c.email,c.fullname,a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Users c, Insurances d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.[user_id] = d.student_id";
+                }
+                if (type.Equals("AllStudentWithFlight"))
+                {
+                    sql = "select a.duration_start,c.isUpdateFlight,c.isUpdateInsurance,c.[user_id],c.email,c.fullname,a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Users c, Flights d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.[user_id] = d.student_id";
+                }
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    InsuranceFlightNotification insuranceFlightNotification = new InsuranceFlightNotification();
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateFlight")))
+                    {
+                        insuranceFlightNotification.isUpdateFlight = (bool)reader.GetValue(reader.GetOrdinal("isUpdateFlight"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateInsurance")))
+                    {
+                        insuranceFlightNotification.isUpdateInsurance = (bool)reader.GetValue(reader.GetOrdinal("isUpdateInsurance"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("duration_start")))
+                    {
+                        insuranceFlightNotification.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                    }
+                    insuranceFlightNotification.student_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    insuranceFlightNotification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    insuranceFlightNotification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    insuranceFlightNotification.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    insuranceFlightNotification.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    insuranceFlightNotification.program_type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    notifications.Add(insuranceFlightNotification);
+                }
+                return notifications;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
+        private List<NotificationConfig> GetNotificationConfigs()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<NotificationConfig> notificationConfigs = new List<NotificationConfig>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "SELECT [config_id],[type],[days_before],[hours_before],[kind],[deadline] FROM [ISM].[dbo].[Config]";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    NotificationConfig config = new NotificationConfig();
+                    config.config_id = (int)reader.GetValue(reader.GetOrdinal("config_id"));
+                    config.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                    {
+                        config.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("hours_before")))
+                    {
+                        config.hours_before = (int)reader.GetValue(reader.GetOrdinal("hours_before"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("kind")))
+                    {
+                        config.kind = (string)reader.GetValue(reader.GetOrdinal("kind"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("deadline")))
+                    {
+                        config.deadline = (DateTime)reader.GetValue(reader.GetOrdinal("deadline"));
+                    }
+                    notificationConfigs.Add(config);
+                }
+                return notificationConfigs;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             EmailHelper helper = new EmailHelper();
             var now = DateTime.Now;
             List<Notification> degree_notifications = GetNotificationsDegree();
             List<Notification> mobility_notifications = GetNotificationsMobility();
+            List<InsuranceFlightNotification> allStudentWithout = GetAllStudentWith("AllStudentWithout");
+            List<InsuranceFlightNotification> allStudentWithInsurance = GetAllStudentWith("AllStudentWithInsurance");
+            List<InsuranceFlightNotification> allStudentWithFlight = GetAllStudentWith("AllStudentWithFlight");
+            List<NotificationConfig> notificationConfigs = GetNotificationConfigs();
             try
             {
-                //Degree Notification
+                #region Degree
                 foreach (var item in degree_notifications)
                 {
-                    if (item.type.Equals("passport"))
+                    if (item.type.Equals("passport") && !item.isUpdatePassport == true)
                     {
                         var expiredDate = item.passport_expired;
                         var daysBefore = item.days_before;
@@ -170,7 +295,7 @@ namespace ISM.WebApp.Jobs
                             helper.SendMail(item.email, subject, body);
                         }
                     }
-                    if (item.type.Equals("visa"))
+                    if (item.type.Equals("visa") && !item.isUpdateVisa == true)
                     {
                         var expiredDate = item.visa_expired;
                         var daysBefore = item.days_before;
@@ -181,34 +306,6 @@ namespace ISM.WebApp.Jobs
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                            helper.SendMail(item.email, subject, body);
-                        }
-                    }
-                    if (item.type.Equals("insurance"))
-                    {
-                        var deadline = item.deadline;
-                        var daysBefore = item.days_before;
-                        var totalDays = deadline.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string subject = "Insurance Notification";
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before dealine.";
-                            helper.SendMail(item.email, subject, body);
-                        }
-                    }
-                    if (item.type.Equals("flight"))
-                    {
-                        var deadline = item.deadline;
-                        var daysBefore = item.days_before;
-                        var totalDays = deadline.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string subject = "Flight Notification";
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "dealine on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before dealine.";
                             helper.SendMail(item.email, subject, body);
                         }
                     }
@@ -227,12 +324,64 @@ namespace ISM.WebApp.Jobs
                         }
                     }
                 }
-                //Mobility Notification
+                //Insurance
+                foreach (var item in allStudentWithout)
+                {
+                    foreach (var studentInsurance in allStudentWithInsurance)
+                    {
+                        if (item.student_id != studentInsurance.student_id || item.isUpdateInsurance != true)
+                        {
+                            foreach (var config in notificationConfigs)
+                            {
+                                if (config.type.Equals("insurance") && config.kind.Equals("degree"))
+                                {
+                                    var totalDays = config.deadline.Subtract(now).Days;
+                                    if (totalDays <= config.days_before && totalDays >= 0)
+                                    {
+                                        string subject = "Insurance Notification";
+                                        string body = "Hello " + item.fullname + ",\n\nPlease submit your insurance document, " +
+                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "" + totalDays + " days left before deadline.";
+                                        helper.SendMail(item.email, subject, body);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //Flight
+                foreach (var item in allStudentWithout)
+                {
+                    foreach (var studentFlight in allStudentWithFlight)
+                    {
+                        if (item.student_id != studentFlight.student_id || item.isUpdateFlight != true)
+                        {
+                            foreach (var config in notificationConfigs)
+                            {
+                                if (config.type.Equals("flight") && config.kind.Equals("degree"))
+                                {
+                                    var totalDays = config.deadline.Subtract(now).Days;
+                                    if (totalDays <= config.days_before && totalDays >= 0)
+                                    {
+                                        string subject = "Flight Notification";
+                                        string body = "Hello " + item.fullname + ",\n\nPlease submit your flight ticket document, " +
+                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "" + totalDays + " days left before deadline.";
+                                        helper.SendMail(item.email, subject, body);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region Mobility
                 foreach (var item in mobility_notifications)
                 {
                     if (item.type.Equals("passport"))
                     {
-                        if (item.type.Equals("passport"))
+                        if (item.type.Equals("passport") && !item.isUpdatePassport == true)
                         {
                             var expiredDate = item.passport_expired;
                             var daysBefore = item.days_before;
@@ -246,7 +395,7 @@ namespace ISM.WebApp.Jobs
                                 helper.SendMail(item.email, subject, body);
                             }
                         }
-                        if (item.type.Equals("visa"))
+                        if (item.type.Equals("visa") && !item.isUpdateVisa == true)
                         {
                             var expiredDate = item.visa_expired;
                             var daysBefore = item.days_before;
@@ -257,34 +406,6 @@ namespace ISM.WebApp.Jobs
                                 string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                               "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                                helper.SendMail(item.email, subject, body);
-                            }
-                        }
-                        if (item.type.Equals("insurance"))
-                        {
-                            var duration_start = item.duration_start;
-                            var daysBefore = item.days_before;
-                            var totalDays = duration_start.Subtract(now).Days;
-                            if (totalDays <= daysBefore && totalDays >= 0)
-                            {
-                                string subject = "Insurance Notification";
-                                string body = "Hello " + item.fullname + ",\n\nYour program " +
-                                              "start on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
-                                              "" + totalDays.ToString() + " days left to submit your insurance information.";
-                                helper.SendMail(item.email, subject, body);
-                            }
-                        }
-                        if (item.type.Equals("flight"))
-                        {
-                            var duration_start = item.duration_start;
-                            var daysBefore = item.days_before;
-                            var totalDays = duration_start.Subtract(now).Days;
-                            if (totalDays <= daysBefore && totalDays >= 0)
-                            {
-                                string subject = "Flight Notification";
-                                string body = "Hello " + item.fullname + ",\n\nYour program " +
-                                              "start on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
-                                              "" + totalDays.ToString() + " days left to submit flight ticket information.";
                                 helper.SendMail(item.email, subject, body);
                             }
                         }
@@ -323,6 +444,57 @@ namespace ISM.WebApp.Jobs
                         }
                     }
                 }
+                //Insurance
+                foreach (var item in allStudentWithout)
+                {
+                    foreach (var studentInsurance in allStudentWithInsurance)
+                    {
+                        if (item.student_id != studentInsurance.student_id || item.isUpdateInsurance != true)
+                        {
+                            foreach (var config in notificationConfigs)
+                            {
+                                if (config.type.Equals("insurance") && config.kind.Equals("mobility"))
+                                {
+                                    var totalDays = item.duration_start.Subtract(now).Days;
+                                    if (totalDays <= config.days_before && totalDays >= 0)
+                                    {
+                                        string subject = "Insurance Notification";
+                                        string body = "Hello " + item.fullname + ",\n\nPlease submit your insurance document, " +
+                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "" + totalDays + " days left before deadline.";
+                                        helper.SendMail(item.email, subject, body);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //Flight
+                foreach (var item in allStudentWithout)
+                {
+                    foreach (var studentFlight in allStudentWithFlight)
+                    {
+                        if (item.student_id != studentFlight.student_id || item.isUpdateFlight != true)
+                        {
+                            foreach (var config in notificationConfigs)
+                            {
+                                if (config.type.Equals("flight") && config.kind.Equals("mobility"))
+                                {
+                                    var totalDays = item.duration_start.Subtract(now).Days;
+                                    if (totalDays <= config.days_before && totalDays >= 0)
+                                    {
+                                        string subject = "Flight Notification";
+                                        string body = "Hello " + item.fullname + ",\n\nPlease submit your flight ticket document, " +
+                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "" + totalDays + " days left before deadline.";
+                                        helper.SendMail(item.email, subject, body);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                #endregion
             }
             catch (Exception e)
             {

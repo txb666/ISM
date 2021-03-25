@@ -59,5 +59,11 @@ namespace ISM.WebApp.Controllers
             bool result = passportDAO.editPassport(passport_id, passport_number, start_date, expired_date, issuing_authority);
             return result;
         }
+
+        public bool CreateOrEdit(int days_before)
+        {
+            bool result = passportDAO.CreateOrEdit(days_before);
+            return result;
+        }
     }
 }

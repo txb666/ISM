@@ -12,6 +12,35 @@ namespace ISM.WebApp.DAOImpl
 {
     public class VisaDAOImpl : VisaDAO
     {
+        public bool CreateOrEdit(int days_before)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) " +
+                         "where [type] = 'visa') begin update Config set days_before = @days_before where " +
+                         "[type] = 'visa' end else begin insert into Config([type],days_before) " +
+                         "values ('visa',@days_before) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@days_before", SqlDbType.Int);
+                com.Parameters["@days_before"].Value = days_before;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port)
         {
             SqlConnection con = null;

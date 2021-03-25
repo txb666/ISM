@@ -236,5 +236,59 @@ namespace ISM.WebApp.DAOImpl
             }
             return totalInsurance;
         }
+
+        public bool SetupNotificationDegree(int days_before, DateTime deadline)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) where [type] = 'insurance' and [kind] = 'degree') begin update Config set days_before = @days_before, deadline = @deadline where [type] = 'insurance' and [kind] = 'degree' end else begin insert into Config([type],[kind],days_before,deadline) values ('insurance','degree',@days_before,@deadline) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@days_before", SqlDbType.Int);
+                com.Parameters["@days_before"].Value = days_before;
+                com.Parameters.Add("@deadline", SqlDbType.DateTime);
+                com.Parameters["@deadline"].Value = deadline;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public bool SetupNotificationMobility(int days_before)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) where [type] = 'insurance' and [kind] = 'mobility') begin update Config set days_before = @days_before where [type] = 'insurance' and [kind] = 'mobility' end else begin insert into Config([type],[kind],days_before) values ('insurance','mobility',@days_before) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@days_before", SqlDbType.Int);
+                com.Parameters["@days_before"].Value = days_before;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
     }
 }
