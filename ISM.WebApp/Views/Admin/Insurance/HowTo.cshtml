@@ -2,20 +2,17 @@
     ViewData["Title"] = "Admin Home Page";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;">Insurance Instruction</h1>
-    <div style="height: 50px;">
-        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
-            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
-        </button>
-        <br>
-        <br>
-        <form asp-controller="Insurance" asp-action="HowTo" method="post" enctype="multipart/form-data">
-            <label for="uploadFile">Select a PDF file:</label>
-            <input type="file" name="uploadFile" accept="application/pdf">
-            <input type="submit" value="Save" />
-        </form>
-        <div class="top-bar">
+
+<h1 style="text-align: center;">Insurance Instruction</h1>
+<div style="height: 50px;">
+    <br>
+    <br>
+    <form asp-controller="Insurance" asp-action="HowTo" method="post" enctype="multipart/form-data" style="margin-bottom:20px">
+        <label for="uploadFile">Select a PDF file:</label>
+        <input type="file" name="uploadFile" accept="application/pdf">
+        <input type="submit" value="Save" />
+    </form>
+    @*<div class="top-bar">
             <button class="btn" id="prev-page">
                 <i class="fas fa-arrow-circle-left"></i> Prev Page
             </button>
@@ -25,28 +22,23 @@
             <span class="page-info">
                 Page <span id="page-num"></span> of <span id="page-count"></span>
             </span>
-        </div>
-        <canvas id="pdf-render" style="width:70%;"></canvas>
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content">
-                <form>
-                    <h1 style="text-align: center; margin-top: 20px;">Insurance Instruction</h1>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                        <textarea name="Text1" cols="40" rows="10"></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-                    </div>
-                </form>
-            </div>
-            <!-- </form> -->
-            <!-- <a href="#" class="close">x</a> -->
-        </div>
-    </div>
+        </div>*@
+    @*<canvas id="pdf-render" style="width:70%;"></canvas>*@
 </div>
+<br />
+<br />
+<div class="top-bar">
+    <button class="btn" id="prev-page">
+        <i class="fas fa-arrow-circle-left"></i> Prev Page
+    </button>
+    <button class="btn" id="next-page">
+        Next Page <i class="fas fa-arrow-circle-right"></i>
+    </button>
+    <span class="page-info">
+        Page <span id="page-num"></span> of <span id="page-count"></span>
+    </span>
+</div>
+<canvas id="pdf-render" style="width:100%;"></canvas>
 <script>
     const url = '../Article/HowTo.pdf';
 

@@ -1,7 +1,14 @@
 .logo-user{
-    width: 100%;
-    height: 100%;
+ /*   width: 100%;
+    height: 100%;*/
 }
+/*footer{
+    position:absolute;
+    width:100%;
+}
+canvas{
+    position:relative;
+}*/
 .dropbtn {
   /*background-image: url(~/image/user.jpg);
   background-size: cover;*/
@@ -71,10 +78,7 @@ border-radius: 50%;
   align-items: center;
   border-radius: 50%;
 }
-/* #navbarSupportedContent{
-  background: rgba(0,0,0,0.2);
-  margin-left: 20px;
-} */
+
 
  /* CSS NavBar */
 ul li{
@@ -142,6 +146,7 @@ color: red !important;
   position: relative;
   border: 5px solid #fff;
  }
+
 /* POP UP ASSIGN1 */
 .popup {
     position: fixed;
@@ -155,6 +160,24 @@ color: red !important;
 
 
 #xmas-popup-assign1 .popup-content-assign1 {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+/*
+POPUP SETUP NOTIFICATION*/
+#xmas-popup-setupnotification-degree .popup-content-setupnotification-degree {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+#xmas-popup-setupnotification-mobility .popup-content-setupnotification-mobility {
     width: 500px;
     height: 500px;
     background: white;
@@ -191,20 +214,7 @@ color: red !important;
    overflow-y: scroll;
  }
  
- /* .close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  border-radius: 50%;
-  background: #222;
-  border: 3px solid #fff;
-  color: #fff;
-  text-decoration: none;
-  line-height: 0;
-  padding: 9px 0 11px;
-  width: 20px;
-  text-align: center;
- } */
+
    
  .popup:target {
    display: block;
@@ -212,10 +222,6 @@ color: red !important;
 
 
  .dropbtn_search {
-  /* background-image: url(../images/user.jpg);
-  background-size: cover; */
-/*  width: 50px;
-  height: 50px;*/
   margin-top: 10px;
   padding: 16px;
   font-size: 16px;
@@ -240,10 +246,6 @@ color: red !important;
   display: inline-block;
 }
 
-.aaa{
-  margin-left: 10px;
-  background-color: red;
-}
 
 /* RESPONSIVE */
 
