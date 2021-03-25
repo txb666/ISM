@@ -13,8 +13,8 @@ namespace ISM.WebApp.Utils
         {
             try
             {
-               // string connectionString = "Data Source=localhost;Initial Catalog=ISM;Integrated Security=true;";
-                string connectionString = "Data Source=ism.cg4xkfzdm9sl.ap-southeast-1.rds.amazonaws.com,1433;Initial Catalog=ISM;User ID=haidm13; Password=HG85aaF73d1";
+                string connectionString = "Data Source=localhost;Initial Catalog=ISM;Integrated Security=true;";
+                //string connectionString = "Data Source=ism.cg4xkfzdm9sl.ap-southeast-1.rds.amazonaws.com,1433;Initial Catalog=ISM;User ID=haidm13; Password=HG85aaF73d1";
                 return new SqlConnection(connectionString);
             }
             catch (Exception e)

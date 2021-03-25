@@ -18,9 +18,9 @@ namespace ISM.WebApp.Controllers
     public class InsuranceController : Controller
     {
         public InsuranceDAO insuranceDAO;
-        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public InsuranceController(InsuranceDAO insuranceDAO, IWebHostEnvironment hostingEnvironment)
+        public InsuranceController(InsuranceDAO insuranceDAO, IHostingEnvironment hostingEnvironment)
         {
             this.insuranceDAO = insuranceDAO;
             this.hostingEnvironment = hostingEnvironment;
