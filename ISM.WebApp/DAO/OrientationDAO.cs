@@ -1,0 +1,21 @@
+﻿using ISM.WebApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ISM.WebApp.DAO
+{
+    public interface OrientationDAO
+    {
+        List<User> GetDegreeStudent(bool isAdmin, int staff_id, string account, string fullname, int page, int pageSize);
+        int GetTotalDegreeStudent(bool isAdmin, int staff_id, string account, string fullname);
+        List<OrientationSchedule> GetSearchOrientationSchedules(int student_id, int page, int pageSize, string content, DateTime? date, TimeSpan? time, string location, string require_document);
+        int GetSearchTotalORT(int student_id, string content, DateTime? date, TimeSpan? time, string location, string require_document);
+        bool createORTSchedule(int student_id, string content, DateTime date, TimeSpan time, string location, string require_document);
+        bool editORTSchedule(int student_id, string content, DateTime date, TimeSpan time, string location, string require_document);
+        bool deleteORTSchedule(int student_id);
+        bool isORTAlreadyExist(string content, DateTime date, TimeSpan time, string location);
+        bool isSameTime(DateTime date, TimeSpan time);
+    }
+}

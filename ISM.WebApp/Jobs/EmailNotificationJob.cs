@@ -114,10 +114,6 @@ namespace ISM.WebApp.Jobs
                     {
                         notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
                     }
-                    if (!reader.IsDBNull(reader.GetOrdinal("hours_before")))
-                    {
-                        notification.hours_before = (int)reader.GetValue(reader.GetOrdinal("hours_before"));
-                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("Passport_Expired")))
                     {
                         notification.passport_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Passport_Expired"));
@@ -129,14 +125,6 @@ namespace ISM.WebApp.Jobs
                     if (!reader.IsDBNull(reader.GetOrdinal("Detail_Agenda_Date")))
                     {
                         notification.detail_agenda_date = (DateTime)reader.GetValue(reader.GetOrdinal("Detail_Agenda_Date"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Bus_Time")))
-                    {
-                        notification.bus_time = (TimeSpan)reader.GetValue(reader.GetOrdinal("Bus_Time"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Bus_Date")))
-                    {
-                        notification.bus_date = (DateTime)reader.GetValue(reader.GetOrdinal("Bus_Date"));
                     }
                     notifications.Add(notification);
                 }
@@ -421,25 +409,6 @@ namespace ISM.WebApp.Jobs
                                               "an agenda on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
                                               "" + totalDays.ToString() + " days left to submit flight ticket information.";
                                 helper.SendMail(item.email, subject, body);
-                            }
-                        }
-                        if (item.type.Equals("Transportation"))
-                        {
-                            var time_now = DateTime.Now.Hour;
-                            var bus_date = item.bus_date;
-                            var bus_time = item.bus_time;
-                            var hoursBefore = item.hours_before;
-                            if (DateTime.Compare(bus_date, now) == 0)
-                            {
-                                var totalHours = bus_time.Hours - time_now;
-                                if (totalHours <= hoursBefore && totalHours > 0)
-                                {
-                                    string subject = "Transportation Notification";
-                                    string body = "Hello " + item.fullname + ",\n\nToday " + now.ToString("yyyy-MMM-dd") + "" +
-                                                  ", the departure time of the bus is " + item.bus_time.ToString("hh:mm tt") + "," +
-                                                  " you have " + totalHours.ToString() + " hours left to prepare.";
-                                    helper.SendMail(item.email, subject, body);
-                                }
                             }
                         }
                     }
