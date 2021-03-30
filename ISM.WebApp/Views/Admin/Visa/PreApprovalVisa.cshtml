@@ -7,7 +7,7 @@
     <h1 style="text-align: center;">Pre-Approval Visa Letter</h1>
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-info">Search</button>
+            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" asp-controller="VisaLetter" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -136,7 +136,7 @@
                                 @item.apply_receive
                             </td>
                             <td>
-                                <button onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period','@item.apply_receive')" class="btn btn-success">
+                                <button onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period','@item.apply_receive')" class="btn btn-info">
                                     <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                                 </button>
                             </td>

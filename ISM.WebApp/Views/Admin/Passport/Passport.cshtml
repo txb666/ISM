@@ -20,7 +20,7 @@
     <h1 style="text-align: center;">Passport</h1>
     <div style="height: 50px;">
         <div class="dropdown_search">
-            <button onclick="search_passport()" class="btn btn-info">Search</button>
+            <button onclick="search_passport()" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="Passport" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -119,7 +119,7 @@
                             @item.issuing_authority
                         </td>
                         <td style="text-align: center;">
-                            <button onclick="editPassport('@item.passport_id', '@item.passport_number', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@item.issuing_authority')" class="btn btn-success">
+                            <button onclick="editPassport('@item.passport_id', '@item.passport_number', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@item.issuing_authority')" class="btn btn-info">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
                         </td>
