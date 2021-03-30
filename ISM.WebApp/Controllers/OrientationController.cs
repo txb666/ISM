@@ -82,5 +82,11 @@ namespace ISM.WebApp.Controllers
             bool result = _orientationDAO.deleteORTSchedule(id);
             return result;
         }
+
+        public bool SetupNotification(int days_before)
+        {
+            bool result = _orientationDAO.SetupNotification(days_before);
+            return result;
+        }
     }
 }

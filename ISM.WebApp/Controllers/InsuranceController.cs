@@ -142,6 +142,5 @@ namespace ISM.WebApp.Controllers
             }
             return RedirectToAction("BuyAndExtendNewInsusance");
         }
-
     }
 }

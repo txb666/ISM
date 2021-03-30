@@ -89,11 +89,11 @@ namespace ISM.WebApp.Jobs
                 }
                 if (type.Equals("Detail_Agenda"))
                 {
-                    sql = "select c.[user_id],a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Detailed_Agenda c where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id";
+                    sql = "select distinct d.[user_id],a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Detailed_Agenda c, Users d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and a.student_group_id = d.studentGroup_id";
                 }
                 if (type.Equals("Transportation"))
                 {
-                    sql = "select c.[user_id],a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Transportations c where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id";
+                    sql = "select distinct d.[user_id],a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b, Transportations c, Users d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and a.student_group_id = d.studentGroup_id";
                 }
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
