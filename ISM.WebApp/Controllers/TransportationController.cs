@@ -49,5 +49,17 @@ namespace ISM.WebApp.Controllers
             view.supporter = supporter;
             return View("Views/Admin/Program/Transportation.cshtml",view);
         }
+
+        public bool Create(int student_group_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)
+        {
+            bool result = transportationDAO.createTransportation(student_group_id, date, time, bus, driver, itinerary, supporter, note);
+            return result;
+        }
+
+        public bool Edit(int transportation_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)
+        {
+            bool result = transportationDAO.editTransportation(transportation_id, date, time, bus, driver, itinerary, supporter, note);
+            return result;
+        }
     }
 }

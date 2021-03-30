@@ -25,6 +25,20 @@ namespace ISM.WebApp.Utils
         {
             return input.HasValue ? input.Value.ToString("yyyy-MM-dd") : "";
         }
+        public static string ToInputDate2(DateTime input)
+        {
+            return input.ToString("yyyy-MM-dd");
+        }
+
+        public static string ToInputTime(TimeSpan? input)
+        {
+            return input.HasValue ? input.Value.ToString("hh\\:mm") : "";
+        }
+
+        public static string ToInputTime2(TimeSpan input)
+        {
+            return input.ToString("hh\\:mm");
+        }
 
         public static string ToInputTime(TimeSpan? input)
         {

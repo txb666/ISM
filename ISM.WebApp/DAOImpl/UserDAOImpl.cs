@@ -818,5 +818,44 @@ namespace ISM.WebApp.DAOImpl
             }
             return false;
         }
+
+        public List<User> getAllDegreeStudents()
+        {
+            SqlConnection con = null;
+            string sql = " select a.[user_id],a.account,a.fullname,a.email"
+                       + " from Users a, Roles b"
+                       + " where a.role_id=b.role_id and (b.role_name='Mobility' or b.role_name='Degree')";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<User> degreeStudents = new List<User>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    User student = new User();
+                    student.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        student.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    student.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    student.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    degreeStudents.Add(student);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return degreeStudents;
+        }
     }
 }

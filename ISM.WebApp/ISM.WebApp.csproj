@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Admin\Staff\" />
+    <Folder Include="wwwroot\image\CurrentAccomodation\" />
   </ItemGroup>
 
 </Project>

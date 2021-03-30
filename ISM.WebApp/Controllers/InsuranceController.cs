@@ -18,9 +18,9 @@ namespace ISM.WebApp.Controllers
     public class InsuranceController : Controller
     {
         public InsuranceDAO insuranceDAO;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public InsuranceController(InsuranceDAO insuranceDAO, IHostingEnvironment hostingEnvironment)
+        public InsuranceController(InsuranceDAO insuranceDAO, IWebHostEnvironment hostingEnvironment)
         {
             this.insuranceDAO = insuranceDAO;
             this.hostingEnvironment = hostingEnvironment;
@@ -84,7 +84,6 @@ namespace ISM.WebApp.Controllers
         {
             if (uploadFile != null)
             {
-                string contentType = uploadFile.ContentType;
                 string filename = "HowTo.pdf";
                 string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
                 string filePath = Path.Combine(article, filename);
