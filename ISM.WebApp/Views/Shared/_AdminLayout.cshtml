@@ -12,12 +12,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="~/css/header.css">
+    <link rel="stylesheet" type="text/css" href="~/css/header.css" asp-append-version="true">
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css">
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -52,17 +52,17 @@
 <body>
     <div class="container-fluid logo-user">
         <div class="row" style="height:100px;">
-            <div class="col-xl-10">
+            <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
                 <img style="margin-top: 10px" src="~/image/fpt.png" />
             </div>
             <!-- <div class="col-xl-1 col-md-1 col-lg-1 "></div> -->
-            <div class="col-xl-1 ">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <button type="button" class="icon-button">
                     <span class="material-icons">notifications</span>
                     <a><span class="icon-button__badge">2</span> </a>
                 </button>
             </div>
-            <div class="col-xl-1" id="logo_user" style="margin-top: 20px !important">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top:10px">
                 <div class="dropdown">
                     <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
@@ -80,14 +80,13 @@
    
         <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                   aria-expanded="true" 
-                    >
+                   aria-expanded="true">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="margin: 0 auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="/Staff">Staff</a>
                     </li>
@@ -206,20 +205,20 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
-                        <img class="logo-footer" src="assets/img/logo.png" alt="logo-footer" data-at2x="assets/img/logo.png">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
                         <p>
-                            FPT là một ngôi trường thân thiện....
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
                         </p>
-
                     </div>
                     <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
                         <h3>Contact</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> FPT UNIVERSITY DA NANG</p>
-                        <p><i class="fas fa-phone"></i> Phone: (84+) 123456789</p>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
                         <p>
-                            <i class="fas fa-envelope"></i> Email: <a href="mailto:tranxuanback@gmail.com">tranxuanback@gmail.com</a>
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
                         </p>
-                        <p><i class="fab fa-skype"></i> Skype: you_online</p>
                     </div>
                     <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
                         <h3>Follow us</h3>

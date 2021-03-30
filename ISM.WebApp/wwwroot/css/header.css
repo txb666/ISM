@@ -25,6 +25,9 @@ canvas{
   display: inline-block;
   
 }
+.paginglink{
+    color:red;
+}
 
 .dropdown-content {
   display: none;
@@ -249,7 +252,7 @@ POPUP SETUP NOTIFICATION*/
 
 /* RESPONSIVE */
 
-@media screen and (max-width:500px){
+/*@media screen and (min-width:500px){
   .col-xl-1{
     width: 100px  !important;
   }
@@ -261,7 +264,7 @@ POPUP SETUP NOTIFICATION*/
     max-width: 250px;
   }
 
-}
+}*/
 
 /*CSS SEARCH*/
 .dropdown_search {

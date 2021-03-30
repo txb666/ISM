@@ -8,8 +8,8 @@
     <h1 style="text-align: center;">Student's Insurance</h1>
     <div style="height: 50px;">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <button onclick="myFunction1()"  class="btn btn-info">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px;">
                 <form id="searchForm" asp-controller="Insurance" asp-action="Index" method="get" style="width: 320px;">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
@@ -56,9 +56,6 @@
                 <option value="Mobility" selected>Mobility Student</option>
             }
         </select>
-        <button style="float: right; width: 80px;" class="btn btn-success">
-            <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-        </button>
     </div>
     <br>
     <br>
@@ -135,10 +132,10 @@
                     </div>
                     <div class="form-group row">
                         <button onclick="validateEditInsurance();" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success">
+                                class="btn btn-success" id="save">
                             Save
                         </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
                     </div>
@@ -152,13 +149,68 @@
     <div style="margin-top: 20px;">
         <a asp-action="HowTo" style="text-decoration: none;"> How to .....</a>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">Set Up Notification</button>
-
+            <button class="btn btn-danger">
+                <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-degree">Set Up Notification Degree</a>
+            </button>
+        </i>
+        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+            <button class="btn btn-danger">
+                <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+            </button>
         </i>
 
     </div>
+    <!-- popup code Notification -->
+    <div id="xmas-popup-setupnotification-degree" class="popup" href="#">
+        <div class="popup-content-setupnotification-degree" style="height:300px">
+            <form>
+                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
+                <input type="hidden" id="edit_id" />
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" >
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Dealine:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" >
+                </div>
+
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success" id="save">
+                        Save
+                    </button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
+    <div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
+        <div class="popup-content-setupnotification-mobility" style="height:300px">
+            <form>
+                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
+                <input type="hidden" id="edit_id" />
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Program start:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" >
+                </div>
+
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success" id="save">
+                        Save
+                    </button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
 </div>

@@ -161,9 +161,6 @@
                 <option value="Mobility" selected>Mobility Student</option>
             }
         </select>
-        <button style="float: right; background-color:orangered" class="btn btn-info">
-            <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
-        </button>
         <button style="float: right;" class="btn btn-success">
             <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
         </button>
@@ -310,10 +307,10 @@
                     </div>
                     <div class="form-group row">
                         <button onclick="validateCreateStudent('@Model.degreeOrMobility');" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success">
+                                class="btn btn-success" id="save">
                             Save
                         </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
                     </div>
@@ -363,10 +360,10 @@
                     </div>
                     <div class="form-group row">
                         <button onclick="validateEditStudent();" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success">
+                                class="btn btn-success" id="save">
                             Save
                         </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
                     </div>

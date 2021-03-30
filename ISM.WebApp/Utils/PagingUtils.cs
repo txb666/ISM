@@ -9,11 +9,11 @@ namespace ISM.WebApp.Utils
     {
         public static String hyperlink(String number, String text)
         {
-            return "<button class='paginglink' onclick='search("+number+")'>" + text + "</a>";
+            return "<button class='paginglink' onclick='search("+number+")'>" + text + " " + "</button>";
         }
         public static String currentlink(String text)
         {
-            return "<span class='currentlink'>" + text + "</span>";
+            return "<span class='currentlink'>" + " " + text + " " + "</span>";
         }
         public static String pager(int totalpage, int pageindex, int gap)
         {
