@@ -52,17 +52,17 @@ namespace ISM.WebApp
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
-            //services.AddSingleton<EmailNotificationJob>();
-            //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 30 7 1/1 * ? *"));
+            services.AddSingleton<EmailNotificationJob>();
+            services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 30 7 1/1 * ? *"));
             //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob), cronExpression: "0/20 * * ? * * *"));
 
-            //services.AddSingleton<TransportationNotificationJob>();
-            //services.AddSingleton(new JobSchedule(jobType: typeof(TransportationNotificationJob), cronExpression: "0 0 0/1 1/1 * ? *"));
+            services.AddSingleton<TransportationNotificationJob>();
+            services.AddSingleton(new JobSchedule(jobType: typeof(TransportationNotificationJob), cronExpression: "0 0 0/1 1/1 * ? *"));
             //services.AddSingleton(new JobSchedule(jobType: typeof(TransportationNotificationJob), cronExpression: "0/20 * * ? * * *"));
 
             services.AddSingleton<CheckNotificationJob>();
-            //services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0 00 3 1/1 * ? *"));
-            services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0/30 * * ? * * *"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0 00 3 1/1 * ? *"));
+            //services.AddSingleton(new JobSchedule(jobType: typeof(CheckNotificationJob), cronExpression: "0/30 * * ? * * *"));
 
             services.AddScoped<RoleDAO, RoleDAOImpl>();
             services.AddScoped<UserDAO, UserDAOImpl>();
