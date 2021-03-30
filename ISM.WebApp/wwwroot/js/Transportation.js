@@ -1,4 +1,29 @@
-﻿
+﻿function validateNotificationTransportation() {
+    var hours_before = document.getElementById("notification_input").value;
+    var searchButton = document.getElementById("searchBtn");
+    if (/^[1-9]\d*$/.test(hours_before) == false && hours_before.length != 0) {
+        alert("Please input only positive number.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Transportation/SetupNotification",
+        data: { hours_before: hours_before },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Successfull");
+                searchButton.click();
+            }
+            else {
+                alert("Failed");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}
 
 function validateCreateTransportation() {
     var student_group_id = document.getElementById("create_student_group_id").value;

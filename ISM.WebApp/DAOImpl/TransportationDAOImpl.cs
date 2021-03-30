@@ -249,5 +249,34 @@ namespace ISM.WebApp.DAOImpl
             }
             return transportations;
         }
+
+        public bool setupNotification(int hours_before)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) " +
+                         "where [type] = 'Transportation') begin update Config set hours_before = @hours_before where " +
+                         "[type] = 'Transportation' end else begin insert into Config([type],hours_before) " +
+                         "values ('Transportation',@hours_before) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@hours_before", SqlDbType.Int);
+                com.Parameters["@hours_before"].Value = hours_before;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
     }
 }

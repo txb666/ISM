@@ -162,3 +162,30 @@ function deleteORT() {
         });
     }
 }
+
+function validateNotificationORT() {
+    var days_before = document.getElementById("ort_notification_input").value;
+    var searchButton = document.getElementById("searchBtn");
+    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+        alert("Please input only positive number.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Orientation/SetupNotification",
+        data: { days_before: days_before },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Successfull");
+                searchButton.click();
+            }
+            else {
+                alert("Failed");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}
