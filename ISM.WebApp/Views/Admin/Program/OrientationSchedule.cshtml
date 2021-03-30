@@ -1,51 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@model ISM.WebApp.ViewModels.OrientationIndexViewModel;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Passport Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Passport Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
-<!doctype html>
-<html lang="en">
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;"> Orientation Schedule </h1>
     <div style="height:50px">
         <div class="dropdown_search">
             <button onclick="myFunction1()" class="btn btn-info">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 200px; margin-top: 10px;">
-                <form>
+                <form id="searchForm" asp-controller="Orientation" asp-action="Index" method="get">
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student's Account:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Name:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                        <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                     </div>
-                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
-
+                    <input type="hidden" name="page" id="inputPage">
+                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
                 </form>
             </div>
         </div>
     </div>
     <br>
     <br>
-    <div class="table-scroll">
+    <div>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">Account</th>
                     <th scope="col">Full Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                </tr>
+                @foreach (var item in Model.students)
+                {
+                    <tr>
+                        <td>
+                            @item.account
+                        </td>
+                        <td>
+                            @item.fullname
+                        </td>
+                        <td style="text-align: center;">
+                            <a asp-controller="Orientation" asp-action="SearchORT" asp-route-id="@item.user_id">Student Schedule</a>
+                        </td>
+                    </tr>
+                }
         </table>
-
-
     </div>
     <div>
-        <button class="btn btn-info" style="margin-left:40%">Student Schedule</button>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
     </div>
 
     <div>
@@ -84,9 +104,7 @@
 
     </div>
 
-
     <script>
-
         function myFunction1() {
             document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule");
         }
@@ -105,8 +123,5 @@
                 }
             }
         }
-
     </script>
-
 </div>
-</html>

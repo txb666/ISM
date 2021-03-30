@@ -23,5 +23,6 @@ namespace ISM.WebApp.Models
         public DateTime detail_agenda_date { get; set; }
         public TimeSpan bus_time { get; set; }
         public DateTime bus_date { get; set; }
+        public bool isSend { get; set; }
     }
 }

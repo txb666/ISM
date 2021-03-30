@@ -1,142 +1,161 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@model ISM.WebApp.ViewModels.OrientationIndexViewModel;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Passport Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Passport Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
-<!doctype html>
-<html lang="en">
 <div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;"> Orientation Schedule For Student </h1>
+    <h1 style="text-align: center;"> Orientation Schedule For </h1>
     <div style="height:50px">
         <div class="dropdown_search">
             <button onclick="myFunction1()" class="btn btn-info">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                        <select style="width:200px">
-                            <option>
-                                A
-                            </option>
-                            <option>
-                                B
-                            </option>
-                        </select>
-                    </div>
+                <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="SearchORT" method="get">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input type="date" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input type="time" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.time.HasValue?Model.time.Value.ToString(@"hh\:mm\:ss"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                        <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                        <input name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
                     </div>
-                    <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
-
+                    <input type="hidden" name="page" id="inputPage">
+                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
                 </form>
             </div>
         </div>
-        <button style="float: right;" class="btn btn-danger">
-            <a style="text-decoration: none; color:white">Delete</a>
-        </button>
-        <button style="float: right; background-color: orangered;" class="btn btn-info">
-            <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
-        </button>
         <button style="float: right;" class="btn btn-success">
-            <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Create</a>
+            <a style="text-decoration: none; color:white" href="#create_popup">Create</a>
         </button>
     </div>
     <br>
     <br>
-    <div class="table-scroll">
+    <div>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Program</th>
                     <th scope="col">Content</th>
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Location</th>
                     <th scope="col">Requirement for Student</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                </tr>
+                @foreach (var item in Model.orientationSchedules)
+                {
+                    <tr>
+                        <td>
+                            @item.content
+                        </td>
+                        <td>
+                            @item.date.ToString("yyyy-MMM-dd")
+                        </td>
+                        <td>
+                            @item.time.ToString(@"hh\:mm\:ss")
+                        </td>
+                        <td>
+                            @item.location
+                        </td>
+                        <td>
+                            @item.require_document
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
+                            <button onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document')" class="btn btn-info">
+                                <a style="text-decoration: none; color:white" href="#edit_popup">Edit</a>
+                            </button>
+                            <button onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
+                        </td>
+                    </tr>
+                }
         </table>
+    </div>
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+    </div>
+
+    <div id="create_popup" class="popup">
+        <div class="popup-content-assign">
+            <form asp-controller="Orientation" asp-action="CreateORT" method="post">
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_content_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_date_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_time_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_location_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_requirement_id">
+                </div>
+                <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
+                <div class="form-group row">
+                    <button style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success">
+                        Save
+                    </button>
+
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
 
 
     </div>
 
-
-    <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign">
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup">
+        <div class="popup-content" style="height:200px">
             <form>
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
-
-
+                <h1 style="text-align: center; margin-top: 20px;">Student Group</h1>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                    <select style="margin-left: 30px;border-radius: 5px; width: 300px;">
-                        <option value="A">Name</option>
-                        <option value="B">DeActive</option>
-                    </select>
-                </div>
-
-
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days Befor ORT Activity:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
                 </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <select style="margin-left: 30px;border-radius: 5px; width: 300px;">
-                        <option value="A">Ha Noi</option>
-                        <option value="B">Thanh</option>
-                        <option value="B">Ho Chi Minh</option>
-                        <option value="B">Can Tho</option>
-                    </select>
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-
-
-
                 <div class="form-group row">
                     <button style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success" id="save">
+                            class="btn btn-success">
                         Save
                     </button>
 
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
 
@@ -145,13 +164,9 @@
             </form>
         </div>
 
-
     </div>
 
-
-
     <script>
-
         function myFunction1() {
             document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule_student");
         }
@@ -170,8 +185,5 @@
                 }
             }
         }
-
     </script>
-
 </div>
-</html>
