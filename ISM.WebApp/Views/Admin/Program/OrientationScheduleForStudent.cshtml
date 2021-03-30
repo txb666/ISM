@@ -48,7 +48,7 @@
             </div>
         </div>
         <button style="float: right;" class="btn btn-success">
-            <a style="text-decoration: none; color:white" href="#create_popup">Create</a>
+            <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
         </button>
     </div>
     <br>
@@ -87,7 +87,7 @@
                         <td style="text-align: center;">
                             <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
                             <button onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document')" class="btn btn-info">
-                                <a style="text-decoration: none; color:white" href="#edit_popup">Edit</a>
+                                <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
                             </button>
                             <button onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
                         </td>
@@ -99,10 +99,10 @@
         @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
     </div>
 
-    <div id="create_popup" class="popup">
-        <div class="popup-content-assign">
+    <div id="xmas-popup" class="popup">
+        <div class="popup-content" style="height:500px">
             <form asp-controller="Orientation" asp-action="CreateORT" method="post">
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Create Orientation Schedule</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_content_id">
@@ -125,8 +125,8 @@
                 </div>
                 <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
                 <div class="form-group row">
-                    <button onclick="validateCreateORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <button id="save" onclick="validateCreateORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
                 </div>
@@ -134,10 +134,10 @@
         </div>
     </div>
 
-    <div id="edit_popup" class="popup">
+    <div id="xmas-popup-assign" class="popup">
         <div class="popup-content-assign">
             <form asp-controller="Orientation" asp-action="EditORT" method="post">
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Edit Orientation Schedule</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_content_id">
@@ -160,8 +160,8 @@
                 </div>
                 <input type="hidden" id="edit_ort_id" />
                 <div class="form-group row">
-                    <button onclick="validateEditORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <button id="save" onclick="validateEditORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
                 </div>

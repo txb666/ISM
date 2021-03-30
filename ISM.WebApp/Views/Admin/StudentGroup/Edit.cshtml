@@ -2,6 +2,12 @@
 @{
     Layout = null;
 }
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+}
 @{
     var coordinatorList = Json.Serialize(Model.coordinatorList).ToString();
     var tableList = Json.Serialize(Model.group.coordinators).ToString();
@@ -18,7 +24,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true">
 
@@ -53,23 +59,24 @@
     <button id="initializeButton" style="display: none;" onclick="initializeEdit(@coordinatorList,@tableList);">hidden</button>
     <div class="container-fluid logo-user">
         <div class="row" style="height:100px;">
-            <div class="col-xl-9">
+            <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
                 <img style="margin-top:10px" src="~/image/fpt.png" />
             </div>
-            <div class="col-xl-1"></div>
-            <div class="col-xl-1">
+
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <button type="button" class="icon-button">
                     <span class="material-icons">notifications</span>
                     <a><span class="icon-button__badge">25</span> </a>
                 </button>
             </div>
-            <div class="col-xl-1">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <div class="dropdown">
-                    <button onclick="myFunction()" class="dropbtn"></button>
+                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
                         <a href="#home">My Infor</a>
                         <a>
-                            <form method="post" asp-controller="Home" asp-action="Logout">
+                            <form method="post" asp-controller="Login" asp-action="Logout">
                                 <button class="btn btn-info">Log Out</button>
                             </form>
                         </a>
@@ -95,7 +102,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav" style="margin: 0 auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#">Staff</a>
                     </li>

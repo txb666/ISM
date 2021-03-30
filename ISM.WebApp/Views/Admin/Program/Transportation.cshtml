@@ -111,7 +111,7 @@
                         </td>
                         <td style="text-align: center;">
                             <button onclick="EditTransportation('@item.transportations_id','@FormatUtil.ToInputDate2(item.date)','@item.time','@item.bus','@item.driver','@item.itinerary','@item.supporter','@item.note')" class="btn btn-success">
-                                <a href="#xmas-popup2" style="text-decoration: none; color: white;">Edit</a>
+                                <a href="#xmas-popup-assign1" style="text-decoration: none; color: white;">Edit</a>
                             </button>
                         </td>
                     </tr>
@@ -119,7 +119,7 @@
         </table>
         <!-- popup code -->
         <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content">
+            <div class="popup-content" style="height:500px">
                 <form id="editTransportationForm">
                     <h1 style="text-align: center; margin-bottom: 40px;">Create Transportation</h1>
                     <input type="hidden" id="create_student_group_id" value="@Model.current_student_group_id">
@@ -152,16 +152,16 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button id="save" onclick="validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-        <div id="xmas-popup2" class="popup" href="#">
-            <div class="popup-content">
+        <div id="xmas-popup-assign1" class="popup" href="#">
+            <div class="popup-content-assign1">
                 <form id="editTransportationForm">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
                     <input type="hidden" id="edit_transportation_id">
@@ -194,8 +194,8 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button id="save" onclick="validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                         </button>
                     </div>
@@ -217,12 +217,12 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
                 </div>
                 <div class="form-group row">
-                    <button style="margin-left: 190px; width: 80px;" type="button"
+                    <button id="save" style="margin-left: 190px; width: 80px;" type="button"
                             class="btn btn-success">
                         Save
                     </button>
 
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
                 </div>
@@ -231,7 +231,7 @@
     </div>
 
     <div style="margin-top: 20px;">
-        <a href="#" style="text-decoration: none;"> How to renew your Visa</a>
+       
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
             <button class="btn btn-danger">
                 <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Set Up Notification</a>

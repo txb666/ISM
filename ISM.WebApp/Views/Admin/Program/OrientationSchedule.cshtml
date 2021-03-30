@@ -58,8 +58,10 @@
                             @item.fullname
                         </td>
                         <td style="text-align: center;">
-                            <a asp-controller="Orientation" asp-action="SearchORT" asp-route-id="@item.user_id">Student Schedule</a>
-                        </td>
+                            <button class="btn btn-success">
+                            <a style="text-decoration:none; color:white" asp-controller="Orientation" asp-action="SearchORT" asp-route-id="@item.user_id">Student Schedule</a>
+                        </button>
+                         </td>
                     </tr>
                 }
         </table>
