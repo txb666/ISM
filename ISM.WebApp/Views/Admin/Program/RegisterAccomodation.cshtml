@@ -1,0 +1,185 @@
+﻿@model ISM.WebApp.ViewModels.RegisterAccomodationIndexViewModel
+@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Register Accomodation</h1>
+    <div style="height: 50px;">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="background-color: red;" class="dropbtn_search">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+                <form id="searchForm" asp-controller="RegisterAccomodation" asp-action="Index" method="get" style="width: 320px;">
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                        <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input type="text" name="email" style="width: 200px; border-radius: 5px;" id="" value="@Model.email">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
+                        <input type="text" name="home_univercity" style="width: 200px; border-radius: 5px;" id="" value="@Model.home_univercity">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Exchange Campus:</label>
+                        <input type="text" name="exchange_campus" style="width: 200px; border-radius: 5px;" id="" value="@Model.exchange_campus">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Accomodation_Option:</label>
+                        <select name="accomodation_option" style="border-radius: 5px; width: 200px;">
+                            @if (string.IsNullOrEmpty(Model.accomodation_option))
+                            {
+                                <option value="" selected>All</option>
+                                <option value="On-campus">On-campus</option>
+                                <option value="Off-campus">Off-campus</option>
+                            }
+                            else if (Model.accomodation_option.Equals("On-campus"))
+                            {
+                                <option value="">All</option>
+                                <option value="On-campus" selected>On-campus</option>
+                                <option value="Off-campus">Off-campus</option>
+                            }
+                            else if (Model.accomodation_option.Equals("Off-campus"))
+                            {
+                                <option value="">All</option>
+                                <option value="On-campus">On-campus</option>
+                                <option value="Off-campus" selected>Off-campus</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Room Type:</label>
+                        <input type="text" name="room_type" style="width: 200px; border-radius: 5px;" id="" value="@Model.room_type">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Other Request:</label>
+                        <input type="text" name="other_request" style="width: 200px; border-radius: 5px;" id="" value="@Model.other_request">
+                    </div>
+                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
+                        @if (Model.degreeOrMobility.Equals("Degree"))
+                        {
+                            <option value="Degree" selected>Degree Student</option>
+                            <option value="Mobility">Mobility Student</option>
+                        }
+                        else
+                        {
+                            <option value="Degree">Degree Student</option>
+                            <option value="Mobility" selected>Mobility Student</option>
+                        }
+                    </select>
+                    <input type="hidden" name="page" id="inputPage" />
+                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                </form>
+            </div>
+        </div>
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
+        </select>
+        <button style="float: right; width: 80px;" class="btn btn-success">
+            <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+        </button>
+    </div>
+    <br>
+    <br>
+    <div class="table-scroll">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Account</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    @if (Model.degreeOrMobility.Equals("Mobility"))
+                    {
+                    <th scope="col">Home University</th>
+                    }
+                    <th scope="col">Exchange Campus</th>
+                    <th scope="col">Accommodation Option</th>
+                    <th scope="col">Cost Per Month</th>
+                    <th scope="col">Room Size</th>
+                    <th scope="col">Room Type</th>
+                    <th scope="col">Distance</th>
+                    <th scope="col">Other Request</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.registerAccomodations)
+                {
+                <tr>
+                    <td>
+                        @item.account
+                    </td>
+                    <td>
+                        @item.fullname
+                    </td>
+                    <td>
+                        @item.email
+                    </td>
+                    @if (Model.degreeOrMobility.Equals("Mobility"))
+                    {
+                    <td>
+                        @item.home_univercity
+                    </td>
+                    }
+                    <td>
+                        @item.exchange_campus
+                    </td>
+                    <td>
+                        @item.accomodation_option
+                    </td>
+                    <td>
+                        @item.cost_per_month
+                    </td>
+                    <td>
+                        @item.room_size
+                    </td>
+                    <td>
+                        @item.room_size
+                    </td>
+                    <td>
+                        @item.distance
+                    </td>
+                    <td>
+                        @item.other_request
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function myFunction1() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_insurance");
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>

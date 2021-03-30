@@ -13,3 +13,8 @@ function searchDegreeOrMobility() {
     document.getElementById('search_degreeOrMobility').value = document.getElementById('outside_degreeOrMobility').value;
     search(1);
 }
+
+function searchByStudentGroup() {
+    document.getElementById('search_student_group_id').value = document.getElementById('outside_studentGroup').value;
+    search(1);
+}
