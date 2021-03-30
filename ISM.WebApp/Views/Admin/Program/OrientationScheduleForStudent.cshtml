@@ -125,45 +125,48 @@
                 </div>
                 <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
                 <div class="form-group row">
-                    <button style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success">
-                        Save
-                    </button>
-
+                    <button onclick="validateCreateORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                     <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
                 </div>
             </form>
         </div>
-
-
     </div>
 
-    <!-- popup code -->
-    <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:200px">
-            <form>
-                <h1 style="text-align: center; margin-top: 20px;">Student Group</h1>
+    <div id="edit_popup" class="popup">
+        <div class="popup-content-assign">
+            <form asp-controller="Orientation" asp-action="EditORT" method="post">
+                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Schedule</h1>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days Befor ORT Activity:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_content_id">
                 </div>
                 <div class="form-group row">
-                    <button style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success">
-                        Save
-                    </button>
-
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_date_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_time_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_location_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_requirement_id">
+                </div>
+                <input type="hidden" id="edit_ort_id" />
+                <div class="form-group row">
+                    <button onclick="validateEditORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                     <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
-
                 </div>
-
             </form>
         </div>
-
     </div>
 
     <script>

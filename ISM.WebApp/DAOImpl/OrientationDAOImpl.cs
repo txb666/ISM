@@ -383,10 +383,10 @@ namespace ISM.WebApp.DAOImpl
             return totalDegreeStudent;
         }
 
-        public bool isORTAlreadyExist(string content, DateTime date, TimeSpan time, string location)
+        public bool isORTAlreadyExist(int student_id, string content, DateTime date, TimeSpan time, string location)
         {
             SqlConnection con = null;
-            string sql = "select count(*) from ORT_Schedule a where upper(a.content) like upper('%' + @content + '%') and a.[date] = @date and a.[time] = @time and upper(a.[location]) like upper('%' + @location + '%')";
+            string sql = "select count(*) from ORT_Schedule a where a.student_id = @student_id and upper(a.content) like upper('%' + @content + '%') and a.[date] = @date and a.[time] = @time and upper(a.[location]) like upper('%' + @location + '%')";
             SqlDataReader reader = null;
             SqlCommand com = null;
             bool isExist = true;
@@ -404,6 +404,8 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@time"].Value = time;
                 com.Parameters.Add("@location", SqlDbType.NVarChar);
                 com.Parameters["@location"].Value = location;
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
                 count = (int)com.ExecuteScalar();
                 if (count == 0)
                 {
@@ -421,10 +423,10 @@ namespace ISM.WebApp.DAOImpl
             return isExist;
         }
 
-        public bool isSameTime(DateTime date, TimeSpan time)
+        public bool isSameTime(int student_id, DateTime date, TimeSpan time)
         {
             SqlConnection con = null;
-            string sql = "select count(*) from ORT_Schedule a where a.[date] = @date and a.[time] = @time";
+            string sql = "select count(*) from ORT_Schedule a where a.[date] = @date and a.[time] = @time and a.student_id = @student_id";
             SqlDataReader reader = null;
             SqlCommand com = null;
             bool isExist = true;
@@ -438,6 +440,8 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@date"].Value = date;
                 com.Parameters.Add("@time", SqlDbType.Time);
                 com.Parameters["@time"].Value = time;
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
                 count = (int)com.ExecuteScalar();
                 if (count == 0)
                 {

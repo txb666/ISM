@@ -40,7 +40,7 @@ namespace ISM.WebApp.Utils
             return input.ToString("hh\\:mm");
         }
 
-        public static string ToInputTime(TimeSpan? input)
+        public static string ToInputTime3(TimeSpan? input)
         {
             return input.HasValue ? input.Value.ToString(@"hh\:mm\:ss") : "";
         }

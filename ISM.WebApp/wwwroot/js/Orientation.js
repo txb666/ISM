@@ -29,7 +29,7 @@
     $.ajax({
         type: "POST",
         url: "/Orientation/isExist",
-        data: { content: content, date: date, time: time, location: location },
+        data: { id: student_id, content: content, date: date, time: time, location: location },
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
@@ -40,7 +40,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/Orientation/isSameTime",
-                    data: { date: date, time: time },
+                    data: { id: student_id, date: date, time: time },
                     dataType: "text",
                     success: function (msg) {
                         if (msg == "true") {

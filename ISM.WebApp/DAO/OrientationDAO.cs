@@ -15,7 +15,7 @@ namespace ISM.WebApp.DAO
         bool createORTSchedule(int student_id, string content, DateTime date, TimeSpan time, string location, string require_document);
         bool editORTSchedule(int student_id, string content, DateTime date, TimeSpan time, string location, string require_document);
         bool deleteORTSchedule(int student_id);
-        bool isORTAlreadyExist(string content, DateTime date, TimeSpan time, string location);
-        bool isSameTime(DateTime date, TimeSpan time);
+        bool isORTAlreadyExist(int student_id, string content, DateTime date, TimeSpan time, string location);
+        bool isSameTime(int student_id, DateTime date, TimeSpan time);
     }
 }

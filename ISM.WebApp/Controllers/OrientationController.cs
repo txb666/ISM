@@ -59,15 +59,15 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
-        public bool isExist(string content, DateTime date, TimeSpan time, string location)
+        public bool isExist(int id, string content, DateTime date, TimeSpan time, string location)
         {
-            bool result = _orientationDAO.isORTAlreadyExist(content, date, time, location);
+            bool result = _orientationDAO.isORTAlreadyExist(id, content, date, time, location);
             return result;
         }
 
-        public bool isSameTime(DateTime date, TimeSpan time)
+        public bool isSameTime(int id, DateTime date, TimeSpan time)
         {
-            bool result = _orientationDAO.isSameTime(date, time);
+            bool result = _orientationDAO.isSameTime(id, date, time);
             return result;
         }
 
