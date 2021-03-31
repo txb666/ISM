@@ -11,8 +11,12 @@ function validateEditFlight() {
     var airport_arrival_d = document.getElementById("edit_airport_arrival_d").value;
     var picture_a = document.getElementById("edit_picture_a").value;
     var picture_d = document.getElementById("edit_picture_d").value;
-    if (!startDate || !expiryDate) {
-        alert("start date and expiry date must not be empty");
+    if (!arrival_date_a) {
+        alert("Date must not be empty.");
+        return;
+    }
+    if (!arrival_time_a) {
+        alert("Time must not be empty.");
         return;
     }
     $.ajax({

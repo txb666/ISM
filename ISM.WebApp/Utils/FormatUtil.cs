@@ -45,11 +45,6 @@ namespace ISM.WebApp.Utils
             return input.HasValue ? input.Value.ToString(@"hh\:mm\:ss") : "";
         }
 
-        public static string ToInputTime(TimeSpan? input)
-        {
-            return input.HasValue ? input.Value.ToString(@"hh\:mm\:ss") : "";
-        }
-
         public static List<int> JsonStringToIntegerList(string input) {
             if (string.IsNullOrEmpty(input) || input.Equals("[]"))
             {

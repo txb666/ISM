@@ -181,8 +181,7 @@ namespace ISM.WebApp.DAOImpl
                             + " (select ROW_NUMBER() over (order by flight_id asc) rownumber, flight_id,student_id,b.fullname,b.account,flight_number_a,arrival_date_a,arrival_time_a,airport_departure_a,airport_arrival_a,picture_a,flight_number_d,arrival_date_d,arrival_time_d,airport_departure_d,airport_arrival_d,picture_d"
                             + " from Flights, Users b, Student_Group c, Programs d, Coordinators e"
                             + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and c.student_group_id=e.studentGroup_id and d.[type]='Mobility' and e.staff_id=@current_staff_id" + where + ")"
-                            + " as temp";
-                            //+ " where temp.rownumber>=@from and temp.rownumber<=@to";
+                            + " as temp where temp.rownumber>=@from and temp.rownumber<=@to";
                         com.Parameters.Add("@current_staff_id", SqlDbType.Int);
                         com.Parameters["@current_staff_id"].Value = current_staff_id;
                     }
