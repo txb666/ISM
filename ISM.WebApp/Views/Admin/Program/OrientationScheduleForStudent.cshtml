@@ -16,7 +16,11 @@
     }
 }
 <div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;"> Orientation Schedule For </h1>
+    @foreach (var item in Model.orientationSchedules)
+    {
+        <h1 style="text-align: center;"> Orientation Schedule For @item.account</h1>
+        break;
+    }
     <div style="height:50px">
         <div class="dropdown_search">
             <button onclick="myFunction1()" class="btn btn-info">Search</button>
