@@ -60,8 +60,8 @@ namespace ISM.WebApp.Controllers
            
             VisaLetterIndexViewModel visaLetterIndexView = new VisaLetterIndexViewModel();
             dynamic json = Newtonsoft.Json.JsonConvert.SerializeObject(VisaLetterDAO.GetVisaLetter(visaLetterIndexView.page, visaLetterIndexView.pageSize, fullname, apply_receive, visa_period, type_visa, nationality, passport_number, dob, expired_dateFrom, expired_dateTo));
-            DataTable dt = (DataTable) JsonConvert.DeserializeObject(json);
-           
+            DataTable dt = JsonConvert.DeserializeObject(json,typeof( DataTable));
+
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
             var stream = new MemoryStream();
             using (var package = new ExcelPackage(stream))
