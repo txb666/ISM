@@ -8,6 +8,7 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class InsuranceController : Controller
     {
         public InsuranceDAO insuranceDAO;

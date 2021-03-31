@@ -7,12 +7,14 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class RegisterAccomodationController : Controller
     {
         public AccomodationDAO accomodationDAO;
