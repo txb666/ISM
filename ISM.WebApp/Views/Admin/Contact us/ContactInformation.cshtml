@@ -1,10 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Contact Information Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Contact Information Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
-<!doctype html>
-<html lang="en">
-<div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;"> Contact Information </h1>
     <div style="height:50px">
         <button style="float: right;" class="btn btn-danger">
@@ -81,12 +91,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <button style="margin-left: 190px; width: 80px;" type="button"
+                            <button id="save" style="margin-left: 190px; width: 80px;" type="button"
                                     class="btn btn-success">
                                 Save
                             </button>
 
-                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                                 <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                             </button>
 
@@ -97,55 +107,48 @@
             </div>
         </div>
         @*<div class="popup-content-assign" style="height:500px">
-            <form>
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                </div>
+                <form>
+                    <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                    </div>
 
-                <div class="form-group row">
-                    <button style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success">
-                        Save
-                    </button>
+                    <div class="form-group row">
+                        <button style="margin-left: 190px; width: 80px;" type="button"
+                                class="btn btn-success">
+                            Save
+                        </button>
 
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                    </button>
+                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                        </button>
 
-                </div>
+                    </div>
 
-            </form>
-        </div>*@
+                </form>
+            </div>*@
 
 
     </div>
 
-
-
-
-
-
-</div>
-</html>

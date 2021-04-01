@@ -6,18 +6,18 @@
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
     {
-        ViewData["Title"] = "Visa Page";
+        ViewData["Title"] = "Transportation Page";
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
     else if (sessionUser.role_name == "Staff")
     {
-        ViewData["Title"] = "Visa Page";
+        ViewData["Title"] = "Transportation Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
 @model ISM.WebApp.ViewModels.TransportationIndexViewModel
 
-<div style="height: 500px; background-color: white;">
+@*<div style="height: 500px; background-color: white;">*@
     <h1 style="text-align: center;"> Transportation </h1>
     <div style="height:50px">
         <div class="dropdown_search">
@@ -70,7 +70,7 @@
     </button>
     <br>
     <br>
-    <div>
+    <div class="table-scroll">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -217,7 +217,7 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save" onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                     <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                     </button>
@@ -289,4 +289,4 @@
             }
         }
     </script>
-</div>
+@*</div>*@

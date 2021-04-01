@@ -1,7 +1,20 @@
 ﻿@model ISM.WebApp.ViewModels.VisaLetterIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
 @{
-    ViewData["Title"] = "Visa Letter Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">Pre-Approval Visa Letter</h1>
@@ -105,7 +118,7 @@
                                 {
                                     <span> N/A </span>
                                 }
-                              
+
 
                             </td>
                             <td>
@@ -159,9 +172,9 @@
                         <label style="margin-left: 30px; font-weight: bold; width:150px;">What type of Visa do you want to apply?</label>
                         @*<input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_VisaType">*@
                         <select id="edit_VisaType" style="margin-left: 30px;border-radius: 5px;">
-                                <option value="Single entry visa">Single entry visa</option>
-                                <option value="Multiple entry visa">Multiple entry visa</option>
-                            </select>
+                            <option value="Single entry visa">Single entry visa</option>
+                            <option value="Multiple entry visa">Multiple entry visa</option>
+                        </select>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Visa Period:</label>
@@ -184,12 +197,12 @@
 
     <div>
         <a href="#" style="text-decoration: none;"> How to apply for a VietNam Visa</a>
-       
 
-            <button class="btn btn-success" style="float:right">
-                <a style="text-decoration:none;color:white" href="/VisaLetter/ExportToExcel">Extract to excel</a>
-            </button>
-     
+
+        <button class="btn btn-success" style="float:right">
+            <a style="text-decoration:none;color:white" href="/VisaLetter/ExportToExcel">Extract to excel</a>
+        </button>
+
     </div>
 </div>
 

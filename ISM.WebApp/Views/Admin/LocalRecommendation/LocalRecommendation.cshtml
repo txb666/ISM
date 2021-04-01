@@ -1,6 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Local Recommendation Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Local Recommendation Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 
 @*<form method="post" asp-controller="Home" asp-action="Logout">
@@ -28,7 +41,7 @@
         <br>
         <div style="height: 200px; width: 55%; border:1px solid black; margin: 0 auto">
 
-       <p>Content.....................</p>
+            <p>Content.....................</p>
 
 
 

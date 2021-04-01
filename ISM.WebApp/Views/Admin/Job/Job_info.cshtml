@@ -1,7 +1,19 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
 @{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Job Information Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Job Informatio Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 
 @*<form method="post" asp-controller="Home" asp-action="Logout">
@@ -13,39 +25,39 @@
 
 
 
-        <div style="height: 500px; background-color: white;">
-            <h1 style="text-align: center;">Job Information</h1>
-            <div style="height: 50px;">
-                <div style="height: 200px">
-                    
-                    <center>
-                        <a style="text-align:center" href="#"> Tips and sample for CV </a> <br />
-                        <a href="#"> Tips to prepare for job interview </a><br />
-                        <a href="#"> Job 101 </a><br />
-                    </center>
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Job Information</h1>
+    <div style="height: 50px;">
+        <div style="height: 200px">
 
-                    <!-- popup code -->                 
-                </div>
+            <center>
+                <a style="text-align:center" href="#"> Tips and sample for CV </a> <br />
+                <a href="#"> Tips to prepare for job interview </a><br />
+                <a href="#"> Job 101 </a><br />
+            </center>
 
-            </div>
-
-
+            <!-- popup code -->
         </div>
+
     </div>
 
-    
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+</div>
+    </div>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 
 </html>

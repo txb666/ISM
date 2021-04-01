@@ -1,14 +1,27 @@
 ﻿@model ISM.WebApp.ViewModels.InsuranceIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
 @{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Student Insurance Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Student Insurance Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 
-<div style="height: 500px; background-color: white;">
+@*<div style="height: 500px; background-color: white;">*@
     <h1 style="text-align: center;">Student's Insurance</h1>
     <div style="height: 50px;">
         <div class="dropdown_search">
-            <button onclick="myFunction1()"  class="btn btn-primary">Search</button>
+            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px;">
                 <form id="searchForm" asp-controller="Insurance" asp-action="Index" method="get" style="width: 320px;">
                     <div class="form-group row">
@@ -143,6 +156,11 @@
             </div>
         </div>
     </div>
+
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+    </div>
+
     <div style="margin-top: 20px;">
         <a asp-action="HowTo" style="text-decoration: none;"> How to .....</a>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
@@ -164,11 +182,11 @@
                 <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id" >
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Dealine:</label>
-                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id" >
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
@@ -185,7 +203,7 @@
                 <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Program start:</label>
-                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id" >
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
@@ -196,7 +214,7 @@
             </form>
         </div>
     </div>
-</div>
+@*</div>*@
 
 <script>
     function myFunction1() {

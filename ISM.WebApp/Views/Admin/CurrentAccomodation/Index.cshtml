@@ -1,18 +1,31 @@
 ﻿@model ISM.WebApp.ViewModels.CurrentAccomodationIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
 @{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Current Accomodation Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Current Accomodation Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 
-<div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;">Student's Current Accomodation</h1>
-    <div style="height: 50px;">
-        <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form id="searchForm" asp-controller="CurrentAccomodation" asp-action="Index" method="get" style="width: 320px;">
-                    @if (Model.degreeOrMobility.Equals("Degree"))
-                    {
+@*<div style="height: 500px; background-color: white;">*@
+<h1 style="text-align: center;">Student's Current Accomodation</h1>
+<div style="height: 50px;">
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form id="searchForm" asp-controller="CurrentAccomodation" asp-action="Index" method="get" style="width: 320px;">
+                @if (Model.degreeOrMobility.Equals("Degree"))
+                {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
                         <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
@@ -21,19 +34,19 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
                         <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                     </div>
-                    }
-                    else if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
+                }
+                else if (Model.degreeOrMobility.Equals("Mobility"))
+                {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
                         <select name="student_group_id" style="width:200px; border-radius:5px" id="search_student_group">
                             @if (Model.student_group_id == null)
                             {
-                            <option value="" selected>All</option>
+                                <option value="" selected>All</option>
                             }
                             else
                             {
-                            <option value="">All</option>
+                                <option value="">All</option>
                             }
                             @foreach (var item in Model.manageGroup)
                             {
@@ -49,273 +62,278 @@
                             }
                         </select>
                     </div>
+                }
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
+                    <input type="text" name="type" style="width: 200px; border-radius: 5px;" id="" value="@Model.type">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" name="location" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
+                    <input type="text" name="description" style="width: 200px; border-radius: 5px;" id="" value="@Model.description">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" name="note" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
+                </div>
+                <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
+                    @if (Model.degreeOrMobility.Equals("Degree"))
+                    {
+                        <option value="Degree" selected>Degree Student</option>
+                        <option value="Mobility">Mobility Student</option>
                     }
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                        <input type="text" name="type" style="width: 200px; border-radius: 5px;" id="" value="@Model.type">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input type="text" name="location" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                        <input type="text" name="description" style="width: 200px; border-radius: 5px;" id="" value="@Model.description">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" name="note" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
-                    </div>
-                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
-                        @if (Model.degreeOrMobility.Equals("Degree"))
-                        {
-                            <option value="Degree" selected>Degree Student</option>
-                            <option value="Mobility">Mobility Student</option>
-                        }
-                        else
-                        {
-                            <option value="Degree">Degree Student</option>
-                            <option value="Mobility" selected>Mobility Student</option>
-                        }
-                    </select>
-                    <input type="hidden" name="page" id="inputPage" />
-                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
-                </form>
-            </div>
+                    else
+                    {
+                        <option value="Degree">Degree Student</option>
+                        <option value="Mobility" selected>Mobility Student</option>
+                    }
+                </select>
+                <input type="hidden" name="page" id="inputPage" />
+                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+            </form>
         </div>
-        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
-            @if (Model.degreeOrMobility.Equals("Degree"))
-            {
-                <option value="Degree" selected>Degree Student</option>
-                <option value="Mobility">Mobility Student</option>
-            }
-            else
-            {
-                <option value="Degree">Degree Student</option>
-                <option value="Mobility" selected>Mobility Student</option>
-            }
-        </select>
-        <button style="float: right; width: 80px;" class="btn btn-success">
-            <a href="#xmas-popup" style="text-decoration: none; color: white;">Create</a>
-        </button>
     </div>
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
+    <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+        @if (Model.degreeOrMobility.Equals("Degree"))
+        {
+            <option value="Degree" selected>Degree Student</option>
+            <option value="Mobility">Mobility Student</option>
+        }
+        else
+        {
+            <option value="Degree">Degree Student</option>
+            <option value="Mobility" selected>Mobility Student</option>
+        }
+    </select>
+    <button style="float: right; width: 80px;" class="btn btn-success">
+        <a href="#xmas-popup" style="text-decoration: none; color: white;">Create</a>
+    </button>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                @if (Model.degreeOrMobility.Equals("Degree"))
+                {
+                    <th scope="col">Account</th>
+                    <th scope="col">Full Name</th>
+                }
+                else if (Model.degreeOrMobility.Equals("Mobility"))
+                {
+                    <th scope="col">Student Group</th>
+                }
+                <th scope="col">Type</th>
+                <th scope="col">Location</th>
+                <th scope="col">Description</th>
+                <th scope="col">Fee</th>
+                <th scope="col">Picture</th>
+                <th scope="col">Note</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.currentAccomodations)
+            {
                 <tr>
                     @if (Model.degreeOrMobility.Equals("Degree"))
                     {
-                        <th scope="col">Account</th>
-                        <th scope="col">Full Name</th>
+                        <td>
+                            @item.student.account
+                        </td>
+                        <td>
+                            @item.student.fullname
+                        </td>
                     }
                     else if (Model.degreeOrMobility.Equals("Mobility"))
                     {
-                        <th scope="col">Student Group</th>
+                        <td>
+                            @(item.student_group.program_name + "_" + item.student_group.campus_name + "_" + item.student_group.duration_start.ToString("dd/MM/yyyy") + "-" + item.student_group.duration_end.ToString("dd/MM/yyyy") + "_" + item.student_group.home_university)
+                        </td>
                     }
-                    <th scope="col">Type</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Fee</th>
-                    <th scope="col">Picture</th>
-                    <th scope="col">Note</th>
-                    <th scope="col"> </th>
+                    <td>
+                        @item.type
+                    </td>
+                    <td>
+                        @item.location
+                    </td>
+                    <td>
+                        @item.description
+                    </td>
+                    <td>
+                        @item.fee
+                    </td>
+                    <td>
+                        <img src="~/image/CurrentAccomodation/@item.picture" alt=" " />
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td>
+                        <button onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
+                            <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
+                        </button>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.currentAccomodations)
+            }
+        </tbody>
+    </table>
+
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup" href="#">
+        <div class="popup-content" style="height:550px">
+            <form id="createCurrentAccomodationForm" enctype="multipart/form-data">
+                <h1 style="text-align: center; margin-bottom: 40px;">Create Current Accomodation</h1>
+                @if (Model.degreeOrMobility.Equals("Degree"))
                 {
-                    <tr>
-                        @if (Model.degreeOrMobility.Equals("Degree"))
-                        {
-                            <td>
-                                @item.student.account
-                            </td>
-                            <td>
-                                @item.student.fullname
-                            </td>
-                        }
-                        else if (Model.degreeOrMobility.Equals("Mobility"))
-                        {
-                            <td>
-                                @(item.student_group.program_name + "_" + item.student_group.campus_name + "_" + item.student_group.duration_start.ToString("dd/MM/yyyy") + "-" + item.student_group.duration_end.ToString("dd/MM/yyyy") + "_" + item.student_group.home_university)
-                            </td>
-                        }
-                        <td>
-                            @item.type
-                        </td>
-                        <td>
-                            @item.location
-                        </td>
-                        <td>
-                            @item.description
-                        </td>
-                        <td>
-                            @item.fee
-                        </td>
-                        <td>
-                            <img src="~/image/CurrentAccomodation/@item.picture" alt=" " />
-                        </td>
-                        <td>
-                            @item.note
-                        </td>
-                        <td>
-                            <button onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
-                                <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
-                            </button>
-                        </td>
-                    </tr>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <select id="create_student_id" style="width:300px; margin-left:30px; border-radius:5px">
+                            @foreach (var item in Model.degreeStudents)
+                            {
+                                <option value="@item.user_id"> @(item.account) </option>
+
+                            }
+                        </select>
+                    </div>
                 }
-            </tbody>
-        </table>
+                else if (Model.degreeOrMobility.Equals("Mobility"))
+                {
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
+                        <select id="create_student_group_id" style="width:300px; margin-left:30px; border-radius:5px">
+                            @foreach (var item in Model.manageGroup)
+                            {
+                                <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
 
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:550px">
-                <form id="createCurrentAccomodationForm" enctype="multipart/form-data">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Create Current Accomodation</h1>
-                    @if (Model.degreeOrMobility.Equals("Degree"))
-                    {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                            <select id="create_student_id" style="width:300px; margin-left:30px; border-radius:5px">
-                                @foreach (var item in Model.degreeStudents)
-                                {
-                                    <option value="@item.user_id"> @(item.account) </option>
-
-                                }
-                            </select>
-                        </div>
-                    }
-                    else if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
-                            <select id="create_student_group_id" style="width:300px; margin-left:30px; border-radius:5px">
-                                @foreach (var item in Model.manageGroup)
-                                {
-                                    <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
-
-                                }
-                            </select>
-                        </div>
-                    }
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                        <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_type">
+                            }
+                        </select>
                     </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_location">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                        <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_description">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
-                        <input type="number" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_fee">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_note">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_picture" value="Choose a picture">
-                    </div>
-                    <div class="form-group row">
-                        <button onclick="validateCreateCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success" id="save">
-                            Save
-                        </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="xmas-popup-assign" class="popup" href="#">
-            <div class="popup-content-assign" style="height:550px">
-                <form id="editCurrentAccomodationForm" enctype="multipart/form-data">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Edit Current Accomodation</h1>
-                    <input type="hidden" id="edit_current_accomodation_id" />
-                    <input type="hidden" id="edit_pictureName" />
-                    @if (Model.degreeOrMobility.Equals("Degree"))
-                    {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                            <select id="edit_student_id" style="width:300px; margin-left:30px; border-radius:5px" disabled>
-                                @foreach (var item in Model.degreeStudents)
-                                {
-                                    <option value="@item.user_id"> @(item.account) </option>
-                                }
-                            </select>
-                        </div>
-                    }
-                    else if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
-                            <select id="edit_student_group_id" style="width:300px; margin-left:30px; border-radius:5px" disabled>
-                                @foreach (var item in Model.manageGroup)
-                                {
-                                    <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
-                                }
-                            </select>
-                        </div>
-                    }
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                        <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_type">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_location">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                        <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_description">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
-                        <input type="number" style="width:300px; margin-left:30px; border-radius:5px" id="edit_fee">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_note">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="file" style="width:300px; margin-left:30px; border-radius:5px" id="edit_picture" value="Choose a picture">
-                    </div>
-                    <div class="form-group row">
-                        <button onclick="validateEditCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success" id="save">
-                            Save
-                        </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                }
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
+                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_type">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_location">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
+                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_description">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
+                    <input type="number" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_fee">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_note">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_picture" value="Choose a picture">
+                </div>
+                <div class="form-group row">
+                    <button onclick="validateCreateCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success" id="save">
+                        Save
+                    </button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    <div style="margin-top: 20px;">
-        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">Set Up Notification</button>
-
-        </i>
-
+    <div id="xmas-popup-assign" class="popup" href="#">
+        <div class="popup-content-assign" style="height:550px">
+            <form id="editCurrentAccomodationForm" enctype="multipart/form-data">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Current Accomodation</h1>
+                <input type="hidden" id="edit_current_accomodation_id" />
+                <input type="hidden" id="edit_pictureName" />
+                @if (Model.degreeOrMobility.Equals("Degree"))
+                {
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                        <select id="edit_student_id" style="width:300px; margin-left:30px; border-radius:5px" disabled>
+                            @foreach (var item in Model.degreeStudents)
+                            {
+                                <option value="@item.user_id"> @(item.account) </option>
+                            }
+                        </select>
+                    </div>
+                }
+                else if (Model.degreeOrMobility.Equals("Mobility"))
+                {
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Student Group:</label>
+                        <select id="edit_student_group_id" style="width:300px; margin-left:30px; border-radius:5px" disabled>
+                            @foreach (var item in Model.manageGroup)
+                            {
+                                <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
+                            }
+                        </select>
+                    </div>
+                }
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
+                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_type">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_location">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
+                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_description">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
+                    <input type="number" style="width:300px; margin-left:30px; border-radius:5px" id="edit_fee">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_note">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                    <input type="file" style="width:300px; margin-left:30px; border-radius:5px" id="edit_picture" value="Choose a picture">
+                </div>
+                <div class="form-group row">
+                    <button onclick="validateEditCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"
+                            class="btn btn-success" id="save">
+                        Save
+                    </button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
+<div style="margin-top: 20px;">
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button class="btn btn-danger">Set Up Notification</button>
 
+    </i>
 
 </div>
+
+
+
+
+@*</div>*@
 
 <script>
     function myFunction1() {

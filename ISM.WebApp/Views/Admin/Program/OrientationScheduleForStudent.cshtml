@@ -6,16 +6,16 @@
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
     {
-        ViewData["Title"] = "Passport Page";
+        ViewData["Title"] = "Orientation Schedule For Student Page";
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
     else if (sessionUser.role_name == "Staff")
     {
-        ViewData["Title"] = "Passport Page";
+        ViewData["Title"] = "Orientation Schedule For Student  Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-<div style="height: 500px; background-color: white;">
+@*<div style="height: 500px; background-color: white;">*@
     @foreach (var item in Model.orientationSchedules)
     {
         <h1 style="text-align: center;"> Orientation Schedule For @item.account</h1>
@@ -57,7 +57,7 @@
     </div>
     <br>
     <br>
-    <div>
+    <div class="table-scroll">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -193,4 +193,4 @@
             }
         }
     </script>
-</div>
+@*</div>*@

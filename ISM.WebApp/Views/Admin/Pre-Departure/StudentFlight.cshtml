@@ -15,270 +15,332 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-<div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;">Student's Flights</h1>
-    <div style="height: 50px;">
-        <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form id="searchForm" asp-controller="Flight" asp-action="Index" method="get" style="width: 320px;">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                        <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
-                        <input type="text" name="flight_number_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Arrival):</label>
-                        <input type="date" name="arrival_date_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_a.HasValue?Model.arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Arrival):</label>
-                        <input type="time" name="arrival_time_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_a.HasValue?Model.arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Arrival):</label>
-                        <input type="text" name="airport_departure_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Arrival):</label>
-                        <input type="text" name="airport_arrival_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_a">
-                    </div>
-                    @if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
-                            <input type="text" name="flight_number_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Departure):</label>
-                            <input type="date" name="arrival_date_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_d.HasValue?Model.arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Departure):</label>
-                            <input type="time" name="arrival_time_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_d.HasValue?Model.arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Departure):</label>
-                            <input type="text" name="airport_departure_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Departure):</label>
-                            <input type="text" name="airport_arrival_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_d">
-                        </div>
-                    }
-                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px; margin-left:40%; display:none;">
-                        @if (Model.degreeOrMobility.Equals("Degree"))
-                        {
-                            <option value="Degree" selected>Degree Student</option>
-                            <option value="Mobility">Mobility Student</option>
-                        }
-                        else
-                        {
-                            <option value="Degree">Degree Student</option>
-                            <option value="Mobility" selected>Mobility Student</option>
-                        }
-                    </select>
-                    <input type="hidden" name="page" id="inputPage" />
-                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
-                </form>
-            </div>
-        </div>
-
-        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
-            @if (Model.degreeOrMobility.Equals("Degree"))
-            {
-                <option value="Degree" selected>Degree Student</option>
-                <option value="Mobility">Mobility Student</option>
-            }
-            else
-            {
-                <option value="Degree">Degree Student</option>
-                <option value="Mobility" selected>Mobility Student</option>
-            }
-        </select>
-    </div>
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Account</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Flight Number Arrival</th>
-                    <th scope="col">Arrival Date(in VietNam)</th>
-                    <th scope="col">Arival Time (in VietNam) </th>
-                    <th scope="col">Airport of Departure(Arrival) </th>
-                    <th scope="col">Airport of Arrival </th>
-                    <th scope="col">Picture of Arrival </th>
-                    @if (Model.degreeOrMobility.Equals("Mobility"))
-                    {
-                        <th scope="col">Flight Number Departure</th>
-                        <th scope="col">Departure Date (from VietNam) </th>
-                        <th scope="col">Departure Time (from VietNam) </th>
-                        <th scope="col">Airport of Departure(Departure) </th>
-                        <th scope="col">Airport of Arrival(Departure) </th>
-                        <th scope="col">Picture of Departure </th>
-                    }
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.flights.Count; i++)
+@*<div style="height: 500px; background-color: white;">*@
+<h1 style="text-align: center;">Student's Flights</h1>
+<div style="height: 50px;">
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form id="searchForm" asp-controller="Flight" asp-action="Index" method="get" style="width: 320px;">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                    <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                    <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
+                    <input type="text" name="flight_number_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Arrival):</label>
+                    <input type="date" name="arrival_date_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_a.HasValue?Model.arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Arrival):</label>
+                    <input type="time" name="arrival_time_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_a.HasValue?Model.arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Arrival):</label>
+                    <input type="text" name="airport_departure_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Arrival):</label>
+                    <input type="text" name="airport_arrival_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_a">
+                </div>
+                @if (Model.degreeOrMobility.Equals("Mobility"))
                 {
-                    <tr>
-                        <td>
-                            @Model.flights[i].account
-                        </td>
-                        <td>
-                            @Model.flights[i].fullname
-                        </td>
-                        <td>
-                            @Model.flights[i].flight_number_a
-                        </td>
-                        <td>
-                            @(Model.flights[i].arrival_date_a.HasValue?Model.flights[i].arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")
-                        </td>
-                        <td>
-                            @(Model.flights[i].arrival_time_a.HasValue?Model.flights[i].arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")
-                        </td>
-                        <td>
-                            @Model.flights[i].airport_departure_a
-                        </td>
-                        <td>
-                            @Model.flights[i].airport_arrival_a
-                        </td>
-                        <td>
-                            @Model.flights[i].picture_a
-                        </td>
-                        @if (Model.degreeOrMobility.Equals("Mobility"))
-                        {
-                            <td>
-                                @Model.flights[i].flight_number_d
-                            </td>
-                            <td>
-                                @(Model.flights[i].arrival_date_d.HasValue?Model.flights[i].arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")
-                            </td>
-                            <td>
-                                @(Model.flights[i].arrival_time_d.HasValue?Model.flights[i].arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")
-                            </td>
-                            <td>
-                                @Model.flights[i].airport_departure_d
-                            </td>
-                            <td>
-                                @Model.flights[i].airport_arrival_d
-                            </td>
-                            <td>
-                                @Model.flights[i].picture_d
-                            </td>
-                        }
-                        @{
-                            var editedFlight = Json.Serialize(Model.flights[i]).ToString();
-                        }
-                        @if (Model.degreeOrMobility.Equals("Mobility"))
-                        {
-                            <td>
-                                <button class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d');">
-                                    <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-                                </button>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <button class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
-                                    <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-                                </button>
-                            </td>
-                        }
-                    </tr>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
+                        <input type="text" name="flight_number_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Departure):</label>
+                        <input type="date" name="arrival_date_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_d.HasValue?Model.arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Departure):</label>
+                        <input type="time" name="arrival_time_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_d.HasValue?Model.arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Departure):</label>
+                        <input type="text" name="airport_departure_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Departure):</label>
+                        <input type="text" name="airport_arrival_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_d">
+                    </div>
                 }
-            </tbody>
-        </table>
+                <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px; margin-left:40%; display:none;">
+                    @if (Model.degreeOrMobility.Equals("Degree"))
+                    {
+                        <option value="Degree" selected>Degree Student</option>
+                        <option value="Mobility">Mobility Student</option>
+                    }
+                    else
+                    {
+                        <option value="Degree">Degree Student</option>
+                        <option value="Mobility" selected>Mobility Student</option>
+                    }
+                </select>
+                <input type="hidden" name="page" id="inputPage" />
+                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+            </form>
+        </div>
+    </div>
 
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:500px">
-                <form style="height:480px;overflow-x:hidden" class="table-scroll" id="editFlightForm" asp-controller="Flight" asp-action="Edit" method="post">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Edit Flight </h1>
-                    <input type="hidden" id="edit_id" /><input type="hidden" id="degreeOrMobility_id_check" />
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number Arrival:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date(in VietNam):</label>
-                        <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arival Time (in VietNam):</label>
-                        <input type="time" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure(Arrival):</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_a">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Arrival:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_a">
-                    </div>
+    <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+        @if (Model.degreeOrMobility.Equals("Degree"))
+        {
+            <option value="Degree" selected>Degree Student</option>
+            <option value="Mobility">Mobility Student</option>
+        }
+        else
+        {
+            <option value="Degree">Degree Student</option>
+            <option value="Mobility" selected>Mobility Student</option>
+        }
+    </select>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Account</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Flight Number Arrival</th>
+                <th scope="col">Arrival Date(in VietNam)</th>
+                <th scope="col">Arival Time (in VietNam) </th>
+                <th scope="col">Airport of Departure(Arrival) </th>
+                <th scope="col">Airport of Arrival </th>
+                <th scope="col">Picture of Arrival </th>
+                @if (Model.degreeOrMobility.Equals("Mobility"))
+                {
+                    <th scope="col">Flight Number Departure</th>
+                    <th scope="col">Departure Date (from VietNam) </th>
+                    <th scope="col">Departure Time (from VietNam) </th>
+                    <th scope="col">Airport of Departure(Departure) </th>
+                    <th scope="col">Airport of Arrival(Departure) </th>
+                    <th scope="col">Picture of Departure </th>
+                }
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.flights.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model.flights[i].account
+                    </td>
+                    <td>
+                        @Model.flights[i].fullname
+                    </td>
+                    <td>
+                        @Model.flights[i].flight_number_a
+                    </td>
+                    <td>
+                        @(Model.flights[i].arrival_date_a.HasValue?Model.flights[i].arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")
+                    </td>
+                    <td>
+                        @(Model.flights[i].arrival_time_a.HasValue?Model.flights[i].arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")
+                    </td>
+                    <td>
+                        @Model.flights[i].airport_departure_a
+                    </td>
+                    <td>
+                        @Model.flights[i].airport_arrival_a
+                    </td>
+                    <td>
+                        @Model.flights[i].picture_a
+                    </td>
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number Departure:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date (from VietNam):</label>
-                            <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Time (from VietNam) :</label>
-                            <input type="time" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure(Departure):</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival(Departure):</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_d">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Departure:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_d">
-                        </div>
+                        <td>
+                            @Model.flights[i].flight_number_d
+                        </td>
+                        <td>
+                            @(Model.flights[i].arrival_date_d.HasValue?Model.flights[i].arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")
+                        </td>
+                        <td>
+                            @(Model.flights[i].arrival_time_d.HasValue?Model.flights[i].arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")
+                        </td>
+                        <td>
+                            @Model.flights[i].airport_departure_d
+                        </td>
+                        <td>
+                            @Model.flights[i].airport_arrival_d
+                        </td>
+                        <td>
+                            @Model.flights[i].picture_d
+                        </td>
                     }
+                    @{
+                        var editedFlight = Json.Serialize(Model.flights[i]).ToString();
+                    }
+                    @if (Model.degreeOrMobility.Equals("Mobility"))
+                    {
+                        <td>
+                            <button class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d');">
+                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            </button>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <button class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
+                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            </button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup" href="#">
+        <div class="popup-content" style="height:500px">
+            <form style="height:480px;overflow-x:hidden" class="table-scroll" id="editFlightForm" asp-controller="Flight" asp-action="Edit" method="post">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Flight </h1>
+                <input type="hidden" id="edit_id" /><input type="hidden" id="degreeOrMobility_id_check" />
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number Arrival:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date(in VietNam):</label>
+                    <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arival Time (in VietNam):</label>
+                    <input type="time" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure(Arrival):</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_a">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Arrival:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_a">
+                </div>
+                @if (Model.degreeOrMobility.Equals("Mobility"))
+                {
                     <div class="form-group row">
-                        <button onclick="validateEditFlight();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                        </button>
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number Departure:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_d">
                     </div>
-                </form>
-            </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date (from VietNam):</label>
+                        <input type="date" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Time (from VietNam) :</label>
+                        <input type="time" style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure(Departure):</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival(Departure):</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_d">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Departure:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_d">
+                    </div>
+                }
+                <div class="form-group row">
+                    <button onclick="validateEditFlight();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- popup code Notification -->
+    <div id="xmas-popup-setupnotification-degree" class="popup" href="#">
+        <div class="popup-content-setupnotification-degree" style="height:300px">
+            <form id="degree_notificationForm" asp-controller="Insurance" asp-action="NotificationDegree" method="post">
+                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before Dealine:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
+                </div>
+                <div class="form-group row">
+                    <button onclick="validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
+        <div class="popup-content-setupnotification-mobility" style="height:300px">
+            <form id="mobility_notificationForm" asp-controller="Insurance" asp-action="NotificationMobility" method="post">
+                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before Dealine:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
+                </div>
+                <div class="form-group row">
+                    <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+
+<div style="margin-top: 20px;">
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button class="btn btn-danger">
+            <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-degree">Set Up Notification Degree</a>
+        </button>
+    </i>
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button class="btn btn-danger">
+            <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+        </button>
+    </i>
+
+</div>
+@*</div>*@
 
 <script>
     function myFunction1() {
