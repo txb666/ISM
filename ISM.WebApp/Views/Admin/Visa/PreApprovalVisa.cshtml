@@ -9,14 +9,18 @@
         <div class="dropdown_search">
             <button onclick="myFunction1()" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
-                <form style="width: 320px;" asp-controller="VisaLetter" asp-action="Index" method="get">
+                <form style="width: 320px;" id="searchForm" asp-controller="VisaLetter" asp-action="Index" method="get">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;"> Full Name:</label>
                         <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" value="@Model.fullname">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">DOB:</label>
-                        <input name="dob" type="date" style="width: 200px; border-radius: 5px;" id="" value="@Model.dob">
+                        <input name="dob" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.dob.HasValue?Model.dob.Value.ToString("yyyy-MM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date:</label>
+                        <input name="expired_date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expired_date.HasValue?Model.expired_date.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
@@ -26,8 +30,6 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
                         <input name="passport_number" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.passport_number">
                     </div>
-
-
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Type of Visa:</label>
                         <input name="visa_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.visa_type">
@@ -42,22 +44,37 @@
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Apply and Receive:</label>
                         <input name="apply_receive" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.apply_receive">
                     </div>
+                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
+                        @if (Model.degreeOrMobility.Equals("Degree"))
+                        {
+                            <option value="Degree" selected>Degree Student</option>
+                            <option value="Mobility">Mobility Student</option>
+                        }
+                        else
+                        {
+                            <option value="Degree">Degree Student</option>
+                            <option value="Mobility" selected>Mobility Student</option>
+                        }
+                    </select>
                     <input type="hidden" name="page" id="inputPage" />
                     <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
-
                 </form>
-
             </div>
-
-
-
         </div>
-
-
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
+        </select>
     </div>
     <br />
-
-
     <div class="table-scroll">
         <div>
             <table class="table table-bordered">
@@ -67,89 +84,79 @@
                         <th scope="col">Gender</th>
                         <th scope="col">Date Of Birth</th>
                         <th scope="col">Nationality</th>
+                        @if (Model.degreeOrMobility.Equals("Mobility"))
+                        {
+                            <th scope="col">Home University</th>
+                        }
                         <th scope="col">Passport Number</th>
-                        <th scope="col">Expried Date</th>
+                        <th scope="col">Expiry Date</th>
                         <th scope="col">Type Of Visa</th>
                         <th scope="col">Visa Period</th>
                         <th scope="col">Apply and Receive</th>
                         <th></th>
-
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.VisaLetters)
                     {
-                        <tr>
-                            <td>
-                                @item.fullname
-                            </td>
-                            <td>
-                                @if (@item.gender.Equals("false"))
-                                {<span>Female</span>}
-                                else if (@item.gender.Equals("true"))
-                                {
-                                    <span>
-                                        Male
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span>
-                                        N/A
-                                    </span>
-                                }
+                    <tr>
+                        <td>
+                            @item.fullname
+                        </td>
+                        <td>
+                            @if (item.gender == null)
+                            {
 
-                            </td>
+                            }
+                            else if (item.gender == true)
+                            {
+                                @:Male
+                            }
+                            else if (item.gender == false)
+                            {
+                                @:Female
+                            }
+                        </td>
+                        <td>
+                            @(item.dob.HasValue?item.dob.Value.ToString("dd-MM-yyyy"):"")
+                        </td>
+                        <td>
+                            @item.nationality
+                        </td>
+                        @if (Model.degreeOrMobility.Equals("Mobility"))
+                        {
                             <td>
-                                @if (@item.dob.ToString("yyyy-MM-dd") == null)
-                                {
-                                    <span> N/A </span>
-                                }
-                              
-
+                                @item.home_univercity
                             </td>
-                            <td>
-
-                                @if (@item.nationality == null)
-                                {
-                                    <span> N/A </span>
-                                }
-                                else
-                                {
-                                    @item.nationality
-                                }
-                            </td>
-
-                            <td>
-                                @item.passport_number
-                            </td>
-                            <td>
-                                @item.expire_date.ToString("yyyy-MM-dd")
-                            </td>
-                            <td>
-                                @item.visa_type
-                            </td>
-                            <td>
-                                @item.visa_period
-                            </td>
-                            <td>
-                                @item.apply_receive
-                            </td>
-                            <td>
-                                <button onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period','@item.apply_receive')" class="btn btn-info">
-                                    <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
-                                </button>
-                            </td>
-                        </tr>
+                        }
+                        <td>
+                            @item.passport_number
+                        </td>
+                        <td>
+                            @(item.expired_date.HasValue?item.expired_date.Value.ToString("dd-MM-yyyy"):"")
+                        </td>
+                        <td>
+                            @item.visa_type
+                        </td>
+                        <td>
+                            @item.visa_period
+                        </td>
+                        <td>
+                            @item.apply_receive
+                        </td>
+                        <td>
+                            <button onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period','@item.apply_receive')" class="btn btn-info">
+                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            </button>
+                        </td>
+                    </tr>
                     }
                 </tbody>
-
             </table>
         </div>
         <div>
             @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
         </div>
-
         <div id="xmas-popup" class="popup" href="#">
             <div class="popup-content">
                 <form id="editVisaLetterForm" asp-controller="VisaLetter" asp-action="edit" method="post">
@@ -183,7 +190,7 @@
     </div>
 
     <div>
-        <a href="#" style="text-decoration: none;"> How to apply for a VietNam Visa</a>
+        <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to apply for a Vietnam visa" style="text-decoration: none;"> How to apply for a VietNam Visa</a>
        
 
             <button class="btn btn-success" style="float:right">

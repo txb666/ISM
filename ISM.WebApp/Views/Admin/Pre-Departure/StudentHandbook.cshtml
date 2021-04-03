@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ISM.WebApp.Models.StudentHandbook>
+@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Student's Handbook</h1>
+    @foreach (var item in Model)
+    {
+        <a asp-controller="StudentHandbook" asp-action="Detail" asp-route-id="@item.student_handbook_id">@item.title</a>
+        <br />
+    }
+</div>

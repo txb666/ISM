@@ -13,6 +13,10 @@
 
   <ItemGroup>
     <Folder Include="Views\Admin\Staff\" />
+    <Folder Include="wwwroot\Article\How to renew your passport\" />
+    <Folder Include="wwwroot\Article\How to renew your visa\" />
+    <Folder Include="wwwroot\Article\How to apply for a Vietnam visa\" />
+    <Folder Include="wwwroot\Article\What to pack\" />
     <Folder Include="wwwroot\image\CurrentAccomodation\" />
   </ItemGroup>
 

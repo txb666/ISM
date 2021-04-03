@@ -64,10 +64,9 @@ namespace ISM.WebApp.DAOImpl
                     visaLetter.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     visaLetter.gender = (bool)reader.GetValue(reader.GetOrdinal("gender"));
                     visaLetter.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
-                    visaLetter.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
-                   
+                    visaLetter.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));             
                     visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
-                    visaLetter.expire_date = (DateTime)reader.GetValue(reader.GetOrdinal("expire_date"));
+                    visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
                     visaLetter.visa_type = (string)reader.GetValue(reader.GetOrdinal("visa_type"));
                     visaLetter.visa_period = (string)reader.GetValue(reader.GetOrdinal("visa_period"));
                     visaLetter.apply_receive = (string)reader.GetValue(reader.GetOrdinal("apply_receive"));
@@ -86,7 +85,8 @@ namespace ISM.WebApp.DAOImpl
             return visaLetters;
         }
 
-        public int GetTotalVisaLetter(string fullname, string apply_receive, string visa_period, string type_visa,  string nationality, string passport_number, DateTime? dob, DateTime? expired_dateFrom, DateTime? expired_dateTo)
+        public int GetTotalVisaLetter(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, string fullname, string apply_receive, string visa_period, string visa_type, string nationality, string passport_number
+           , DateTime? dob, DateTime? expired_date)
         {
             SqlConnection con = null;
             string sql = "";
@@ -99,62 +99,87 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
-                if (expired_dateTo != null)
+                if (expired_date != null)
                 {
-                    where += " and expired_date<=@expired_dateTo";
-                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
-                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
-                }
-                if (expired_dateFrom != null)
-                {
-                    where += " and expired_date>=@expired_dateFrom";
-                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
+                    where += " and b.expired_date=@expired_date";
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
                 }
                 if (!string.IsNullOrEmpty(apply_receive))
                 {
-                    where += " and upper(apply_receive) like upper('%' + @apply_receive + '%')";
+                    where += " and upper(a.apply_receive) like upper('%' + @apply_receive + '%')";
                     com.Parameters.Add("@apply_receive", SqlDbType.NVarChar);
                     com.Parameters["@apply_receive"].Value = apply_receive;
                 }
-                if (!string.IsNullOrEmpty(type_visa))
+                if (!string.IsNullOrEmpty(visa_type))
                 {
-                    where += " and upper(type_visa) like upper('%' + @type_visa + '%')";
-                    com.Parameters.Add("@type_visa", SqlDbType.NVarChar);
-                    com.Parameters["@type_visa"].Value = type_visa;
+                    where += " and upper(a.visa_type) like upper('%' + @visa_type + '%')";
+                    com.Parameters.Add("@visa_type", SqlDbType.NVarChar);
+                    com.Parameters["@visa_type"].Value = visa_type;
                 }
                 if (!string.IsNullOrEmpty(visa_period))
                 {
-                    where += " and upper(visa_period) like upper('%' + @visa_period + '%')";
+                    where += " and upper(a.visa_period) like upper('%' + @visa_period + '%')";
                     com.Parameters.Add("@visa_period", SqlDbType.NVarChar);
                     com.Parameters["@visa_period"].Value = visa_period;
                 }
                 if (!string.IsNullOrEmpty(fullname))
                 {
-                    where += " and upper(fullname) like upper('%' + @fullname + '%')";
+                    where += " and upper(c.fullname) like upper('%' + @fullname + '%')";
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = fullname;
                 }
                 if (!string.IsNullOrEmpty(nationality))
                 {
-                    where += " and upper(nationality) like upper('%' + @nationality + '%')";
+                    where += " and upper(c.nationality) like upper('%' + @nationality + '%')";
                     com.Parameters.Add("@nationality", SqlDbType.NVarChar);
                     com.Parameters["@nationality"].Value = nationality;
                 }
                 if (!string.IsNullOrEmpty(passport_number))
                 {
-                    where += " and upper(passport_number) like upper('%' + @passport_number + '%')";
+                    where += " and upper(b.passport_number) like upper('%' + @passport_number + '%')";
                     com.Parameters.Add("@passport_number", SqlDbType.NVarChar);
                     com.Parameters["@passport_number"].Value = passport_number;
                 }
-                
                 if (dob != null)
                 {
-                    where += " and DOB >=@dob";
+                    where += " and c.DOB=@dob";
                     com.Parameters.Add("@dob", SqlDbType.Date);
                     com.Parameters["@dob"].Value = dob;
+                }             
+                if (degreeOrMobility.Equals("Mobility"))
+                {
+                    if (isAdmin)
+                    {
+                        sql = " select count(*)"
+                            + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                            + " inner join Programs e on d.program_id=e.program_id"
+                            + " where e.[type]='Mobility'" + where;
+                    }
+                    else
+                    {
+                        sql = " select count(*)"
+                            + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                            + " inner join Programs e on d.program_id=e.program_id inner join Coordinators f on d.student_group_id=f.studentGroup_id"
+                            + " where e.[type]='Mobility' and f.staff_id=@current_staff_id" + where;
+                        com.Parameters.Add("@current_staff_id", SqlDbType.Int);
+                        com.Parameters["@current_staff_id"].Value = current_staff_id;
+                    }
                 }
-                sql = "select pre_approval_visa_letter_id,u.fullname,u.gender,u.DOB,u.nationality, ps.passport_number,ps.expired_date,p.visa_type,p.visa_period,p.apply_receive from Pre_Approval_Visa_Letter p, Users u, Passports ps  where  u.[user_id] = p.student_id and ps.student_id = p.student_id" + where;
+                else if (degreeOrMobility.Equals("Degree"))
+                {
+                    if (haveDegree)
+                    {
+                        sql = " select count(*)"
+                           + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                           + " inner join Programs e on d.program_id=e.program_id"
+                           + " where e.[type]='Degree'" + where;
+                    }
+                    else
+                    {
+                        return totalVisaLetter;
+                    }
+                }
                 com.CommandText = sql;
                 totalVisaLetter = (int)com.ExecuteScalar();
             }
@@ -168,6 +193,7 @@ namespace ISM.WebApp.DAOImpl
             }
             return totalVisaLetter;
         }
+
         public VisaLetter GetVisaLetterById(int id)
         {
             SqlConnection con = null;
@@ -200,7 +226,7 @@ namespace ISM.WebApp.DAOImpl
                     visaLetter.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
                     visaLetter.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
                     visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
-                    visaLetter.expire_date = (DateTime)reader.GetValue(reader.GetOrdinal("expire_date"));
+                    visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expire_date"));
                     visaLetter.visa_type = (string)reader.GetValue(reader.GetOrdinal("visa_type"));
                     visaLetter.visa_period = (string)reader.GetValue(reader.GetOrdinal("visa_period"));
                     visaLetter.apply_receive = (string)reader.GetValue(reader.GetOrdinal("apply_receive"));
@@ -219,8 +245,8 @@ namespace ISM.WebApp.DAOImpl
             return visaLetter;
         }
 
-        public List<VisaLetter> GetVisaLetter(int page, int pagesize, string fullname, string apply_receive, string visa_period, string type_visa, string nationality, string passport_number
-           , DateTime? dob, DateTime? expired_dateFrom, DateTime? expired_dateTo)
+        public List<VisaLetter> GetVisaLetter(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, int page, int pagesize, string fullname, string apply_receive, string visa_period, string visa_type, string nationality, string passport_number
+           , DateTime? dob, DateTime? expired_date)
         {
             int from = page * pagesize - (pagesize - 1);
             int to = page * pagesize;
@@ -236,62 +262,97 @@ namespace ISM.WebApp.DAOImpl
                 com = new SqlCommand();
                 com.Connection = con;
                 string where = "";
-                if (expired_dateTo != null)
+                if (expired_date != null)
                 {
-                    where += " and expired_date<=@expired_dateTo";
-                    com.Parameters.Add("@expired_dateTo", SqlDbType.Date);
-                    com.Parameters["@expired_dateTo"].Value = expired_dateTo;
-                }
-                if (expired_dateFrom != null)
-                {
-                    where += " and expired_date>=@expired_dateFrom";
-                    com.Parameters.Add("@expired_dateFrom", SqlDbType.Date);
-                    com.Parameters["@expired_dateFrom"].Value = expired_dateFrom;
-                }
+                    where += " and b.expired_date=@expired_date";
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
+                }              
                 if (!string.IsNullOrEmpty(apply_receive))
                 {
-                    where += " and upper(apply_receive) like upper('%' + @apply_receive + '%')";
+                    where += " and upper(a.apply_receive) like upper('%' + @apply_receive + '%')";
                     com.Parameters.Add("@apply_receive", SqlDbType.NVarChar);
                     com.Parameters["@apply_receive"].Value = apply_receive;
                 }
-                if (!string.IsNullOrEmpty(type_visa))
+                if (!string.IsNullOrEmpty(visa_type))
                 {
-                    where += " and upper(type_visa) like upper('%' + @type_visa + '%')";
-                    com.Parameters.Add("@type_visa", SqlDbType.NVarChar);
-                    com.Parameters["@type_visa"].Value = type_visa;
+                    where += " and upper(a.visa_type) like upper('%' + @visa_type + '%')";
+                    com.Parameters.Add("@visa_type", SqlDbType.NVarChar);
+                    com.Parameters["@visa_type"].Value = visa_type;
                 }
                 if (!string.IsNullOrEmpty(visa_period))
                 {
-                    where += " and upper(visa_period) like upper('%' + @visa_period + '%')";
+                    where += " and upper(a.visa_period) like upper('%' + @visa_period + '%')";
                     com.Parameters.Add("@visa_period", SqlDbType.NVarChar);
                     com.Parameters["@visa_period"].Value = visa_period;
                 }
                 if (!string.IsNullOrEmpty(fullname))
                 {
-                    where += " and upper(fullname) like upper('%' + @fullname + '%')";
+                    where += " and upper(c.fullname) like upper('%' + @fullname + '%')";
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = fullname;
                 }
                 if (!string.IsNullOrEmpty(nationality))
                 {
-                    where += " and upper(nationality) like upper('%' + @nationality + '%')";
+                    where += " and upper(c.nationality) like upper('%' + @nationality + '%')";
                     com.Parameters.Add("@nationality", SqlDbType.NVarChar);
                     com.Parameters["@nationality"].Value = nationality;
                 }
                 if (!string.IsNullOrEmpty(passport_number))
                 {
-                    where += " and upper(passport_number) like upper('%' + @passport_number + '%')";
+                    where += " and upper(b.passport_number) like upper('%' + @passport_number + '%')";
                     com.Parameters.Add("@passport_number", SqlDbType.NVarChar);
                     com.Parameters["@passport_number"].Value = passport_number;
-                }
-                
+                }                
                 if (dob != null)
                 {
-                    where += " and DOB >=@dob";
+                    where += " and c.DOB=@dob";
                     com.Parameters.Add("@dob", SqlDbType.Date);
                     com.Parameters["@dob"].Value = dob;
                 }
-                sql = "select pre_approval_visa_letter_id,u.fullname,u.gender,u.DOB,u.nationality, ps.passport_number,ps.expired_date,p.visa_type,p.visa_period,p.apply_receive from Pre_Approval_Visa_Letter p, Users u, Passports ps  where  u.[user_id] = p.student_id and ps.student_id = p.student_id" + where;
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                if (degreeOrMobility.Equals("Mobility"))
+                {
+                    if (isAdmin)
+                    {
+                        sql = " select * from("
+                            + " select ROW_NUMBER() over (order by a.pre_approval_visa_letter_id asc) rownumber, a.pre_approval_visa_letter_id,a.student_id,c.fullname,c.gender,c.DOB,c.nationality,d.home_univercity,b.passport_number,b.expired_date,a.visa_type,a.visa_period,a.apply_receive"
+                            + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                            + " inner join Programs e on d.program_id=e.program_id"
+                            + " where e.[type]='Mobility'" + where
+                            + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                    }
+                    else
+                    {
+                        sql = " select * from("
+                            + " select ROW_NUMBER() over (order by a.pre_approval_visa_letter_id asc) rownumber, a.pre_approval_visa_letter_id,a.student_id,c.fullname,c.gender,c.DOB,c.nationality,d.home_univercity,b.passport_number,b.expired_date,a.visa_type,a.visa_period,a.apply_receive"
+                            + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                            + " inner join Programs e on d.program_id=e.program_id inner join Coordinators f on d.student_group_id=f.studentGroup_id"
+                            + " where e.[type]='Mobility' and f.staff_id=@current_staff_id" + where
+                            + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                        com.Parameters.Add("@current_staff_id", SqlDbType.Int);
+                        com.Parameters["@current_staff_id"].Value = current_staff_id;
+                    }
+                }
+                else if (degreeOrMobility.Equals("Degree"))
+                {
+                    if (haveDegree)
+                    {
+                        sql = " select * from("
+                           + " select ROW_NUMBER() over (order by a.pre_approval_visa_letter_id asc) rownumber, a.pre_approval_visa_letter_id,a.student_id,c.fullname,c.gender,c.DOB,c.nationality,d.home_univercity,b.passport_number,b.expired_date,a.visa_type,a.visa_period,a.apply_receive"
+                           + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id] inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                           + " inner join Programs e on d.program_id=e.program_id"
+                           + " where e.[type]='Degree'" + where
+                           + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                    }
+                    else
+                    {
+                        return visaLetters;
+                    }
+                }
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
                 while (reader.Read())
@@ -318,7 +379,10 @@ namespace ISM.WebApp.DAOImpl
                     {
                         visaLetter.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
                     }
-                   
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                    {
+                        visaLetter.home_univercity = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
                     {
                         visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
@@ -327,13 +391,13 @@ namespace ISM.WebApp.DAOImpl
                     {
                         visaLetter.gender = (bool)reader.GetValue(reader.GetOrdinal("gender"));
                     }
-                    if (!reader.IsDBNull(reader.GetOrdinal("dob")))
+                    if (!reader.IsDBNull(reader.GetOrdinal("DOB")))
                     {
-                        visaLetter.dob = (DateTime)reader.GetValue(reader.GetOrdinal("dob"));
+                        visaLetter.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
                     }
                     if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
                     {
-                        visaLetter.expire_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                        visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
                     }
                     visaLetters.Add(visaLetter);
                 }

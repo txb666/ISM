@@ -24,8 +24,8 @@ namespace ISM.WebApp.ViewModels
         public string apply_receive { get; set; }
         public DateTime? created_date { get; set; }
         public DateTime? dob { get; set; }
-        public DateTime? expired_dateFrom { get; set; }
-        public DateTime? expired_dateTo { get; set; }
+        public DateTime? expired_date{ get; set; }
         public DateTime? modified_date { get; set; }
+        public string degreeOrMobility { get; set; }
     }
 }

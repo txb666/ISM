@@ -1,0 +1,13 @@
+﻿@model ISM.WebApp.ViewModels.ArticleListViewModel
+@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">@Model.type</h1>
+    @foreach (var item in Model.articles)
+    {
+        <a asp-controller="Article" asp-action="Index" asp-route-id="@item.article_id" asp-route-type="">@item.title</a>
+        <br />
+    }
+</div>
