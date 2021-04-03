@@ -84,14 +84,24 @@ namespace ISM.WebApp.Controllers
         [HttpPost]
         public IActionResult HowToPost(IFormFile uploadFile)
         {
-            if (uploadFile != null)
+            try
             {
-                string filename = "HowTo.pdf";
-                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
-                string filePath = Path.Combine(article, filename);
-                FileStream stream = new FileStream(filePath, FileMode.Create);
-                uploadFile.CopyTo(stream);
-                stream.Close();
+                if (uploadFile != null)
+                {
+                    string filename = "HowTo.pdf";
+                    string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                    string filePath = Path.Combine(article, filename);
+                    FileStream stream = new FileStream(filePath, FileMode.Create);
+                    uploadFile.CopyTo(stream);
+                    stream.Close();
+                }
+            }
+            catch(Exception e)
+            {
+                ErrorViewModel ev = new ErrorViewModel();
+                ev.message = e.Message;
+                ev.stackTrace = e.StackTrace;
+                return View("Views/Shared/Error.cshtml",ev);
             }
             return RedirectToAction("Howto");
         }

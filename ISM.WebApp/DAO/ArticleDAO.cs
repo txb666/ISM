@@ -13,5 +13,6 @@ namespace ISM.WebApp.DAO
         bool DeleteArticle(int article_id);
         List<Article> getArticleByType(string type);
         Article getArticleById(int article_id);
+        bool isTitleExist(string title, string type);
     }
 }

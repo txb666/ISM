@@ -1,85 +1,140 @@
-﻿@{
+﻿@model ISM.WebApp.Models.LocalRecommendation
+@{
     ViewData["Title"] = "Admin Home Page";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@*<form method="post" asp-controller="Home" asp-action="Logout">
-        <button class="btn btn-info">Log Out</button>
-    </form>*@
-
-<!doctype html>
-<html lang="en">
-
-
-
-<div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;">Local Recommendation</h1>
-    <div style="height: 50px;">
-        <select style="margin-left:275px">
-            <option>Ha Noi</option>
-            <option>Da Nang</option>
-            <option>Ho Chi Minh</option>
-            <option>Can Tho</option>
-        </select>
-        <button style=" float: right; background-color: orangered;" class="btn btn-info">
-            <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
-        </button>
-        <br>
-        <br>
-        <div style="height: 200px; width: 55%; border:1px solid black; margin: 0 auto">
-
-       <p>Content.....................</p>
-
-
-
-
-
-
-            <!-- popup code -->
-            <div id="xmas-popup" class="popup" href="#">
-                <div class="popup-content">
-                    <form>
-                        <h1 style="text-align: center; margin-top: 20px;">Infomation to Local Recommendation</h1>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                            <textarea name="Text1" cols="40" rows="10"></textarea>
-                        </div>
-
-                        <div class="form-group row">
-                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-
-                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-
-                        </div>
-
-                    </form>
-                </div>
-
-
-                <!-- </form> -->
-                <!-- <a href="#" class="close">x</a> -->
-            </div>
-        </div>
-
-    </div>
-
-
+<h1 style="text-align: center;">@Model.title</h1>
+<div style="height: 50px;">
+    <br>
+    <br>
+    @* <form asp-controller="Insurance" asp-action="HowToPost" method="post" enctype="multipart/form-data" style="margin-bottom:20px">
+            <label for="uploadFile">Select a PDF file:</label>
+            <input type="file" name="uploadFile" accept="application/pdf">
+            <input type="submit" value="Save" />
+        </form>*@
+    @*<div class="top-bar">
+            <button class="btn" id="prev-page">
+                <i class="fas fa-arrow-circle-left"></i> Prev Page
+            </button>
+            <button class="btn" id="next-page">
+                Next Page <i class="fas fa-arrow-circle-right"></i>
+            </button>
+            <span class="page-info">
+                Page <span id="page-num"></span> of <span id="page-count"></span>
+            </span>
+        </div>*@
+    @*<canvas id="pdf-render" style="width:70%;"></canvas>*@
 </div>
+<a href="~/Article/Local Recommendation/@Model.file_name" style="font-size:24px;" download>download file</a>
+<br />
+<h1>Preview</h1>
+<div class="top-bar">
+    <button class="btn" id="prev-page">
+        <i class="fas fa-arrow-circle-left"></i> Prev Page
+    </button>
+    <button class="btn" id="next-page">
+        Next Page <i class="fas fa-arrow-circle-right"></i>
+    </button>
+    <span class="page-info">
+        Page <span id="page-num"></span> of <span id="page-count"></span>
+    </span>
+</div>
+<br />
 
+<canvas id="pdf-render" style="width:100%;"></canvas>
+<script>
 
+    const url = '../../Article/Local Recommendation/@Model.file_name?' + performance.now();
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    let pdfDoc = null,
+        pageNum = 1,
+        pageIsRendering = false,
+        pageNumIsPending = null;
 
+    const scale = 5,
+        canvas = document.getElementById('pdf-render'),
+        ctx = canvas.getContext('2d');
 
-</html>
+    // Render the page
+    const renderPage = num => {
+        pageIsRendering = true;
+        // Get page
+        pdfDoc.getPage(num).then(page => {
+            // Set scale
+            const viewport = page.getViewport({ scale });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderCtx = {
+                canvasContext: ctx,
+                viewport
+            };
+
+            page.render(renderCtx).promise.then(() => {
+                pageIsRendering = false;
+
+                if (pageNumIsPending !== null) {
+                    renderPage(pageNumIsPending);
+                    pageNumIsPending = null;
+                }
+            });
+
+            // Output current page
+            document.getElementById('page-num').textContent = num;
+        });
+    };
+
+    // Check for pages rendering
+    const queueRenderPage = num => {
+        if (pageIsRendering) {
+            pageNumIsPending = num;
+        } else {
+            renderPage(num);
+        }
+    };
+
+    // Show Prev Page
+    const showPrevPage = () => {
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    // Show Next Page
+    const showNextPage = () => {
+        if (pageNum >= pdfDoc.numPages) {
+            return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    // Get Document
+    pdfjsLib
+        .getDocument(url)
+        .promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+
+            document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+            renderPage(pageNum);
+        })
+        .catch(err => {
+            // Display error
+            const div = document.createElement('div');
+            div.className = 'error';
+            div.appendChild(document.createTextNode(err.message));
+            document.querySelector('body').insertBefore(div, canvas);
+            // Remove top bar
+            document.querySelector('.top-bar').style.display = 'none';
+        });
+
+    // Button Events
+    document.querySelector('#prev-page').addEventListener('click', showPrevPage);
+    document.querySelector('#next-page').addEventListener('click', showNextPage);
+
+</script>
 

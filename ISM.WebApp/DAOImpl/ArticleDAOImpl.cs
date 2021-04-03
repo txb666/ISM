@@ -28,6 +28,10 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@title"].Value = title;
                 com.Parameters.Add("@fileName", SqlDbType.NVarChar);
                 com.Parameters["@fileName"].Value = fileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    com.Parameters["@fileName"].Value = DBNull.Value;
+                }
                 com.ExecuteNonQuery();
                 return true;
             }
@@ -82,6 +86,10 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@title"].Value = title;
                 com.Parameters.Add("@fileName", SqlDbType.NVarChar);
                 com.Parameters["@fileName"].Value = fileName;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    com.Parameters["@fileName"].Value = DBNull.Value;
+                }
                 com.Parameters.Add("@article_id", SqlDbType.Int);
                 com.Parameters["@article_id"].Value = article_id;
                 com.ExecuteNonQuery();
@@ -172,6 +180,30 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, null, null);
             }
             return articles;
+        }
+
+        public bool isTitleExist(string title, string type)
+        {
+            SqlConnection con = null;
+            string sql = "select count(*) from Articles where [type]=@type and title=@title";
+            SqlCommand com = null;
+            bool isExist = true;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return isExist;
         }
     }
 }

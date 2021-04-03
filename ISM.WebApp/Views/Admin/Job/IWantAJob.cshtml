@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Admin Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">I Want A Job</h1>
+    <a asp-controller="Article" asp-action="List" asp-route-type="Tips and samples for CV">Tips and samples for CV</a>
+    <br />
+    <a asp-controller="Article" asp-action="List" asp-route-type="Tips to prepare for job interview">Tips to prepare for job interview</a>
+    <br />
+    <a asp-controller="Article" asp-action="List" asp-route-type="Jobs 101">Jobs 101</a>
+    <br />
+</div>
+
