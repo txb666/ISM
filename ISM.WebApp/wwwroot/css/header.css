@@ -2,11 +2,14 @@
  /*   width: 100%;
     height: 100%;*/
 }
-/*footer{
-    position:absolute;
-    width:100%;
+body{
+    min-height:100vh;
 }
-canvas{
+footer{
+ position:sticky;
+ top:100%;
+}
+/*canvas{
     position:relative;
 }*/
 .dropbtn {
@@ -213,7 +216,6 @@ POPUP SETUP NOTIFICATION*/
 
 
  .table-scroll{
-   height: 350px;
    overflow-y: scroll;
  }
  

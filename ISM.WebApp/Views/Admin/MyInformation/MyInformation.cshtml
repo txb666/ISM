@@ -1,0 +1,107 @@
+﻿@*@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "My Information Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "My Information Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+}*@
+@{ 
+    ViewData["Title"] = "My Information Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1 style="text-align: center; margin-bottom: 50px;"> My Information</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="images/lon.jpg" class="rounded float-left" style="width: 300px; height: 300px;">
+            <div class="form-group">
+                <input type="file" class="form-control-file" style="width: 300px;">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <form>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;"
+                           id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;"
+                           id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                        Start
+                        Date:
+                    </label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;"
+                           id="">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                        End Date:
+                    </label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;"
+                           id="">
+                </div>
+                <div class="form-group row">
+                    <button class="btn btn-danger" style="margin-left: 33%;">
+                        <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
+                    </button>
+                </div>
+                <div class="form-group row">
+                    <div class="btn-group" style="margin-left: 33%;">
+                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" style="margin-left: 10px;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup code -->
+<div id="xmas-popup" class="popup" href="#">
+    <div class="popup-content" style="height:500px">
+        <form>
+            <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Old Password:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">New Password:</label>
+                <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Confirm-New Password:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+            </div>
+            <div class="form-group row" style="margin-top: 50px;">
+                <button id="save" style="margin-left: 190px; width: 80px;" type="button"
+                        class="btn btn-success">
+                    Save
+                </button>
+
+                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+

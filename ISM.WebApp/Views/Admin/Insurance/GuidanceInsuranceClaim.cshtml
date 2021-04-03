@@ -1,32 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Guidance Insurance Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Guidance Insurance Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
-    <h1 style="text-align: center;">Guidance for Insurance Claim</h1>
-    <div style="height: 50px;">
-        <br>
-        <br>
-        <form asp-controller="Insurance" asp-action="InsuranceClaimPost" method="post" enctype="multipart/form-data">
-            <label for="uploadFile">Select a PDF file:</label>
-            <input type="file" name="uploadFile" accept="application/pdf">
-            <input type="submit" value="Save" />
-        </form>
-    </div>
+<h1 style="text-align: center;">Guidance for Insurance Claim</h1>
+<div style="height: 50px;">
+    <br>
+    <br>
+    <form asp-controller="Insurance" asp-action="InsuranceClaimPost" method="post" enctype="multipart/form-data">
+        <label for="uploadFile">Select a PDF file:</label>
+        <input type="file" name="uploadFile" accept="application/pdf">
+        <input type="submit" value="Save" />
+    </form>
+</div>
 <br />
 <br />
-    <div class="top-bar">
-        <button class="btn" id="prev-page">
-            <i class="fas fa-arrow-circle-left"></i> Prev Page
-        </button>
-        <button class="btn" id="next-page">
-            Next Page <i class="fas fa-arrow-circle-right"></i>
-        </button>
-        <span class="page-info">
-            Page <span id="page-num"></span> of <span id="page-count"></span>
-        </span>
-    </div>
+<div class="top-bar">
+    <button class="btn" id="prev-page">
+        <i class="fas fa-arrow-circle-left"></i> Prev Page
+    </button>
+    <button class="btn" id="next-page">
+        Next Page <i class="fas fa-arrow-circle-right"></i>
+    </button>
+    <span class="page-info">
+        Page <span id="page-num"></span> of <span id="page-count"></span>
+    </span>
+</div>
 <br />
-    <canvas id="pdf-render" style="width:100%;"></canvas>
+<canvas id="pdf-render" style="width:100%;"></canvas>
 
 <script>
     const url = '../Article/Guidance for Insurance Claim.pdf?' + performance.now();

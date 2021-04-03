@@ -1,6 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Job Vancancies Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Job Vancancies Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 <!doctype html>
 <html lang="en">
@@ -81,7 +94,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <button  style="margin-left: 190px; width: 80px;" type="button"
+                    <button style="margin-left: 190px; width: 80px;" type="button"
                             class="btn btn-success" id="save">
                         Save
                     </button>
