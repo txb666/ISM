@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ISM.WebApp
@@ -37,13 +38,14 @@ namespace ISM.WebApp
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login";
+                    options.LogoutPath = "/Login/Logout";
                     options.Cookie.Name = "ISMCookie";
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 });
             services.AddSession(options =>
             {
                 options.Cookie.Name = "ISMSession";
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.IdleTimeout = TimeSpan.FromHours(2);
                 options.Cookie.IsEssential = true;
             });
             services.AddControllersWithViews();
