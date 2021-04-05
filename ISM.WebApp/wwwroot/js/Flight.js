@@ -186,7 +186,7 @@ function validateNotificationFlightDegree() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Successfull");
-                window.location.href = "/Insurance";
+                window.location.href = "/Flight";
             }
             else {
                 alert("Failed");
@@ -212,7 +212,7 @@ function validateNotificationFlightMobility() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Successfull");
-                window.location.href = "/Insurance";
+                window.location.href = "/Flight";
             }
             else {
                 alert("Failed");
