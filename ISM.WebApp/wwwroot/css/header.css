@@ -295,11 +295,9 @@ POPUP SETUP NOTIFICATION*/
 .show_search_studentgroup {
     display: block;
 }
-
 .show_search_studentinfor {
     display: block;
 }
-
 .show_search_passport {
     display: block;
 }
@@ -330,5 +328,6 @@ POPUP SETUP NOTIFICATION*/
 .show_search_insurance {
     display: block;
 }
- 
- 
+.show_search_jobVacancy {
+    display: block;
+}

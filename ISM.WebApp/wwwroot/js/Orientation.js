@@ -161,6 +161,9 @@ function deleteORT() {
             }
         });
     }
+    else {
+        return;
+    }
 }
 
 function validateNotificationORT() {

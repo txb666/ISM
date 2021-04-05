@@ -199,13 +199,13 @@ namespace ISM.WebApp.DAOImpl
                 if (arrival_time_a != null)
                 {
                     where += " and arrival_time_a=@arrival_time_a";
-                    com.Parameters.Add("@arrival_time_a", SqlDbType.Date);
+                    com.Parameters.Add("@arrival_time_a", SqlDbType.Time);
                     com.Parameters["@arrival_time_a"].Value = arrival_time_a;
                 }
                 if (arrival_time_d != null)
                 {
                     where += " and arrival_time_d=@arrival_time_d";
-                    com.Parameters.Add("@arrival_time_d", SqlDbType.Date);
+                    com.Parameters.Add("@arrival_time_d", SqlDbType.Time);
                     com.Parameters["@arrival_time_d"].Value = arrival_time_d;
                 }
                 com.Parameters.Add("@from", SqlDbType.Int);
@@ -398,13 +398,13 @@ namespace ISM.WebApp.DAOImpl
                 if (arrival_time_a != null)
                 {
                     where += " and arrival_time_a=@arrival_time_a";
-                    com.Parameters.Add("@arrival_time_a", SqlDbType.Date);
+                    com.Parameters.Add("@arrival_time_a", SqlDbType.Time);
                     com.Parameters["@arrival_time_a"].Value = arrival_time_a;
                 }
                 if (arrival_time_d != null)
                 {
                     where += " and arrival_time_d=@arrival_time_d";
-                    com.Parameters.Add("@arrival_time_d", SqlDbType.Date);
+                    com.Parameters.Add("@arrival_time_d", SqlDbType.Time);
                     com.Parameters["@arrival_time_d"].Value = arrival_time_d;
                 }
                 if (degreeOrMobility.Equals("Mobility"))
