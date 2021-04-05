@@ -1,0 +1,220 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+}
+<div style="height: 500px; background-color: white;">
+    <h1 style="text-align: center;">Available Time</h1>
+    <div style="height: 50px;">
+
+        <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+            <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+        </button>
+        <br>
+        <br>
+        <div style="height: 200px; width: 55%; margin: 0 auto">
+
+            <center>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            ID
+                        </td>
+                        <td>
+                            Account
+                        </td>
+                        <td>
+                            Start Time
+                        </td>
+                        <td>
+                            End Time
+                        </td>
+                        <td>
+                            Date
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            BanNT
+                        </td>
+                        <td>
+                            9 a.m
+                        </td>
+                        <td>
+                            5 p.m
+                        </td>
+                        <td>
+                            24/1/2020
+                        </td>
+                    </tr>
+                </table>
+                <button style="width: 200px; border-radius: 10px; float: right; background-color: greenyellow;">
+                    <a style="text-decoration: none;" href="#xmas-popup-assign1">View Student Register</a>
+                </button>
+                <button style="width: 200px; border-radius: 10px; float: right; background-color: greenyellow;">
+                    <a style="text-decoration: none;" href="#xmas-popup-assign">View Meeting Schedule</a>
+                </button>
+            </center>
+
+
+
+
+
+
+            <!-- popup code -->
+            <div id="xmas-popup" class="popup" href="#">
+                <div class="popup-content">
+                    <form>
+                        <h1 style="text-align: center; margin-top: 20px;">Avalable Time</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                            <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
+                            <input type="time" id="time">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
+                            <input type="time" id="time">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                            <input type="date" id="date" name="date">
+                        </div>
+                        <div class="form-group row">
+                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <!-- </form> -->
+                <!-- <a href="#" class="close">x</a> -->
+            </div>
+            <div id="xmas-popup-assign" class="popup">
+                <div class="popup-content-assign">
+                    <form>
+                        <h1 align="center">Meeting Schedule</h1>
+                        <center>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        Account
+                                    </td>
+                                    <td>
+                                        Time
+                                    </td>
+                                    <td>
+                                        Note
+                                    </td>
+                                    <td>
+                                        Student
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        trungdt
+                                    </td>
+                                    <td>
+                                        Friday 10:54-14-20
+                                    </td>
+                                    <td>
+                                        asdasd
+                                    </td>
+                                    <td>
+                                        haidm
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </center>
+
+
+
+                        <div class="form-group row">
+                            <button style="margin-left:40px;width: 80px;" type="button" class="btn btn-danger">
+                                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+
+            <div id="xmas-popup-assign1" class="popup">
+                <div class="popup-content-assign1">
+                    <form>
+                        <h1 align="center">Student Registed</h1>
+                        <center>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        Account
+                                    </td>
+                                    <td>
+                                        Time
+                                    </td>
+                                    <td>
+                                        Note
+                                    </td>
+                                    <td>
+                                        Student
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        trungdt
+                                    </td>
+                                    <td>
+                                        Friday 10:54-14-20
+                                    </td>
+                                    <td>
+                                        asdasd
+                                    </td>
+                                    <td>
+                                        haidm
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </center>
+
+
+
+                        <div class="form-group row">
+                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Accept</button>
+
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
