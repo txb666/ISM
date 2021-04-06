@@ -173,7 +173,7 @@
                     <td>
                         @item.note
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <button onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
                             <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
                         </button>

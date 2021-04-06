@@ -184,7 +184,7 @@
                     }
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
-                        <td>
+                        <td style="text-align: center;">
                             <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d');">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
@@ -192,7 +192,7 @@
                     }
                     else
                     {
-                        <td>
+                        <td style="text-align: center;">
                             <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>

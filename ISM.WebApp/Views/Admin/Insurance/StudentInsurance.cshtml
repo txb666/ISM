@@ -105,7 +105,7 @@
                         @{
                             var editedInsurance = Json.Serialize(Model.insurances[i]).ToString();
                         }
-                        <td>
+                        <td style="text-align: center;">
                             <button style="width:80px; border-radius:10px" onclick="editInsurance('@Model.insurances[i].insurance_id','@Model.insurances[i].account','@Model.insurances[i].fullname','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].start_date)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].expiry_date)');" class="btn btn-info">
                                 <a href="#xmas-popup" style="text-decoration: none; color:white">Edit</a>
                             </button>
