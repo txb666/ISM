@@ -19,8 +19,8 @@
 <h1 style="text-align: center;">Available Time</h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width: 100px; border-radius: 10px;" class="btn btn-primary">Search</button>
-        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+        <button onclick="myFunction1()" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 250px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="Meeting" asp-action="Index" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
@@ -39,7 +39,7 @@
             </form>
         </div>
     </div>
-    <button style="width: 100px; border-radius: 10px; float: right;" class="btn btn-success">
+    <button style="width: 80px; border-radius: 10px; float: right;" class="btn btn-success">
         <a style="text-decoration: none; color:white" href="#xmas-popup-setupnotification-degree">Create</a>
     </button>
 </div>
@@ -69,10 +69,10 @@
                         @item.end_time.ToString(@"hh\:mm\:ss")
                     </td>
                     <td style="text-align:center;">
-                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: 100px; border-radius: 10px;" class="btn btn-info">
+                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: 80px; border-radius: 10px;" class="btn btn-info">
                             <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
                         </button>
-                        <button onclick="deleteMAT('@item.mat_id', '@item.staff_id');" style="width: 100px; border-radius: 10px;" class="btn btn-danger" asp-controller="" asp-action="">Delete</button>
+                        <button onclick="deleteMAT('@item.mat_id', '@item.staff_id');" style="width: 80px; border-radius: 10px;" class="btn btn-danger" asp-controller="" asp-action="">Delete</button>
                     </td>
                 </tr>
             }
@@ -84,9 +84,14 @@
 <button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
     <a style="text-decoration: none; color:white" href="#xmas-popup-assign1">View Student Register</a>
 </button>
-<button style="width: 200px; border-radius: 10px; float: right;" class="btn btn-success">
+<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
     <a style="text-decoration: none; color:white" href="#xmas-popup-assign">View Meeting Schedule</a>
 </button>
+<i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+    <button style="width:220px;border-radius:10px;" class="btn btn-danger">
+        <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+    </button>
+</i>
 
 
 <!-- popup code -->
@@ -143,6 +148,25 @@
     </div>
 </div>
 
+<div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
+    <div class="popup-content-setupnotification-mobility" style="height:300px">
+        <form id="mobility_notificationForm" asp-controller="Insurance" asp-action="NotificationMobility" method="post">
+            <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Meeting Start:</label>
+                <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
+            </div>
+            <div class="form-group row">
+                <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <div id="xmas-popup-assign" class="popup">
     <div class="popup-content-assign">
         <h1 align="center">Meeting Schedule</h1>
@@ -162,26 +186,26 @@
                     <tbody>
                         @foreach (var item in Model.meetingSchedules)
                         {
-                        <tr>
-                            <td>
-                                @item.staff_name_s
-                            </td>
-                            <td>
-                                @item.student_name_s
-                            </td>
-                            <td>
-                                @item.date_MS_s.ToString("yyyy-MMM-dd")
-                            </td>
-                            <td>
-                                @item.startTime_MS_s.ToString(@"hh\:mm\:ss")
-                            </td>
-                            <td>
-                                @item.endTime_MS_s.ToString(@"hh\:mm\:ss")
-                            </td>
-                            <td>
-                                @item.note_s
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @item.staff_name_s
+                                </td>
+                                <td>
+                                    @item.student_name_s
+                                </td>
+                                <td>
+                                    @item.date_MS_s.ToString("yyyy-MMM-dd")
+                                </td>
+                                <td>
+                                    @item.startTime_MS_s.ToString(@"hh\:mm\:ss")
+                                </td>
+                                <td>
+                                    @item.endTime_MS_s.ToString(@"hh\:mm\:ss")
+                                </td>
+                                <td>
+                                    @item.note_s
+                                </td>
+                            </tr>
                         }
                 </table>
             </div>

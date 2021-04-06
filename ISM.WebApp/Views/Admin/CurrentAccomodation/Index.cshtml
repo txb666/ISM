@@ -21,7 +21,7 @@
 <h1 style="text-align: center;">Student's Current Accomodation</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <button onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
             <form id="searchForm" asp-controller="CurrentAccomodation" asp-action="Index" method="get" style="width: 320px;">
                 @if (Model.degreeOrMobility.Equals("Degree"))
@@ -108,7 +108,7 @@
             <option value="Mobility" selected>Mobility Student</option>
         }
     </select>
-    <button style="float: right; width: 80px;" class="btn btn-success">
+    <button style="float: right; width: 80px; border-radius:10px" class="btn btn-success">
         <a href="#xmas-popup" style="text-decoration: none; color: white;">Create</a>
     </button>
 </div>
@@ -174,7 +174,7 @@
                         @item.note
                     </td>
                     <td style="text-align: center;">
-                        <button onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
+                        <button style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
                             <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
                         </button>
                     </td>
