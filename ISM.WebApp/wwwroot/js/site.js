@@ -18,3 +18,11 @@ function searchByStudentGroup() {
     document.getElementById('search_student_group_id').value = document.getElementById('outside_studentGroup').value;
     search(1);
 }
+
+function showPopup(id) {
+    document.getElementById(id).style.display = "block";
+}
+
+function hidePopup(id) {
+    document.getElementById(id).style.display = "none";
+}

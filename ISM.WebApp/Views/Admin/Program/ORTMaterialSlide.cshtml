@@ -1,55 +1,40 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.StudentIndexViewModel;
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
     {
-        ViewData["Title"] = "Orientation Material Slide Page";
+        ViewData["Title"] = "Orientation Schedule Page";
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
     else if (sessionUser.role_name == "Staff")
     {
-        ViewData["Title"] = "Orientation Material Slide Page";
+        ViewData["Title"] = "Orientation Schedule Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
 @*<div style="height: 500px; background-color: white;">*@
-<h1 style="text-align: center;"> ORT Material/ Slide </h1>
+<h1 style="text-align: center;"> ORT Material/Slide </h1>
 <div style="height:50px">
     <div class="dropdown_search">
         <button onclick="myFunction1()" class="btn btn-primary">Search</button>
-        <div id="myDropdown_search" class="dropdown-content_search" style="height: 250px; margin-top: 10px;">
-            <form style="width: 320px;">
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 200px; margin-top: 10px;">
+            <form id="searchForm" asp-controller="ORTMaterialSlide" asp-action="Index" method="get">
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                    <select style="width:200px; border-radius:5px">
-                        <option>A</option>
-                        <option>A</option>
-                    </select>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                    <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input type="text" style="width: 200px; border-radius: 5px;" id="">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                    <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                 </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Material:</label>
-                    <input type="text" style="width: 200px; border-radius: 5px;" id="">
-                </div>
-                <button class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
-    <button style="float: right;" class="btn btn-danger">
-        <a style="text-decoration: none; color:white">Delete</a>
-    </button>
-    <button style="float: right; background-color: orangered;" class="btn btn-info">
-        <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
-    </button>
-    <button style="float: right;" class="btn btn-success">
-        <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Create</a>
-    </button>
 </div>
 <br>
 <br>
@@ -57,56 +42,69 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">Program</th>
-                <th scope="col">Content</th>
-                <th scope="col">Material</th>
-
+                <th scope="col">Account</th>
+                <th scope="col">Full Name</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Mark</td>
-            </tr>
+            @foreach (var item in Model.students)
+            {
+                <tr>
+                    <td>
+                        @item.account
+                    </td>
+                    <td>
+                        @item.fullname
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-info">
+                            <a style="text-decoration:none; color:white" asp-controller="ORTMaterialSlide" asp-action="Detail" asp-route-student_id="@item.user_id">View Student's Material/Slide</a>
+                        </button>
+                    </td>
+                </tr>
+            }
     </table>
 </div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
+<div>
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
 
+        <button class="btn btn-danger">
+            <a style="text-decoration: none; color:white" href="#xmas-popup">Set Up Notification</a>
+        </button>
 
-<div id="xmas-popup-assign" class="popup">
-    <div class="popup-content-assign" style="height:400px">
-        <form>
-            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Orientation Material</h1>
+    </i>
+</div>
+
+<!-- popup code -->
+<div id="xmas-popup" class="popup">
+    <div class="popup-content" style="height:200px">
+        <form id="notificationForm" asp-controller="Orientation" asp-action="SetupNotification">
+            <h1 style="text-align: center; margin-top: 20px;">Set Up Notification</h1>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                <select style="width:300px; margin-left:30px; border-radius:5px">
-                    <option>A</option>
-                    <option>A</option>
-                </select>
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days Befor ORT Activity:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_notification_input">
             </div>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-            </div>
-            <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Material:</label>
-                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-            </div>
-            <div class="form-group row">
-                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="validateNotificationORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
                 <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
+
             </div>
+
         </form>
     </div>
-</div>
 
+</div>
 
 <script>
     function myFunction1() {
-        document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_material_slide");
+        document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule");
     }
     function filterFunction() {
         var input, filter, ul, li, a, i;

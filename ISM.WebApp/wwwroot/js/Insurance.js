@@ -83,8 +83,8 @@ function validateEditInsurance() {
     });
 }
 
-function editInsurance(flight_id, flight_number_a, arrival_date_a, arrival_time_a, airport_departure_a, airport_arrival_a, picture_a, flight_number_d, arrival_date_d, arrival_time_d, airport_departure_d, airport_arrival_d, picture_d) {
-    document.getElementById("edit_id").value = flight_id;
+function editInsurance(id, account, fullname, startDate, expiryDate) {
+    document.getElementById("edit_id").value = id;
     document.getElementById("edit_account").value = account;
     document.getElementById("edit_fullname").value = fullname;
     document.getElementById("edit_startDate").value = startDate;

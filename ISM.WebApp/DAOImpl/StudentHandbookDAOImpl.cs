@@ -12,6 +12,36 @@ namespace ISM.WebApp.DAOImpl
 {
     public class StudentHandbookDAOImpl : StudentHandbookDAO
     {
+        public bool editStudentHandbook(int student_handbook_id, string title, string file_name)
+        {
+            SqlConnection con = null;
+            string sql = "update Student_Handbook set title=@title,[file_name]=@file_name where student_handbook_id=@student_handbook_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@title", SqlDbType.NVarChar);
+                com.Parameters["@title"].Value = title;
+                com.Parameters.Add("@file_name", SqlDbType.NVarChar);
+                com.Parameters["@file_name"].Value = file_name;
+                com.Parameters.Add("@student_handbook_id", SqlDbType.Int);
+                com.Parameters["@student_handbook_id"].Value = student_handbook_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public List<StudentHandbook> getAllStudentHandbook()
         {
             SqlConnection con = null;

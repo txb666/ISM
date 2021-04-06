@@ -454,7 +454,8 @@ namespace ISM.WebApp.DAOImpl
         public StudentGroup getStudentGroupById(int studentGroup_id)
         {
             SqlConnection con = null;
-            string sql = "select * from Student_Group where student_group_id=@studentGroup_id";
+            string sql = " select a.[year],a.student_group_id,a.program_id,b.program_name,a.campus_id,c.campus_name,a.duration_start,a.duration_end,a.home_univercity,a.note"
+                       + " from Student_Group a, Programs b, Campus c where a.program_id=b.program_id and a.campus_id=c.campus_id and a.student_group_id=@studentGroup_id";
             SqlCommand com = null;
             SqlDataReader reader = null;
             StudentGroup group = null;
@@ -473,7 +474,9 @@ namespace ISM.WebApp.DAOImpl
                 {                   
                     group.studentGroup_id = studentGroup_id;
                     group.program_id = (int)reader.GetValue(reader.GetOrdinal("program_id"));
+                    group.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
                     group.campus_id = (int)reader.GetValue(reader.GetOrdinal("campus_id"));
+                    group.campus_name=(string)reader.GetValue(reader.GetOrdinal("campus_name"));
                     group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
                     group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
                     group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
@@ -606,6 +609,173 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return groups;
+        }
+
+        public List<StudentGroup> GetStudentGroupByStaffWithPaging(int staff_id, bool isAdmin, string degreeOrMobility, int page, int pageSize, string program, string home_univercity, string campus, int? year)
+        {
+            int from = page * pageSize - (pageSize - 1);
+            int to = page * pageSize;
+            SqlConnection con = null;
+            string sql = "";       
+            SqlCommand com = null;
+            SqlDataReader reader = null;
+            List<StudentGroup> groups = new List<StudentGroup>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(program))
+                {
+                    where += " and upper([program_name]) like upper('%' + @program + '%')";
+                    com.Parameters.Add("@program", SqlDbType.NVarChar);
+                    com.Parameters["@program"].Value = program;
+                }
+                if (!string.IsNullOrEmpty(home_univercity))
+                {
+                    where += " and upper(home_univercity) like upper('%' + @home_univercity + '%')";
+                    com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                    com.Parameters["@home_univercity"].Value = home_univercity;
+                }
+                if (!string.IsNullOrEmpty(campus))
+                {
+                    where += " and upper(campus_name) like upper('%' + @campus + '%')";
+                    com.Parameters.Add("@campus", SqlDbType.NVarChar);
+                    com.Parameters["@campus"].Value = campus;
+                }
+                if (year != null)
+                {
+                    where += " and [year] = @year";
+                    com.Parameters.Add("@year", SqlDbType.Int);
+                    com.Parameters["@year"].Value = year;
+                }
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.Parameters.Add("@degreeOrMobility", SqlDbType.NVarChar);
+                com.Parameters["@degreeOrMobility"].Value = degreeOrMobility;
+                if (isAdmin)
+                {
+                    sql = " select * from("
+                        + " select ROW_NUMBER() over (order by a.student_group_id asc) rownumber, a.student_group_id,b.campus_id,b.campus_name,c.program_id,c.[program_name],a.[year],a.duration_start,a.duration_end,a.home_univercity,a.note,c.[type]"
+                        + " from Student_Group a, Campus b, Programs c"
+                        + " where a.campus_id=b.campus_id and a.program_id=c.program_id and c.[type]=@degreeOrMobility" + where
+                        + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                }
+                else
+                {
+                    sql = " select * from("
+                        + " select ROW_NUMBER() over (order by b.student_group_id asc) rownumber, b.student_group_id,c.campus_id,c.campus_name,d.program_id,d.[program_name],b.[year],b.duration_start,b.duration_end,b.home_univercity,b.note,d.[type]"
+                        + " from Coordinators a, Student_Group b, Campus c, Programs d"
+                        + " where a.studentGroup_id=b.student_group_id and b.campus_id=c.campus_id and b.program_id=d.program_id and a.staff_id=@staff_id and d.[type]=@degreeOrMobility" + where
+                        + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                }
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    StudentGroup group = new StudentGroup();
+                    group.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    group.campus_id = (int)reader.GetValue(reader.GetOrdinal("campus_id"));
+                    group.campus_name = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                    group.program_id = (int)reader.GetValue(reader.GetOrdinal("program_id"));
+                    group.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    group.year = (int)reader.GetValue(reader.GetOrdinal("year"));
+                    group.duration_start = (DateTime)reader.GetValue(reader.GetOrdinal("duration_start"));
+                    group.duration_end = (DateTime)reader.GetValue(reader.GetOrdinal("duration_end"));
+                    if (!reader.IsDBNull("home_univercity"))
+                    {
+                        group.home_university = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
+                    {
+                        group.note = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    }
+                    group.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    groups.Add(group);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return groups;
+        }
+
+        public int getTotalStudentGroupByStaff(int staff_id, bool isAdmin, string degreeOrMobility, string program, string home_univercity, string campus, int? year)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(program))
+                {
+                    where += " and upper([program_name]) like upper('%' + @program + '%')";
+                    com.Parameters.Add("@program", SqlDbType.NVarChar);
+                    com.Parameters["@program"].Value = program;
+                }
+                if (!string.IsNullOrEmpty(home_univercity))
+                {
+                    where += " and upper(home_univercity) like upper('%' + @home_univercity + '%')";
+                    com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                    com.Parameters["@home_univercity"].Value = home_univercity;
+                }
+                if (!string.IsNullOrEmpty(campus))
+                {
+                    where += " and upper(campus_name) like upper('%' + @campus + '%')";
+                    com.Parameters.Add("@campus", SqlDbType.NVarChar);
+                    com.Parameters["@campus"].Value = campus;
+                }
+                if (year != null)
+                {
+                    where += " and [year] = @year";
+                    com.Parameters.Add("@year", SqlDbType.Int);
+                    com.Parameters["@year"].Value = year;
+                }             
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.Parameters.Add("@degreeOrMobility", SqlDbType.NVarChar);
+                com.Parameters["@degreeOrMobility"].Value = degreeOrMobility;
+                if (isAdmin)
+                {
+                    sql = " select count(*)"
+                        + " from Student_Group a, Campus b, Programs c"
+                        + " where a.campus_id=b.campus_id and a.program_id=c.program_id and c.[type]=@degreeOrMobility" + where;
+                }
+                else
+                {
+                    sql = " select count(*)"
+                        + " from Coordinators a, Student_Group b, Campus c, Programs d"
+                        + " where a.studentGroup_id=b.student_group_id and b.campus_id=c.campus_id and b.program_id=d.program_id and a.staff_id=@staff_id and d.[type]=@degreeOrMobility" + where;
+                }
+                com.CommandText = sql;
+                total = (int)com.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
         }
     }
 }

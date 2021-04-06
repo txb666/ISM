@@ -10,5 +10,6 @@ namespace ISM.WebApp.DAO
     {
         List<StudentHandbook> getAllStudentHandbook();
         StudentHandbook GetStudentHandbookById(int student_handbook_id);
+        bool editStudentHandbook(int student_handbook_id, string title, string file_name);
     }
 }

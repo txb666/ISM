@@ -1,0 +1,228 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Transportation Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Transportation Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+}
+@model ISM.WebApp.ViewModels.ORTMaterialSlideDetailViewModel
+@*<div style="height: 500px; background-color: white;">*@
+<h1 style="text-align: center;"> ORT Material/Slide For Student: @Model.current_student.account </h1>
+<div style="height:50px">
+    <div class="dropdown_search">
+        <button onclick="search_visa()" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form style="width: 320px;" id="searchForm" asp-controller="ORTMaterialSlide" asp-action="Detail" method="get">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program</label>
+                    <input name="program" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.program">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
+                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Material</label>
+                    <input name="material" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.material">
+                </div>
+                <input type="hidden" name="student_id" value="@Model.current_student.user_id" />
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+<button onclick="showPopup('xmas-popup')" style="float: right;" class="btn btn-success">
+    Create
+</button>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Program</th>
+                <th scope="col">Content</th>
+                <th scope="col">Material</th>
+                <th> </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.materials)
+            {
+                <tr>
+                    <td>
+                        @item.program
+                    </td>
+                    <td>
+                        @item.content
+                    </td>
+                    <td>
+                        @item.material
+                    </td>
+                    <td style="text-align: center;">
+                        <button onclick="EditORTMaterialSlide('@item.ort_material_slide_id','@item.program','@item.content','@item.material'); showPopup('xmas-popup-assign1');" class="btn btn-info">
+                            Edit
+                        </button>
+                    </td>
+                    <td style="text-align: center;">
+                        <button onclick="deleteORTMaterialSlide('@item.ort_material_slide_id')" class="btn btn-info">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup" href="#">
+        <div class="popup-content" style="height:500px">
+            <form>
+                <h1 style="text-align: center; margin-bottom: 40px;">Create ORT Material/Slide</h1>
+                <input type="hidden" id="create_student_id" value="@Model.current_student.user_id">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_program">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Material</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_material">
+                </div>
+                <div class="form-group row">
+                    <button id="save" onclick="validateCreateORTMaterialSlide();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="xmas-popup-assign1" class="popup" href="#">
+        <div class="popup-content-assign1">
+            <form>
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit ORT Material/Slide</h1>
+                <input type="hidden" id="edit_ort_material_slide_id">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_program">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Material:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_material">
+                </div>
+                <div class="form-group row">
+                    <button id="save" onclick="validateEditORTMaterialSlide();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button onclick="hidePopup('xmas-popup-assign1')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+
+<!-- POP UP Set Up Notification -->
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign" style="height:300px">
+        <form id="notificationForm" asp-controller="Transportation" asp-action="SetupNotification" method="post">
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Hours before:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
+            </div>
+            <div class="form-group row">
+                <button id="save" onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button class="btn btn-danger">
+            <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Set Up Notification</a>
+        </button>
+        <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
+    </i>
+</div>
+
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn_search')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content_search");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show_search')) {
+                    openDropdown.classList.remove('show_search');
+                }
+            }
+        }
+    }
+
+    function search_visa() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
+    }
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>
+@*</div>*@

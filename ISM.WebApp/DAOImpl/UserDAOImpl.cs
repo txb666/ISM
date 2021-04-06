@@ -824,7 +824,7 @@ namespace ISM.WebApp.DAOImpl
             SqlConnection con = null;
             string sql = " select a.[user_id],a.account,a.fullname,a.email"
                        + " from Users a, Roles b"
-                       + " where a.role_id=b.role_id and (b.role_name='Mobility' or b.role_name='Degree')";
+                       + " where a.role_id=b.role_id and b.role_name='Degree'";
             SqlDataReader reader = null;
             SqlCommand com = null;
             List<User> degreeStudents = new List<User>();
@@ -856,6 +856,155 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return degreeStudents;
+        }
+
+        public List<User> getDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname, int page, int pageSize)
+        {
+            int from = page * pageSize - (pageSize - 1);
+            int to = page * pageSize;
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<User> studentList = new List<User>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(account))
+                {
+                    where += " and upper(account) like upper('%' + @account + '%')";
+                    com.Parameters.Add("@account", SqlDbType.NVarChar);
+                    com.Parameters["@account"].Value = account;
+                }
+                if (!string.IsNullOrEmpty(fullname))
+                {
+                    where += " and upper(fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = fullname;
+                }
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                if (haveDegree==true || isAdmin==true)
+                {
+                    sql = " select * from("
+                        + " select ROW_NUMBER() over(order by a.[user_id] asc) rownumber, a.[user_id] , a.account, a.fullname, a.email, a.[status], a.isFirstLoggedIn, a.DOB, a.gender, a.emergency_contact, a.nationality"
+                        + " from Users a, Roles b where a.role_id=b.role_id and b.role_name='Degree'" + where
+                        + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                }
+                else
+                {
+                    return studentList;
+                }
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    User student = new User();
+                    student.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    student.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        student.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    studentList.Add(student);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return studentList;
+        }
+
+        public int getTotalDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname)
+        {        
+            SqlConnection con = null;
+            string sql = "";       
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(account))
+                {
+                    where += " and upper(account) like upper('%' + @account + '%')";
+                    com.Parameters.Add("@account", SqlDbType.NVarChar);
+                    com.Parameters["@account"].Value = account;
+                }
+                if (!string.IsNullOrEmpty(fullname))
+                {
+                    where += " and upper(fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = fullname;
+                }             
+                if (haveDegree==true || isAdmin==true)
+                {
+                    sql = " select count(*)"
+                        + " from Users a, Roles b where a.role_id=b.role_id and b.role_name='Degree'" + where;
+                }
+                else
+                {
+                    return total;
+                }
+                com.CommandText = sql;
+                total = (int)com.ExecuteScalar();               
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
+        }
+
+        public User getUserById(int id)
+        {
+            SqlConnection con = null;
+            string sql = "select * from Users where [user_id]=@user_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            User user = new User();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    user.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    user.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    user.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader,null);
+            }
+            return user;
         }
     }
 }

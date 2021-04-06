@@ -18,5 +18,15 @@ namespace ISM.WebApp.DAO
         bool isORTAlreadyExist(int student_id, string content, DateTime date, TimeSpan time, string location);
         bool isSameTime(int student_id, DateTime date, TimeSpan time);
         bool SetupNotification(int days_before);
+        List<ORTMaterials> GetORTMaterials(int student_group_id, int page, int pageSize, string content, string note);
+        List<ORTMaterialSlide> GetORTMaterialSlides(int student_id, int page, int pageSize, string program, string content, string material);
+        bool CreateORTMaterial(int student_group_id, string content, string note);
+        bool EditORTMaterial(int ort_materials_id, string content, string note);
+        bool DeleteORTMaterial(int ort_materials_id);
+        bool CreateORTMaterialSlide(int student_id, string program, string content, string material);
+        bool EditORTMaterialSlide(int ort_material_slide_id, string program, string content, string material);
+        bool DeleteORTMaterialSlide(int ort_material_slide_id);
+        int getTotalORTMaterials(int student_group_id, string content, string note);
+        int getTotalORTMaterialSlides(int student_id, string program, string content, string material);
     }
 }
