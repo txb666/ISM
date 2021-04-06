@@ -17,6 +17,22 @@ function validateEditVisa() {
         alert("Entry port must not be empty or contain special character");
         return;
     }
+    if (!start_date) {
+        alert("Start date must not be empty.");
+        return;
+    }
+    if (!expired_date) {
+        alert("Expired date must not be empty.");
+        return;
+    }
+    if (!entry_date) {
+        alert("Entry date must not be empty.");
+        return;
+    }
+    if (start_date >= expired_date) {
+        alert("Expired date must be greater than Start date.");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/Visa/Edit",
@@ -28,7 +44,7 @@ function validateEditVisa() {
                 searchButton.click();
             }
             else {
-                alert("Edit Visa failed")
+                alert("Edit Visa failed");
             }
         },
         error: function (req, status, error) {

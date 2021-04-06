@@ -44,6 +44,22 @@ function validateEditPassport() {
         alert("Passport number must not be empty or contain special character");
         return;
     }
+    if (!start_date) {
+        alert("Start date must not be empty.");
+        return;
+    }
+    if (!expired_date) {
+        alert("Expired date must not be empty.");
+        return;
+    }
+    if (!issuing_authority) {
+        alert("Issuing authority must not be empty.");
+        return;
+    }
+    if (start_date >= expired_date) {
+        alert("Expired date must be greater than Start date.");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/Passport/Edit",

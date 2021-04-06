@@ -26,6 +26,10 @@ function createStudentGroup() {
         alert("duration must not be empty");
         return;
     }
+    if (duration_start >= duration_end) {
+        alert("End date must be greater than start date.");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/StudentGroup/isStudentGroupExist",

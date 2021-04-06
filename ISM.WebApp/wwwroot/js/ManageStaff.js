@@ -54,6 +54,12 @@ function validateCreateStaff() {
         alert("account must not be empty or contain special character");
         return;
     }
+    if (startDate || endDate) {
+        if (startDate >= endDate) {
+            alert("End date must be greater than start date.");
+            return;
+        }
+    }
     $.ajax({
         type: "POST",
         url: "/Staff/IsStaffAlreadyExist",
@@ -118,6 +124,12 @@ function validateEditStaff() {
     if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false && fullname.length != 0) {
         alert("fullname must not be empty or contain special character");
         return;
+    }
+    if (startDate || endDate) {
+        if (startDate >= endDate) {
+            alert("End date must be greater than start date.");
+            return;
+        }
     }
     $.ajax({
         type: "POST",
