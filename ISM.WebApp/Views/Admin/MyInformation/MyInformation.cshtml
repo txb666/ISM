@@ -1,4 +1,5 @@
-﻿@*@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.InformationIndexViewModel;
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @using ISM.WebApp.Utils
@@ -14,12 +15,8 @@
         ViewData["Title"] = "My Information Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
-}*@
-@{ 
-    ViewData["Title"] = "My Information Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<h1 style="text-align: center; margin-bottom: 50px;"> My Information</h1>
+<h1 style="text-align: center; margin-bottom: 50px;">My Information</h1>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
@@ -32,38 +29,49 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;"
-                           id="">
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;"
-                           id="">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                        Start
-                        Date:
-                    </label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;"
-                           id="">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                        End Date:
-                    </label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;"
-                           id="">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
+                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id">
+                        @if (Model.user.gender == null)
+                        {
+                            <option value="" selected>All</option>
+                            <option value="true">Male</option>
+                            <option value="false">Female</option>
+                        }
+                        else if (Model.user.gender == true)
+                        {
+                            <option value="">All</option>
+                            <option value="true" selected>Male</option>
+                            <option value="false">Female</option>
+                        }
+                        else
+                        {
+                            <option value="">All</option>
+                            <option value="true">Male</option>
+                            <option value="false" selected>Female</option>
+                        }
+                    </select>
                 </div>
                 <div class="form-group row">
-                    <button class="btn btn-danger" style="margin-left: 33%;">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
+                </div>
+                <div class="form-group row">
+                    <button class="btn btn-success" style="margin-left: 33%;">
                         <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
                     </button>
-                </div>
-                <div class="form-group row">
                     <div class="btn-group" style="margin-left: 33%;">
-                        <button class="btn btn-primary">Save</button>
-                        <button class="btn btn-primary" style="margin-left: 10px;">Cancel</button>
+                        <button onclick="validateSaveInformation('@sessionUser.user_id');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Save</button>
                     </div>
                 </div>
             </form>
@@ -77,29 +85,23 @@
         <form>
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Old Password:</label>
-                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Current Password:</label>
+                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_current_password">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">New Password:</label>
-                <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_new_password">
             </div>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Confirm-New Password:</label>
-                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Confirm New Password:</label>
+                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
             </div>
             <div class="form-group row" style="margin-top: 50px;">
-                <button id="save" style="margin-left: 190px; width: 80px;" type="button"
-                        class="btn btn-success">
-                    Save
-                </button>
-
-                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                <button onclick="validateChangePassword('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
-
             </div>
-
         </form>
     </div>
 </div>

@@ -23,7 +23,7 @@
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
+    @*<script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
         function myFunction() {
@@ -48,7 +48,7 @@
             document.getElementById("initializeButton").click();
         };
 
-    </script>
+    </script>*@
 </head>
 
 <body>
@@ -69,10 +69,14 @@
                     <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="#home">My Infor</a>
+                        <a>
+                            <form method="post" asp-controller="Information" asp-action="Index">
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Profile</button>
+                            </form>
+                        </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button class="btn btn-info">Log Out</button>
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
                             </form>
                         </a>
                     </div>
@@ -271,6 +275,7 @@
     <script src="~/js/ORTMaterialSlide.js" asp-append-version="true"></script>
     <script src="~/js/JobVacancy.js" asp-append-version="true"></script>
     <script src="~/js/Meeting.js" asp-append-version="true"></script>
+    <script src="~/js/Information.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
