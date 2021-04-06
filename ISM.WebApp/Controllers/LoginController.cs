@@ -71,7 +71,7 @@ namespace ISM.WebApp.Controllers
                 var props = new AuthenticationProperties();
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-                return View("Views/Staff/Homepage/StaffHomepage.cshtml");
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
             else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
                 && (newAccount.role_name.Equals("Degree")) && (newAccount.status == true))

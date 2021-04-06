@@ -15,100 +15,71 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
+<div style="height: 500px; background-color: white;">
+    @*<h1 style="text-align: center;">Staff</h1>*@
+    <div style="height: 50px;">
+        @*<button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
+                <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
 
-@*<form method="post" asp-controller="Home" asp-action="Logout">
-        <button class="btn btn-info">Log Out</button>
-    </form>*@
+            </button>
+            <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
+                <a style="text-decoration: none;" href="#xmas-popup">Create</a>
+            </button>*@
 
-<!doctype html>
-<html lang="en">
+        <br>
+        <br>
+        <div class="table-scroll">
 
+            <!-- popup code -->
+            <div id="xmas-popup" class="popup" href="#">
+                <div class="popup-content">
+                    <form>
+                        <h1 style="text-align: center; margin-top: 20px;">Staff Information</h1>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                            <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
 
-<body>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
+                            <select style="margin-left: 30px;border-radius: 5px;">
+                                <option value="A">Active</option>
+                                <option value="B">DeActive</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
 
-    <div style="height: 500px; background-color: white;">
-        @*<h1 style="text-align: center;">Staff</h1>*@
-        <div style="height: 50px;">
-            @*<button style="width: 100px; border-radius: 10px;float: right; background-color: tomato;">
-                    <a style="text-decoration: none;" href="#xmas-popup">Edit</a>
+                            <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
 
-                </button>
-                <button style="width: 100px; border-radius: 10px; float: right; background-color: greenyellow;">
-                    <a style="text-decoration: none;" href="#xmas-popup">Create</a>
-                </button>*@
+                        </div>
 
-            <br>
-            <br>
-            <div class="table-scroll">
-
-                <!-- popup code -->
-                <div id="xmas-popup" class="popup" href="#">
-                    <div class="popup-content">
-                        <form>
-                            <h1 style="text-align: center; margin-top: 20px;">Staff Information</h1>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                                <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                            </div>
-
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Date:</label>
-                                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="">
-                            </div>
-                            <div class="form-group row">
-                                <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
-                                <select style="margin-left: 30px;border-radius: 5px;">
-                                    <option value="A">Active</option>
-                                    <option value="B">DeActive</option>
-                                </select>
-                            </div>
-                            <div class="form-group row">
-                                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-
-                                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-
-                            </div>
-
-                        </form>
-                    </div>
-
-
-                    <!-- </form> -->
-                    <!-- <a href="#" class="close">x</a> -->
+                    </form>
                 </div>
-            </div>
 
+
+                <!-- </form> -->
+                <!-- <a href="#" class="close">x</a> -->
+            </div>
         </div>
 
-
-    </div>
     </div>
 
 
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-</body>
-
-</html>
+</div>

@@ -10,7 +10,7 @@ footer{
  top:100%;
 }
 th{
-    background-color:aquamarine;
+    background-color:dodgerblue;
 }
 /*canvas{
     position:relative;
@@ -223,7 +223,8 @@ POPUP SETUP NOTIFICATION*/
  }
 .table-scroll-meeting {
     overflow-y: scroll;
-    height:300px;
+    height:350px;
+    overflow-x:hidden;
 }
  
 
@@ -336,5 +337,8 @@ POPUP SETUP NOTIFICATION*/
     display: block;
 }
 .show_search_jobVacancy {
+    display: block;
+}
+.show_search_meetingAT {
     display: block;
 }

@@ -100,8 +100,7 @@ function validateEditJobVacancy() {
     });
 }
 
-function deleteJV() {
-    var job_id = document.getElementById('delete_JobVacancy_id').value;
+function deleteJV(job_id) {
     var temp = confirm("Do you want to delete?");
     if (temp) {
         $.ajax({

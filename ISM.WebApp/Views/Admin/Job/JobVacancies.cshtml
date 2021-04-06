@@ -86,11 +86,10 @@
                             @item.deadline.ToString("yyyy-MMM-dd")
                         </td>
                         <td style="text-align: center;">
-                            <input type="hidden" id="delete_JobVacancy_id" value="@item.jobVacancy_id" />
                             <button onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)')" class="btn btn-info">
                                 <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
                             </button>
-                            <button onclick="deleteJV();" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
+                            <button onclick="deleteJV('@item.jobVacancy_id');" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
                         </td>
                     </tr>
                 }

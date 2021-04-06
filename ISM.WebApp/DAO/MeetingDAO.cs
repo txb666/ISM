@@ -13,5 +13,9 @@ namespace ISM.WebApp.DAO
         bool CreateMAT(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time);
         bool EditMAT(int mat_id, int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time);
         bool DeleteMAT(int mat_id, int staff_id);
+        bool isSameTime(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time);
+        List<MeetingSchedule> GetMeetingRegister(int staff_id);
+        List<MeetingSchedule> GetMeetingSchedule(int staff_id);
+        bool AcceptMeetingRegister(int ms_id);
     }
 }

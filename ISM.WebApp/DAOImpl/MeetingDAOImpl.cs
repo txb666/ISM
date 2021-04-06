@@ -148,6 +148,8 @@ namespace ISM.WebApp.DAOImpl
                 sql = "select * from (select ROW_NUMBER() over (order by a.[date] desc) rownumber,a.meeting_available_time_id,a.staff_id,b.fullname,b.email,a.[date]," +
                       "a.start_time,a.end_time from Meeting_AvailableTime a, Users b where a.staff_id = b.[user_id] and a.staff_id = @staff_id"+ where +") " +
                       "as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
                 while (reader.Read())
@@ -172,6 +174,106 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return availableTimes;
+        }
+
+        public List<MeetingSchedule> GetMeetingSchedule(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<MeetingSchedule> meetingRegisters = new List<MeetingSchedule>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                sql = "select c.meeting_schedule_id,c.staff_id,temp.fullname as Staff_name,c.student_id,d.fullname as Student_name," +
+                      "d.account,d.email,c.[date],c.start_time,c.end_time,c.IsAccepted,c.[note] from Meeting_Schedule c, Users d," +
+                      "(select a.meeting_schedule_id,a.staff_id,b.fullname from Meeting_Schedule a, Users b where a.staff_id = b.[user_id]) " +
+                      "as temp where c.student_id = d.[user_id] and c.meeting_schedule_id = temp.meeting_schedule_id and c.staff_id = @staff_id " +
+                      "and c.IsAccepted = 1";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    MeetingSchedule meetingSchedule = new MeetingSchedule();
+                    meetingSchedule.ms_id_s = (int)reader.GetValue(reader.GetOrdinal("meeting_schedule_id"));
+                    meetingSchedule.staff_id_s = (int)reader.GetValue(reader.GetOrdinal("staff_id"));
+                    meetingSchedule.staff_name_s = (string)reader.GetValue(reader.GetOrdinal("Staff_name"));
+                    meetingSchedule.student_id_s = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    meetingSchedule.student_account_s = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    meetingSchedule.student_name_s = (string)reader.GetValue(reader.GetOrdinal("Student_name"));
+                    meetingSchedule.student_email_s = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    meetingSchedule.note_s = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    meetingSchedule.date_MS_s = (DateTime)reader.GetValue(reader.GetOrdinal("date"));
+                    meetingSchedule.startTime_MS_s = (TimeSpan)reader.GetValue(reader.GetOrdinal("start_time"));
+                    meetingSchedule.endTime_MS_s = (TimeSpan)reader.GetValue(reader.GetOrdinal("end_time"));
+                    meetingSchedule.isAccepted_s = (bool)reader.GetValue(reader.GetOrdinal("IsAccepted"));
+                    meetingRegisters.Add(meetingSchedule);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return meetingRegisters;
+        }
+
+        public List<MeetingSchedule> GetMeetingRegister(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<MeetingSchedule> meetingSchedules = new List<MeetingSchedule>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                sql = "select * from (select a.meeting_schedule_id,a.staff_id," +
+                      "a.student_id,b.account,b.fullname,b.email,a.[note],a.[date],a.start_time,a.end_time,a.IsAccepted " +
+                      "from Meeting_Schedule a, Users b where a.student_id = b.[user_id] and a.IsAccepted = 0 and " +
+                      "a.staff_id = @staff_id) as temp";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    MeetingSchedule meetingSchedule = new MeetingSchedule();
+                    meetingSchedule.ms_id_r = (int)reader.GetValue(reader.GetOrdinal("meeting_schedule_id"));
+                    meetingSchedule.staff_id_r = (int)reader.GetValue(reader.GetOrdinal("staff_id"));
+                    meetingSchedule.student_id_r = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    meetingSchedule.student_account_r = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    meetingSchedule.student_name_r = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    meetingSchedule.student_email_r = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    meetingSchedule.note_r = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    meetingSchedule.date_MS_r = (DateTime)reader.GetValue(reader.GetOrdinal("date"));
+                    meetingSchedule.startTime_MS_r = (TimeSpan)reader.GetValue(reader.GetOrdinal("start_time"));
+                    meetingSchedule.endTime_MS_r = (TimeSpan)reader.GetValue(reader.GetOrdinal("end_time"));
+                    meetingSchedule.isAccepted_r = (bool)reader.GetValue(reader.GetOrdinal("IsAccepted"));
+                    meetingSchedules.Add(meetingSchedule);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return meetingSchedules;
         }
 
         public int GetTotalAvailableTime(int staff_id, DateTime? date, TimeSpan? start_time, TimeSpan? end_time)
@@ -208,6 +310,8 @@ namespace ISM.WebApp.DAOImpl
                 sql = "select count(*) from (select a.meeting_available_time_id,a.staff_id,b.fullname,b.email,a.[date]," +
                       "a.start_time,a.end_time from Meeting_AvailableTime a, Users b where a.staff_id = b.[user_id] and " +
                       "a.staff_id = @staff_id"+ where +") as temp";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
                 com.CommandText = sql;
                 total = Convert.ToInt32(com.ExecuteScalar());
             }
@@ -220,6 +324,71 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, null, null);
             }
             return total;
+        }
+
+        public bool isSameTime(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
+        {
+            SqlConnection con = null;
+            string sql = "select count(*) from Meeting_AvailableTime a where a.staff_id = @staff_id and " +
+                         "a.[date] = @date and a.start_time = @start_time and a.end_time = @end_time";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            bool isExist = true;
+            int? count = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.Parameters.Add("@date", SqlDbType.Date);
+                com.Parameters["@date"].Value = date;
+                com.Parameters.Add("@start_time", SqlDbType.Time);
+                com.Parameters["@start_time"].Value = start_time;
+                com.Parameters.Add("@end_time", SqlDbType.Time);
+                com.Parameters["@end_time"].Value = end_time;
+                count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    isExist = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return isExist;
+        }
+
+        public bool AcceptMeetingRegister(int ms_id)
+        {
+            SqlConnection con = null;
+            string sql = "update Meeting_Schedule set IsAccepted = 1 where meeting_schedule_id = @meeting_schedule_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@meeting_schedule_id", SqlDbType.Int);
+                com.Parameters["@meeting_schedule_id"].Value = ms_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
         }
     }
 }

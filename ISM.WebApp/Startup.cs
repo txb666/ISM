@@ -40,12 +40,14 @@ namespace ISM.WebApp
                     options.LoginPath = "/Login";
                     options.LogoutPath = "/Login/Logout";
                     options.Cookie.Name = "ISMCookie";
-                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.ExpireTimeSpan = TimeSpan.FromHours(10);
+                    //options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
                 });
             services.AddSession(options =>
             {
                 options.Cookie.Name = "ISMSession";
-                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.IdleTimeout = TimeSpan.FromHours(10);
+                //options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.IsEssential = true;
             });
             services.AddControllersWithViews();
@@ -85,6 +87,7 @@ namespace ISM.WebApp
             services.AddScoped<OrientationDAO, OrientationDAOImpl>();
             services.AddScoped<FAQDAO, FAQDAOImpl>();
             services.AddScoped<JobVacancyDAO, JobVacancyDAOImpl>();
+            services.AddScoped<MeetingDAO, MeetingDAOImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

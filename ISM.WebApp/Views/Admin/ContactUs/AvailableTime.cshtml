@@ -1,54 +1,90 @@
-﻿@using Microsoft.AspNetCore.Http;
-    @using Newtonsoft.Json;
-    @using ISM.WebApp.Constant;
-    @using ISM.WebApp.Utils
-    @{
-        var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-        if (sessionUser.role_name == "Admin")
-        {
-            ViewData["Title"] = "Avaliable Time Page";
-            Layout = "~/Views/Shared/_AdminLayout.cshtml";
-        }
-        else if (sessionUser.role_name == "Staff")
-        {
-            ViewData["Title"] = "Avaliable Time Page";
-            Layout = "~/Views/Shared/_StaffLayout.cshtml";
-        }
+﻿@model ISM.WebApp.ViewModels.MeetingAvailableTimeIndexViewModel;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
-
-
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+}
 <h1 style="text-align: center;">Available Time</h1>
-<div style="height: 50px;">
-
-    <button style="width: 100px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-info">
-        <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
-    </button>
+<div style="height:50px">
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" style="width: 100px; border-radius: 10px;" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form style="width: 320px;" id="searchForm" asp-controller="Meeting" asp-action="Index" method="get">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MMM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
+                    <input name="start_time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_time.HasValue?Model.start_time.Value.ToString(@"hh\:mm\:ss"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
+                    <input name="end_time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.end_time.HasValue?Model.end_time.Value.ToString(@"hh\:mm\:ss"):"")">
+                </div>
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+            </form>
+        </div>
+    </div>
     <button style="width: 100px; border-radius: 10px; float: right;" class="btn btn-success">
         <a style="text-decoration: none; color:white" href="#xmas-popup-setupnotification-degree">Create</a>
     </button>
 </div>
 <br>
 <br>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Start Time</th>
-            <th scope="col">End Time</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td scope="row">1</td>
-            <td>Mark</td>
-            <td>Mark</td>
-        </tr>
-</table>
-<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-info">
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.availableTimes)
+            {
+                <tr>
+                    <td>
+                        @item.date.ToString("yyyy-MMM-dd")
+                    </td>
+                    <td>
+                        @item.start_time.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @item.end_time.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td style="text-align:center;">
+                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: 100px; border-radius: 10px;" class="btn btn-info">
+                            <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
+                        </button>
+                        <button onclick="deleteMAT('@item.mat_id', '@item.staff_id');" style="width: 100px; border-radius: 10px;" class="btn btn-danger" asp-controller="" asp-action="">Delete</button>
+                    </td>
+                </tr>
+            }
+    </table>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
     <a style="text-decoration: none; color:white" href="#xmas-popup-assign1">View Student Register</a>
 </button>
-<button style="width: 200px; border-radius: 10px; float: right;" class="btn btn-info">
+<button style="width: 200px; border-radius: 10px; float: right;" class="btn btn-success">
     <a style="text-decoration: none; color:white" href="#xmas-popup-assign">View Meeting Schedule</a>
 </button>
 
@@ -58,27 +94,25 @@
     <div class="popup-content" style="height:300px">
         <form>
             <h1 style="text-align: center; margin-top: 20px;"> Edit Available Time</h1>
-
+            <input type="hidden" id="edit_mat_id" />
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                <input type="date" id="date" name="date">
+                <input type="date" id="edit_date_id" name="date" disabled>
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
-                <input type="time" id="time">
+                <input type="time" id="edit_startTime_id">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
-                <input type="time" id="time">
+                <input type="time" id="edit_endTime_id">
             </div>
-
             <div class="form-group row">
-                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-
+                <button onclick="validateEditMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
             </div>
-
         </form>
     </div>
 </div>
@@ -87,55 +121,72 @@
     <div class="popup-content-setupnotification-degree" style="height:300px">
         <form>
             <h1 style="text-align: center; margin-top: 20px;"> Create Available Time</h1>
-
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                <input type="date" id="date" name="date">
+                <input type="date" id="create_date_id" name="date">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
-                <input type="time" id="time">
+                <input type="time" id="create_startTime_id">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
-                <input type="time" id="time">
+                <input type="time" id="create_endTime_id">
             </div>
-
             <div class="form-group row">
-                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-
+                <button onclick="validateCreateMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
             </div>
-
         </form>
     </div>
 </div>
 
 <div id="xmas-popup-assign" class="popup">
     <div class="popup-content-assign">
+        <h1 align="center">Meeting Schedule</h1>
         <form>
-            <h1 align="center">Meeting Schedule</h1>
             <div class="table-scroll-meeting">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Staff</th>
-                            <th scope="col">Student</th>
+                            <th scope="col">Staff Name</th>
+                            <th scope="col">Student Name</th>
                             <th scope="col">Date</th>
-                            <th scope="col">Time</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">End Time</th>
+                            <th scope="col">Note</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var item in Model.meetingSchedules)
+                        {
                         <tr>
-                            <td scope="row">1</td>
-                            <td>Mark</td>
-                            <td>Mark</td>
+                            <td>
+                                @item.staff_name_s
+                            </td>
+                            <td>
+                                @item.student_name_s
+                            </td>
+                            <td>
+                                @item.date_MS_s.ToString("yyyy-MMM-dd")
+                            </td>
+                            <td>
+                                @item.startTime_MS_s.ToString(@"hh\:mm\:ss")
+                            </td>
+                            <td>
+                                @item.endTime_MS_s.ToString(@"hh\:mm\:ss")
+                            </td>
+                            <td>
+                                @item.note_s
+                            </td>
                         </tr>
+                        }
                 </table>
             </div>
             <div class="form-group row">
-                <button id="cacel" style="margin: auto;width: 80px;" type="button" class="btn btn-danger">
+                <button id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
             </div>
@@ -145,32 +196,72 @@
 
 <div id="xmas-popup-assign1" class="popup">
     <div class="popup-content-assign1">
+        <h1 align="center">Student Registed</h1>
         <form>
-            <h1 align="center">Student Registed</h1>
             <div class="table-scroll-meeting">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">Student</th>
                             <th scope="col">Date</th>
-                            <th scope="col">Time</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">End Time</th>
+                            <th scope="col">Note</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Mark</td>
-                            <td>Mark</td>
-                        </tr>
+                        @foreach (var item in Model.meetingRegisters)
+                        {
+                            <tr>
+                                <td>
+                                    @item.student_name_r
+                                </td>
+                                <td>
+                                    @item.date_MS_r.ToString("yyyy-MMM-dd")
+                                </td>
+                                <td>
+                                    @item.startTime_MS_r.ToString(@"hh\:mm\:ss")
+                                </td>
+                                <td>
+                                    @item.endTime_MS_r.ToString(@"hh\:mm\:ss")
+                                </td>
+                                <td>
+                                    @item.note_r
+                                </td>
+                                <td style="text-align:center;">
+                                    <button onclick="acceptMR('@item.ms_id_r');" type="button" class="btn btn-success">Accept</button>
+                                </td>
+                            </tr>
+                        }
                 </table>
             </div>
             <div class="form-group row">
-                <button id="save" style="margin-left: 150px; width: 80px;" type="button" class="btn btn-success">Accept</button>
-                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button id="cancel" style="margin: auto;margin-top: 30px; width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
             </div>
-
         </form>
     </div>
 </div>
+
+<script>
+    function myFunction1() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_meetingAT");
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>
