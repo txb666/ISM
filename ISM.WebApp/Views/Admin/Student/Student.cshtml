@@ -20,7 +20,7 @@
 <h1 style="text-align: center;">Student Information</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <button onclick="myFunction1()"style="width:80px; border-radius:10px"  class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height:450px">
             <form style="width: 320px;" id="searchForm" asp-controller="Student" asp-action="Index" method="get">
                 <div class="form-group row">
@@ -174,7 +174,7 @@
             <option value="Mobility" selected>Mobility Student</option>
         }
     </select>
-    <button style="float: right;" class="btn btn-success">
+    <button style="float: right;width:80px; border-radius:10px" class="btn btn-success">
         <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
     </button>
 
@@ -269,7 +269,7 @@
                         }
                     </td>
                     <td>
-                        <button onclick="editStudent('@item.user_id','@item.fullname','@item.email','@item.account','@item.studentGroup_id','@item.status')" class="btn btn-info">
+                        <button style="width:80px; border-radius:10px"  onclick="editStudent('@item.user_id','@item.fullname','@item.email','@item.account','@item.studentGroup_id','@item.status')" class="btn btn-info">
                             <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
                         </button>
                     </td>

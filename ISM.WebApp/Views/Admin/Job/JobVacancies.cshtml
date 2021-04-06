@@ -20,7 +20,7 @@
     <h1 style="text-align: center;"> Job Vancacies </h1>
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="JobVacancy" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -87,10 +87,10 @@
                         </td>
                         <td style="text-align: center;">
                             <input type="hidden" id="delete_JobVacancy_id" value="@item.jobVacancy_id" />
-                            <button onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)')" class="btn btn-info">
+                            <button style="width:80px; border-radius:10px" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)')" class="btn btn-info">
                                 <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
                             </button>
-                            <button onclick="deleteJV();" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
+                            <button style="width:80px; border-radius:10px" onclick="deleteJV();" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
                         </td>
                     </tr>
                 }

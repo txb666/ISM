@@ -19,7 +19,7 @@
 <h1 style="text-align: center;">Student's Flights</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
             <form id="searchForm" asp-controller="Flight" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
@@ -185,7 +185,7 @@
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
                         <td>
-                            <button class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d');">
+                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d');">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
                         </td>
@@ -193,7 +193,7 @@
                     else
                     {
                         <td>
-                            <button class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
+                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
                         </td>

@@ -1,9 +1,9 @@
-﻿@*@using Microsoft.AspNetCore.Http;
+﻿@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-}*@
+}
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css">
 
@@ -48,20 +48,20 @@
 <body>
     <div class="container-fluid logo-user">
         <div class="row" style="height:100px;">
-            <div class="col-xl-10">
+            <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
                 <img src="~/image/fpt.png" />
             </div>
             <!-- <div class="col-xl-1 col-md-1 col-lg-1 "></div> -->
-            <div class="col-xl-1 ">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <button type="button" class="icon-button">
                     <span class="material-icons">notifications</span>
                     <a><span class="icon-button__badge">2</span> </a>
                 </button>
             </div>
-            <!--<div class="col-xl-1" id="logo_user" style="margin-top: 20px !important">
-                <div class="dropdown">-->
-                    @*<a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>*@
-                    <!--<button onclick="myFunction()" class="dropbtn"></button>
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top: 10px !important">
+                <div class="dropdown">
+                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    <button onclick="myFunction()" class="dropbtn"></button>
                     <div id="myDropdown" class="dropdown-content">
                         <a href="#home">My Infor</a>
                         <a>
@@ -71,24 +71,21 @@
                         </a>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
         <!-- <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-left: 5px;">
-            <!-- <a class="navbar-brand" style="margin-left: 0;" href="#"> -->
-            <!-- <img src="images/fpt.png" /> -->
-            </a>
+        <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler aaa" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav" style="margin: 0 auto">
 
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#" id="navbarDropdown">
@@ -171,6 +168,11 @@
                     </li>
                     <li class="nav-item dropdowns">
                         <a class="nav-link" href="#">Contact Us</a>
+                        <div class="dropdown-description">
+                            <a class="dropdown-item" href="">Contact Information</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="">Book a meeting</a>
+                        </div>
                     </li>
                 </ul>
             </div>
