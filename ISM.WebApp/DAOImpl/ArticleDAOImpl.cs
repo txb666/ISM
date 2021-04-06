@@ -12,10 +12,11 @@ namespace ISM.WebApp.DAOImpl
 {
     public class ArticleDAOImpl : ArticleDAO
     {
-        public bool CreateArticle(string type, string title, string fileName)
+        public int CreateArticle(string type, string title)
         {
             SqlConnection con = null;
-            string sql = "insert into Articles([type],title,[fileName]) values (@type,@title,@fileName)";
+            string sql = "insert into Articles([type],title) values (@type,@title); select SCOPE_IDENTITY();";
+            string sqlAfter = "update Articles set [fileName]=@fileName where article_id=@article_id";
             SqlCommand com = null;
             try
             {
@@ -26,14 +27,15 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@type"].Value = type;
                 com.Parameters.Add("@title", SqlDbType.NVarChar);
                 com.Parameters["@title"].Value = title;
+                decimal inserted_idraw = (decimal)com.ExecuteScalar();
+                int inserted_id = Convert.ToInt32(inserted_idraw);
+                com = new SqlCommand(sqlAfter, con);
                 com.Parameters.Add("@fileName", SqlDbType.NVarChar);
-                com.Parameters["@fileName"].Value = fileName;
-                if (string.IsNullOrEmpty(fileName))
-                {
-                    com.Parameters["@fileName"].Value = DBNull.Value;
-                }
+                com.Parameters["@fileName"].Value = "article_" + inserted_id + ".pdf";
+                com.Parameters.Add("@article_id", SqlDbType.Int);
+                com.Parameters["@article_id"].Value = inserted_id;
                 com.ExecuteNonQuery();
-                return true;
+                return inserted_id;
             }
             catch(Exception e)
             {
@@ -43,7 +45,7 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, null, null);
             }
-            return false;
+            return 0;
         }
 
         public bool DeleteArticle(int article_id)

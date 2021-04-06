@@ -53,22 +53,15 @@ namespace ISM.WebApp.Controllers
             return View("Views/Admin/Article/ArticleList.cshtml", view);
         }
 
-        public IActionResult Edit(int article_id, string title, string type, IFormFile file, string old_file_name)
+        public IActionResult Edit(int article_id, string title, string type, IFormFile file)
         {
-            string fileName = "";
-            old_file_name = old_file_name == null ? " " : old_file_name;
+            string fileName = "article_"+article_id + ".pdf";
             if (file != null)
-            {
-                fileName = file.FileName;                
+            {                
                 string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
                 string subfolderPath = Path.Combine(article, type);
-                string oldFilePath = Path.Combine(subfolderPath, old_file_name);
-                string newfilePath= Path.Combine(subfolderPath, fileName);
-                FileStream stream = new FileStream(newfilePath, FileMode.Create);
-                if (System.IO.File.Exists(oldFilePath))
-                {
-                    System.IO.File.Delete(oldFilePath);
-                }
+                string filePath= Path.Combine(subfolderPath, fileName);
+                FileStream stream = new FileStream(filePath, FileMode.Create);              
                 file.CopyTo(stream);
                 stream.Close();
             }
@@ -79,5 +72,36 @@ namespace ISM.WebApp.Controllers
             }
             return Json(new { status = "success", message = "Edit successfully" });
         }
+
+        public IActionResult Create(string title, string type, IFormFile file)
+        {
+            int inserted_id = articleDAO.CreateArticle(type, title);
+            string fileName = "article_" + inserted_id + ".pdf";
+            if (file != null && inserted_id!=0)
+            {
+                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                string subfolderPath = Path.Combine(article, type);
+                string filePath = Path.Combine(subfolderPath, fileName);
+                FileStream stream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(stream);
+                stream.Close();
+                return Json(new { status = "success", message = "Edit successfully" });
+            }           
+                return Json(new { status = "error", message = "Edit Failed" });                   
+        }
+
+        public bool Delete(int article_id, string type, string file_name)
+        {
+            bool result = articleDAO.DeleteArticle(article_id);
+            string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+            string subfolderPath = Path.Combine(article, type);
+            string filePath = Path.Combine(subfolderPath, file_name);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+            return result;
+        }
+
     }
 }

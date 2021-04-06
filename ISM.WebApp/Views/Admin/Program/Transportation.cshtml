@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.StudentGroupIndexViewModel
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @using ISM.WebApp.Utils
@@ -6,287 +7,140 @@
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
     {
-        ViewData["Title"] = "Transportation Page";
+        ViewData["Title"] = "Student Group Page";
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
     else if (sessionUser.role_name == "Staff")
     {
-        ViewData["Title"] = "Transportation Page";
+        ViewData["Title"] = "Student Group Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@model ISM.WebApp.ViewModels.TransportationIndexViewModel
 
 @*<div style="height: 500px; background-color: white;">*@
-    <h1 style="text-align: center;"> Transportation </h1>
-    <div style="height:50px">
-        <div class="dropdown_search">
-            <button onclick="search_visa()"style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 300px; margin-top: 10px;">
-                <form style="width: 320px;" id="searchForm" asp-controller="Transportation" asp-action="Index" method="get">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date</label>
-                        <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus</label>
-                        <input name="bus" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.bus">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver</label>
-                        <input name="driver" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.driver">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary</label>
-                        <input name="itinerary" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.itinerary">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter</label>
-                        <input name="supporter" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.supporter">
-                    </div>
-                    <input type="hidden" name="studentGroup_id" id="search_student_group_id" value="@Model.current_student_group_id" />
-                    <input type="hidden" name="page" id="inputPage">
-                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
-                </form>
-            </div>
-        </div>
-        <select onchange="searchByStudentGroup()" id="outside_studentGroup" style="text-align: center; margin-left: 35%; border-radius: 5px;">
-            @foreach (var item in Model.manageGroup)
-            {
-                if (Model.current_student_group_id == item.studentGroup_id)
-                {
-                    <option value="@item.studentGroup_id" selected> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
-
-                }
-                else
-                {
-                    <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
-                }
-            }
-        </select>
-    </div>
-    <button style="float: right; width:80px;border-radius:10px" class="btn btn-success">
-        <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
-    </button>
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Bus</th>
-                    <th scope="col">Driver</th>
-                    <th scope="col">Itinerary</th>
-                    <th scope="col">Supporter</th>
-                    <th scope="col">Note</th>
-                    <th> </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.transportations)
-                {
-                    <tr>
-                        <td>
-                            @item.date.ToString("dd-MM-yyyy")
-                        </td>
-                        <td>
-                            @item.time
-                        </td>
-                        <td>
-                            @item.bus
-                        </td>
-                        <td>
-                            @item.driver
-                        </td>
-                        <td>
-                            @item.itinerary
-                        </td>
-                        <td>
-                            @item.supporter
-                        </td>
-                        <td>
-                            @item.note
-                        </td>
-                        <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id','@FormatUtil.ToInputDate2(item.date)','@item.time','@item.bus','@item.driver','@item.itinerary','@item.supporter','@item.note')" class="btn btn-info">
-                                <a href="#xmas-popup-assign1" style="text-decoration: none; color: white;">Edit</a>
-                            </button>
-                        </td>
-                    </tr>
-                }
-        </table>
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:500px">
-                <form id="editTransportationForm">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Create Transportation</h1>
-                    <input type="hidden" id="create_student_group_id" value="@Model.current_student_group_id">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_date">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_time">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_bus">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_driver">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_itinerary">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_supporter">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
-                    </div>
-                    <div class="form-group row">
-                        <button id="save" onclick="validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="xmas-popup-assign1" class="popup" href="#">
-            <div class="popup-content-assign1">
-                <form id="editTransportationForm">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
-                    <input type="hidden" id="edit_transportation_id">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_time">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_bus">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_driver">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_itinerary">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_supporter">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
-                    </div>
-                    <div class="form-group row">
-                        <button id="save" onclick="validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div>
-        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
-    </div>
-
-    <!-- POP UP Set Up Notification -->
-    <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:300px">
-            <form id="notificationForm" asp-controller="Transportation" asp-action="SetupNotification" method="post">
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
+<h1 style="text-align: center;">Transportation</h1>
+<div style="height: 50px;">
+    <!-- SEARCH FORM -->
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form style="width: 320px;" asp-controller="Transportation" asp-action="Index" method="get" id="searchForm">
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Hours before:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Year:</label>
+                    <input type="number" name="year" style="width: 200px; border-radius: 5px;" value="@Model.year">
                 </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                    </button>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                    <select name="program" style="border-radius: 5px; width: 200px;">
+                        @if (string.IsNullOrEmpty(Model.program))
+                        {
+                        <option value="" selected>All</option>
+                        }
+                        else
+                        {
+                        <option value="">All</option>
+                        }
+                        @for (int i = 0; i < Model.programList.Count; i++)
+                        {
+                            if (Model.programList[i].program_name.Equals(Model.program))
+                            {
+                        <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
+                            }
+                            else
+                            {
+                        <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
+                            }
+                        }
+                    </select>
                 </div>
+
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University</label>
+                    <input type="text" name="home_univercity" style="width: 200px; border-radius: 5px;" value="@Model.home_univercity">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus</label>
+                    <select name="campus" style="border-radius: 5px; width: 200px;">
+                        @if (string.IsNullOrEmpty(Model.campus))
+                        {
+                        <option value="" selected>All</option>
+                        }
+                        else
+                        {
+                        <option value="">All</option>
+                        }
+                        @for (int i = 0; i < Model.campusList.Count; i++)
+                        {
+                            if (Model.campusList[i].campus_name.Equals(Model.campus))
+                            {
+                        <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
+                            }
+                            else
+                            {
+                        <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <input type="hidden" name="page" id="inputPage" />
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
-    </div>
-
-    <div style="margin-top: 20px;">
-       
-        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">
-                <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Set Up Notification</a>
-            </button>
-            <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
-        </i>
-    </div>
-
-    <script>
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
+    </div>  
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Program</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Home University</th>
+                <th scope="col">Campus</th>
+                <th scope="col">Note</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.studentGroups)
+            {
+            <tr>
+                <td>
+                    @item.year
+                </td>
+                <td>
+                    @item.program_name
+                </td>
+                <td>
+                    @item.duration_start
+                </td>
+                <td>
+                    @item.duration_end
+                </td>
+                <td>
+                    @item.home_university
+                </td>
+                <td>
+                    @item.campus_name
+                </td>               
+                <td>
+                    @item.note
+                </td>    
+                <td>
+                    <a asp-controller="Transportation" asp-action="Detail" asp-route-studentGroup_id="@item.studentGroup_id">View Transportation</a>
+                </td>
+            </tr>
             }
-        }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn_search')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content_search");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show_search')) {
-                        openDropdown.classList.remove('show_search');
-                    }
-                }
-            }
-        }
 
-        function search_visa() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
-        }
 
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-    </script>
 @*</div>*@

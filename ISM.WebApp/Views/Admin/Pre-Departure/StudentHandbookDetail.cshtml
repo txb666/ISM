@@ -6,26 +6,33 @@
 
 <h1 style="text-align: center;">@Model.title</h1>
 <div style="height: 50px;">
-    <br>
-    <br>
-    @* <form asp-controller="Insurance" asp-action="HowToPost" method="post" enctype="multipart/form-data" style="margin-bottom:20px">
-            <label for="uploadFile">Select a PDF file:</label>
-            <input type="file" name="uploadFile" accept="application/pdf">
-            <input type="submit" value="Save" />
-        </form>*@
-    @*<div class="top-bar">
-            <button class="btn" id="prev-page">
-                <i class="fas fa-arrow-circle-left"></i> Prev Page
-            </button>
-            <button class="btn" id="next-page">
-                Next Page <i class="fas fa-arrow-circle-right"></i>
-            </button>
-            <span class="page-info">
-                Page <span id="page-num"></span> of <span id="page-count"></span>
-            </span>
-        </div>*@
-    @*<canvas id="pdf-render" style="width:70%;"></canvas>*@
+    <button onclick="showPopup('xmas-popup')" class="btn btn-success" style="float:right">
+        @*<a style="text-decoration:none; color:white" href="#xmas-popup">Edit</a>*@ Edit
+    </button>
+    <div id="xmas-popup" class="popup" href="#">
+        <div class="popup-content" style="height:200px">
+            <form id="editStudentHandbookForm" enctype="multipart/form-data">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Handbook</h1>
+                <input type="hidden" id="edit_student_handbook_id" value="@Model.student_handbook_id" />
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;" for="title">Title</label>
+                    <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="text" name="title" id="edit_title" value="@Model.title" disabled />
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;" for="uploadFile">Select a PDF file:</label>
+                    <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="file" name="uploadFile" id="edit_file" accept="application/pdf">
+                </div>
+                <div class="form-group row">
+                    <button id="save" style="margin-left: 190px; width: 80px;" class="btn btn-success" onclick="validateEditStudentHandbook()" type="button">Save</button>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        @* <a style="text-decoration: none; color: white;" href="#" id="btnEditCancel">Cancel</a>*@ Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
 <a href="~/Article/Student Handbook/@Model.file_name" style="font-size:24px;" download>download file</a>
 <br />
 <h1>Preview</h1>

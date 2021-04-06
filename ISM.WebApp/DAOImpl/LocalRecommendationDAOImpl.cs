@@ -12,6 +12,36 @@ namespace ISM.WebApp.DAOImpl
 {
     public class LocalRecommendationDAOImpl : LocalRecommendationDAO
     {
+        public bool editLocalRecommendation(int local_recommendation_id, string title, string file_name)
+        {
+            SqlConnection con = null;
+            string sql = "update Local_Recommendation set title=@title,[file_name]=@file_name where local_recommendation_id=@local_recommendation_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@title", SqlDbType.NVarChar);
+                com.Parameters["@title"].Value = title;
+                com.Parameters.Add("@file_name", SqlDbType.NVarChar);
+                com.Parameters["@file_name"].Value = file_name;
+                com.Parameters.Add("@local_recommendation_id", SqlDbType.Int);
+                com.Parameters["@local_recommendation_id"].Value = local_recommendation_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public List<LocalRecommendation> getAllLocalRecommendation()
         {
             SqlConnection con = null;

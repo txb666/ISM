@@ -17,5 +17,7 @@ namespace ISM.WebApp.DAO
         bool resetCoordinator(int studentGroup_id);
         StudentGroup getStudentGroupById(int studentGroup_id);
         List<StudentGroup> GetStudentGroupByStaff(int staff_id, bool isAdmin, string degreeOrMobility);
+        List<StudentGroup> GetStudentGroupByStaffWithPaging(int staff_id, bool isAdmin, string degreeOrMobility, int page, int pageSize, string program, string home_univercity, string campus, int? year);
+        int getTotalStudentGroupByStaff(int staff_id, bool isAdmin, string degreeOrMobility, string program, string home_univercity, string campus, int? year);
     }
 }

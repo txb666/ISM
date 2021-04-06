@@ -12,6 +12,72 @@ namespace ISM.WebApp.DAOImpl
 {
     public class OrientationDAOImpl : OrientationDAO
     {
+        public bool CreateORTMaterial(int student_group_id, string content, string note)
+        {
+            SqlConnection con = null;
+            string sql = "insert into Orientation_Materials(studentGroup_id,content,note) values (@student_group_id,@content,@note)";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_group_id", SqlDbType.Int);
+                com.Parameters["@student_group_id"].Value = student_group_id;
+                com.Parameters.Add("@content", SqlDbType.NVarChar);
+                com.Parameters["@content"].Value = content;
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
+                com.Parameters["@note"].Value = note;
+                if (string.IsNullOrEmpty(note))
+                {
+                    com.Parameters["@note"].Value = DBNull.Value;
+                }
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public bool CreateORTMaterialSlide(int student_id, string program, string content, string material)
+        {
+            SqlConnection con = null;
+            string sql = "insert into ORT_Material_Slide(student_id,program,content,material) values (@student_id,@program,@content,@material)";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.Parameters.Add("@program", SqlDbType.NVarChar);
+                com.Parameters["@program"].Value = program;
+                com.Parameters.Add("@content", SqlDbType.NVarChar);
+                com.Parameters["@content"].Value = content;
+                com.Parameters.Add("@material", SqlDbType.NVarChar);
+                com.Parameters["@material"].Value = material;             
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool createORTSchedule(int student_id, string content, DateTime date, TimeSpan time, string location, string require_document)
         {
             SqlConnection con = null;
@@ -49,6 +115,58 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
+        public bool DeleteORTMaterial(int ort_materials_id)
+        {
+            SqlConnection con = null;
+            string sql = "delete from Orientation_Materials where orientation_materials_id=@ort_materials_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@ort_materials_id", SqlDbType.Int);
+                com.Parameters["@ort_materials_id"].Value = ort_materials_id;      
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public bool DeleteORTMaterialSlide(int ort_material_slide_id)
+        {
+            SqlConnection con = null;
+            string sql = "delete from ORT_Material_Slide where ort_material_slide_id=@ort_material_slide_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@ort_material_slide_id", SqlDbType.Int);
+                com.Parameters["@ort_material_slide_id"].Value = ort_material_slide_id;             
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool deleteORTSchedule(int ort_schedule_id)
         {
             SqlConnection con = null;
@@ -67,6 +185,72 @@ namespace ISM.WebApp.DAOImpl
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public bool EditORTMaterial(int ort_materials_id, string content, string note)
+        {
+            SqlConnection con = null;
+            string sql = "update Orientation_Materials set content=@content,note=@note where orientation_materials_id=@ort_materials_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@ort_materials_id", SqlDbType.Int);
+                com.Parameters["@ort_materials_id"].Value = ort_materials_id;
+                com.Parameters.Add("@content", SqlDbType.NVarChar);
+                com.Parameters["@content"].Value = content;
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
+                com.Parameters["@note"].Value = note;
+                if (string.IsNullOrEmpty(note))
+                {
+                    com.Parameters["@note"].Value = DBNull.Value;
+                }
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
+        public bool EditORTMaterialSlide(int ort_material_slide_id, string program, string content, string material)
+        {
+            SqlConnection con = null;
+            string sql = "update ORT_Material_Slide set program=@program, content=@content, material=@material where ort_material_slide_id=@ort_material_slide_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@ort_material_slide_id", SqlDbType.Int);
+                com.Parameters["@ort_material_slide_id"].Value = ort_material_slide_id;
+                com.Parameters.Add("@program", SqlDbType.NVarChar);
+                com.Parameters["@program"].Value = program;
+                com.Parameters.Add("@content", SqlDbType.NVarChar);
+                com.Parameters["@content"].Value = content;
+                com.Parameters.Add("@material", SqlDbType.NVarChar);
+                com.Parameters["@material"].Value = material;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
             }
             finally
             {
@@ -184,6 +368,144 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return studentList;
+        }
+
+        public List<ORTMaterials> GetORTMaterials(int student_group_id, int page, int pageSize, string content, string note)
+        {
+            int from = page * pageSize - (pageSize - 1);
+            int to = page * pageSize;
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<ORTMaterials> materials = new List<ORTMaterials>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(content))
+                {
+                    where += " and upper(content) like upper('%' + @content + '%')";
+                    com.Parameters.Add("@content", SqlDbType.NVarChar);
+                    com.Parameters["@content"].Value = content;
+                }
+                if (!string.IsNullOrEmpty(note))
+                {
+                    where += " and upper(note) like upper('%' + @note + '%')";
+                    com.Parameters.Add("@note", SqlDbType.NVarChar);
+                    com.Parameters["@note"].Value = note;
+                }
+                sql = " select * from("
+                    + " select ROW_NUMBER() over (order by orientation_materials_id asc) rownumber, orientation_materials_id,studentGroup_id,content,note"
+                    + " from Orientation_Materials where studentGroup_id=@student_group_id" + where
+                    +" ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                com.Parameters.Add("@student_group_id", SqlDbType.Int);
+                com.Parameters["@student_group_id"].Value = student_group_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    ORTMaterials material = new ORTMaterials();
+                    material.ort_materials_id = (int)reader.GetValue(reader.GetOrdinal("orientation_materials_id"));
+                    material.student_group_id = (int)reader.GetValue(reader.GetOrdinal("studentGroup_id"));
+                    material.content = (string)reader.GetValue(reader.GetOrdinal("content"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
+                    {
+                        material.note = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    }
+                    materials.Add(material);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return materials;
+        }
+
+        public List<ORTMaterialSlide> GetORTMaterialSlides(int student_id, int page, int pageSize, string program, string content, string material)
+        {
+            int from = page * pageSize - (pageSize - 1);
+            int to = page * pageSize;
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<ORTMaterialSlide> materials = new List<ORTMaterialSlide>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(content))
+                {
+                    where += " and upper(content) like upper('%' + @content + '%')";
+                    com.Parameters.Add("@content", SqlDbType.NVarChar);
+                    com.Parameters["@content"].Value = content;
+                }
+                if (!string.IsNullOrEmpty(program))
+                {
+                    where += " and upper(program) like upper('%' + @program + '%')";
+                    com.Parameters.Add("@program", SqlDbType.NVarChar);
+                    com.Parameters["@program"].Value = program;
+                }
+                if (!string.IsNullOrEmpty(material))
+                {
+                    where += " and upper(material) like upper('%' + @material + '%')";
+                    com.Parameters.Add("@material", SqlDbType.NVarChar);
+                    com.Parameters["@material"].Value = material;
+                }
+                sql = " select * from("
+                    + " select ROW_NUMBER() over (order by ort_material_slide_id asc) rownumber, ort_material_slide_id,student_id,content,material,program"
+                    + " from ORT_Material_Slide where student_id=@student_id" + where
+                    + " ) as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    ORTMaterialSlide m = new ORTMaterialSlide();
+                    m.ort_material_slide_id = (int)reader.GetValue(reader.GetOrdinal("ort_material_slide_id"));
+                    m.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    m.content = (string)reader.GetValue(reader.GetOrdinal("content"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("material")))
+                    {
+                        m.material = (string)reader.GetValue(reader.GetOrdinal("material"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("program")))
+                    {
+                        m.program = (string)reader.GetValue(reader.GetOrdinal("program"));
+                    }
+                    materials.Add(m);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return materials;
         }
 
         public List<OrientationSchedule> GetSearchOrientationSchedules(int student_id, int page, int pageSize, string content, DateTime? date, TimeSpan? time, string location, string require_document)
@@ -381,6 +703,98 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, null, null);
             }
             return totalDegreeStudent;
+        }
+
+        public int getTotalORTMaterials(int student_group_id, string content, string note)
+        {           
+            SqlConnection con = null;
+            string sql = "";         
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(content))
+                {
+                    where += " and upper(content) like upper('%' + @content + '%')";
+                    com.Parameters.Add("@content", SqlDbType.NVarChar);
+                    com.Parameters["@content"].Value = content;
+                }
+                if (!string.IsNullOrEmpty(note))
+                {
+                    where += " and upper(note) like upper('%' + @note + '%')";
+                    com.Parameters.Add("@note", SqlDbType.NVarChar);
+                    com.Parameters["@note"].Value = note;
+                }
+                sql = " select count(*)"
+                    + " from Orientation_Materials where studentGroup_id=@student_group_id" + where;             
+                com.Parameters.Add("@student_group_id", SqlDbType.Int);
+                com.Parameters["@student_group_id"].Value = student_group_id;
+                com.CommandText = sql;
+                total = (int)com.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
+        }
+
+        public int getTotalORTMaterialSlides(int student_id, string program, string content, string material)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(content))
+                {
+                    where += " and upper(content) like upper('%' + @content + '%')";
+                    com.Parameters.Add("@content", SqlDbType.NVarChar);
+                    com.Parameters["@content"].Value = content;
+                }
+                if (!string.IsNullOrEmpty(program))
+                {
+                    where += " and upper(program) like upper('%' + @program + '%')";
+                    com.Parameters.Add("@program", SqlDbType.NVarChar);
+                    com.Parameters["@program"].Value = program;
+                }
+                if (!string.IsNullOrEmpty(material))
+                {
+                    where += " and upper(material) like upper('%' + @material + '%')";
+                    com.Parameters.Add("@material", SqlDbType.NVarChar);
+                    com.Parameters["@material"].Value = material;
+                }
+                sql = " select count(*)"
+                    + " from ORT_Material_Slide where student_id=@student_id" + where;
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.CommandText = sql;
+                total = (int)com.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
         }
 
         public bool isORTAlreadyExist(int student_id, string content, DateTime date, TimeSpan time, string location)

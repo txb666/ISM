@@ -10,5 +10,6 @@ namespace ISM.WebApp.DAO
     {
         List<LocalRecommendation> getAllLocalRecommendation();
         LocalRecommendation GetLocalRecommendationById(int local_recommendation_id);
+        bool editLocalRecommendation(int local_recommendation_id, string title, string file_name);
     }
 }

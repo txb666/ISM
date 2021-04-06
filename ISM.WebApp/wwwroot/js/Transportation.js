@@ -62,7 +62,8 @@ function validateCreateTransportation() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Create Transportation successfull");
-                window.location.href = "/Transportation";
+                document.getElementById("xmas-popup").style.display = "none";
+                location.reload();
             }
             else {
                 alert("Create Transportation failed")
@@ -122,7 +123,8 @@ function validateEditTransportation() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Edit Transportation successfull");
-                window.location.href = "/Transportation";
+                document.getElementById("xmas-popup-assign1").style.display = "none";
+                location.reload();
             }
             else {
                 alert("Edit Transportation failed")

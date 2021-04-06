@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISM.WebApp.Controllers
@@ -13,9 +16,11 @@ namespace ISM.WebApp.Controllers
     public class StudentHandbookController : Controller
     {
         public StudentHandbookDAO studentHandbookDAO;
-        public StudentHandbookController(StudentHandbookDAO studentHandbookDAO)
+        private readonly IWebHostEnvironment hostingEnvironment;
+        public StudentHandbookController(StudentHandbookDAO studentHandbookDAO, IWebHostEnvironment hostingEnvironment)
         {
             this.studentHandbookDAO = studentHandbookDAO;
+            this.hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index()
         {
@@ -27,6 +32,26 @@ namespace ISM.WebApp.Controllers
         {
             StudentHandbook studentHandbook = studentHandbookDAO.GetStudentHandbookById(id);
             return View("Views/Admin/Pre-Departure/StudentHandbookDetail.cshtml", studentHandbook);
+        }
+
+        public IActionResult Edit(int student_handbook_id, string title, IFormFile file)
+        {
+            string file_name = "student_handbook_" + student_handbook_id + ".pdf";
+            if (file != null)
+            {
+                string article = Path.Combine(hostingEnvironment.WebRootPath, "Article");
+                string subfolderPath = Path.Combine(article, "Student Handbook");
+                string filePath = Path.Combine(subfolderPath, file_name);
+                FileStream stream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(stream);
+                stream.Close();
+            }
+            bool result = studentHandbookDAO.editStudentHandbook(student_handbook_id, title, file_name);
+            if (result == false)
+            {
+                return Json(new { status = "error", message = "Edit Failed" });
+            }
+            return Json(new { status = "success", message = "Edit successfully" });
         }
     }
 }

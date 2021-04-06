@@ -20,5 +20,8 @@ namespace ISM.WebApp.DAO
         bool createStudent(string degreeOrMobility,string fullname, string account, string email, int student_group_id, bool status);
         bool editStudent(int id, string fullname, string email, bool status, string originalEmail);
         List<User> getAllDegreeStudents();
+        List<User> getDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname, int page, int pageSize);
+        int getTotalDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname);
+        User getUserById(int id);
     }
 }

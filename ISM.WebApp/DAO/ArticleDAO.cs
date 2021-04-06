@@ -8,7 +8,7 @@ namespace ISM.WebApp.DAO
 {
     public interface ArticleDAO
     {
-        bool CreateArticle(string type, string title, string fileName);
+        int CreateArticle(string type, string title);
         bool EditArticle(int article_id, string title, string fileName);
         bool DeleteArticle(int article_id);
         List<Article> getArticleByType(string type);
