@@ -113,8 +113,7 @@
                 <input type="time" id="edit_endTime_id">
             </div>
             <div class="form-group row">
-                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-
+                <button onclick="validateEditMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
                 <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
 
             </div>
@@ -139,8 +138,7 @@
                 <input type="time" id="create_endTime_id">
             </div>
             <div class="form-group row">
-                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-
+                <button onclick="validateCreateMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
                 <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
 
             </div>
@@ -150,14 +148,14 @@
 
 <div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
     <div class="popup-content-setupnotification-mobility" style="height:300px">
-        <form id="mobility_notificationForm" asp-controller="Insurance" asp-action="NotificationMobility" method="post">
+        <form id="mobility_notificationForm" asp-controller="" asp-action="" method="post">
             <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Meeting Start:</label>
                 <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
             </div>
             <div class="form-group row">
-                <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
                 <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
