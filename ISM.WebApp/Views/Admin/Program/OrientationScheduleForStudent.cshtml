@@ -23,7 +23,7 @@
     }
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="SearchORT" method="get">
                     <div class="form-group row">
@@ -51,7 +51,7 @@
                 </form>
             </div>
         </div>
-        <button style="float: right;" class="btn btn-success">
+        <button style="float: right;width:80px; border-radius:10px" class="btn btn-success">
             <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
         </button>
     </div>
@@ -90,10 +90,10 @@
                         </td>
                         <td style="text-align: center;">
                             <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
-                            <button onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document')" class="btn btn-info">
+                            <button style="width:80px; border-radius:10px" onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document')" class="btn btn-info">
                                 <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
                             </button>
-                            <button onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
+                            <button style="width:80px; border-radius:10px" onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
                         </td>
                     </tr>
                 }
