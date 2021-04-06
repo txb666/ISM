@@ -9,6 +9,9 @@ footer{
  position:sticky;
  top:100%;
 }
+th{
+    background-color:aquamarine;
+}
 /*canvas{
     position:relative;
 }*/
@@ -218,6 +221,10 @@ POPUP SETUP NOTIFICATION*/
  .table-scroll{
    overflow-y: scroll;
  }
+.table-scroll-meeting {
+    overflow-y: scroll;
+    height:300px;
+}
  
 
    

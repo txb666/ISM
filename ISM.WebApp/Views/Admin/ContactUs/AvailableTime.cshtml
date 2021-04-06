@@ -1,0 +1,176 @@
+﻿@using Microsoft.AspNetCore.Http;
+    @using Newtonsoft.Json;
+    @using ISM.WebApp.Constant;
+    @using ISM.WebApp.Utils
+    @{
+        var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+        if (sessionUser.role_name == "Admin")
+        {
+            ViewData["Title"] = "Avaliable Time Page";
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (sessionUser.role_name == "Staff")
+        {
+            ViewData["Title"] = "Avaliable Time Page";
+            Layout = "~/Views/Shared/_StaffLayout.cshtml";
+        }
+    }
+
+
+<h1 style="text-align: center;">Available Time</h1>
+<div style="height: 50px;">
+
+    <button style="width: 100px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-info">
+        <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
+    </button>
+    <button style="width: 100px; border-radius: 10px; float: right;" class="btn btn-success">
+        <a style="text-decoration: none; color:white" href="#xmas-popup-setupnotification-degree">Create</a>
+    </button>
+</div>
+<br>
+<br>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="row">1</td>
+            <td>Mark</td>
+            <td>Mark</td>
+        </tr>
+</table>
+<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-info">
+    <a style="text-decoration: none; color:white" href="#xmas-popup-assign1">View Student Register</a>
+</button>
+<button style="width: 200px; border-radius: 10px; float: right;" class="btn btn-info">
+    <a style="text-decoration: none; color:white" href="#xmas-popup-assign">View Meeting Schedule</a>
+</button>
+
+
+<!-- popup code -->
+<div id="xmas-popup" class="popup" href="#">
+    <div class="popup-content" style="height:300px">
+        <form>
+            <h1 style="text-align: center; margin-top: 20px;"> Edit Available Time</h1>
+
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                <input type="date" id="date" name="date">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
+                <input type="time" id="time">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
+                <input type="time" id="time">
+            </div>
+
+            <div class="form-group row">
+                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="xmas-popup-setupnotification-degree" class="popup" href="#">
+    <div class="popup-content-setupnotification-degree" style="height:300px">
+        <form>
+            <h1 style="text-align: center; margin-top: 20px;"> Create Available Time</h1>
+
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                <input type="date" id="date" name="date">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
+                <input type="time" id="time">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
+                <input type="time" id="time">
+            </div>
+
+            <div class="form-group row">
+                <button style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+
+                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign">
+        <form>
+            <h1 align="center">Meeting Schedule</h1>
+            <div class="table-scroll-meeting">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Staff</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">1</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                        </tr>
+                </table>
+            </div>
+            <div class="form-group row">
+                <button id="cacel" style="margin: auto;width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="xmas-popup-assign1" class="popup">
+    <div class="popup-content-assign1">
+        <form>
+            <h1 align="center">Student Registed</h1>
+            <div class="table-scroll-meeting">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">1</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                        </tr>
+                </table>
+            </div>
+            <div class="form-group row">
+                <button id="save" style="margin-left: 150px; width: 80px;" type="button" class="btn btn-success">Accept</button>
+                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
