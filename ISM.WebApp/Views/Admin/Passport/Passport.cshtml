@@ -119,8 +119,8 @@
                             @item.issuing_authority
                         </td>
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="editPassport('@item.passport_id', '@item.passport_number', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@item.issuing_authority')" class="btn btn-info">
-                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            <button style="width:80px; border-radius:10px" onclick="editPassport('@item.passport_id', '@item.passport_number', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.start_date)', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.expired_date)', '@item.issuing_authority'); showPopup('xmas-popup')" class="btn btn-info">
+                              Edit
                             </button>
                         </td>
                     </tr>
@@ -155,8 +155,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateEditPassport();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-info" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -174,8 +174,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationPassport();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>
@@ -187,8 +187,8 @@
     <div style="margin-top: 20px;">
         <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your passport" style="text-decoration: none;"> How to apply for a Viet Nam Passport</a>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">
-                <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Set Up Notification</a>
+            <button  onclick="showPopup('xmas-popup-assign')" class="btn btn-danger">
+                Set Up Notification
             </button>
             <button style="width: 150px;" class="btn btn-success">Extract to Excel</button>
         </i>

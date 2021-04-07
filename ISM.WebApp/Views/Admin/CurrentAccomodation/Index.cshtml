@@ -108,8 +108,8 @@
             <option value="Mobility" selected>Mobility Student</option>
         }
     </select>
-    <button style="float: right; width: 80px; border-radius:10px" class="btn btn-success">
-        <a href="#xmas-popup" style="text-decoration: none; color: white;">Create</a>
+    <button onclick="showPopup('xmas-popup')" style="float: right; width: 80px; border-radius:10px" class="btn btn-success">
+       Create
     </button>
 </div>
 <br>
@@ -174,8 +174,8 @@
                         @item.note
                     </td>
                     <td style="text-align: center;">
-                        <button style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
-                            <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
+                        <button onclick="showPopup('xmas-popup-assign')" style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
+                             Edit
                         </button>
                     </td>
                 </tr>
@@ -243,8 +243,8 @@
                             class="btn btn-success" id="save">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>
@@ -309,8 +309,8 @@
                             class="btn btn-success" id="save">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>

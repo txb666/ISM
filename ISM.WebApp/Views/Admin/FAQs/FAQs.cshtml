@@ -22,7 +22,7 @@
 <div style="height: 50px;">
     <div class="dropdown_search">
         <button onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
-        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 200px; margin-top: 10px;">
             <form id="searchForm" asp-controller="FAQ" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Question:</label>
@@ -37,8 +37,8 @@
             </form>
         </div>
     </div>
-    <button style="float: right; width: 80px;border-radius:10px" class="btn btn-success">
-        <a href="#xmas-popup" style="text-decoration: none; color: white;">Create</a>
+    <button onclick="showPopup('xmas-popup')" style="float: right; width: 80px;border-radius:10px" class="btn btn-success">
+       Create
     </button>
 </div>
 <br>
@@ -67,8 +67,8 @@
                         @Model.faqs[i].answer
                     </td>
                     <td style="text-align: center;">
-                        <button style="width:80px;border-radius:10px" onclick="editFAQ('@Model.faqs[i].faq_id','@Model.faqs[i].question','@Model.faqs[i].answer')" class="btn btn-info">
-                            <a href="#xmas-popup-assign" style="text-decoration: none; color: white;">Edit</a>
+                        <button onclick="showPopup('xmas-popup-assign')" style="width:80px;border-radius:10px" onclick="editFAQ('@Model.faqs[i].faq_id','@Model.faqs[i].question','@Model.faqs[i].answer')" class="btn btn-info">
+                           Edit
                         </button>
                         <button style="width:80px;border-radius:10px" onclick="deleteFAQ('@Model.faqs[i].faq_id')" class="btn btn-danger">
                             Delete
@@ -81,7 +81,7 @@
 
     <!-- popup code -->
     <div id="xmas-popup" class="popup" href="#">
-        <div class="popup-content" style="height:550px">
+        <div class="popup-content" style="height:300px">
             <form id="createFAQForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Create FAQ</h1>
                 <div class="form-group row">
@@ -97,15 +97,15 @@
                             class="btn btn-success">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>
         </div>
     </div>
     <div id="xmas-popup-assign" class="popup" href="#">
-        <div class="popup-content-assign" style="height:550px">
+        <div class="popup-content-assign" style="height:300px">
             <form id="editFAQForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit FAQ</h1>
                 <input type="hidden" id="edit_faq_id" />               
@@ -122,8 +122,8 @@
                             class="btn btn-success" id="save">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
                     </button>
                 </div>
             </form>

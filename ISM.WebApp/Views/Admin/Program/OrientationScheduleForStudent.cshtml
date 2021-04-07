@@ -51,8 +51,8 @@
                 </form>
             </div>
         </div>
-        <button style="float: right;width:80px; border-radius:10px" class="btn btn-success">
-            <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
+        <button onclick="showPopup('xmas-popup')" style="float: right;width:80px; border-radius:10px" class="btn btn-success">
+          Create
         </button>
     </div>
     <br>
@@ -90,8 +90,8 @@
                         </td>
                         <td style="text-align: center;">
                             <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
-                            <button style="width:80px; border-radius:10px" onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document')" class="btn btn-info">
-                                <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
+                            <button style="width:80px; border-radius:10px" onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document');showPopup('xmas-popup-assign')" class="btn btn-info">
+                                Edit
                             </button>
                             <button style="width:80px; border-radius:10px" onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
                         </td>
@@ -130,8 +130,8 @@
                 <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
                 <div class="form-group row">
                     <button id="save" onclick="validateCreateORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')"  id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -165,8 +165,8 @@
                 <input type="hidden" id="edit_ort_id" />
                 <div class="form-group row">
                     <button id="save" onclick="validateEditORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-assign')"  id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
                     </button>
                 </div>
             </form>

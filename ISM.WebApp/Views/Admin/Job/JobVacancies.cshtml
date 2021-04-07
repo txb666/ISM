@@ -48,8 +48,8 @@
                 </form>
             </div>
         </div>
-        <button style="float: right; width:80px; border-radius:10px" class="btn btn-success">
-            <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
+        <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px" class="btn btn-success">
+           Create
         </button>
     </div>
     <br>
@@ -86,8 +86,8 @@
                             @item.deadline.ToString("yyyy-MMM-dd")
                         </td>
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px;" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)')" class="btn btn-info">
-                                <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
+                            <button style="width:80px; border-radius:10px;" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)');showPopup('xmas-popup-assign');"class="btn btn-info">
+                                Edit
                             </button>
                             <button style="width:80px; border-radius:10px;" onclick="deleteJV();" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
                         </td>
@@ -129,8 +129,8 @@
                     <button onclick="validateCreateJobVacancy();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>
@@ -166,8 +166,8 @@
                     <button onclick="validateEditJobVacancy();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">
                         Save
                     </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
                     </button>
                 </div>
             </form>

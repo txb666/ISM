@@ -39,8 +39,8 @@
             </form>
         </div>
     </div>
-    <button style="width: 80px; border-radius: 10px; float: right;" class="btn btn-success">
-        <a style="text-decoration: none; color:white" href="#xmas-popup-setupnotification-degree">Create</a>
+    <button onclick="showPopup('xmas-popup-setupnotification-degree')" style="width: 80px; border-radius: 10px; float: right;" class="btn btn-success">
+    Create
     </button>
 </div>
 <br>
@@ -69,8 +69,8 @@
                         @item.end_time.ToString(@"hh\:mm\:ss")
                     </td>
                     <td style="text-align:center;">
-                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: 80px; border-radius: 10px;" class="btn btn-info">
-                            <a style="text-decoration: none; color:white" href="#xmas-popup">Edit</a>
+                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');showPopup('xmas-popup');" style="width: 80px; border-radius: 10px;" class="btn btn-info">
+                          Edit
                         </button>
                         <button onclick="deleteMAT('@item.mat_id', '@item.staff_id');" style="width: 80px; border-radius: 10px;" class="btn btn-danger" asp-controller="" asp-action="">Delete</button>
                     </td>
@@ -81,15 +81,15 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
-    <a style="text-decoration: none; color:white" href="#xmas-popup-assign1">View Student Register</a>
+<button onclick="showPopup('xmas-popup-assign1')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+   View Student Register
 </button>
-<button style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
-    <a style="text-decoration: none; color:white" href="#xmas-popup-assign">View Meeting Schedule</a>
+<button onclick="showPopup('xmas-popup-assign')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+    View Meeting Schedule
 </button>
 <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-    <button style="width:220px;border-radius:10px;" class="btn btn-danger">
-        <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+    <button onclick="showPopup('xmas-popup-setupnotification-mobility')" style="width:220px;border-radius:10px;" class="btn btn-danger">
+        Set Up Notification Mobility
     </button>
 </i>
 
@@ -114,7 +114,7 @@
             </div>
             <div class="form-group row">
                 <button onclick="validateEditMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+                <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">Cancel</button>
 
             </div>
         </form>
@@ -139,8 +139,9 @@
             </div>
             <div class="form-group row">
                 <button onclick="validateCreateMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
-
+                <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                Cancel
+                </button>
             </div>
         </form>
     </div>
@@ -156,8 +157,8 @@
             </div>
             <div class="form-group row">
                 <button onclick="" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
                 </button>
             </div>
         </form>
@@ -208,8 +209,8 @@
                 </table>
             </div>
             <div class="form-group row">
-                <button id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button onclick="hidePopup('xmas-popup-assign')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                   Cancel
                 </button>
             </div>
         </form>
@@ -259,8 +260,8 @@
                 </table>
             </div>
             <div class="form-group row">
-                <button id="cancel" style="margin: auto;margin-top: 30px; width: 80px;" type="button" class="btn btn-danger">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button onclick="hidePopup('xmas-popup-assign1')" id="cancel" style="margin: auto;margin-top: 30px; width: 80px;" type="button" class="btn btn-danger">
+                    Cancel
                 </button>
             </div>
         </form>

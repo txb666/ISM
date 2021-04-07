@@ -193,8 +193,8 @@
                     else
                     {
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility','@Model.flights[i].flight_id','@Model.flights[i].account','@Model.flights[i].fullname','@Model.flights[i].flight_number_a','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)','@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)','@Model.flights[i].airport_departure_a','@Model.flights[i].airport_arrival_a','@Model.flights[i].picture_a');">
-                                <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
+                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a'); showPopup('xmas-popup')">
+                                Edit
                             </button>
                         </td>
                     }
@@ -270,8 +270,8 @@
                 }
                 <div class="form-group row">
                     <button onclick="validateEditFlight();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -293,8 +293,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationFlightDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -310,8 +310,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationFlightMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -325,13 +325,13 @@
 
 <div style="margin-top: 20px;">
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button class="btn btn-danger">
-            <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-degree">Set Up Notification Degree</a>
+        <button onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
+            Set Up Notification Degree
         </button>
     </i>
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button class="btn btn-danger">
-            <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+        <button onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
+            Set Up Notification Mobility
         </button>
     </i>
 

@@ -21,7 +21,7 @@
 <h1 style="text-align: center;"> Transportation For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="search_visa()" class="btn btn-primary">Search</button>
+            <button onclick="search_visa()"style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="Transportation" asp-action="Detail" method="get">
                     <div class="form-group row">
@@ -51,7 +51,7 @@
             </div>
         </div>      
     </div>
-    <button onclick="showPopup('xmas-popup')" style="float: right;" class="btn btn-success">
+    <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px"" class="btn btn-success">
         Create
     </button>
     <br>
@@ -96,7 +96,7 @@
                             @item.note
                         </td>
                         <td style="text-align: center;">
-                            <button onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign1');" class="btn btn-info">
+                            <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign1');" class="btn btn-info">
                                 Edit
                             </button>
                         </td>

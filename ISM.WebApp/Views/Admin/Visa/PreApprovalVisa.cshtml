@@ -171,7 +171,7 @@
             @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
         </div>
         <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content">
+            <div class="popup-content" style="height:500px">
                 <form id="editVisaLetterForm" asp-controller="VisaLetter" asp-action="edit" method="post">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Pre-approval Visa Letter</h1>
                     <input id="edit_VisaLetter_id" type="hidden">
