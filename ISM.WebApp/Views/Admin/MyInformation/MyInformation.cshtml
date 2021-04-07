@@ -67,11 +67,11 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
                 </div>
                 <div class="form-group row">
-                    <button class="btn btn-success" style="margin-left: 33%;">
-                        <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
+                    <button onclick="showPopup('xmas-popup')" class="btn btn-danger" style="margin-left: 160px;">
+                        Change Password
                     </button>
-                    <div class="btn-group" style="margin-left: 33%;">
-                        <button onclick="validateSaveInformation('@sessionUser.user_id');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Save</button>
+                    <div class="btn-group" style="margin-left: 70px;">
+                        <button onclick="validateSaveInformation('@sessionUser.user_id');" style="width: 80px; border-radius: 10px;" class="btn btn-success">Save</button>
                     </div>
                 </div>
             </form>
@@ -81,7 +81,7 @@
 
 <!-- popup code -->
 <div id="xmas-popup" class="popup" href="#">
-    <div class="popup-content" style="height:500px">
+    <div class="popup-content" style="height:450px">
         <form>
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">
@@ -97,9 +97,9 @@
                 <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
             </div>
             <div class="form-group row" style="margin-top: 50px;">
-                <button onclick="validateChangePassword('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button id="save" onclick="validateChangePassword('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                <button id="cancel" onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                   Cancel
                 </button>
             </div>
         </form>

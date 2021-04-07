@@ -34,7 +34,13 @@ th{
 .paginglink{
     color:red;
 }
-
+#save{
+   margin-left:290px !important;
+}
+#cancel {
+    margin-left: 10px !important;
+}
+/**/
 .dropdown-content {
   display: none;
   position: absolute;
