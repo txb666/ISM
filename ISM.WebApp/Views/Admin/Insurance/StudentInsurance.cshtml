@@ -106,8 +106,8 @@
                             var editedInsurance = Json.Serialize(Model.insurances[i]).ToString();
                         }
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="editInsurance('@Model.insurances[i].insurance_id','@Model.insurances[i].account','@Model.insurances[i].fullname','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].start_date)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].expiry_date)');" class="btn btn-info">
-                                <a href="#xmas-popup" style="text-decoration: none; color:white">Edit</a>
+                            <button style="width:80px; border-radius:10px" onclick="editInsurance('@Model.insurances[i].insurance_id','@Model.insurances[i].account','@Model.insurances[i].fullname','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].start_date)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].expiry_date)');showPopup('xmas-popup')" class="btn btn-info">
+                               Edit
                             </button>
                         </td>
                     </tr>
@@ -117,7 +117,7 @@
 
         <!-- popup code -->
         <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:500px">
+            <div class="popup-content" style="height:400px">
                 <form id="editInsuranceForm" asp-controller="Insurance" asp-action="Edit" method="post">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Insurance</h1>
                     <input type="hidden" id="edit_id" />
@@ -148,8 +148,8 @@
                                 class="btn btn-success" id="save">
                             Save
                         </button>
-                        <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                            <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                        <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                           Cancel
                         </button>
                     </div>
                 </form>
@@ -164,13 +164,13 @@
     <div style="margin-top: 20px;">
         
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">
-                <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-degree">Set Up Notification Degree</a>
+            <button onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
+                Set Up Notification Degree
             </button>
         </i>
         <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button class="btn btn-danger">
-                <a style="text-decoration:none; color:white" href="#xmas-popup-setupnotification-mobility">Set Up Notification Mobility</a>
+            <button onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
+                Set Up Notification Mobility
             </button>
         </i>
 
@@ -190,8 +190,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>
@@ -207,8 +207,8 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                    <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                       Cancel
                     </button>
                 </div>
             </form>

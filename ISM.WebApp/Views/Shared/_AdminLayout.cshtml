@@ -26,7 +26,7 @@
     <script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
-        function myFunction() {
+        function myFunction_showuser() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
 
@@ -66,7 +66,7 @@
             </div>
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top:10px">
                 <div class="dropdown">
-                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
                         <a href="#home">My Infor</a>
@@ -115,7 +115,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link"  id="navbarDropdown">
                             Insurance
                         </a>
                         <div class="dropdown-description">
@@ -125,7 +125,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link"  id="navbarDropdown">
                             Pre-departure
                         </a>
                         <div class="dropdown-description">
@@ -141,7 +141,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link"  id="navbarDropdown">
                             Program
                         </a>
                         <div class="dropdown-description">
@@ -156,12 +156,10 @@
                             <a class="dropdown-item" href="/ORTMaterials">Orientation Materials</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/ORTMaterialSlide">ORT Material/Slide</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Surveys</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link"  id="navbarDropdown">
                             Local recommendation
                         </a>
                         <div class="dropdown-description">
@@ -175,7 +173,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link"  id="navbarDropdown">
                             Job services
                         </a>
                         <div class="dropdown-description">
@@ -189,7 +187,7 @@
                         <a class="nav-link" href="/FAQ">FAQs</a>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#">Contact Us</a>
+                        <a class="nav-link">Contact Us</a>
                         <div class="dropdown-description">
                             <a class="dropdown-item" href="">Contact Information</a>
                             <div class="dropdown-divider"></div>

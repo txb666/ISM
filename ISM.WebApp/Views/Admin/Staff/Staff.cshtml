@@ -76,13 +76,13 @@
                     </select>
                 </div>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                <button id="searchButton" type="submit" onclick="" class="btn btn-info" style="margin-left: 150px;"> Search</button>
             </form>
         </div>
     </div>
 
-    <button style="float:right;width:80px; border-radius:10px" class="btn btn-success">
-        <a style="text-decoration: none; color:white" href="#xmas-popup">Create</a>
+    <button onclick="showPopup('xmas-popup')" style="float:right;width:80px; border-radius:10px" class="btn btn-success">
+      Create
     </button>
 
 
@@ -132,8 +132,9 @@
                         }
                     </td>
                     <td style="text-align: center;">
-                        <button style="width:80px; border-radius:10px"  onclick="editStaff('@item.user_id','@item.fullname','@item.email','@item.account','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)','@item.status')" class="btn btn-info">
-                            <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
+                        <button style="width:80px; border-radius:10px"
+                        onclick="@item.user_id@item.fullname@item.email@item.account@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)@item.status;showPopup('xmas-popup-assign')" class="btn btn-info">
+                          Edit
                         </button>
                     </td>
 
@@ -176,8 +177,9 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateCreateStaff();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+                    <button onclick="" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel</button>
                 </div>
             </form>
         </div>
@@ -218,7 +220,9 @@
                 </div>
                 <div class="form-group row">
                     <button onclick="validateEditStaff();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel"><a style="text-decoration: none; color: white;" href="#">Cancel</a></button>
+                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                    </button>
                 </div>
             </form>
         </div>

@@ -18,13 +18,13 @@
     <h1 style="text-align: center;"> Contact Information </h1>
     <div style="height:50px">
         <button style="float: right; width:80px; border-radius:10px;" class="btn btn-danger">
-            <a style="text-decoration: none; color:white">Delete</a>
+            Delete
         </button>
-        <button style="float: right;  width:80px; border-radius:10px;" class="btn btn-info">
-            <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Edit</a>
+        <button onclick="showPopup('xmas-popup-assign')" style="float: right;  width:80px; border-radius:10px;" class="btn btn-info">
+          Edit
         </button>
-        <button style="float: right; width:80px; border-radius:10px;" class="btn btn-success">
-            <a style="text-decoration: none; color:white" href="#xmas-popup-assign">Create</a>
+        <button onclick="showPopup('xmas-popup-assign')" style="float: right; width:80px; border-radius:10px;" class="btn btn-success">
+          Create
         </button>
     </div>
     <br>
@@ -96,8 +96,8 @@
                                 Save
                             </button>
 
-                            <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                                <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                            <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                               Cancel
                             </button>
 
                         </div>
