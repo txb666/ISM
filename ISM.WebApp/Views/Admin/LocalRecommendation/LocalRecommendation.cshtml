@@ -19,11 +19,11 @@
 
 <h1 style="text-align: center;">@Model.title</h1>
 <div style="height: 50px;">
-    <button onclick="showPopup('xmas-popup')" class="btn btn-success" style="float:right">
+    <button onclick="showPopup('xmas-popup')" class="btn btn-info" style="float:right;width:80px;border-radius:10px">
         @*<a style="text-decoration:none; color:white" href="#xmas-popup">Edit</a>*@ Edit
     </button>
     <div id="xmas-popup" class="popup" href="#">
-        <div class="popup-content" style="height:200px">
+        <div class="popup-content" style="height:310px">
             <form id="editLocalRecommendationForm" enctype="multipart/form-data">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Local Recommendation</h1>
                 <input type="hidden" id="edit_local_recommendation_id" value="@Model.local_recommendation_id" />
