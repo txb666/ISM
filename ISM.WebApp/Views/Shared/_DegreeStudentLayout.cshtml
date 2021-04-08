@@ -63,7 +63,11 @@
                     <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
                     <button onclick="myFunction()" class="dropbtn"></button>
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="#home">My Infor</a>
+                        <a>
+                            <form method="post" asp-controller="Information" asp-action="Index">
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Profile</button>
+                            </form>
+                        </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
                                 <button class="btn btn-info">Log Out</button>

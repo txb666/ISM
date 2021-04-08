@@ -73,7 +73,6 @@ namespace ISM.WebApp.DAOImpl
                     user.status = (bool)reader.GetValue(reader.GetOrdinal("status"));
                     user.isFirstLoggedIn = (bool)reader.GetValue(reader.GetOrdinal("isFirstLoggedIn"));
                 }
-                return user;
             }
             catch (Exception e)
             {
@@ -83,7 +82,7 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, reader, null);
             }
-            return null;
+            return user;
         }
 
         public List<Account> GetAccounts()
@@ -112,8 +111,6 @@ namespace ISM.WebApp.DAOImpl
                     account.isFirstLoggedIn = (bool)reader.GetValue(reader.GetOrdinal("isFirstLoggedIn"));
                     accounts.Add(account);
                 }
-                
-                return accounts;
             }
             catch (Exception e)
             {
@@ -123,7 +120,7 @@ namespace ISM.WebApp.DAOImpl
             {
                 DBUtils.closeAllResource(con, com, reader, null);
             }
-            return null;
+            return accounts;
         }
 
         public bool haveDegree(int user_id)

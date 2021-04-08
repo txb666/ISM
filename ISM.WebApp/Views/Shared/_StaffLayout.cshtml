@@ -62,7 +62,11 @@
                     <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="#home">My Infor</a>
+                        <a>
+                            <form method="post" asp-controller="Information" asp-action="Index">
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Profile</button>
+                            </form>
+                        </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
                                 <button class="btn btn-info">Log Out</button>
@@ -194,55 +198,72 @@
                 @RenderBody()
             </main>
         </div>
-        </div>
-        <footer style="margin-top:100px">
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
-                            <h3>Contact</h3>
-                            <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
-                            <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
-                            <p>
-                                <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
-                            </p>
+    </div>
+    <footer style="margin-top:100px">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
+                        <p>
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
+                        </p>
 
-                        </div>
-                        <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
-                            <h3>Contact</h3>
-                            <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
-                            <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
-                            <p>
-                                <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
-                            </p>
-                        </div>
-                        <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
-                            <h3>Follow us</h3>
-                            <p>
-                                <a href="#"><i class="fab fa-facebook"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-pinterest"></i></a>
-                            </p>
-                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
+                        <p>
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
+                        <h3>Follow us</h3>
+                        <p>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </p>
                     </div>
                 </div>
             </div>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-                crossorigin="anonymous"></script>
-        <script src="~/js/site.js"></script>
-        <script src="~/js/Passport.js"></script>
-        <script src="~/js/Visa.js"></script>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Passport.js" asp-append-version="true"></script>
+    <script src="~/js/Visa.js" asp-append-version="true"></script>
+    <script src="~/js/Student.js" asp-append-version="true"></script>
+    <script src="~/js/Insurance.js" asp-append-version="true"></script>
+    <script src="~/js/VisaLetter.js" asp-append-version="true"></script>
+    <script src="~/js/Orientation.js" asp-append-version="true"></script>
+    <script src="~/js/Transportation.js" asp-append-version="true"></script>
+    <script src="~/js/CurrentAccomodation.js" asp-append-version="true"></script>
+    <script src="~/js/Flight.js" asp-append-version="true"></script>
+    <script src="~/js/Article.js" asp-append-version="true"></script>
+    <script src="~/js/FAQ.js" asp-append-version="true"></script>
+    <script src="~/js/LocalRecommendation.js" asp-append-version="true"></script>
+    <script src="~/js/StudentHandbook.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterials.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterialSlide.js" asp-append-version="true"></script>
+    <script src="~/js/JobVacancy.js" asp-append-version="true"></script>
+    <script src="~/js/Meeting.js" asp-append-version="true"></script>
+    <script src="~/js/Information.js" asp-append-version="true"></script>
+    <script src="~/js/ContactInformation.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
