@@ -60,7 +60,7 @@ function editStudent(id, fullname, email, account, student_group_id, status) {
     document.getElementById("edit_originalEmail").value = email;
     document.getElementById("edit_account").value = account;
     document.getElementById("edit_student_group").value = student_group_id;
-    document.getElementById("status").value = status;
+    document.getElementById("edit_status_student").value = status;
 }
 
 function validateEditStudent() {
@@ -68,7 +68,7 @@ function validateEditStudent() {
     var originalEmail = document.getElementById("edit_originalEmail").value;
     var fullname = document.getElementById("edit_fullname").value;
     var email = document.getElementById("edit_email").value;
-    var status = document.getElementById("edit_status").value;
+    var status = document.getElementById("edit_status_student").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
         alert("email empty or not in right format");
         return;

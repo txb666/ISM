@@ -269,7 +269,7 @@
                         }
                     </td>
                     <td style="text-align: center;">
-                        <button style="width:80px; border-radius:10px"  onclick="editStudent('@item.user_id', '@item.fullname', '@item.email', '@item.account', '@item.studentGroup_id', '@item.status'); showPopup('xmas-popup-assign')" class="btn btn-info">
+                        <button style="width:80px; border-radius:10px"  onclick="editStudent('@item.user_id', '@item.fullname', '@item.email', '@item.account', '@item.studentGroup_id', '@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
                             Edit
                         </button>
                     </td>
@@ -332,7 +332,7 @@
     </div>
     <div id="xmas-popup-assign" class="popup" href="#">
         <div class="popup-content-assign" style="height:370px">
-            <form id="editStudentForm">
+            <form id="editStudentForm" asp-controller="Student" asp-action="Edit" method="post">
                 <h1 style="text-align: center;">Edit Student</h1>
                 <input type="hidden" id="edit_id" />
                 <input type="hidden" id="edit_originalEmail" />
@@ -366,9 +366,9 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
-                    <select style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_status">
-                        <option value="true">Active</option>
-                        <option value="false">Inactive</option>
+                    <select name="status" style="margin-left: 30px;border-radius: 5px;" id="edit_status_student">
+                        <option value="True">Active</option>
+                        <option value="False">Inactive</option>
                     </select>
                 </div>
                 <div class="form-group row">

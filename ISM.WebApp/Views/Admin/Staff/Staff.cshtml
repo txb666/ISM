@@ -133,7 +133,7 @@
                     </td>
                     <td style="text-align: center;">
                         <button style="width:80px; border-radius:10px"
-                        onclick="@item.user_id@item.fullname@item.email@item.account@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)@item.status;showPopup('xmas-popup-assign')" class="btn btn-info">
+                        onclick="editStaff('@item.user_id','@item.fullname','@item.email','@item.account','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)','@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
                           Edit
                         </button>
                     </td>

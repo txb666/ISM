@@ -45,20 +45,20 @@
                         @if (Model.user.gender == null)
                         {
                             <option value="" selected>All</option>
-                            <option value="true">Male</option>
-                            <option value="false">Female</option>
+                            <option value="True">Male</option>
+                            <option value="False">Female</option>
                         }
                         else if (Model.user.gender == true)
                         {
                             <option value="">All</option>
-                            <option value="true" selected>Male</option>
-                            <option value="false">Female</option>
+                            <option value="True" selected>Male</option>
+                            <option value="False">Female</option>
                         }
                         else
                         {
                             <option value="">All</option>
-                            <option value="true">Male</option>
-                            <option value="false" selected>Female</option>
+                            <option value="True">Male</option>
+                            <option value="False" selected>Female</option>
                         }
                     </select>
                 </div>
