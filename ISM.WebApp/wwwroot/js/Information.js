@@ -4,28 +4,33 @@
     var dob = document.getElementById("profile_dob_id").value;
     var gender = document.getElementById("profile_gender_id").value;
     var contact = document.getElementById("profile_contact_id").value;
+    var picture = document.getElementById("profile_picture").files[0];
     var check = confirm("Do you want to save?");
     if (check) {
         if (!fullname || !nationality || !dob || !gender || !contact) {
             alert("Please fill out all information fields.");
             return;
         }
+        var fdata = new FormData();
+        fdata.append("user_id", user_id);
+        fdata.append("fullname", fullname);
+        fdata.append("nationality", nationality);
+        fdata.append("dob", dob);
+        fdata.append("gender", gender);
+        fdata.append("contact", contact);
+        fdata.append("picture", picture);
         $.ajax({
             type: "POST",
             url: "/Information/SaveProfile",
-            data: { user_id: user_id, fullname: fullname, nationality: nationality, dob: dob, gender: gender, contact: contact },
-            dataType: "text",
-            success: function (msg) {
-                if (msg == "true") {
-                    alert("Save successfull");
-                    window.location.href = "/Information";
-                }
-                else {
-                    alert("Save failed")
-                }
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function (message) {
+                alert(message);
+                window.location.href = '/Information';
             },
-            error: function (req, status, error) {
-                alert(error);
+            error: function (message) {
+                alert(message);
             }
         });
     }

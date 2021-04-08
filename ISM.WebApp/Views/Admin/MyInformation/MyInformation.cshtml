@@ -20,13 +20,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <img src="images/lon.jpg" class="rounded float-left" style="width: 300px; height: 300px;">
-            <div class="form-group">
-                <input type="file" class="form-control-file" style="width: 300px;">
-            </div>
+            <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px;">
         </div>
         <div class="col-md-8">
-            <form>
+            <form id="profile_form_id" enctype="multipart/form-data">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
@@ -67,7 +64,11 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
                 </div>
                 <div class="form-group row">
-                    <button  class="btn btn-success" style="margin-left: 160px;">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('profile_picture')">
+                </div>
+                <div class="form-group row">
+                    <button class="btn btn-success" style="margin-left: 160px;">
                         <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
                     </button>
                     <div class="btn-group" style="margin-left: 70px;">

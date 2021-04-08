@@ -25,6 +25,8 @@
     <Folder Include="wwwroot\Article\What to pack\" />
     <Folder Include="wwwroot\image\CurrentAccomodation\" />
     <Folder Include="wwwroot\GeneralAgenda\" />
+    <Folder Include="wwwroot\image\ContactInformation\" />
+    <Folder Include="wwwroot\image\Profile\" />
   </ItemGroup>
 
 </Project>

@@ -40,11 +40,11 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
-        public bool EditInformation(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact)
+        public bool EditInformation(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact, string picture)
         {
             SqlConnection con = null;
             string sql = "update Users set fullname = @fullname, nationality = @nationality, DOB = @dob, " +
-                         "gender = @gender, emergency_contact = @contact where [user_id] = @user_id";
+                         "gender = @gender, emergency_contact = @contact, picture = @picture  where [user_id] = @user_id";
             SqlCommand com = null;
             try
             {
@@ -61,6 +61,8 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@gender"].Value = gender;
                 com.Parameters.Add("@contact", SqlDbType.NVarChar);
                 com.Parameters["@contact"].Value = contact;
+                com.Parameters.Add("@picture", SqlDbType.NVarChar);
+                com.Parameters["@picture"].Value = picture;
                 com.Parameters.Add("@user_id", SqlDbType.Int);
                 com.Parameters["@user_id"].Value = user_id;
                 com.ExecuteNonQuery();
@@ -89,7 +91,7 @@ namespace ISM.WebApp.DAOImpl
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select a.fullname,a.nationality,a.DOB,a.gender,a.emergency_contact from Users a where a.[user_id] = @user_id";
+                sql = "select a.fullname,a.nationality,a.DOB,a.gender,a.emergency_contact,a.picture from Users a where a.[user_id] = @user_id";
                 com.Parameters.Add("@user_id", SqlDbType.Int);
                 com.Parameters["@user_id"].Value = user_id;
                 com.CommandText = sql;
@@ -112,6 +114,10 @@ namespace ISM.WebApp.DAOImpl
                     if (!reader.IsDBNull(reader.GetOrdinal("emergency_contact")))
                     {
                         user.emergency_contact = (string)reader.GetValue(reader.GetOrdinal("emergency_contact"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        user.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
                     }
                 }
             }

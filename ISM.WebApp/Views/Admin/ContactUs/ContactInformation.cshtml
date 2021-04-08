@@ -127,7 +127,7 @@
                         @item.staff_telephone
                     </td>
                     <td>
-                        @item.picture
+                        <img src="~/image/ContactInformation/@item.picture" class="rounded float-left" style="width: 50px; height: 50px;">
                     </td>
                     <td>
                         @item.staff_position
@@ -145,10 +145,7 @@ else
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <img src="images/lon.jpg" class="rounded float-left" style="width: 300px; height: 300px;">
-                <div class="form-group">
-                    <input type="file" class="form-control-file" style="width: 300px;">
-                </div>
+                <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px;">
             </div>
             <div class="col-md-8">
                 <form>
@@ -173,8 +170,8 @@ else
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picrure(Test):</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_picture_staff" value="@(!String.IsNullOrEmpty(Model.contact.picture)?Model.contact.picture:"")">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picrure:</label>
+                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_staff" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('contact_information_picture_staff')">
                     </div>
                     <div class="form-group row">
                         <div class="btn-group" style="margin-left: 70px;">
@@ -191,9 +188,12 @@ else
 
 <div id="xmas-popup-assign" class="popup">
     <div class="row">
+        <div class="col-md-4">
+            <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px;">
+        </div>
         <div class="col-12 col-xl-12 col-md-12 col-sm-12 col-lg-12">
             <div class="popup-content-assign" style="height:500px">
-                <form asp-controller="ContactInformation" asp-action="CreateOrEdit" method="post">
+                <form asp-controller="ContactInformation" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
                     <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
@@ -212,12 +212,12 @@ else
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_phone" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_picture" value="@(!String.IsNullOrEmpty(Model.contact.picture)?Model.contact.picture:"")">
-                    </div>
-                    <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_admin" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('contact_information_picture_admin')">
                     </div>
                     <div class="form-group row">
                         <button onclick="validateCreateOrEditAdmin('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
