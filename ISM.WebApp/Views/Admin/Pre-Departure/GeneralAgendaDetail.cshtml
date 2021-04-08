@@ -21,18 +21,18 @@
 <div style="height:50px">
 
 </div>
-<button onclick="showPopup('xmas-popup');" style="float: right;" class="btn btn-success">
+<button onclick="showPopup('xmas-popup');" style="float: right; width:80px;border-radius:10px" class="btn btn-info">
     Edit
 </button>
 <br>
 <br>
-<div class="table-scroll">   
+<div>   
     <a href="~/GeneralAgenda/@Model.generalAgenda.content" style="font-size:18px;" download>Download General Agenda</a>
     <h3>Note:</h3>
     <p style="font-size:16px;">@Model.generalAgenda.note</p>
     <!-- popup code -->
     <div id="xmas-popup" class="popup" href="#">
-        <div class="popup-content" style="height:500px">
+        <div class="popup-content" style="height:290px">
             <form>
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit General Agenda</h1>
                 <input type="hidden" id="edit_general_agenda_id" value="@Model.generalAgenda.general_agenda_id">

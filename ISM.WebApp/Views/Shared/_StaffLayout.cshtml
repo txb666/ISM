@@ -69,7 +69,7 @@
                         </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button class="btn btn-info">Log Out</button>
+                                <button class="btn btn-info" style="width:80px;border-radius:10px">Log Out</button>
                             </form>
                         </a>
                     </div>
@@ -87,15 +87,9 @@
                 <ul class="navbar-nav" style="margin: 0 auto">
 
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
+                        <a class="nav-link" href="/Student" id="navbarDropdown">
                             Student
                         </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/StudentGroup">Student Group</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Student">Manage Student</a>
-
-                        </div>
                     </li>
                     <li class="nav-item dropdowns">
                         <a class="nav-link" id="navbarDropdown">
@@ -132,7 +126,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/CurrentAccomodation">Current Accomodation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">General Agenda</a>
+                            <a class="dropdown-item" href="/GeneralAgenda">General Agenda</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -142,7 +136,7 @@
                         <div class="dropdown-description">
                             <a class="dropdown-item" href="/Orientation">Orientation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Detailed agenda</a>
+                            <a class="dropdown-item" href="/DetailedAgenda">Detailed agenda</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
                             <div class="dropdown-divider"></div>
@@ -184,7 +178,7 @@
                     <li class="nav-item dropdowns">
                         <a class="nav-link">Contact Us</a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="">Contact Information</a>
+                            <a class="dropdown-item" href="/ContactInformation">Contact Information</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/Meeting">Book a meeting</a>
                         </div>
