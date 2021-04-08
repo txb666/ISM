@@ -88,6 +88,8 @@ namespace ISM.WebApp
             services.AddScoped<FAQDAO, FAQDAOImpl>();
             services.AddScoped<JobVacancyDAO, JobVacancyDAOImpl>();
             services.AddScoped<MeetingDAO, MeetingDAOImpl>();
+            services.AddScoped<GeneralAgendaDAO, GeneralAgendaDAOImpl>();
+            services.AddScoped<DetailedAgendaDAO, DetailedAgendaDAOImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

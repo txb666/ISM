@@ -236,7 +236,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_picture" value="Choose a picture">
+                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_picture" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('create_picture')">
                 </div>
                 <div class="form-group row">
                     <button onclick="validateCreateCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"
@@ -302,7 +302,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                    <input type="file" style="width:300px; margin-left:30px; border-radius:5px" id="edit_picture" value="Choose a picture">
+                    <input type="file" style="width:300px; margin-left:30px; border-radius:5px" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('edit_picture')">
                 </div>
                 <div class="form-group row">
                     <button onclick="validateEditCurrentAccomodation();" style="margin-left: 190px; width: 80px;" type="button"

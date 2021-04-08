@@ -1,0 +1,146 @@
+﻿@model ISM.WebApp.ViewModels.StudentGroupIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Student Group Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Student Group Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+}
+
+@*<div style="height: 500px; background-color: white;">*@
+<h1 style="text-align: center;">General Agenda</h1>
+<div style="height: 50px;">
+    <!-- SEARCH FORM -->
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
+            <form style="width: 320px;" asp-controller="GeneralAgenda" asp-action="Index" method="get" id="searchForm">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Year:</label>
+                    <input type="number" name="year" style="width: 200px; border-radius: 5px;" value="@Model.year">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                    <select name="program" style="border-radius: 5px; width: 200px;">
+                        @if (string.IsNullOrEmpty(Model.program))
+                        {
+                            <option value="" selected>All</option>
+                        }
+                        else
+                        {
+                            <option value="">All</option>
+                        }
+                        @for (int i = 0; i < Model.programList.Count; i++)
+                        {
+                            if (Model.programList[i].program_name.Equals(Model.program))
+                            {
+                                <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
+                            }
+                            else
+                            {
+                                <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University</label>
+                    <input type="text" name="home_univercity" style="width: 200px; border-radius: 5px;" value="@Model.home_univercity">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus</label>
+                    <select name="campus" style="border-radius: 5px; width: 200px;">
+                        @if (string.IsNullOrEmpty(Model.campus))
+                        {
+                            <option value="" selected>All</option>
+                        }
+                        else
+                        {
+                            <option value="">All</option>
+                        }
+                        @for (int i = 0; i < Model.campusList.Count; i++)
+                        {
+                            if (Model.campusList[i].campus_name.Equals(Model.campus))
+                            {
+                                <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
+                            }
+                            else
+                            {
+                                <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <input type="hidden" name="page" id="inputPage" />
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Year</th>
+                <th scope="col">Program</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Home University</th>
+                <th scope="col">Campus</th>
+                <th scope="col">Note</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.studentGroups)
+            {
+                <tr>
+                    <td>
+                        @item.year
+                    </td>
+                    <td>
+                        @item.program_name
+                    </td>
+                    <td>
+                        @item.duration_start
+                    </td>
+                    <td>
+                        @item.duration_end
+                    </td>
+                    <td>
+                        @item.home_university
+                    </td>
+                    <td>
+                        @item.campus_name
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td>
+                        <a asp-controller="GeneralAgenda" asp-action="Detail" asp-route-student_group_id="@item.studentGroup_id">View General Agenda</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+
+
+
+@*</div>*@

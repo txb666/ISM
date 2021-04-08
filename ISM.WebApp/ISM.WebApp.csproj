@@ -24,6 +24,7 @@
     <Folder Include="wwwroot\Article\Tips to prepare for job interview\" />
     <Folder Include="wwwroot\Article\What to pack\" />
     <Folder Include="wwwroot\image\CurrentAccomodation\" />
+    <Folder Include="wwwroot\GeneralAgenda\" />
   </ItemGroup>
 
 </Project>
