@@ -24,6 +24,7 @@ namespace ISM.WebApp.Models
         public DateTime? dob { get; set; }
         public bool? gender { get; set; }
         public string emergency_contact { get; set; }
+        public string picture { get; set; }
         public string accomodation { get; set; }
         public int program_id { get; set; }
         public string program { get; set; }

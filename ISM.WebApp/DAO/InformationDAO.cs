@@ -10,7 +10,7 @@ namespace ISM.WebApp.DAO
     {
         User GetInformation(int user_id);
         bool ChangePassword(int user_id, string new_password);
-        bool EditInformation(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact);
+        bool EditInformation(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact, string picture);
         bool isPasswordMatch(string current_password);
     }
 }
