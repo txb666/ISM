@@ -88,6 +88,8 @@ namespace ISM.WebApp
             services.AddScoped<FAQDAO, FAQDAOImpl>();
             services.AddScoped<JobVacancyDAO, JobVacancyDAOImpl>();
             services.AddScoped<MeetingDAO, MeetingDAOImpl>();
+            services.AddScoped<GeneralAgendaDAO, GeneralAgendaDAOImpl>();
+            services.AddScoped<DetailedAgendaDAO, DetailedAgendaDAOImpl>();
             services.AddScoped<InformationDAO, InformationDAOImpl>();
             services.AddScoped<ContactInformationDAO, ContactInformationDAOImpl>();
         }
