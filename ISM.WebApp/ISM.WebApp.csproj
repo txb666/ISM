@@ -13,12 +13,12 @@
 
   <ItemGroup>
     <Folder Include="Views\Admin\Staff\" />
-    <Folder Include="wwwroot\Article\How to renew your passport\" />
-    <Folder Include="wwwroot\Article\How to renew your visa\" />
-    <Folder Include="wwwroot\Article\How to apply for a Vietnam visa\" />
     <Folder Include="wwwroot\Article\Insurance Instruction\" />
     <Folder Include="wwwroot\Article\Jobs 101\" />
     <Folder Include="wwwroot\Article\Local Recommendation\" />
+    <Folder Include="wwwroot\Article\How to apply for a Vietnam visa\" />
+    <Folder Include="wwwroot\Article\How to renew your passport\" />
+    <Folder Include="wwwroot\Article\How to renew your visa\" />
     <Folder Include="wwwroot\Article\Student Handbook\" />
     <Folder Include="wwwroot\Article\Tips and samples for CV\" />
     <Folder Include="wwwroot\Article\Tips to prepare for job interview\" />
