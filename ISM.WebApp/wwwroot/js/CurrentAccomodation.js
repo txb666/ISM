@@ -47,12 +47,12 @@
                     contentType: false,
                     processData: false,
                     data: fdata,
-                    success: function (message) {
-                        alert(message);
+                    success: function () {
+                        alert("Create successful");
                         window.location.href = '/CurrentAccomodation';
                     },
-                    error: function (message) {
-                        alert(message);
+                    error: function () {
+                        alert("Create failed");
                     }
                 });
             }

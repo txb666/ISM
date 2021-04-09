@@ -12,10 +12,10 @@ namespace ISM.WebApp.DAOImpl
 {
     public class FlightDAOImpl : FlightDAO
     {
-        public bool editFlightDegree(int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string picture_a)
+        public bool editFlightDegree(int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a)
         {
             SqlConnection con = null;
-            string sql = "update Flights set [flight_number_a]=@flight_number_a,[arrival_date_a]=@arrival_date_a,[arrival_time_a]=@arrival_time_a,[airport_departure_a]=@airport_departure_a,[airport_arrival_a]=@airport_arrival_a,[picture_a]=@picture_a where flight_id=@flight_id";
+            string sql = "update Flights set [flight_number_a]=@flight_number_a,[arrival_date_a]=@arrival_date_a,[arrival_time_a]=@arrival_time_a,[airport_departure_a]=@airport_departure_a,[airport_arrival_a]=@airport_arrival_a where flight_id=@flight_id";
             SqlCommand com = null;
             try
             {
@@ -40,9 +40,6 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@flight_id", SqlDbType.Int);
                 com.Parameters["@flight_id"].Value = flight_id;
 
-                com.Parameters.Add("@picture_a", SqlDbType.NVarChar);
-                com.Parameters["@picture_a"].Value = picture_a;
-
                 com.ExecuteNonQuery();
                 return true;
             }
@@ -57,10 +54,10 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
-        public bool editFlightMobility(int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string picture_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d, string picture_d)
+        public bool editFlightMobility(int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d)
         {
             SqlConnection con = null;
-            string sql = "update Flights set [flight_number_a]=@flight_number_a,[arrival_date_a]=@arrival_date_a,[arrival_time_a]=@arrival_time_a,[airport_departure_a]=@airport_departure_a,[airport_arrival_a]=@airport_arrival_a,[picture_a]=@picture_a,[flight_number_d]=@flight_number_d,[arrival_date_d]=@arrival_date_d,[arrival_time_d]=@arrival_time_d,[airport_departure_d]=@airport_departure_d,[airport_arrival_d]=@airport_arrival_d,[picture_d]=@picture_d where flight_id=@flight_id";
+            string sql = "update Flights set [flight_number_a]=@flight_number_a,[arrival_date_a]=@arrival_date_a,[arrival_time_a]=@arrival_time_a,[airport_departure_a]=@airport_departure_a,[airport_arrival_a]=@airport_arrival_a,[flight_number_d]=@flight_number_d,[arrival_date_d]=@arrival_date_d,[arrival_time_d]=@arrival_time_d,[airport_departure_d]=@airport_departure_d,[airport_arrival_d]=@airport_arrival_d where flight_id=@flight_id";
             SqlCommand com = null;
             try
             {
@@ -99,12 +96,6 @@ namespace ISM.WebApp.DAOImpl
 
                 com.Parameters.Add("@flight_id", SqlDbType.Int);
                 com.Parameters["@flight_id"].Value = flight_id;
-
-                com.Parameters.Add("@picture_d", SqlDbType.NVarChar);
-                com.Parameters["@picture_d"].Value = picture_d;
-
-                com.Parameters.Add("@picture_a", SqlDbType.NVarChar);
-                com.Parameters["@picture_a"].Value = picture_a;
 
                 com.ExecuteNonQuery();
                 return true;

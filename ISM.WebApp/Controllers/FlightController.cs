@@ -65,16 +65,16 @@ namespace ISM.WebApp.Controllers
             return View("Views/Admin/Pre-Departure/StudentFlight.cshtml", viewModel);
         }
 
-        public bool Edit(string degreeOrMobility = "", int? flight_id = null, string flight_number_a = "", DateTime? arrival_date_a = null, TimeSpan? arrival_time_a = null, string airport_departure_a = "", string airport_arrival_a = "", string picture_a = "", string flight_number_d = "", DateTime? arrival_date_d = null, TimeSpan? arrival_time_d = null, string airport_departure_d = "", string airport_arrival_d = "", string picture_d = "")
+        public bool Edit(string degreeOrMobility = "", int? flight_id = null, string flight_number_a = "", DateTime? arrival_date_a = null, TimeSpan? arrival_time_a = null, string airport_departure_a = "", string airport_arrival_a = "", string flight_number_d = "", DateTime? arrival_date_d = null, TimeSpan? arrival_time_d = null, string airport_departure_d = "", string airport_arrival_d = "")
         {
             bool result = false;
             if (degreeOrMobility.Equals("Mobility"))
             {
-                result = flightDAO.editFlightMobility(flight_id, flight_number_a, arrival_date_a, arrival_time_a, airport_departure_a, airport_arrival_a, picture_a, flight_number_d, arrival_date_d, arrival_time_d, airport_departure_d, airport_arrival_d, picture_d);
+                result = flightDAO.editFlightMobility(flight_id, flight_number_a, arrival_date_a, arrival_time_a, airport_departure_a, airport_arrival_a, flight_number_d, arrival_date_d, arrival_time_d, airport_departure_d, airport_arrival_d);
             }
             else if (degreeOrMobility.Equals("Degree"))
             {
-                result = flightDAO.editFlightDegree(flight_id, flight_number_a, arrival_date_a, arrival_time_a, airport_departure_a, airport_arrival_a, picture_a);
+                result = flightDAO.editFlightDegree(flight_id, flight_number_a, arrival_date_a, arrival_time_a, airport_departure_a, airport_arrival_a);
             }
             return result;
         }

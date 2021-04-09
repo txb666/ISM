@@ -18,17 +18,17 @@
         fdata.append("position", position);
         fdata.append("picture", picture);
         $.ajax({
-            type: "POST",
+            type: "post",
             url: "/ContactInformation/CreateOrEdit",
             contentType: false,
             processData: false,
             data: fdata,
-            success: function (message) {
-                alert(message);
+            success: function () {
+                alert("Successful");
                 window.location.href = '/ContactInformation';
             },
-            error: function (message) {
-                alert(message);
+            error: function () {
+                alert("Failed");
             }
         });
     }
@@ -57,17 +57,17 @@ function validateCreateOrEditAdmin(user_id) {
         fdata.append("position", position);
         fdata.append("picture", picture);
         $.ajax({
-            type: "POST",
+            type: "post",
             url: "/ContactInformation/CreateOrEdit",
             contentType: false,
             processData: false,
             data: fdata,
-            success: function (message) {
-                alert(message);
+            success: function () {
+                alert("Successful");
                 window.location.href = '/ContactInformation';
             },
-            error: function (message) {
-                alert(message);
+            error: function () {
+                alert("Failed");
             }
         });
     }

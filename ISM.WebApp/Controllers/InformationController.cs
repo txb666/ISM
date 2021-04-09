@@ -34,15 +34,16 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult SaveProfile(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact, IFormFile picture)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             string pictureName = "";
             if (picture != null)
             {
                 string extension = Path.GetExtension(picture.FileName);
-                pictureName = "user_profile_" + user_id;
+                pictureName = "user_profile_" + user_id + "_" + sessionUser.username;
                 pictureName += extension;
                 string image = Path.Combine(_hostingEnvironment.WebRootPath, "image");
-                string currentAccomodation = Path.Combine(image, "Profile");
-                string filePath = Path.Combine(currentAccomodation, pictureName);
+                string currentProfile = Path.Combine(image, "Profile");
+                string filePath = Path.Combine(currentProfile, pictureName);
                 FileStream stream = new FileStream(filePath, FileMode.Create);
                 picture.CopyTo(stream);
                 stream.Close();

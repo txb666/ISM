@@ -20,17 +20,17 @@
         fdata.append("contact", contact);
         fdata.append("picture", picture);
         $.ajax({
-            type: "POST",
+            type: "post",
             url: "/Information/SaveProfile",
             contentType: false,
             processData: false,
             data: fdata,
-            success: function (message) {
-                alert(message);
+            success: function () {
+                alert("Successful");
                 window.location.href = '/Information';
             },
-            error: function (message) {
-                alert(message);
+            error: function () {
+                alert("Failed");
             }
         });
     }

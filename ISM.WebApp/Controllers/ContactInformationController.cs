@@ -53,15 +53,16 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult CreateOrEdit(int user_id, string telephone, string position, IFormFile picture)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             string pictureName = "";
             if (picture != null)
             {
                 string extension = Path.GetExtension(picture.FileName);
-                pictureName = "Contact_Information_" + user_id;
+                pictureName = "Contact_Information_" + user_id + "_" + sessionUser.username;
                 pictureName += extension;
                 string image = Path.Combine(_hostingEnvironment.WebRootPath, "image");
-                string currentAccomodation = Path.Combine(image, "ContactInformation");
-                string filePath = Path.Combine(currentAccomodation, pictureName);
+                string currentContact = Path.Combine(image, "ContactInformation");
+                string filePath = Path.Combine(currentContact, pictureName);
                 FileStream stream = new FileStream(filePath, FileMode.Create);
                 picture.CopyTo(stream);
                 stream.Close();

@@ -1,169 +1,180 @@
-.logo-user{
- /*   width: 100%;
+.logo-user {
+    /*   width: 100%;
     height: 100%;*/
 }
-body{
-    min-height:100vh;
+
+body {
+    min-height: 100vh;
 }
-footer{
- position:sticky;
- top:100%;
+
+footer {
+    position: sticky;
+    top: 100%;
 }
-th{
-    background-color:dodgerblue;
+
+th {
+    background-color: dodgerblue;
 }
 /*canvas{
     position:relative;
 }*/
 .dropbtn {
-  /*background-image: url(~/image/user.jpg);
+    /*background-image: url(~/image/user.jpg);
   background-size: cover;*/
-  width: 100px;
-  height: 50px;
-  margin-top: 10px;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
+    width: 100px;
+    height: 50px;
+    margin-top: 10px;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
 }
+
 .dropdown {
-  position: relative;
-  display: inline-block;
-  
+    position: relative;
+    display: inline-block;
 }
-.paginglink{
-    color:red;
+
+.paginglink {
+    color: red;
 }
-#save{
-   margin-left:290px !important;
+
+#save {
+    margin-left: 290px !important;
 }
+
 #cancel {
     margin-left: 10px !important;
 }
 /**/
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  width:90px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 90px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
-.dropdown-content a {
-  color: red;
-  padding: 7px 3px;
-  text-decoration: none;
-  display: block;
-}
+    .dropdown-content a {
+        color: red;
+        padding: 7px 3px;
+        text-decoration: none;
+        display: block;
+    }
 
 .dropdown a:hover {
-background-color: white;
-text-decoration: none;
+    background-color: white;
+    text-decoration: none;
 }
+
 .show {
-  display: block;
+    display: block;
 }
+
 .show_staff {
     display: block;
 }
 
-.icon-button{
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-width: 50px;
-height: 50px;
-margin-top: 15px;
-margin-left: 15px;
-color: #333333;
-background: #dddddd;
-border: none;
-outline: none;
-border-radius: 50%;
+.icon-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin-top: 15px;
+    margin-left: 15px;
+    color: #333333;
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
 }
-.icon-button__badge{
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 25px;
-  height: 25px;
-  background: red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
+
+.icon-button__badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
 }
 
 
- /* CSS NavBar */
-ul li{
-  font-size: 19px;
-  margin: 3px;
-  font-family: sans-serif;
-  background-color: white;
-}
-.dropdown-description{
-  display: none;
-  position: absolute;
-  background-color: white;
-  z-index: 1;
-}
-.dropdowns{
-  position: relative;
-  display: inline-block;
+/* CSS NavBar */
+ul li {
+    font-size: 19px;
+    margin: 3px;
+    font-family: sans-serif;
+    background-color: white;
 }
 
- .dropdowns:hover .dropdown-description{
-display: block;
-color: red !important;
+.dropdown-description {
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
 }
+
+.dropdowns {
+    position: relative;
+    display: inline-block;
+}
+
+    .dropdowns:hover .dropdown-description {
+        display: block;
+        color: red !important;
+    }
 
 
 /* POP UP CSS */
 .popup {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
- }
- 
- #xmas-popup .popup-content{
-  width: 500px;
-  height: 650px;
-  background: white;
-  margin: 10px auto;
-  position: relative;
-  border: 5px solid #fff;
- }
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+}
+
+#xmas-popup .popup-content {
+    width: 500px;
+    height: 650px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
 
 
 
- /* POP UP ASSIGN */
- .popup {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
- }
+/* POP UP ASSIGN */
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+}
 
- 
- #xmas-popup-assign .popup-content-assign{
-  width: 500px;
-  height: 500px;
-  background: white;
-  margin: 10px auto;
-  position: relative;
-  border: 5px solid #fff;
- }
+
+#xmas-popup-assign .popup-content-assign {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
 
 /* POP UP ASSIGN1 */
 .popup {
@@ -195,6 +206,7 @@ POPUP SETUP NOTIFICATION*/
     position: relative;
     border: 5px solid #fff;
 }
+
 #xmas-popup-setupnotification-mobility .popup-content-setupnotification-mobility {
     width: 500px;
     height: 500px;
@@ -227,45 +239,47 @@ POPUP SETUP NOTIFICATION*/
 
 
 
- .table-scroll{
-   overflow-y: scroll;
- }
+.table-scroll {
+    overflow-y: scroll;
+}
+
 .table-scroll-meeting {
     overflow-y: scroll;
-    height:350px;
-    overflow-x:hidden;
+    height: 350px;
+    overflow-x: hidden;
 }
- 
-
-   
- .popup:target {
-   display: block;
- }
 
 
- .dropbtn_search {
-  margin-top: 10px;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
+
+.popup:target {
+    display: block;
 }
+
+
+.dropbtn_search {
+    margin-top: 10px;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
 .dropdown_search {
-  position: relative;
-  display: inline-block;
-  
+    position: relative;
+    display: inline-block;
 }
 
 .dropdown-content_search {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
+
 .show_search {
-  display: inline-block;
+    display: inline-block;
 }
 
 
@@ -312,45 +326,91 @@ POPUP SETUP NOTIFICATION*/
 .show_search_studentgroup {
     display: block;
 }
+
 .show_search_studentinfor {
     display: block;
 }
+
 .show_search_passport {
     display: block;
 }
+
 .show_search_preapprovalvisa {
     display: block;
 }
+
 .show_search_visa {
     display: block;
 }
+
 .show_search_orientation_schedule {
     display: block;
 }
+
 .show_search_orientation_schedule_student {
     display: block;
 }
+
 .show_search_orientation_material_slide {
     display: block;
 }
+
 .show_search_orientation_material {
     display: block;
 }
+
 .show_search_staff {
     display: block;
 }
-.show_search_staff{
-    display:block;
+
+.show_search_staff {
+    display: block;
 }
+
 .show_search_insurance {
     display: block;
 }
+
 .show_search_jobVacancy {
     display: block;
 }
+
 .show_search_meetingAT {
     display: block;
 }
+
 .show_search_contact_information {
     display: block;
+}
+
+/*Zoom img*/
+img {
+    height: 100px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8) none 50% / contain no-repeat;
+    cursor: pointer;
+    transition: 0.3s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+#overlay.open {
+    visibility: visible;
+    opacity: 1;
+}
+
+#overlay:after { /* X button icon */
+    content: "\2715";
+    position: absolute;
+    color: #fff;
+    top: 10px;
+    right: 20px;
+    font-size: 2em;
 }

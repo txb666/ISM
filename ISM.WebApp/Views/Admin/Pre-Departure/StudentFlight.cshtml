@@ -106,6 +106,7 @@
 </div>
 <br>
 <br>
+<div id="overlay"></div>
 <div class="table-scroll">
     <table class="table table-bordered">
         <thead>
@@ -155,8 +156,8 @@
                     <td>
                         @Model.flights[i].airport_arrival_a
                     </td>
-                    <td>
-                        @Model.flights[i].picture_a
+                    <td style="text-align: center;">
+                        <img src="~/image/Flight/@Model.flights[i].picture_a" style="width: 50px; height: 50px;">
                     </td>
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
@@ -175,8 +176,8 @@
                         <td>
                             @Model.flights[i].airport_arrival_d
                         </td>
-                        <td>
-                            @Model.flights[i].picture_d
+                        <td style="text-align: center;">
+                            <img src="~/image/Flight/@Model.flights[i].picture_d" style="width: 50px; height: 50px;">
                         </td>
                     }
                     @{
@@ -185,7 +186,7 @@
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d', '@Model.flights[i].picture_d'); showPopup('xmas-popup');">
+                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightMobility('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].flight_number_d', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_d)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_d)', '@Model.flights[i].airport_departure_d', '@Model.flights[i].airport_arrival_d'); showPopup('xmas-popup');">
                                 <a href="#xmas-popup" style="text-decoration: none; color: white;">Edit</a>
                             </button>
                         </td>
@@ -193,7 +194,7 @@
                     else
                     {
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a', '@Model.flights[i].picture_a'); showPopup('xmas-popup');">
+                            <button style="width:80px; border-radius:10px" class="btn btn-info" onclick="editFlightDegree('@Model.degreeOrMobility', '@Model.flights[i].flight_id', '@Model.flights[i].account', '@Model.flights[i].fullname', '@Model.flights[i].flight_number_a', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.flights[i].arrival_date_a)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(Model.flights[i].arrival_time_a)', '@Model.flights[i].airport_departure_a', '@Model.flights[i].airport_arrival_a'); showPopup('xmas-popup');">
                                 Edit
                             </button>
                         </td>
@@ -237,10 +238,6 @@
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_a">
                 </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Arrival:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_a">
-                </div>
                 @if (Model.degreeOrMobility.Equals("Mobility"))
                 {
                     <div class="form-group row">
@@ -262,10 +259,6 @@
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival(Departure):</label>
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_d">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture of Departure:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_picture_d">
                     </div>
                 }
                 <div class="form-group row">

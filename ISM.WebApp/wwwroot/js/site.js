@@ -26,3 +26,10 @@ function showPopup(id) {
 function hidePopup(id) {
     document.getElementById(id).style.display = "none";
 }
+
+$('img').on('click', function () {
+    $('#overlay')
+        .css({ backgroundImage: `url(${this.src})` })
+        .addClass('open')
+        .one('click', function () { $(this).removeClass('open'); });
+});
