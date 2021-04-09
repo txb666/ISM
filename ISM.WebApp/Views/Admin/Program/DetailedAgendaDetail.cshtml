@@ -195,7 +195,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Time Zone</label>
-                    <select name="program" style="border-radius: 5px; width: 200px;" id="edit_time_zone">
+                    <select name="program" style="border-radius: 5px; width: 300px; margin-left:30px" id="edit_time_zone">
                         @for (int i = 0; i <= 12; i++)
                         {
                             string timezone = "GMT+" + i;
@@ -235,11 +235,11 @@
         <form id="notificationForm" asp-controller="Transportation" asp-action="SetupNotification" method="post">
             <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Hours before:</label>
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before each activity:</label>
                 <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
             </div>
             <div class="form-group row">
-                <button id="save" onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                <button id="save" onclick="validateNotificationDetailAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
                 <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                     <a style="text-decoration: none; color: white;" href="#">Cancel</a>
                 </button>
