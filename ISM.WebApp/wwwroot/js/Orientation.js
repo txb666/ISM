@@ -181,7 +181,7 @@ function validateNotificationORT() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Successfull");
-                searchButton.click();
+                window.location.href = '/Orientation';
             }
             else {
                 alert("Failed");

@@ -17,5 +17,6 @@ namespace ISM.WebApp.DAO
         List<MeetingSchedule> GetMeetingRegister(int staff_id);
         List<MeetingSchedule> GetMeetingSchedule(int staff_id);
         bool AcceptMeetingRegister(int ms_id);
+        bool SetupNotification(int days_before);
     }
 }

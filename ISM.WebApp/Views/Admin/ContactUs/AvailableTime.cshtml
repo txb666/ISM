@@ -89,7 +89,7 @@
 </button>
 <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
     <button onclick="showPopup('xmas-popup-setupnotification-mobility')" style="width:220px;border-radius:10px;" class="btn btn-danger">
-        Set Up Notification Mobility
+        Set Up Notification
     </button>
 </i>
 
@@ -152,11 +152,11 @@
         <form id="mobility_notificationForm" asp-controller="" asp-action="" method="post">
             <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification</h1>
             <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Day before Meeting Start:</label>
-                <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
+                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_meeting">
             </div>
             <div class="form-group row">
-                <button onclick="" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="validateSetupNotificationMeeting();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
                 <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                     Cancel
                 </button>
@@ -230,7 +230,7 @@
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Note</th>
-                            <th></th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,7 +260,7 @@
                 </table>
             </div>
             <div class="form-group row">
-                <button onclick="hidePopup('xmas-popup-assign1')" id="cancel" style="margin: auto;margin-top: 30px; width: 80px;" type="button" class="btn btn-danger">
+                <button onclick="hidePopup('xmas-popup-assign1')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                     Cancel
                 </button>
             </div>

@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Quartz;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -254,6 +255,81 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
+        private List<MeetingNotification> GetMeetingNotification()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<MeetingNotification> meetingNotifications = new List<MeetingNotification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select temp.meeting_schedule_id,temp.staff_id,temp.Staff_Name,temp.Staff_Email,temp2.student_id," +
+                      "temp2.Student_Name,temp2.Student_Email,temp.[date] from (select a.meeting_schedule_id,a.staff_id," +
+                      "b.fullname as Staff_Name,b.email as Staff_Email,a.[date],a.IsAccepted from Meeting_Schedule a, " +
+                      "Users b where a.staff_id = b.[user_id] and a.IsAccepted = 1) as temp inner join (select " +
+                      "c.meeting_schedule_id,c.student_id,d.fullname as Student_Name,d.email as Student_Email " +
+                      "from Meeting_Schedule c, Users d where c.student_id = d.[user_id] and c.IsAccepted = 1) as " +
+                      "temp2 on temp.meeting_schedule_id = temp2.meeting_schedule_id";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    MeetingNotification config = new MeetingNotification();
+                    config.mt_schedule_id = (int)reader.GetValue(reader.GetOrdinal("meeting_schedule_id"));
+                    config.staff_id = (int)reader.GetValue(reader.GetOrdinal("staff_id"));
+                    config.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    config.staff_name = (string)reader.GetValue(reader.GetOrdinal("Staff_Name"));
+                    config.student_name = (string)reader.GetValue(reader.GetOrdinal("Student_Name"));
+                    config.staff_email = (string)reader.GetValue(reader.GetOrdinal("Staff_Email"));
+                    config.student_email = (string)reader.GetValue(reader.GetOrdinal("Student_Email"));
+                    config.date = (DateTime)reader.GetValue(reader.GetOrdinal("date"));
+                    meetingNotifications.Add(config);
+                }
+                return meetingNotifications;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
+        public void InsertNotificationInformation(int user_id, string title, string content)
+        {
+            SqlConnection con = null;
+            string sql = "insert into Notification_Information([user_id],title,content) values(@user_id,@title,@content)";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.Parameters.Add("@title", SqlDbType.NVarChar);
+                com.Parameters["@title"].Value = title;
+                com.Parameters.Add("@content", SqlDbType.Text);
+                com.Parameters["@content"].Value = content;
+                com.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             EmailHelper helper = new EmailHelper();
@@ -264,6 +340,7 @@ namespace ISM.WebApp.Jobs
             List<InsuranceFlightNotification> allStudentWithInsurance = GetAllStudentWith("AllStudentWithInsurance");
             List<InsuranceFlightNotification> allStudentWithFlight = GetAllStudentWith("AllStudentWithFlight");
             List<NotificationConfig> notificationConfigs = GetNotificationConfigs();
+            List<MeetingNotification> meetingNotifications = GetMeetingNotification();
             try
             {
                 #region Degree
@@ -280,7 +357,9 @@ namespace ISM.WebApp.Jobs
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
                                           "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before it expires. Please renew!";
+                            string student_notification = "Your passport expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expires.";
                             helper.SendMail(item.email, subject, body);
+                            InsertNotificationInformation(item.user_id, subject, student_notification);
                         }
                     }
                     if (item.type.Equals("visa") && !item.isUpdateVisa == true)
@@ -459,6 +538,35 @@ namespace ISM.WebApp.Jobs
                                         helper.SendMail(item.email, subject, body);
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region Meeting
+                foreach (var item in notificationConfigs)
+                {
+                    if (item.type.Equals("meeting_schedule"))
+                    {
+                        foreach (var meeting in meetingNotifications)
+                        {
+                            var totalDays = meeting.date.Subtract(now).Days;
+                            if (totalDays <= item.days_before && totalDays >= 0)
+                            {
+                                string subject = "Meeting Schedule Notification";
+                                string staff_body = "Hello " + meeting.staff_name.ToUpper() + ",\n\nYou have a meeting with" +
+                                                    " " + meeting.student_name.ToUpper() + " - " + meeting.student_email + " " +
+                                                    "on " + meeting.date.ToString("yyyy-MMM-dd");
+                                string staff_notification = "You have a meeting with " + meeting.student_name.ToUpper() + " - " + meeting.student_email + " on " + meeting.date.ToString("yyyy-MMM-dd");
+                                string student_body = "Hello " + meeting.student_name.ToUpper() + ",\n\nYou have a meeting with" +
+                                                      " " + meeting.staff_name.ToUpper() + " - " + meeting.staff_email + " " +
+                                                      "on " + meeting.date.ToString("yyyy-MMM-dd");
+                                string student_notification = "You have a meeting with " + meeting.staff_name.ToUpper() + " - " + meeting.staff_email + " on " + meeting.date.ToString("yyyy-MMM-dd");
+                                helper.SendMail(meeting.staff_email, subject, staff_body);
+                                InsertNotificationInformation(meeting.staff_id, subject, staff_notification);
+                                helper.SendMail(meeting.student_email, subject, student_body);
+                                InsertNotificationInformation(meeting.student_id, subject, student_notification);
                             }
                         }
                     }

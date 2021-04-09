@@ -1,6 +1,5 @@
 ﻿function validateNotificationPassport() {
     var days_before = document.getElementById("notification_input").value;
-    var searchButton = document.getElementById("searchBtn");
     if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
         alert("Please input only positive number.");
         return;
@@ -13,7 +12,7 @@
         success: function (msg) {
             if (msg == "true") {
                 alert("Successfull");
-                searchButton.click();
+                window.location.href = '/Passport';
             }
             else {
                 alert("Failed");

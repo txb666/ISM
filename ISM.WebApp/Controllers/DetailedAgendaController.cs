@@ -88,5 +88,11 @@ namespace ISM.WebApp.Controllers
             bool result = detailedAgendaDAO.isDetailedAgendaExist(date, time_start, time_end, time_zone);
             return result;
         }
+
+        public bool SetupNotification(int days_before)
+        {
+            bool result = detailedAgendaDAO.SetupNotification(days_before);
+            return result;
+        }
     }
 }

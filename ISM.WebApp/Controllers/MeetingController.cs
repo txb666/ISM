@@ -63,5 +63,11 @@ namespace ISM.WebApp.Controllers
             bool result = _meetingDAO.AcceptMeetingRegister(ms_id);
             return result;
         }
+
+        public bool SetupNotification(int days_before)
+        {
+            bool result = _meetingDAO.SetupNotification(days_before);
+            return result;
+        }
     }
 }

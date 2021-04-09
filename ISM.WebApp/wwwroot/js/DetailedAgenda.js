@@ -1,4 +1,29 @@
-﻿
+﻿function validateSetupNotification() {
+    var days_before = document.getElementById('notification_input_detail_agenda').value;
+    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+        alert("Please input only positive number.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/DetailedAgenda/SetupNotification",
+        data: { days_before: days_before },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Successfull");
+                window.location.href = '/DetailedAgenda';
+            }
+            else {
+                alert("Failed");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}
+
 function validateCreateDetailedAgenda() {
     var student_group_id = document.getElementById("create_student_group_id").value;
     var date = document.getElementById("create_date").value;

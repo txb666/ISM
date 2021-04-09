@@ -15,5 +15,7 @@ namespace ISM.WebApp.Models
         public bool status { get; set; }
         public bool isFirstLoggedIn { get; set; }
         public bool haveDegree { get; set; }
+        public List<WebNotification> webNotifications { get; set; }
+        public int totalNotification { get; set; }
     }
 }

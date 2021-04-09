@@ -42,6 +42,8 @@ namespace ISM.WebApp.Controllers
             var account = _accountDAO.GetAccount(txtAccount,txtPassword);
             newAccount = account;
             newAccount.haveDegree = _accountDAO.haveDegree(newAccount.user_id);
+            newAccount.totalNotification = _accountDAO.GetTotalNotification(newAccount.user_id);
+            newAccount.webNotifications = _accountDAO.GetWebNotifications(newAccount.user_id);
 
             if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
                 && (newAccount.role_name.Equals("Admin")) && (newAccount.status == true))

@@ -14,5 +14,6 @@ namespace ISM.WebApp.DAO
         bool EditDetailedAgenda(int detailed_agenda_id, DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone, string venue, string PIC, string content);
         bool isDetailedAgendaExist(DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone);
         bool DeleteDetailedAgenda(int detailed_agenda_id);
+        bool SetupNotification(int days_before);
     }
 }

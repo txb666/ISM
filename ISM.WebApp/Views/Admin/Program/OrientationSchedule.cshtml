@@ -86,8 +86,8 @@
             <form id="notificationForm" asp-controller="Orientation" asp-action="SetupNotification">
                 <h1 style="text-align: center; margin-top: 20px;">Set Up Notification</h1>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days Befor ORT Activity:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_notification_input">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
+                    <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_notification_input">
                 </div>
                 <div class="form-group row">
                     <button onclick="validateNotificationORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
