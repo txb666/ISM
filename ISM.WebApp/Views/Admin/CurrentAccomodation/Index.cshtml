@@ -167,14 +167,24 @@
                     <td>
                         @item.fee
                     </td>
+                    @{
+                        DateTime myDate1 = new DateTime(1970, 1, 9, 0, 0, 00);
+                        DateTime myDate2 = DateTime.Now;
+
+                        TimeSpan myDateResult;
+
+                        myDateResult = myDate2 - myDate1;
+
+                        double milisecond = myDateResult.TotalMilliseconds;
+                    }
                     <td>
-                        <img src="~/image/CurrentAccomodation/@item.picture" alt=" " />
+                        <img src="~/image/CurrentAccomodation/@item.picture?@milisecond" alt=" " />
                     </td>
                     <td>
                         @item.note
                     </td>
                     <td style="text-align: center;">
-                        <button onclick="showPopup('xmas-popup-assign')" style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture')" class="btn btn-info">
+                        <button style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id','@(item.student!=null?item.student.user_id:0)','@(item.student_group!=null?item.student_group.studentGroup_id:0)','@item.type','@item.location','@item.description','@item.fee','@item.note','@item.picture'); showPopup('xmas-popup-assign');" class="btn btn-info">
                              Edit
                         </button>
                     </td>

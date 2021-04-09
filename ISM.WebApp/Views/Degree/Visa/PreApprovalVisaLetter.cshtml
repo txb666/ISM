@@ -1,56 +1,101 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+﻿@model ISM.WebApp.ViewModels.VisaLetterIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
 }
 
-
-    <h1 style="text-align:center">Infomation for Visa Pre-Approval Letter Application</h1>
-    <br />
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div style="width:50%; margin: 0 auto">
-                    <form>
-
-                        <div class="form-group row">
-                            <label style="margin-left: 50px; font-weight: bold; width:150px;">Nationality:</label>
-                            <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
-                            <input type="email" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 50px; font-weight: bold; width:150px;">What type of Visa do you want to apply?</label>
-                            <select style="margin-left: 30px;border-radius: 5px;">
-                                <option value="A">Single entry visa</option>
-                                <option value="B">Multiple entry visa</option>
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 50px; font-weight: bold; width:150px;">Where do you want to apply and receive your visa? </label>
-                            <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 50px; font-weight: bold; width:150px;">What visa period do you want to apply?</label>
-                            <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="">
-                        </div>
-
-                        <div class="form-group row">
-                            <button style="margin-left: 220px; width: 80px;" type="button" class="btn btn-success">Save</button>
-
-                        </div>
-
-                    </form>
+<h1 style="text-align:center">Infomation for Visa Pre-Approval Letter Application</h1>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="width:50%; margin: 0 auto">
+                <form>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Full Name:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.fullname">
                     </div>
-                
- 
-                <div style="float:left">
-                    <a style="text-align: center" href="#">How to apply for a VietNam Visa</a>
-                </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Gender:</label>
+                        <select style="margin-left: 30px;border-radius: 5px;" id="edit_visa_type">
+                            @if (Model.studentVisaLetter.gender==true)
+                            {
+                                <option value="true" selected>Male</option>
+                                <option value="false">Female</option>
+                            }
+                            else if (Model.studentVisaLetter.gender==false)
+                            {
+                                <option value="true">Male</option>
+                                <option value="false" selected>Female</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Date Of Birth:</label>
+                        <input type="date" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.dob.HasValue?Model.studentVisaLetter.dob.Value.ToString("yyyy-MM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Nationality:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.nationality">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.home_univercity">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Passport Number:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.passport_number">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Passport Expired Date:</label>
+                        <input type="date" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.expired_date.HasValue?Model.studentVisaLetter.expired_date.Value.ToString("yyyy-MM-dd"):"")">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">What Type Of Visa Do You Want to Apply?</label>
+                        <select style="margin-left: 30px;border-radius: 5px;" id="edit_visa_type">
+                            @if (Model.studentVisaLetter.visa_type.Equals("Single entry visa"))
+                            {
+                                <option value="Single entry visa" selected>Single entry visa</option>
+                                <option value="Multiple entry visa">Multiple entry visa</option>
+                            }
+                            else if(Model.studentVisaLetter.visa_type.Equals("Multiple entry visa"))
+                            {
+                                <option value="Single entry visa">Single entry visa</option>
+                                <option value="Multiple entry visa" selected>Multiple entry visa</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">What visa period do you want to apply?</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="edit_visa_period" value="@Model.studentVisaLetter.visa_period">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Where do you want to apply and receive your visa? </label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" id="edit_apply_receive" value="@Model.studentVisaLetter.apply_receive">
+                    </div>               
+                    <div class="form-group row">
+                        <button onclick="validateEditVisaLetter();" style="margin-left: 220px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    </div>
+                </form>
             </div>
-
+            <div style="float:left">
+                <a style="text-align: center" href="#">How to apply for a VietNam Visa</a>
+            </div>
         </div>
     </div>
+</div>
 
 

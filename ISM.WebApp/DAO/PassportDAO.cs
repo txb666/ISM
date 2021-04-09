@@ -14,5 +14,6 @@ namespace ISM.WebApp.DAO
         //bool isPassportAlreadyExist(string passport_number);
         int createPassport(int student_id, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority);
         bool CreateOrEdit(int days_before);
+        Passport GetPassport(int student_id);
     }
 }

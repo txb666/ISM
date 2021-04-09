@@ -81,6 +81,46 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
+        public Passport GetPassport(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select a.passport_id,a.student_id,b.account,b.fullname,a.passport_number,a.picture,a.[start_date],a.expired_date,a.issuing_authority"
+                       + " from Passports a, Users b"
+                       + " where a.student_id=b.[user_id] and student_id=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            Passport passport = new Passport();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    passport.passport_id = (int)reader.GetValue(reader.GetOrdinal("passport_id"));
+                    passport.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return passport;
+        }
+
         public Passport GetPassportById(int id)
         {
             SqlConnection con = null;

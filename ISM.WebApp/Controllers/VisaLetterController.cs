@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class VisaLetterController : Controller
     {
         public VisaLetterDAO VisaLetterDAO;
@@ -32,36 +32,46 @@ namespace ISM.WebApp.Controllers
            , DateTime? dob= null, DateTime? expired_date=null, int page=1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
-            bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
-            bool haveDegree = isAdmin == true ? true : sessionUser.haveDegree;
-            int current_staff_id = sessionUser.user_id;
-            if (string.IsNullOrEmpty(degreeOrMobility))
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
             {
-                if (haveDegree)
+                bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
+                bool haveDegree = isAdmin == true ? true : sessionUser.haveDegree;
+                int current_staff_id = sessionUser.user_id;
+                if (string.IsNullOrEmpty(degreeOrMobility))
                 {
-                    degreeOrMobility = "Degree";
+                    if (haveDegree)
+                    {
+                        degreeOrMobility = "Degree";
+                    }
+                    else
+                    {
+                        degreeOrMobility = "Mobility";
+                    }
                 }
-                else
-                {
-                    degreeOrMobility = "Mobility";
-                }
+                VisaLetterIndexViewModel visaLetterIndexView = new VisaLetterIndexViewModel();
+                visaLetterIndexView.page = page;
+                visaLetterIndexView.pageSize = pagingConst.PAGE_SIZE;
+                visaLetterIndexView.degreeOrMobility = degreeOrMobility;
+                visaLetterIndexView.totalPage = PagingUtils.calculateTotalPage(VisaLetterDAO.GetTotalVisaLetter(isAdmin, haveDegree, degreeOrMobility, current_staff_id, fullname, apply_receive, visa_period, visa_type, nationality, passport_number, dob, expired_date), visaLetterIndexView.pageSize);
+                visaLetterIndexView.VisaLetters = VisaLetterDAO.GetVisaLetter(isAdmin, haveDegree, degreeOrMobility, current_staff_id, visaLetterIndexView.page, visaLetterIndexView.pageSize, fullname, apply_receive, visa_period, visa_type, nationality, passport_number, dob, expired_date);
+                visaLetterIndexView.fullname = fullname;
+                visaLetterIndexView.gender = gender;
+                visaLetterIndexView.dob = dob;
+                visaLetterIndexView.nationality = nationality;
+                visaLetterIndexView.passport_number = passport_number;
+                visaLetterIndexView.expired_date = expired_date;
+                visaLetterIndexView.visa_type = visa_type;
+                visaLetterIndexView.visa_period = visa_period;
+                visaLetterIndexView.apply_receive = apply_receive;
+                return View("Views/Admin/Visa/PreApprovalVisa.cshtml", visaLetterIndexView);
             }
-            VisaLetterIndexViewModel visaLetterIndexView = new VisaLetterIndexViewModel();
-            visaLetterIndexView.page = page;
-            visaLetterIndexView.pageSize = pagingConst.PAGE_SIZE;
-            visaLetterIndexView.degreeOrMobility = degreeOrMobility;
-            visaLetterIndexView.totalPage = PagingUtils.calculateTotalPage(VisaLetterDAO.GetTotalVisaLetter(isAdmin,haveDegree,degreeOrMobility,current_staff_id,fullname,apply_receive,visa_period,visa_type,nationality,passport_number,dob,expired_date), visaLetterIndexView.pageSize);
-            visaLetterIndexView.VisaLetters = VisaLetterDAO.GetVisaLetter(isAdmin,haveDegree,degreeOrMobility,current_staff_id,visaLetterIndexView.page,visaLetterIndexView.pageSize,fullname,apply_receive,visa_period,visa_type,nationality,passport_number,dob,expired_date);
-            visaLetterIndexView.fullname = fullname;
-            visaLetterIndexView.gender = gender;
-            visaLetterIndexView.dob = dob;
-            visaLetterIndexView.nationality = nationality;
-            visaLetterIndexView.passport_number = passport_number;
-            visaLetterIndexView.expired_date = expired_date;    
-            visaLetterIndexView.visa_type = visa_type;
-            visaLetterIndexView.visa_period = visa_period;
-            visaLetterIndexView.apply_receive = apply_receive;
-            return View("Views/Admin/Visa/PreApprovalVisa.cshtml", visaLetterIndexView);
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                VisaLetterIndexViewModel view = new VisaLetterIndexViewModel();
+                view.studentVisaLetter = VisaLetterDAO.GetVisaLetter(sessionUser.user_id);
+                return View("Views/Degree/Visa/PreApprovalVisaLetter.cshtml", view);
+            }
+            return View();
         }
         
         public bool edit(int id, string visa_type,string visa_period,string apply_receive)

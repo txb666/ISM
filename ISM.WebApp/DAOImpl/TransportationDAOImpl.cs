@@ -57,6 +57,32 @@ namespace ISM.WebApp.DAOImpl
             return false;          
         }
 
+        public bool DeleteTransportation(int transportation_id)
+        {
+            SqlConnection con = null;
+            string sql = " delete from Transportations where transportations_id=@transportations_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);               
+                com.Parameters.Add("@transportations_id", SqlDbType.Int);
+                com.Parameters["@transportations_id"].Value = transportation_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool editTransportation(int transportations_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)
         {
             SqlConnection con = null;

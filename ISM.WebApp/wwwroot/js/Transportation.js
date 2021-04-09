@@ -135,3 +135,26 @@ function validateEditTransportation() {
         }
     });
 }
+
+function deleteTransportation(transportations_id) {
+    if (confirm("Are you sure to delete?")) {
+        $.ajax({
+            type: "POST",
+            url: "/Transportation/Delete",
+            data: { transportations_id: transportations_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Delete successfull");
+                    location.reload();
+                }
+                else {
+                    alert("Delete failed")
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+}
