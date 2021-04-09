@@ -64,16 +64,15 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('profile_picture')">
-                </div>
-                <div class="form-group row">
-                    <button class="btn btn-success" style="margin-left: 160px;">
+                    <button class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px">
                         <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
                     </button>
-                    <div class="btn-group" style="margin-left: 70px;">
+                    <button  style="border-radius: 10px; width: 150px; margin-left:10px" class="btn btn-info">
+                        <a href="#xmas-popup-assign" style="text-decoration:none;color:white">Edit Information</a>
+                    </button>
+                    @*<div class="btn-group" style="margin-left: 70px;">
                         <button onclick="validateSaveInformation('@sessionUser.user_id');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Save</button>
-                    </div>
+                    </div>*@
                 </div>
             </form>
         </div>
@@ -104,6 +103,70 @@
                 </button>
             </div>
         </form>
+    </div>
+</div>
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign" style="height:450px; width:900px">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px">
+            </div>
+            <div class="col-md-7">
+                <form id="profile_form_id" enctype="multipart/form-data">
+                    <div class="form-group row" style="margin-top:50px">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
+                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
+                        <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id">
+                            @if (Model.user.gender == null)
+                            {
+                                <option value="" selected>All</option>
+                                <option value="True">Male</option>
+                                <option value="False">Female</option>
+                            }
+                            else if (Model.user.gender == true)
+                            {
+                                <option value="">All</option>
+                                <option value="True" selected>Male</option>
+                                <option value="False">Female</option>
+                            }
+                            else
+                            {
+                                <option value="">All</option>
+                                <option value="True">Male</option>
+                                <option value="False" selected>Female</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_admin" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('contact_information_picture_admin')">
+                    </div>
+                    <div class="form-group row">
+                        <button onclick="validateCreateOrEditAdmin('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                            Save
+                        </button>
+                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            <a style="text-decoration:none;color:white" href="#">Cancel</a>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

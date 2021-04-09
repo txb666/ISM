@@ -127,6 +127,38 @@
                         <td>
                             @item.staff_telephone
                         </td>
+                        <td>
+                           
+                            <img src="~/image/ContactInformation/@item.picture" class="rounded float-left" style="width: 50px; height: 50px;">
+                          
+                                </td>
+                        <td>
+                            @item.staff_position
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @item.staff_name
+                        </td>
+                        <td>
+                            @item.staff_email
+                        </td>
+                        <td>
+                            @item.staff_account
+                        </td>
+                        <td>
+                            @if (item.staff_status == true)
+                            {
+                                @:Active
+                            }
+                            else
+                            {
+                                @:Inactive
+                            }
+                        </td>
+                        <td>
+                            @item.staff_telephone
+                        </td>
                         <td style="text-align: center;">
                             <img src="~/image/ContactInformation/@item.picture" style="width: 50px; height: 50px;">
                         </td>
@@ -188,12 +220,12 @@ else
 
 
 <div id="xmas-popup-assign" class="popup">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px;">
-        </div>
-        <div class="col-12 col-xl-12 col-md-12 col-sm-12 col-lg-12">
-            <div class="popup-content-assign" style="height:500px">
+    <div class="popup-content-assign" style="height:500px; width:900px">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px">
+            </div>
+            <div class="col-md-7">
                 <form asp-controller="ContactInformation" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
                     <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
                     <div class="form-group row">
@@ -233,6 +265,7 @@ else
         </div>
     </div>
 </div>
+
 <script>
     function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_contact_information");
