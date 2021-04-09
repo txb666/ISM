@@ -79,6 +79,12 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        public bool Delete(int transportations_id)
+        {
+            bool result = transportationDAO.DeleteTransportation(transportations_id);
+            return result;
+        }
+
         public bool SetupNotification(int hours_before)
         {
             bool result = transportationDAO.setupNotification(hours_before);

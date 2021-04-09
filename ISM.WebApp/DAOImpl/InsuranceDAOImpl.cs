@@ -154,7 +154,52 @@ namespace ISM.WebApp.DAOImpl
             }
             return insurances;
         }
-      
+
+        public Insurance GetInsurance(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select a.insurance_id,a.student_id,b.account,b.fullname,a.picture,a.[start_date],a.[expiry_date]"
+                       + " from Insurances a, Users b"
+                       + " where a.student_id=b.[user_id] and a.student_id=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            Insurance insurance = new Insurance();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    insurance.insurance_id = (int)reader.GetValue(reader.GetOrdinal("insurance_id"));
+                    insurance.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        insurance.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    insurance.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        insurance.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
+                    insurance.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    insurance.expiry_date = (DateTime)reader.GetValue(reader.GetOrdinal("expiry_date"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return insurance;
+        }
+
         public int getTotalInsurance(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, DateTime? startDate, DateTime? expiryDate)
         {
             SqlConnection con = null;

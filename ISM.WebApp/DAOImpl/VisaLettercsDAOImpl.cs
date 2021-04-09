@@ -412,5 +412,79 @@ namespace ISM.WebApp.DAOImpl
             }
             return visaLetters;
         }
+
+        public VisaLetter GetVisaLetter(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select a.pre_approval_visa_letter_id,a.student_id,c.fullname,c.gender,c.DOB,c.nationality,d.home_univercity,b.passport_number,b.expired_date,a.visa_type,a.visa_period,a.apply_receive"
+                       + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id]"
+                       + " inner join Student_Group d on c.studentGroup_id=d.student_group_id"
+                       + " where a.student_id=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            VisaLetter visaLetter = new VisaLetter();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql,con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    visaLetter.pre_approval_visa_letter_id = (int)reader.GetValue(reader.GetOrdinal("pre_approval_visa_letter_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        visaLetter.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_type")))
+                    {
+                        visaLetter.visa_type = (string)reader.GetValue(reader.GetOrdinal("visa_type"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_period")))
+                    {
+                        visaLetter.visa_period = (string)reader.GetValue(reader.GetOrdinal("visa_period"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("apply_receive")))
+                    {
+                        visaLetter.apply_receive = (string)reader.GetValue(reader.GetOrdinal("apply_receive"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("nationality")))
+                    {
+                        visaLetter.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                    {
+                        visaLetter.home_univercity = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
+                    {
+                        visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("gender")))
+                    {
+                        visaLetter.gender = (bool)reader.GetValue(reader.GetOrdinal("gender"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("DOB")))
+                    {
+                        visaLetter.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visaLetter;
+        }
     }
 }

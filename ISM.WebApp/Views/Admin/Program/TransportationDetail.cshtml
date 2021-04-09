@@ -68,6 +68,7 @@
                     <th scope="col">Supporter</th>
                     <th scope="col">Note</th>
                     <th> </th>
+                    <th> </th>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +99,11 @@
                         <td style="text-align: center;">
                             <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign1');" class="btn btn-info">
                                 Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button style="width:80px;border-radius:10px" onclick="deleteTransportation('@item.transportations_id')" class="btn btn-danger">
+                                Delete
                             </button>
                         </td>
                     </tr>

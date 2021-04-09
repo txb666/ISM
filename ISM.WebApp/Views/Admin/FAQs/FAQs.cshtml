@@ -67,7 +67,7 @@
                         @Model.faqs[i].answer
                     </td>
                     <td style="text-align: center;">
-                        <button onclick="showPopup('xmas-popup-assign')" style="width:80px;border-radius:10px" onclick="editFAQ('@Model.faqs[i].faq_id','@Model.faqs[i].question','@Model.faqs[i].answer')" class="btn btn-info">
+                        <button style="width:80px;border-radius:10px" onclick="editFAQ('@Model.faqs[i].faq_id','@Model.faqs[i].question','@Model.faqs[i].answer');showPopup('xmas-popup-assign');" class="btn btn-info">
                            Edit
                         </button>
                         <button style="width:80px;border-radius:10px" onclick="deleteFAQ('@Model.faqs[i].faq_id')" class="btn btn-danger">

@@ -293,5 +293,45 @@ namespace ISM.WebApp.DAOImpl
             }
             return visalist;
         }
+
+        public Visa GetVisa(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select a.visa_id,a.student_id,b.account,b.fullname,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
+                       + " from Visa a, Users b"
+                       + " where a.student_id=b.[user_id] and a.student_id=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            Visa visa = new Visa();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    visa.visa_id = (int)reader.GetValue(reader.GetOrdinal("visa_id"));
+                    visa.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
+                    visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
+                    visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visa;
+        }
     }
 }

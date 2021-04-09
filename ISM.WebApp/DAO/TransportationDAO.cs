@@ -13,5 +13,6 @@ namespace ISM.WebApp.DAO
         bool createTransportation(int studentGroup_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note);
         bool editTransportation(int transportations_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note);
         bool setupNotification(int hours_before);
+        bool DeleteTransportation(int transportation_id);
     }
 }
