@@ -123,6 +123,72 @@ namespace ISM.WebApp.DAOImpl
             return accounts;
         }
 
+        public int GetTotalNotification(int user_id)
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select count(*) from (select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id) as temp";
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.CommandText = sql;
+                total = Convert.ToInt32(com.ExecuteScalar());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
+        }
+
+        public List<WebNotification> GetWebNotifications(int user_id)
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<WebNotification> webNotifications = new List<WebNotification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id";
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    WebNotification notification = new WebNotification();
+                    notification.noti_id = (int)reader.GetValue(reader.GetOrdinal("notification_information_id"));
+                    notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    notification.title = (string)reader.GetValue(reader.GetOrdinal("title"));
+                    notification.content = (string)reader.GetValue(reader.GetOrdinal("content"));
+                    webNotifications.Add(notification);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return webNotifications;
+        }
+
         public bool haveDegree(int user_id)
         {
             SqlConnection con = null;

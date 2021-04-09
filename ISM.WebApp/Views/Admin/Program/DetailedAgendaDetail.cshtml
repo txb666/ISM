@@ -229,35 +229,6 @@
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
-<!-- POP UP Set Up Notification -->
-<div id="xmas-popup-assign" class="popup">
-    <div class="popup-content-assign" style="height:300px">
-        <form id="notificationForm" asp-controller="Transportation" asp-action="SetupNotification" method="post">
-            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
-            <div class="form-group row">
-                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before each activity:</label>
-                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
-            </div>
-            <div class="form-group row">
-                <button id="save" onclick="validateNotificationDetailAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div style="margin-top: 20px;">
-
-    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button class="btn btn-danger">
-            <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Set Up Notification</a>
-        </button>
-        
-    </i>
-</div>
-
 <script>
         function myFunction() {
             document.getElementById("myDropdown").classList.toggle("show");
