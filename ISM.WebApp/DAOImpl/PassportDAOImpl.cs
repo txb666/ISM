@@ -233,7 +233,10 @@ namespace ISM.WebApp.DAOImpl
                     passport.account = (string)reader.GetValue(reader.GetOrdinal("account"));
                     passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
-                    passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    if(!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
                     passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
                     passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
                     passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));

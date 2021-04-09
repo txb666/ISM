@@ -157,7 +157,10 @@
                         @Model.flights[i].airport_arrival_a
                     </td>
                     <td style="text-align: center;">
-                        <img src="~/image/Flight/@Model.flights[i].picture_a" style="width: 50px; height: 50px;">
+                        @if (!String.IsNullOrEmpty(@Model.flights[i].picture_a))
+                        {
+                            <img src="~/image/Flight/@Model.flights[i].picture_a" style="width: 50px; height: 50px;" asp-append-version="true">
+                        }
                     </td>
                     @if (Model.degreeOrMobility.Equals("Mobility"))
                     {
@@ -177,7 +180,10 @@
                             @Model.flights[i].airport_arrival_d
                         </td>
                         <td style="text-align: center;">
-                            <img src="~/image/Flight/@Model.flights[i].picture_d" style="width: 50px; height: 50px;">
+                            @if (!String.IsNullOrEmpty(@Model.flights[i].picture_d))
+                            {
+                                <img src="~/image/Flight/@Model.flights[i].picture_d" style="width: 50px; height: 50px;" asp-append-version="true">
+                            }
                         </td>
                     }
                     @{

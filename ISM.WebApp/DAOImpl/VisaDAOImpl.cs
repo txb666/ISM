@@ -274,7 +274,10 @@ namespace ISM.WebApp.DAOImpl
                     visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
                     visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
-                    visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    if(!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
                     visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
                     visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
                     visalist.Add(visa);

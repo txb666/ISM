@@ -4,7 +4,7 @@
     var dob = document.getElementById("profile_dob_id").value;
     var gender = document.getElementById("profile_gender_id").value;
     var contact = document.getElementById("profile_contact_id").value;
-    var picture = document.getElementById("profile_picture").files[0];
+    var picture = document.getElementById("profile_picture_id").files[0];
     var check = confirm("Do you want to save?");
     if (check) {
         if (!fullname || !nationality || !dob || !gender || !contact) {

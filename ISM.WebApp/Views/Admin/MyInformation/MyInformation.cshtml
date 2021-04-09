@@ -20,25 +20,25 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px;">
+            <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
         </div>
         <div class="col-md-8">
-            <form id="profile_form_id" enctype="multipart/form-data">
+            <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="Index" method="post">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id_show" value="@Model.user.fullname" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id_show" value="@Model.user.nationality" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)">
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id_show" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
-                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id">
+                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id_show" disabled>
                         @if (Model.user.gender == null)
                         {
                             <option value="" selected>All</option>
@@ -61,18 +61,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact" disabled>
                 </div>
                 <div class="form-group row">
                     <button class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px">
                         <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
                     </button>
-                    <button  style="border-radius: 10px; width: 150px; margin-left:10px" class="btn btn-info">
+                    <button style="border-radius: 10px; width: 150px; margin-left:10px" class="btn btn-info">
                         <a href="#xmas-popup-assign" style="text-decoration:none;color:white">Edit Information</a>
                     </button>
-                    @*<div class="btn-group" style="margin-left: 70px;">
-                        <button onclick="validateSaveInformation('@sessionUser.user_id');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Save</button>
-                    </div>*@
                 </div>
             </form>
         </div>
@@ -82,7 +79,7 @@
 <!-- popup code -->
 <div id="xmas-popup" class="popup">
     <div class="popup-content" style="height:450px">
-        <form>
+        <form id="change_password_form" asp-controller="Information" asp-action="UpdatePassword" method="post">
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Current Password:</label>
@@ -109,10 +106,10 @@
     <div class="popup-content-assign" style="height:450px; width:900px">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px">
+                <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
             </div>
             <div class="col-md-7">
-                <form id="profile_form_id" enctype="multipart/form-data">
+                <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="SaveProfile" method="post">
                     <div class="form-group row" style="margin-top:50px">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
@@ -130,19 +127,16 @@
                         <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id">
                             @if (Model.user.gender == null)
                             {
-                                <option value="" selected>All</option>
                                 <option value="True">Male</option>
                                 <option value="False">Female</option>
                             }
                             else if (Model.user.gender == true)
                             {
-                                <option value="">All</option>
                                 <option value="True" selected>Male</option>
                                 <option value="False">Female</option>
                             }
                             else
                             {
-                                <option value="">All</option>
                                 <option value="True">Male</option>
                                 <option value="False" selected>Female</option>
                             }
@@ -154,10 +148,10 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_admin" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('contact_information_picture_admin')">
+                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture_id" value="Choose a picture" accept=".jpg,.jpeg,.png" onchange="validateFileType('profile_picture_id')">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateCreateOrEditAdmin('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        <button onclick="validateSaveInformation('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
                             Save
                         </button>
                         <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

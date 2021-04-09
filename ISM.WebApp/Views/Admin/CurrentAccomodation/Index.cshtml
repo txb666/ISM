@@ -169,7 +169,10 @@
                         @item.fee
                     </td>
                     <td style="text-align:center;">
-                        <img src="~/image/CurrentAccomodation/@item.picture" alt=" " style="width: 50px; height: 50px;"/>
+                        @if (!String.IsNullOrEmpty(@item.picture))
+                        {
+                            <img src="~/image/CurrentAccomodation/@item.picture" alt=" " style="width: 50px; height: 50px;" asp-append-version="true"/>
+                        }
                     </td>
                     <td>
                         @item.note

@@ -102,7 +102,10 @@
                             @Model.insurances[i].expiry_date.ToString("dd-MM-yyyy")
                         </td>
                         <td style="text-align: center;">
-                            <img src="~/image/Insurance/@Model.insurances[i].picture" style="width: 50px; height: 50px;">
+                            @if (!String.IsNullOrEmpty(Model.insurances[i].picture))
+                            {
+                                <img src="~/image/Insurance/@Model.insurances[i].picture" style="width: 50px; height: 50px;" asp-append-version="true">
+                            }
                         </td>
                         @{
                             var editedInsurance = Json.Serialize(Model.insurances[i]).ToString();
