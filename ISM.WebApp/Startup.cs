@@ -57,8 +57,8 @@ namespace ISM.WebApp
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
             services.AddSingleton<EmailNotificationJob>();
-            services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 30 7 1/1 * ? *"));
-            //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob), cronExpression: "0/20 * * ? * * *"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob),cronExpression: "0 00 7 1/1 * ? *"));
+            //services.AddSingleton(new JobSchedule(jobType: typeof(EmailNotificationJob), cronExpression: "0/50 * * ? * * *"));
 
             services.AddSingleton<TransportationNotificationJob>();
             services.AddSingleton(new JobSchedule(jobType: typeof(TransportationNotificationJob), cronExpression: "0 0 0/1 1/1 * ? *"));

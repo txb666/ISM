@@ -213,13 +213,14 @@
             <h1 align="center">Notifications</h1>
             <form>
                 <div class="table-scroll-meeting">
-                    <div class="border border-warning" style="border-radius:10px">
                     @foreach (var item in sessionUser.webNotifications)
                     {
-                        <p style="font-weight:bold; color:red">@item.title</p>
-                        <p style="background-color: lightgrey">@item.content</p>
+                        <p></p>
+                        <div class="border border-warning" style="border:5px; border-radius:10px;">
+                            <p style="font-weight:bold; color:red">@item.title</p>
+                            <p style="font-weight:bold;">@item.content</p>
+                        </div>
                     }
-                    </div>
                 </div>
                 <div class="form-group row">
                     <button onclick="hidePopup('xmas-popup-notification')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">

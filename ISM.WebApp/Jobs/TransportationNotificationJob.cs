@@ -1,6 +1,7 @@
 ﻿using ISM.WebApp.Helper;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
+using ISM.WebApp.Constant;
 using Microsoft.Data.SqlClient;
 using Quartz;
 using System;
@@ -25,7 +26,11 @@ namespace ISM.WebApp.Jobs
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select a.[user_id],a.fullname,a.email,b.student_group_id,c.[type],c.hours_before,d.[date] as Bus_Date,d.[time] as Bus_Time from Users a, Student_Group b, Notification_Configuration c, Transportations d, Roles e where a.role_id = e.role_id and a.studentGroup_id = b.student_group_id and b.student_group_id = c.studentGroup_id and d.studentGroup_id = c.studentGroup_id and c.[type] = 'Transportation' and e.role_name = 'Mobility'";
+                sql = "select a.[user_id],a.fullname,a.email,b.student_group_id,c.[type],c.hours_before,d.[date] " +
+                      "as Bus_Date,d.[time] as Bus_Time from Users a, Student_Group b, Notification_Configuration " +
+                      "c, Transportations d, Roles e where a.role_id = e.role_id and a.studentGroup_id = " +
+                      "b.student_group_id and b.student_group_id = c.studentGroup_id and d.studentGroup_id = " +
+                      "c.studentGroup_id and c.[type] = 'Transportation' and e.role_name = 'Mobility'";
                 com.CommandText = sql;
                 reader = com.ExecuteReader();
                 while (reader.Read())
@@ -68,7 +73,10 @@ namespace ISM.WebApp.Jobs
         private void Insert(int id, DateTime bus_date, TimeSpan bus_time)
         {
             SqlConnection con = null;
-            String sql = "begin tran if exists (select * from TransportationCheck with (updlock,serializable) where [user_id] = @user_id) begin update TransportationCheck set bus_date = @bus_date,bus_time = @bus_time where [user_id] = @user_id end else begin insert into TransportationCheck([user_id],bus_date,bus_time,isSend) values (@user_id,@bus_date,@bus_time,1) end commit tran";
+            String sql = "begin tran if exists (select * from TransportationCheck with (updlock,serializable) " +
+                         "where [user_id] = @user_id) begin update TransportationCheck set bus_date = @bus_date," +
+                         "bus_time = @bus_time where [user_id] = @user_id end else begin insert into " +
+                         "TransportationCheck([user_id],bus_date,bus_time,isSend) values (@user_id,@bus_date,@bus_time,1) end commit tran";
             SqlCommand com = null;
             try
             {
@@ -142,9 +150,38 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
+        private void InsertNotificationInformation(int user_id, string title, string content)
+        {
+            SqlConnection con = null;
+            string sql = "insert into Notification_Information([user_id],title,content) values(@user_id,@title,@content)";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.Parameters.Add("@title", SqlDbType.NVarChar);
+                com.Parameters["@title"].Value = title;
+                com.Parameters.Add("@content", SqlDbType.Text);
+                com.Parameters["@content"].Value = content;
+                com.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             var now = DateTime.Now;
+            DayOfWeek day = now.DayOfWeek;
             var notificationList = GetNotifications();
             var checkList = GetChecks();
             EmailHelper helper = new EmailHelper();
@@ -174,11 +211,12 @@ namespace ISM.WebApp.Jobs
                                     var totalhour = notification.bus_time.Hours - now.Hour;
                                     if (totalhour <= notification.hours_before && totalhour > 0)
                                     {
-                                        string subject = "Transportation Notification";
                                         string body = "Hello " + notification.fullname + ",\n\nToday " + now.ToString("yyyy-MMM-dd") + "" +
                                                       ", the departure time of the bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + "," +
                                                       " you have " + totalhour.ToString() + " hours left to prepare.";
-                                        helper.SendMail(notification.email, subject, body);
+                                        string student_notification = "Departure time of bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + ", you have " + totalhour.ToString() + " hours left to prepare." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(notification.email, notificationConst.SUBJECT_TRANSPORTATION, body);
+                                        InsertNotificationInformation(notification.user_id, notificationConst.SUBJECT_TRANSPORTATION, student_notification);
                                         Insert(notification.user_id, notification.bus_date, notification.bus_time);
                                     }
                                 }
@@ -192,11 +230,12 @@ namespace ISM.WebApp.Jobs
                                     var totalhour = notification.bus_time.Hours - now.Hour;
                                     if (totalhour <= notification.hours_before && totalhour > 0)
                                     {
-                                        string subject = "Transportation Notification";
                                         string body = "Hello " + notification.fullname + ",\n\nToday " + now.ToString("yyyy-MMM-dd") + "" +
                                                       ", the departure time of the bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + "," +
                                                       " you have " + totalhour.ToString() + " hours left to prepare.";
-                                        helper.SendMail(notification.email, subject, body);
+                                        string student_notification = "Departure time of bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + ", you have " + totalhour.ToString() + " hours left to prepare." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(notification.email, notificationConst.SUBJECT_TRANSPORTATION, body);
+                                        InsertNotificationInformation(notification.user_id, notificationConst.SUBJECT_TRANSPORTATION, student_notification);
                                         Insert(notification.user_id, notification.bus_date, notification.bus_time);
                                     }
                                 }
@@ -212,11 +251,12 @@ namespace ISM.WebApp.Jobs
                             var totalhour = notification.bus_time.Hours - now.Hour;
                             if (totalhour <= notification.hours_before && totalhour > 0)
                             {
-                                string subject = "Transportation Notification";
                                 string body = "Hello " + notification.fullname + ",\n\nToday " + now.ToString("yyyy-MMM-dd") + "" +
                                               ", the departure time of the bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + "," +
                                               " you have " + totalhour.ToString() + " hours left to prepare.";
-                                helper.SendMail(notification.email, subject, body);
+                                string student_notification = "Departure time of bus is " + notification.bus_time.ToString(@"hh\:mm\:ss") + ", you have " + totalhour.ToString() + " hours left to prepare." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(notification.email, notificationConst.SUBJECT_TRANSPORTATION, body);
+                                InsertNotificationInformation(notification.user_id, notificationConst.SUBJECT_TRANSPORTATION, student_notification);
                                 Insert(notification.user_id, notification.bus_date, notification.bus_time);
                             }
                         }

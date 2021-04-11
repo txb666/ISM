@@ -8,12 +8,14 @@ namespace ISM.WebApp.Models
     public class Notification
     {
         public int user_id { get; set; }
+        public int studentGroup_id { get; set; }
         public bool isUpdatePassport { get; set; }
         public bool isUpdateVisa { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         public string type { get; set; }
         public int days_before { get; set; }
+        public int total_days { get; set; }
         public DateTime passport_expired { get; set; }
         public DateTime visa_expired { get; set; }
         public DateTime deadline { get; set; }

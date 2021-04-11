@@ -27,4 +27,26 @@ namespace ISM.WebApp.Constant
         public const int PAGE_SIZE = 5;
         public const int GAP = 3;
     }
+
+    public class notificationConst
+    {
+        public const string TYPE_PASSPORT = "passport";
+        public const string TYPE_VISA = "visa";
+        public const string TYPE_ORIENTATION = "ort_schedule";
+        public const string TYPE_INSURANCE = "insurance";
+        public const string TYPE_FLIGHT = "flight";
+        public const string TYPE_DETAIL_AGENDA = "Detail_Agenda";
+        public const string TYPE_MEETING_SCHEDULE = "meeting_schedule";
+        public const string KIND_DEGREE = "degree";
+        public const string KIND_MOBILITY = "mobility";
+        public const string SUBJECT_PASSPORT = "Passport Notification";
+        public const string SUBJECT_VISA = "Visa Notification";
+        public const string SUBJECT_ORIENTATION = "Orientation Notification";
+        public const string SUBJECT_INSURANCE = "Insurance Notification";
+        public const string SUBJECT_FLIGHT = "Flight Notification";
+        public const string SUBJECT_DETAIL_AGENDA = "Detail Agenda Notification";
+        public const string SUBJECT_MEETING_SCHEDULE = "Meeting Schedule Notification";
+        public const string SUBJECT_TRANSPORTATION = "Meeting Schedule Notification";
+        public const string SUBJECT_ISM_NOTIFICATION = "ISM Notification";
+    }
 }

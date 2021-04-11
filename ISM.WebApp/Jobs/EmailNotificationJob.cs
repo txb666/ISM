@@ -7,7 +7,6 @@ using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ISM.WebApp.Jobs
@@ -302,7 +301,7 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
-        public void InsertNotificationInformation(int user_id, string title, string content)
+        private void InsertNotificationInformation(int user_id, string title, string content)
         {
             SqlConnection con = null;
             string sql = "insert into Notification_Information([user_id],title,content) values(@user_id,@title,@content)";
@@ -330,10 +329,124 @@ namespace ISM.WebApp.Jobs
             }
         }
 
+        private List<Notification> GetCoordinatorDegree()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Notification> coordinatorDegreeList = new List<Notification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select c.staff_id,d.fullname,d.email,a.student_group_id from Student_Group a, Programs b, Coordinators c," +
+                      " Users d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] and b.[type] = 'Degree'";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Notification temp = new Notification();
+                    temp.user_id = (int)reader.GetValue(reader.GetOrdinal("staff_id"));
+                    temp.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    temp.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    temp.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    coordinatorDegreeList.Add(temp);
+                }
+                return coordinatorDegreeList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
+        private List<Notification> GetCoordinatorMobility()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Notification> coordinatorDegreeList = new List<Notification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select c.staff_id,d.fullname,d.email,a.student_group_id from Student_Group a, Programs b, Coordinators c, " +
+                      "Users d where a.program_id = b.program_id and a.student_group_id = c.studentGroup_id and c.staff_id = d.[user_id] and b.[type] = 'Mobility'";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Notification temp = new Notification();
+                    temp.user_id = (int)reader.GetValue(reader.GetOrdinal("staff_id"));
+                    temp.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    temp.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    temp.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+                    coordinatorDegreeList.Add(temp);
+                }
+                return coordinatorDegreeList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
+        private List<Notification> GetMobilityStudent()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Notification> coordinatorDegreeList = new List<Notification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.[user_id],a.fullname,a.email,a.studentGroup_id from Users a, Roles b where a.role_id = b.role_id and b.role_name = 'Mobility' and a.[status] = 1";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Notification temp = new Notification();
+                    temp.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    temp.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    temp.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    temp.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("studentGroup_id"));
+                    coordinatorDegreeList.Add(temp);
+                }
+                return coordinatorDegreeList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             EmailHelper helper = new EmailHelper();
             var now = DateTime.Now;
+            DayOfWeek day = now.DayOfWeek;
             List<Notification> degree_notifications = GetNotificationsDegree();
             List<Notification> mobility_notifications = GetNotificationsMobility();
             List<InsuranceFlightNotification> allStudentWithout = GetAllStudentWith("AllStudentWithout");
@@ -341,56 +454,79 @@ namespace ISM.WebApp.Jobs
             List<InsuranceFlightNotification> allStudentWithFlight = GetAllStudentWith("AllStudentWithFlight");
             List<NotificationConfig> notificationConfigs = GetNotificationConfigs();
             List<MeetingNotification> meetingNotifications = GetMeetingNotification();
+            List<Notification> coordinatorDegreeList = GetCoordinatorDegree();
+            List<Notification> coordinatorMobilityList = GetCoordinatorMobility();
+            List<Notification> mobilityStudentList = GetMobilityStudent();
+            List<Notification> degreeNotificationList = new List<Notification>();
+            List<Notification> mobilityNotificationList = new List<Notification>();
             try
             {
                 #region Degree
                 foreach (var item in degree_notifications)
                 {
-                    if (item.type.Equals("passport") && !item.isUpdatePassport == true)
+                    if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
                     {
                         var expiredDate = item.passport_expired;
                         var daysBefore = item.days_before;
                         var totalDays = expiredDate.Subtract(now).Days;
                         if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            string subject = "Passport Notification";
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                            string student_notification = "Your passport expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expires.";
-                            helper.SendMail(item.email, subject, body);
-                            InsertNotificationInformation(item.user_id, subject, student_notification);
+                                          "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                            string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
+                            Notification temp = new Notification();
+                            temp.user_id = item.user_id;
+                            temp.fullname = item.fullname;
+                            temp.email = item.email;
+                            temp.passport_expired = item.passport_expired;
+                            temp.total_days = totalDays;
+                            temp.type = item.type;
+                            degreeNotificationList.Add(temp);
                         }
                     }
-                    if (item.type.Equals("visa") && !item.isUpdateVisa == true)
+                    if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
                     {
                         var expiredDate = item.visa_expired;
                         var daysBefore = item.days_before;
                         var totalDays = expiredDate.Subtract(now).Days;
                         if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            string subject = "Visa Notification";
                             string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                            helper.SendMail(item.email, subject, body);
+                                          "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                            string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
+                            Notification temp = new Notification();
+                            temp.user_id = item.user_id;
+                            temp.fullname = item.fullname;
+                            temp.email = item.email;
+                            temp.visa_expired = item.passport_expired;
+                            temp.total_days = totalDays;
+                            temp.type = item.type;
+                            degreeNotificationList.Add(temp);
                         }
                     }
-                    if (item.type.Equals("ort_schedule"))
+                    if (item.type.Equals(notificationConst.TYPE_ORIENTATION))
                     {
                         var ort_date = item.ort_date;
                         var daysBefore = item.days_before;
                         var totalDays = ort_date.Subtract(now).Days;
                         if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            string subject = "Orientation Notification";
                             string body = "Hello " + item.fullname + ",\n\nYour orientation " +
                                           "dealine on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " +
                                           "" + totalDays.ToString() + " days left before dealine.";
-                            helper.SendMail(item.email, subject, body);
+                            string student_notification = "Your orientation on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days lefts." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_ORIENTATION, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_ORIENTATION, student_notification);
                         }
                     }
                 }
+                
                 //Insurance
                 foreach (var item in allStudentWithout)
                 {
@@ -400,16 +536,17 @@ namespace ISM.WebApp.Jobs
                         {
                             foreach (var config in notificationConfigs)
                             {
-                                if (config.type.Equals("insurance") && config.kind.Equals("degree"))
+                                if (config.type.Equals(notificationConst.TYPE_INSURANCE) && config.kind.Equals(notificationConst.KIND_DEGREE))
                                 {
                                     var totalDays = config.deadline.Subtract(now).Days;
                                     if (totalDays <= config.days_before && totalDays >= 0)
                                     {
-                                        string subject = "Insurance Notification";
                                         string body = "Hello " + item.fullname + ",\n\nPlease submit your insurance document, " +
-                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + ". You have " +
                                             "" + totalDays + " days left before deadline.";
-                                        helper.SendMail(item.email, subject, body);
+                                        string student_notification = "Please submit your insurance document, deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + ". You have " + totalDays.ToString() + " days left before deadline." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(item.email, notificationConst.SUBJECT_INSURANCE, body);
+                                        InsertNotificationInformation(item.student_id, notificationConst.SUBJECT_INSURANCE, student_notification);
                                     }
                                 }
                             }
@@ -425,16 +562,17 @@ namespace ISM.WebApp.Jobs
                         {
                             foreach (var config in notificationConfigs)
                             {
-                                if (config.type.Equals("flight") && config.kind.Equals("degree"))
+                                if (config.type.Equals(notificationConst.TYPE_FLIGHT) && config.kind.Equals(notificationConst.KIND_DEGREE))
                                 {
                                     var totalDays = config.deadline.Subtract(now).Days;
                                     if (totalDays <= config.days_before && totalDays >= 0)
                                     {
-                                        string subject = "Flight Notification";
                                         string body = "Hello " + item.fullname + ",\n\nPlease submit your flight ticket document, " +
                                             "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
                                             "" + totalDays + " days left before deadline.";
-                                        helper.SendMail(item.email, subject, body);
+                                        string student_notification = "Please submit your flight ticket document, deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + ". You have " + totalDays.ToString() + " days left before deadline." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(item.email, notificationConst.SUBJECT_FLIGHT, body);
+                                        InsertNotificationInformation(item.student_id, notificationConst.SUBJECT_FLIGHT, student_notification);
                                     }
                                 }
                             }
@@ -446,52 +584,69 @@ namespace ISM.WebApp.Jobs
                 #region Mobility
                 foreach (var item in mobility_notifications)
                 {
-                    if (item.type.Equals("passport"))
+                    if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
                     {
-                        if (item.type.Equals("passport") && !item.isUpdatePassport == true)
+                        var expiredDate = item.passport_expired;
+                        var daysBefore = item.days_before;
+                        var totalDays = expiredDate.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            var expiredDate = item.passport_expired;
-                            var daysBefore = item.days_before;
-                            var totalDays = expiredDate.Subtract(now).Days;
-                            if (totalDays <= daysBefore && totalDays >= 0)
-                            {
-                                string subject = "Passport Notification";
-                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                              "expires on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                              "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                                helper.SendMail(item.email, subject, body);
-                            }
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                          "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                            string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
+                            Notification temp = new Notification();
+                            temp.user_id = item.user_id;
+                            temp.fullname = item.fullname;
+                            temp.email = item.email;
+                            temp.passport_expired = item.passport_expired;
+                            temp.total_days = totalDays;
+                            temp.type = item.type;
+                            mobilityNotificationList.Add(temp);
                         }
-                        if (item.type.Equals("visa") && !item.isUpdateVisa == true)
+                    }
+                    if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
+                    {
+                        var expiredDate = item.visa_expired;
+                        var daysBefore = item.days_before;
+                        var totalDays = expiredDate.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            var expiredDate = item.visa_expired;
-                            var daysBefore = item.days_before;
-                            var totalDays = expiredDate.Subtract(now).Days;
-                            if (totalDays <= daysBefore && totalDays >= 0)
-                            {
-                                string subject = "Visa Notification";
-                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                              "expires on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                              "" + totalDays.ToString() + " days left before it expires. Please renew!";
-                                helper.SendMail(item.email, subject, body);
-                            }
+                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                          "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                            string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
+                            Notification temp = new Notification();
+                            temp.user_id = item.user_id;
+                            temp.fullname = item.fullname;
+                            temp.email = item.email;
+                            temp.visa_expired = item.passport_expired;
+                            temp.total_days = totalDays;
+                            temp.type = item.type;
+                            mobilityNotificationList.Add(temp);
                         }
-                        if (item.type.Equals("Detail_Agenda"))
+                    }
+                    if (item.type.Equals(notificationConst.TYPE_DETAIL_AGENDA))
+                    {
+                        var date = item.detail_agenda_date;
+                        var daysBefore = item.days_before;
+                        var totalDays = date.Subtract(now).Days;
+                        if (totalDays <= daysBefore && totalDays >= 0)
                         {
-                            var date = item.detail_agenda_date;
-                            var daysBefore = item.days_before;
-                            var totalDays = date.Subtract(now).Days;
-                            if (totalDays <= daysBefore && totalDays >= 0)
-                            {
-                                string subject = "Detail Agenda Notification";
-                                string body = "Hello " + item.fullname + ",\n\nThere are " +
-                                              "an agenda on " + item.deadline.ToString("yyyy-MMM-dd") + ", you have " +
-                                              "" + totalDays.ToString() + " days left to submit flight ticket information.";
-                                helper.SendMail(item.email, subject, body);
-                            }
+                            string body = "Hello " + item.fullname + ",\n\nThere are " +
+                                          "an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " +
+                                          "" + totalDays.ToString() + " days left.";
+                            string student_notification = "There are an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                            helper.SendMail(item.email, notificationConst.SUBJECT_DETAIL_AGENDA, body);
+                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_DETAIL_AGENDA, student_notification);
                         }
                     }
                 }
+                
                 //Insurance
                 foreach (var item in allStudentWithout)
                 {
@@ -501,16 +656,17 @@ namespace ISM.WebApp.Jobs
                         {
                             foreach (var config in notificationConfigs)
                             {
-                                if (config.type.Equals("insurance") && config.kind.Equals("mobility"))
+                                if (config.type.Equals(notificationConst.TYPE_INSURANCE) && config.kind.Equals(notificationConst.KIND_MOBILITY))
                                 {
                                     var totalDays = item.duration_start.Subtract(now).Days;
                                     if (totalDays <= config.days_before && totalDays >= 0)
                                     {
-                                        string subject = "Insurance Notification";
                                         string body = "Hello " + item.fullname + ",\n\nPlease submit your insurance document, " +
-                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "deadline is on " + item.duration_start.ToString("yyyy-MMM-dd") + " . You have " +
                                             "" + totalDays + " days left before deadline.";
-                                        helper.SendMail(item.email, subject, body);
+                                        string student_notification = "Please submit your insurance document, deadline is on " + item.duration_start.ToString("yyyy-MMM-dd") + ". You have " + totalDays.ToString() + " days left before deadline." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(item.email, notificationConst.SUBJECT_INSURANCE, body);
+                                        InsertNotificationInformation(item.student_id, notificationConst.SUBJECT_INSURANCE, student_notification);
                                     }
                                 }
                             }
@@ -526,16 +682,17 @@ namespace ISM.WebApp.Jobs
                         {
                             foreach (var config in notificationConfigs)
                             {
-                                if (config.type.Equals("flight") && config.kind.Equals("mobility"))
+                                if (config.type.Equals(notificationConst.TYPE_FLIGHT) && config.kind.Equals(notificationConst.KIND_MOBILITY))
                                 {
                                     var totalDays = item.duration_start.Subtract(now).Days;
                                     if (totalDays <= config.days_before && totalDays >= 0)
                                     {
-                                        string subject = "Flight Notification";
                                         string body = "Hello " + item.fullname + ",\n\nPlease submit your flight ticket document, " +
-                                            "deadline is on " + config.deadline.ToString("yyyy-MMM-dd") + " . You have " +
+                                            "deadline is on " + item.duration_start.ToString("yyyy-MMM-dd") + " . You have " +
                                             "" + totalDays + " days left before deadline.";
-                                        helper.SendMail(item.email, subject, body);
+                                        string student_notification = "Please submit your flight ticket document, deadline is on " + item.duration_start.ToString("yyyy-MMM-dd") + ". You have " + totalDays.ToString() + " days left before deadline." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                        helper.SendMail(item.email, notificationConst.SUBJECT_FLIGHT, body);
+                                        InsertNotificationInformation(item.student_id, notificationConst.SUBJECT_FLIGHT, student_notification);
                                     }
                                 }
                             }
@@ -547,31 +704,94 @@ namespace ISM.WebApp.Jobs
                 #region Meeting
                 foreach (var item in notificationConfigs)
                 {
-                    if (item.type.Equals("meeting_schedule"))
+                    if (item.type.Equals(notificationConst.TYPE_MEETING_SCHEDULE))
                     {
                         foreach (var meeting in meetingNotifications)
                         {
                             var totalDays = meeting.date.Subtract(now).Days;
                             if (totalDays <= item.days_before && totalDays >= 0)
                             {
-                                string subject = "Meeting Schedule Notification";
                                 string staff_body = "Hello " + meeting.staff_name.ToUpper() + ",\n\nYou have a meeting with" +
                                                     " " + meeting.student_name.ToUpper() + " - " + meeting.student_email + " " +
                                                     "on " + meeting.date.ToString("yyyy-MMM-dd");
-                                string staff_notification = "You have a meeting with " + meeting.student_name.ToUpper() + " - " + meeting.student_email + " on " + meeting.date.ToString("yyyy-MMM-dd");
+                                string staff_notification = "You have a meeting with " + meeting.student_name.ToUpper() + " - " + meeting.student_email + " on " + meeting.date.ToString("yyyy-MMM-dd") + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
                                 string student_body = "Hello " + meeting.student_name.ToUpper() + ",\n\nYou have a meeting with" +
                                                       " " + meeting.staff_name.ToUpper() + " - " + meeting.staff_email + " " +
                                                       "on " + meeting.date.ToString("yyyy-MMM-dd");
-                                string student_notification = "You have a meeting with " + meeting.staff_name.ToUpper() + " - " + meeting.staff_email + " on " + meeting.date.ToString("yyyy-MMM-dd");
-                                helper.SendMail(meeting.staff_email, subject, staff_body);
-                                InsertNotificationInformation(meeting.staff_id, subject, staff_notification);
-                                helper.SendMail(meeting.student_email, subject, student_body);
-                                InsertNotificationInformation(meeting.student_id, subject, student_notification);
+                                string student_notification = "You have a meeting with " + meeting.staff_name.ToUpper() + " - " + meeting.staff_email + " on " + meeting.date.ToString("yyyy-MMM-dd") + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(meeting.staff_email, notificationConst.SUBJECT_MEETING_SCHEDULE, staff_body);
+                                InsertNotificationInformation(meeting.staff_id, notificationConst.SUBJECT_MEETING_SCHEDULE, staff_notification);
+                                helper.SendMail(meeting.student_email, notificationConst.SUBJECT_MEETING_SCHEDULE, student_body);
+                                InsertNotificationInformation(meeting.student_id, notificationConst.SUBJECT_MEETING_SCHEDULE, student_notification);
                             }
                         }
                     }
                 }
                 #endregion
+                //Send mail to coordinator, who manage degree group
+                if (degreeNotificationList.Count != 0)
+                {
+                    foreach (var item in coordinatorDegreeList)
+                    {
+                        string body = "Hello " + item.fullname + ",\n";
+                        foreach (var student in degreeNotificationList)
+                        {
+                            if (student.type.Equals(notificationConst.TYPE_PASSPORT))
+                            {
+                                body += "\nPassport of " + student.fullname + " - " + student.email + " will expire on " + student.passport_expired.ToString("yyyy-MMM-dd") + ". " + student.total_days.ToString() + " days left before expire.";
+                            }
+                        }
+                        foreach (var student in degreeNotificationList)
+                        {
+                            if (student.type.Equals(notificationConst.TYPE_VISA))
+                            {
+                                body += "\nVisa of " + student.fullname + " - " + student.email + " will expire on " + student.visa_expired.ToString("yyyy-MMM-dd") + ". " + student.total_days.ToString() + " days left before expire.";
+                            }
+                        }
+                        helper.SendMail(item.email, notificationConst.SUBJECT_ISM_NOTIFICATION, body);
+                    }
+                }
+                //Send mail to coordinator, who manage each mobility group
+                if (mobilityNotificationList.Count != 0)
+                {
+                    foreach (var item in coordinatorMobilityList)
+                    {
+                        string body = "Hello " + item.fullname + ",\n";
+                        foreach (var student in mobilityStudentList)
+                        {
+                            if (item.studentGroup_id == student.studentGroup_id)
+                            {
+                                foreach (var notification in mobilityNotificationList)
+                                {
+                                    if (student.user_id == notification.user_id)
+                                    {
+                                        if (notification.type.Equals(notificationConst.TYPE_PASSPORT))
+                                        {
+                                            body += "\nPassport of " + notification.fullname + " - " + notification.email + " will expire on " + notification.passport_expired.ToString("yyyy-MMM-dd") + ". " + notification.total_days.ToString() + " days left before expire.";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        foreach (var student in mobilityStudentList)
+                        {
+                            if (item.studentGroup_id == student.studentGroup_id)
+                            {
+                                foreach (var notification in mobilityNotificationList)
+                                {
+                                    if (student.user_id == notification.user_id)
+                                    {
+                                        if (notification.type.Equals(notificationConst.TYPE_VISA))
+                                        {
+                                            body += "\nVisa of " + notification.fullname + " - " + notification.email + " will expire on " + notification.visa_expired.ToString("yyyy-MMM-dd") + ". " + notification.total_days.ToString() + " days left before expire.";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        helper.SendMail(item.email, notificationConst.SUBJECT_ISM_NOTIFICATION, body);
+                    }
+                }
             }
             catch (Exception e)
             {

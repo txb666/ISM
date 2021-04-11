@@ -163,7 +163,7 @@ namespace ISM.WebApp.DAOImpl
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id";
+                sql = "select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id order by a.created_date desc";
                 com.Parameters.Add("@user_id", SqlDbType.Int);
                 com.Parameters["@user_id"].Value = user_id;
                 com.CommandText = sql;
