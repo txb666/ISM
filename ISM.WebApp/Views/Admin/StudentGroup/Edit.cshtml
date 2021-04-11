@@ -32,7 +32,7 @@
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
         function myFunction_showuser() {
-            document.getElementById("myDropdown").classList.toggle("show");
+            document.getElementById("myDropdown").classList.toggle("show_staff");
         }
 
         // Close the dropdown if the user clicks outside of it
@@ -70,7 +70,7 @@
                     <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
                 </button>
             </div>
-            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top:20px">
                 <div class="dropdown">
                     <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
