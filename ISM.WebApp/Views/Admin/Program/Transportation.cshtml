@@ -101,7 +101,7 @@
                 <th scope="col">Home University</th>
                 <th scope="col">Campus</th>
                 <th scope="col">Note</th>
-                <th scope="col"> </th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -129,7 +129,7 @@
                 <td>
                     @item.note
                 </td>    
-                <td>
+                <td style="text-align:center;">
                     <button class="btn btn-info">
                         <a style="text-decoration:none;color:white" asp-controller="Transportation" asp-action="Detail" asp-route-studentGroup_id="@item.studentGroup_id">View Transportation</a>
                     </button>

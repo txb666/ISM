@@ -30,9 +30,10 @@
     <script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
-        function myFunction() {
+        function myFunction_showuser() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
+
         // Close the dropdown if the user clicks outside of it
         window.onclick = function (event) {
             if (!event.target.matches('.dropbtn')) {
@@ -46,9 +47,11 @@
                 }
             }
         }
+
         window.onload = function () {
             document.getElementById("initializeButton").click();
         };
+
     </script>
 </head>
 <body>
@@ -67,13 +70,17 @@
             </div>
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <div class="dropdown">
-                    <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
+                    <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
                     @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
-                        <a href="#home">My Infor</a>
+                        <a>
+                            <form method="post" asp-controller="Information" asp-action="Index">
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Profile</button>
+                            </form>
+                        </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button class="btn btn-info">Log Out</button>
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
                             </form>
                         </a>
                     </div>
