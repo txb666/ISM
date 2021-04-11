@@ -43,8 +43,17 @@ namespace ISM.WebApp.DAOImpl
         public bool EditInformation(int user_id, string fullname, string nationality, DateTime dob, bool gender, string contact, string picture)
         {
             SqlConnection con = null;
-            string sql = "update Users set fullname = @fullname, nationality = @nationality, DOB = @dob, " +
-                         "gender = @gender, emergency_contact = @contact, picture = @picture  where [user_id] = @user_id";
+            string sql = "";
+            if (String.IsNullOrEmpty(picture))
+            {
+                sql = "update Users set fullname = @fullname, nationality = @nationality, DOB = @dob, " +
+                      "gender = @gender, emergency_contact = @contact  where [user_id] = @user_id";
+            }
+            else
+            {
+                sql = "update Users set fullname = @fullname, nationality = @nationality, DOB = @dob, " +
+                      "gender = @gender, emergency_contact = @contact, picture = @picture  where [user_id] = @user_id";
+            }
             SqlCommand com = null;
             try
             {

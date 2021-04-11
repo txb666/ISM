@@ -15,11 +15,23 @@ namespace ISM.WebApp.DAOImpl
         public bool CreateOrEdit(int user_id, string telephone, string position, string picture)
         {
             SqlConnection con = null;
-            string sql = "begin tran if exists (select * from Contact_Information with (updlock,serializable) " +
-                         "where staff_id = @staff_id) begin update Contact_Information set telephone = @telephone, " +
-                         "picture = @picture, position = @position where staff_id = @staff_id end else begin insert " +
-                         "into Contact_Information(staff_id,telephone,picture,position) values (@staff_id,@telephone,@picture," +
-                         "@position) end commit tran";
+            string sql = "";
+            if (String.IsNullOrEmpty(picture))
+            {
+                sql = "begin tran if exists (select * from Contact_Information with (updlock,serializable) " +
+                      "where staff_id = @staff_id) begin update Contact_Information set telephone = @telephone," +
+                      " position = @position where staff_id = @staff_id end else begin insert " +
+                      "into Contact_Information(staff_id,telephone,picture,position) values (@staff_id,@telephone,@picture," +
+                      "@position) end commit tran";
+            }
+            else
+            {
+                sql = "begin tran if exists (select * from Contact_Information with (updlock,serializable) " +
+                      "where staff_id = @staff_id) begin update Contact_Information set telephone = @telephone, " +
+                      "picture = @picture, position = @position where staff_id = @staff_id end else begin insert " +
+                      "into Contact_Information(staff_id,telephone,picture,position) values (@staff_id,@telephone,@picture," +
+                      "@position) end commit tran";
+            }
             SqlCommand com = null;
             try
             {
