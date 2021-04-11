@@ -32,6 +32,10 @@
         height: 500px !important;
         width: 320px !important;
     }
+    #xmas-popup-notification .popup-content-notification {
+        height: 500px !important;
+        width: 320px !important;
+    }
     #xmas-popup .popup-content {
         height: 525px !important;
         width: 320px !important;

@@ -20,7 +20,7 @@
 <h1 style="text-align: center;"> Detailed Agenda For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="search_visa()" class="btn btn-primary">Search</button>
+        <button onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="DetailedAgenda" asp-action="Detail" method="get">
                 <div class="form-group row">
@@ -67,10 +67,11 @@
             </form>
         </div>
     </div>
+    <button style="width:80px;border-radius:10px;float:right" onclick="showPopup('xmas-popup')" class="btn btn-success">
+        Create
+    </button>
 </div>
-<button onclick="showPopup('xmas-popup')" style="float: right;" class="btn btn-success">
-    Create
-</button>
+
 <br>
 <br>
 <div class="table-scroll">
@@ -114,12 +115,12 @@
                     @item.content
                 </td>
                 <td style="text-align: center;">
-                    <button onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign1');" class="btn btn-info">
+                    <button style="width:80px;border-radius:10px" onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign1');" class="btn btn-info">
                         Edit
                     </button>
                 </td>
                 <td style="text-align: center;">
-                    <button onclick="deleteDetailedAgenda('@item.detailed_agenda_id');" class="btn btn-info">
+                    <button style="width:80px;border-radius:10px" onclick="deleteDetailedAgenda('@item.detailed_agenda_id');" class="btn btn-danger">
                         Delete
                     </button>
                 </td>

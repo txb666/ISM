@@ -60,9 +60,9 @@
             </div>
 
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                <button type="button" class="icon-button">
+                <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
                     <span class="material-icons">notifications</span>
-                    <a><span class="icon-button__badge">25</span> </a>
+                    <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
                 </button>
             </div>
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
@@ -85,122 +85,118 @@
           aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-left: 50px;">
-            <a class="navbar-brand" style="margin-left: 0;" href="#">
-                <!-- <img src="images/fpt.png" /> -->
-
-
-            </a>
+        <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"
-                    style="background-color: blueviolet;">
+                    aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav" style="margin: 0 auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Staff</a>
+                        <a class="nav-link" href="/Staff">Staff</a>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Student
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Student Group</a>
+                            <a class="dropdown-item" href="/StudentGroup">Student Group</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Manage Student</a>
-
+                            <a class="dropdown-item" href="/Student">Manage Student</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Visa & Passport
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Pre-Approval Visa Letter</a>
+                            <a class="dropdown-item" href="/VisaLetter">Pre-Approval Visa Letter</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Visa</a>
+                            <a class="dropdown-item" href="/Visa">Visa</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Passport</a>
+                            <a class="dropdown-item" href="/Passport">Passport</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Insurance
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Insurance Instruction</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="List" asp-route-type="Insurance Instruction">Insurance Instruction</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student Insurance</a>
+                            <a class="dropdown-item" href="/Insurance">Student Insurance</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Pre-departure
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">What to pack</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="What to pack">What to pack</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student's Flight</a>
+                            <a class="dropdown-item" href="/Flight">Student's Flight</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Handbook</a>
+                            <a class="dropdown-item" href="/StudentHandbook">Handbook</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Accomodation</a>
+                            <a class="dropdown-item" href="/CurrentAccomodation">Current Accomodation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">General Agenda</a>
+                            <a class="dropdown-item" href="/GeneralAgenda">General Agenda</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Program
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Orientation</a>
+                            <a class="dropdown-item" href="/Orientation">Orientation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Detailed agenda</a>
+                            <a class="dropdown-item" href="/DetailedAgenda">Detailed agenda</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Accommodation</a>
+                            <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Transportation</a>
+                            <a class="dropdown-item" href="/Transportation">Transportation</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Program material</a>
+                            <a class="dropdown-item" href="/ORTMaterials">Orientation Materials</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Surveys</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Program Materials</a>
+                            <a class="dropdown-item" href="/ORTMaterialSlide">ORT Material/Slide</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Local recommendation
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Da Nang</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="6">Da Nang</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ho Chi Minh</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="5">Ho Chi Minh</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ha Noi</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="2">Ha Noi</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Can Tho</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="7">Can Tho</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#" id="navbarDropdown">
+                        <a class="nav-link" id="navbarDropdown">
                             Job services
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">I want a Job</a>
+                            <a class="dropdown-item" href="/JobServices/IWantAJob">I want a Job</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Job Vancancies</a>
+                            <a class="dropdown-item" href="/JobVacancy">Job Vacancies</a>
 
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#">FAQs</a>
+                        <a class="nav-link" href="/FAQ">FAQs</a>
                     </li>
                     <li class="nav-item dropdowns">
-                        <a class="nav-link" href="#">Contact Us</a>
+                        <a class="nav-link">Contact Us</a>
+                        <div class="dropdown-description">
+                            <a class="dropdown-item" href="/ContactInformation">Contact Information</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Meeting">Book a meeting</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -367,7 +363,27 @@
                 </div>
             </form>*@
     </div>
-
+    <div id="xmas-popup-notification" class="popup">
+        <div class="popup-content-notification">
+            <h1 align="center">Notifications</h1>
+            <form>
+                <div class="table-scroll-meeting">
+                    <div class="border border-warning" style="border-radius:10px">
+                        @foreach (var item in sessionUser.webNotifications)
+                        {
+                            <p style="font-weight:bold; color:red">@item.title</p>
+                            <p style="background-color: lightgrey">@item.content</p>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <button onclick="hidePopup('xmas-popup-notification')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <footer style="margin-top: 100px">
         <div class="footer-top">
             <div class="container">

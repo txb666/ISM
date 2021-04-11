@@ -59,7 +59,7 @@
             </div>
             <!-- <div class="col-xl-1 col-md-1 col-lg-1 "></div> -->
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                <button type="button" class="icon-button" onclick="showPopup('xmas-popup-assign');">
+                <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
                     <span class="material-icons">notifications</span>
                     <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
                 </button>
@@ -208,19 +208,21 @@
             </main>
         </div>
     </div>
-    <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign">
+    <div id="xmas-popup-notification" class="popup">
+        <div class="popup-content-notification">
             <h1 align="center">Notifications</h1>
             <form>
                 <div class="table-scroll-meeting">
+                    <div class="border border-warning" style="border-radius:10px">
                     @foreach (var item in sessionUser.webNotifications)
                     {
-                        <p style="font-weight:bold;">@item.title</p>
-                        <p>@item.content</p>
+                        <p style="font-weight:bold; color:red">@item.title</p>
+                        <p style="background-color: lightgrey">@item.content</p>
                     }
+                    </div>
                 </div>
                 <div class="form-group row">
-                    <button onclick="hidePopup('xmas-popup-assign')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                    <button onclick="hidePopup('xmas-popup-notification')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
                 </div>
