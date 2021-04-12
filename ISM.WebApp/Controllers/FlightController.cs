@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
@@ -99,6 +100,128 @@ namespace ISM.WebApp.Controllers
         {
             bool result = flightDAO.SetupNotificationMobility(days_before);
             return result;
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            List<Flight> flightsExcel = new List<Flight>();
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Staff"))
+            {
+                flightsExcel = flightDAO.GetVisaLettersStaffToExcel(sessionUser.user_id);
+            }
+            else if (sessionUser.role_name.Equals("Admin"))
+            {
+                flightsExcel = flightDAO.GetVisaLettersAdminToExcel();
+            }
+            using (var wb = new XLWorkbook())
+            {
+                var currentRowDegree = 1;
+                var currentRowMobility = 1;
+                var ws = wb.Worksheets.Add("Degree_Student");
+                ws.Cell(currentRowDegree, 1).Value = "Student Account";
+                ws.Cell(currentRowDegree, 2).Value = "Student Name";
+                ws.Cell(currentRowDegree, 3).Value = "Student Email";
+                ws.Cell(currentRowDegree, 4).Value = "Flight Number (arrival)";
+                ws.Cell(currentRowDegree, 5).Value = "Airport Arrival (arrival)";
+                ws.Cell(currentRowDegree, 6).Value = "Airport Departure (arrival)";
+                ws.Cell(currentRowDegree, 7).Value = "Arrival Date (arrival)";
+                ws.Cell(currentRowDegree, 8).Value = "Arrival Time (arrival)";
+                for (int i = 1; i < 9; i++)
+                {
+                    ws.Cell(currentRowDegree, i).Style.Border.BottomBorder = XLBorderStyleValues.Thick;
+                    ws.Cell(currentRowDegree, i).Style.Fill.SetBackgroundColor(XLColor.AliceBlue);
+                    ws.Cell(currentRowDegree, i).Style.Font.Bold = true;
+                    ws.Cell(currentRowDegree, i).Style.Font.FontSize = 12;
+                    ws.Cell(currentRowDegree, i).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    ws.Column(i).Width = 40;
+                }
+                var ws1 = wb.Worksheets.Add("Mobility_Student");
+                ws1.Cell(currentRowMobility, 1).Value = "Student Account";
+                ws1.Cell(currentRowMobility, 2).Value = "Student Name";
+                ws1.Cell(currentRowMobility, 3).Value = "Student Email";
+                ws1.Cell(currentRowMobility, 4).Value = "Flight Number (arrival)";
+                ws1.Cell(currentRowMobility, 5).Value = "Airport Arrival (arrival)";
+                ws1.Cell(currentRowMobility, 6).Value = "Airport Departure (arrival)";
+                ws1.Cell(currentRowMobility, 7).Value = "Arrival Date (arrival)";
+                ws1.Cell(currentRowMobility, 8).Value = "Arrival Time (arrival)";
+                ws1.Cell(currentRowMobility, 9).Value = "Flight Number (departure)";
+                ws1.Cell(currentRowMobility, 10).Value = "Airport Arrival (departure)";
+                ws1.Cell(currentRowMobility, 11).Value = "Airport Departure (departure)";
+                ws1.Cell(currentRowMobility, 12).Value = "Arrival Date (departure)";
+                ws1.Cell(currentRowMobility, 13).Value = "Arrival Time (departure)";
+                for (int i = 1; i < 14; i++)
+                {
+                    ws1.Cell(currentRowMobility, i).Style.Border.BottomBorder = XLBorderStyleValues.Thick;
+                    ws1.Cell(currentRowMobility, i).Style.Fill.SetBackgroundColor(XLColor.AliceBlue);
+                    ws1.Cell(currentRowMobility, i).Style.Font.Bold = true;
+                    ws1.Cell(currentRowMobility, i).Style.Font.FontSize = 12;
+                    ws1.Cell(currentRowMobility, i).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    ws1.Column(i).Width = 40;
+                }
+
+                foreach (var item in flightsExcel)
+                {
+                    if (item.role_name.Equals("Degree"))
+                    {
+                        currentRowDegree++;
+                        ws.Cell(currentRowDegree, 1).Value = item.account;
+                        ws.Cell(currentRowDegree, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 2).Value = item.fullname;
+                        ws.Cell(currentRowDegree, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 3).Value = item.email;
+                        ws.Cell(currentRowDegree, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 4).Value = String.IsNullOrEmpty(item.flight_number_a) ? "N/A" : item.flight_number_a;
+                        ws.Cell(currentRowDegree, 4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 5).Value = String.IsNullOrEmpty(item.airport_arrival_a) ? "N/A" : item.airport_arrival_a;
+                        ws.Cell(currentRowDegree, 5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 6).Value = String.IsNullOrEmpty(item.airport_departure_a) ? "N/A" : item.airport_departure_a;
+                        ws.Cell(currentRowDegree, 6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 7).Value = item.arrival_date_a.HasValue ? item.arrival_date_a.Value.ToString("yyyy-MMM-dd") : "N/A";
+                        ws.Cell(currentRowDegree, 7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws.Cell(currentRowDegree, 8).Value = item.arrival_time_a.HasValue ? item.arrival_time_a.Value.ToString(@"hh\:mm\:ss") : "N/A";
+                        ws.Cell(currentRowDegree, 8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    }
+                    else if (item.role_name.Equals("Mobility"))
+                    {
+                        currentRowMobility++;
+                        ws1.Cell(currentRowMobility, 1).Value = item.account;
+                        ws1.Cell(currentRowMobility, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 2).Value = item.fullname;
+                        ws1.Cell(currentRowMobility, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 3).Value = item.email;
+                        ws1.Cell(currentRowMobility, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 4).Value = String.IsNullOrEmpty(item.flight_number_a) ? "N/A" : item.flight_number_a;
+                        ws1.Cell(currentRowMobility, 4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 5).Value = String.IsNullOrEmpty(item.airport_arrival_a) ? "N/A" : item.airport_arrival_a;
+                        ws1.Cell(currentRowMobility, 5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 6).Value = String.IsNullOrEmpty(item.airport_departure_a) ? "N/A" : item.airport_departure_a;
+                        ws1.Cell(currentRowMobility, 6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 7).Value = item.arrival_date_a.HasValue ? item.arrival_date_a.Value.ToString("yyyy-MMM-dd") : "N/A";
+                        ws1.Cell(currentRowMobility, 7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 8).Value = item.arrival_time_a.HasValue ? item.arrival_time_a.Value.ToString(@"hh\:mm\:ss") : "N/A";
+                        ws1.Cell(currentRowMobility, 8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 9).Value = String.IsNullOrEmpty(item.flight_number_d) ? "N/A" : item.flight_number_d;
+                        ws1.Cell(currentRowMobility, 9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 10).Value = String.IsNullOrEmpty(item.airport_arrival_d) ? "N/A" : item.airport_arrival_d;
+                        ws1.Cell(currentRowMobility, 10).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 11).Value = String.IsNullOrEmpty(item.airport_departure_d) ? "N/A" : item.airport_departure_d;
+                        ws1.Cell(currentRowMobility, 11).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 12).Value = item.arrival_date_d.HasValue ? item.arrival_date_d.Value.ToString("yyyy-MMM-dd") : "N/A";
+                        ws1.Cell(currentRowMobility, 12).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                        ws1.Cell(currentRowMobility, 13).Value = item.arrival_time_d.HasValue ? item.arrival_time_d.Value.ToString(@"hh\:mm\:ss") : "N/A";
+                        ws1.Cell(currentRowMobility, 13).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    }
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    string excelName = $"FlightTicket-{DateTime.Now.ToString("yyyy-MMM-dd")}.xlsx";
+                    wb.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+            }
         }
 
         public IActionResult CreateOrEdit(int? flight_id, int student_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d, IFormFile picture_a, IFormFile picture_d)

@@ -16,7 +16,6 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@*<div style="height: 500px; background-color: white;">*@
 <h1 style="text-align: center;">Student Information</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
@@ -385,11 +384,10 @@
     </div>
 </div>
 <div style="margin-top: 20px;">
-    <button class="btn btn-success" style="float:right">
-        <a style="text-decoration: none; color: white;" href="#">Extract to Excel</a>
+    <button class="btn btn-success" style="float: right;">
+        <a style="text-decoration: none; color: white;" href="/Student/ExportToExcel">Extract to Excel</a>
     </button>
 </div>
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-@*</div>*@

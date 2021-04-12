@@ -1,4 +1,5 @@
-﻿using ISM.WebApp.Constant;
+﻿using ClosedXML.Excel;
+using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
@@ -78,6 +79,65 @@ namespace ISM.WebApp.Controllers
         {
             bool result = visaDAO.CreateOrEdit(days_before);
             return result;
+        }
+
+        public IActionResult ExportToExcel()
+        {
+            List<Visa> visaExcel = new List<Visa>();
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Staff"))
+            {
+                visaExcel = visaDAO.GetVisaLettersStaffToExcel(sessionUser.user_id);
+            }
+            else if (sessionUser.role_name.Equals("Admin"))
+            {
+                visaExcel = visaDAO.GetVisaLettersAdminToExcel();
+            }
+            using (var wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add("Visa");
+                var currentRow = 1;
+                ws.Cell(currentRow, 1).Value = "Student Name";
+                ws.Cell(currentRow, 2).Value = "Student Email";
+                ws.Cell(currentRow, 3).Value = "Entry Port";
+                ws.Cell(currentRow, 4).Value = "Entry Date";
+                ws.Cell(currentRow, 5).Value = "Start Date";
+                ws.Cell(currentRow, 6).Value = "Expire Date";
+                for (int i = 1; i < 7; i++)
+                {
+                    ws.Cell(currentRow, i).Style.Border.BottomBorder = XLBorderStyleValues.Thick;
+                    ws.Cell(currentRow, i).Style.Fill.SetBackgroundColor(XLColor.AliceBlue);
+                    ws.Cell(currentRow, i).Style.Font.Bold = true;
+                    ws.Cell(currentRow, i).Style.Font.FontSize = 12;
+                    ws.Cell(currentRow, i).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    ws.Column(i).Width = 30;
+                }
+
+                foreach (var item in visaExcel)
+                {
+                    currentRow++;
+                    ws.Cell(currentRow, 1).Value = item.fullname;
+                    ws.Cell(currentRow, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 2).Value = item.email;
+                    ws.Cell(currentRow, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 3).Value = String.IsNullOrEmpty(item.entry_port) ? "N/A" : item.entry_port;
+                    ws.Cell(currentRow, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 4).Value = item.date_entry.ToString("yyyy-MMM-dd");
+                    ws.Cell(currentRow, 4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 5).Value = item.start_date.ToString("yyyy-MMM-dd");
+                    ws.Cell(currentRow, 5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 6).Value = item.expired_date.ToString("yyyy-MMM-dd");
+                    ws.Cell(currentRow, 6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    string excelName = $"Visa-{DateTime.Now.ToString("yyyy-MMM-dd")}.xlsx";
+                    wb.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+            }
         }
 
         public IActionResult CreateOrEdit(int student_id, int? visa_id, DateTime start_date, DateTime expired_date, DateTime date_entry, string entry_port, IFormFile picture)

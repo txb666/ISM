@@ -11,6 +11,8 @@ namespace ISM.WebApp.Models
         public int student_id { get; set; }
         public string fullname { get; set; }
         public string account { get; set; }
+        public string email { get; set; }
+        public string role_name { get; set; }
         public string flight_number_a { get; set; }
         public DateTime? arrival_date_a { get; set; }
         public TimeSpan? arrival_time_a { get; set; }

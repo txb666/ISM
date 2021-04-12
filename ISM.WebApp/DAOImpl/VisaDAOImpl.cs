@@ -433,5 +433,111 @@ namespace ISM.WebApp.DAOImpl
             }
             return visa;
         }
+
+        public List<Visa> GetVisaLettersAdminToExcel()
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Visa> visaList = new List<Visa>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.student_id,b.fullname,b.email,a.entry_port,a.date_entry,a.[start_date],a.expired_date from Visa a, Users b where a.student_id = b.[user_id]";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Visa visa = new Visa();
+                    visa.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visa.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("entry_port")))
+                    {
+                        visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("date_entry")))
+                    {
+                        visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    visaList.Add(visa);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visaList;
+        }
+
+        public List<Visa> GetVisaLettersStaffToExcel(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Visa> visaList = new List<Visa>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.student_id,b.fullname,b.email,a.entry_port,a.date_entry,a.[start_date],a.expired_date from Visa a, " +
+                      "Users b, Student_Group c, Coordinators d where a.student_id = b.[user_id] and b.studentGroup_id = c.student_group_id " +
+                      "and c.student_group_id = d.studentGroup_id and d.staff_id = @staff_id";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Visa visa = new Visa();
+                    visa.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visa.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("entry_port")))
+                    {
+                        visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("date_entry")))
+                    {
+                        visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    visaList.Add(visa);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visaList;
+        }
     }
 }

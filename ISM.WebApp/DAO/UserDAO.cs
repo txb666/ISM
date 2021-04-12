@@ -23,5 +23,7 @@ namespace ISM.WebApp.DAO
         List<User> getDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname, int page, int pageSize);
         int getTotalDegreeStudent(bool isAdmin, bool haveDegree, string account, string fullname);
         User getUserById(int id);
+        List<User> GetVisaLettersAdminToExcel();
+        List<User> GetVisaLettersStaffToExcel(int staff_id);
     }
 }

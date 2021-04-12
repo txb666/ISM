@@ -487,35 +487,110 @@ namespace ISM.WebApp.DAOImpl
             return totalPassports;
         }
 
-        //public bool isPassportAlreadyExist(string passport_number)
-        //{
-        //    SqlConnection con = null;
-        //    string sql = "select count(*) from Passports a.passport_number=@passport_number";
-        //    SqlCommand com = null;
-        //    bool isExist = true;
-        //    int? count = null;
-        //    try
-        //    {
-        //        con = DBUtils.GetConnection();
-        //        con.Open();
-        //        com = new SqlCommand(sql, con);
-        //        com.Parameters.Add("@passport_number", SqlDbType.NVarChar);
-        //        com.Parameters["@passport_number"].Value = passport_number;
-        //        count = (int)com.ExecuteScalar();
-        //        if (count == 0)
-        //        {
-        //            isExist = false;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //    }
-        //    finally
-        //    {
-        //        DBUtils.closeAllResource(con, com, null, null);
-        //    }
-        //    return isExist;
-        //}
+        public List<Passport> GetVisaLettersAdminToExcel()
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Passport> passports = new List<Passport>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.student_id,b.fullname,b.email,a.passport_number,a.[start_date],a.expired_date,a.issuing_authority from Passports a, Users b where a.student_id = b.[user_id]";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Passport passport = new Passport();
+                    passport.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    passport.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
+                    {
+                        passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("issuing_authority")))
+                    {
+                        passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
+                    }
+                    passports.Add(passport);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return passports;
+        }
+
+        public List<Passport> GetVisaLettersStaffToExcel(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Passport> passports = new List<Passport>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.student_id,b.fullname,b.email,a.passport_number,a.[start_date],a.expired_date,a.issuing_authority " +
+                      "from Passports a, Users b, Student_Group c, Coordinators d where a.student_id = b.[user_id] and " +
+                      "b.studentGroup_id = c.student_group_id and c.student_group_id = d.studentGroup_id and d.staff_id = @staff_id";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Passport passport = new Passport();
+                    passport.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    passport.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
+                    {
+                        passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("issuing_authority")))
+                    {
+                        passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
+                    }
+                    passports.Add(passport);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return passports;
+        }
     }
 }

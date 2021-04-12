@@ -1006,5 +1006,156 @@ namespace ISM.WebApp.DAOImpl
             }
             return user;
         }
+
+        public List<User> GetVisaLettersAdminToExcel()
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<User> students = new List<User>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select temp.[status],temp.role_name,temp.[user_id],temp.fullname,temp.account,temp.email,temp.nationality,temp.DOB,temp.gender,temp.[program_name]," +
+                      "temp.campus_name,temp.home_univercity,temp.emergency_contact,f.[location] from (select a.[status],f.role_name,a.[user_id],a.fullname,a.account," +
+                      "a.email,a.nationality,a.DOB,a.gender,d.[program_name],e.campus_name,a.emergency_contact,b.home_univercity from Users a, Student_Group b, " +
+                      "Programs d, Campus e, Roles f where a.role_id = f.role_id and a.studentGroup_id = b.student_group_id and b.program_id = d.program_id and " +
+                      "b.campus_id = e.campus_id) as temp FULL OUTER JOIN Current_Accommodation f on temp.[user_id] = f.student_id where temp.[user_id] != ''";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    User student = new User();
+                    student.status = (bool)reader.GetValue(reader.GetOrdinal("status"));
+                    student.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    student.role_name = (string)reader.GetValue(reader.GetOrdinal("role_name"));
+                    student.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    student.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    student.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("nationality")))
+                    {
+                        student.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("DOB")))
+                    {
+                        student.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("gender")))
+                    {
+                        student.gender = (bool)reader.GetValue(reader.GetOrdinal("gender"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("program_name")))
+                    {
+                        student.program = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("campus_name")))
+                    {
+                        student.campus = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                    {
+                        student.home_univercity = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("emergency_contact")))
+                    {
+                        student.emergency_contact = (string)reader.GetValue(reader.GetOrdinal("emergency_contact"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("location")))
+                    {
+                        student.accomodation = (string)reader.GetValue(reader.GetOrdinal("location"));
+                    }
+                    students.Add(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return students;
+        }
+
+        public List<User> GetVisaLettersStaffToExcel(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<User> students = new List<User>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select temp.[status],temp.role_name,temp.[user_id],temp.fullname,temp.account,temp.email,temp.nationality,temp.DOB,temp.gender,temp.[program_name]," +
+                      "temp.campus_name,temp.home_univercity,temp.emergency_contact,f.[location] from (select a.[status],f.role_name,a.[user_id],a.fullname,a.account," +
+                      "a.email,a.nationality,a.DOB,a.gender,d.[program_name],e.campus_name,a.emergency_contact,c.staff_id,b.home_univercity " +
+                      "from Users a, Student_Group b, Coordinators c, Programs d, Campus e, Roles f where a.role_id = f.role_id and a.studentGroup_id = b.student_group_id " +
+                      "and b.student_group_id = c.studentGroup_id and b.program_id = d.program_id and b.campus_id = e.campus_id) " +
+                      "as temp FULL OUTER JOIN Current_Accommodation f on temp.[user_id] = f.student_id where temp.staff_id = @staff_id";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    User student = new User();
+                    student.status = (bool)reader.GetValue(reader.GetOrdinal("status"));
+                    student.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    student.role_name = (string)reader.GetValue(reader.GetOrdinal("role_name"));
+                    student.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    student.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    student.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("nationality")))
+                    {
+                        student.nationality = (string)reader.GetValue(reader.GetOrdinal("nationality"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("DOB")))
+                    {
+                        student.dob = (DateTime)reader.GetValue(reader.GetOrdinal("DOB"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("gender")))
+                    {
+                        student.gender = (bool)reader.GetValue(reader.GetOrdinal("gender"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("program_name")))
+                    {
+                        student.program = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("campus_name")))
+                    {
+                        student.campus = (string)reader.GetValue(reader.GetOrdinal("campus_name"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                    {
+                        student.home_univercity = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("emergency_contact")))
+                    {
+                        student.emergency_contact = (string)reader.GetValue(reader.GetOrdinal("emergency_contact"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("location")))
+                    {
+                        student.accomodation = (string)reader.GetValue(reader.GetOrdinal("location"));
+                    }
+                    students.Add(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return students;
+        }
     }
 }

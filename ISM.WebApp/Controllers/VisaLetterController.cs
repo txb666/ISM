@@ -1,4 +1,5 @@
-﻿using ISM.WebApp.Constant;
+﻿using ClosedXML.Excel;
+using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,8 +28,7 @@ namespace ISM.WebApp.Controllers
         {
             this.VisaLetterDAO = visaLetterDAO;
         }
-        public IActionResult Index(string degreeOrMobility="", string fullname = "", bool gender = true, string apply_receive = "", string visa_period = "", string type_visa = "", string nationality = "",string visa_type ="", string passport_number = "", string student_name = ""
-           , DateTime? dob= null, DateTime? expired_date=null, int page=1)
+        public IActionResult Index(string degreeOrMobility="", string fullname = "", bool gender = true, string apply_receive = "", string visa_period = "", string type_visa = "", string nationality = "",string visa_type ="", string passport_number = "", string student_name = "", DateTime? dob= null, DateTime? expired_date=null, int page=1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
@@ -80,6 +79,7 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        public IActionResult ExportToExcel()
         public bool CreateOrEdit(int student_id, int visa_letter_id, string visa_type, string visa_period, string apply_receive)
         {
             bool result = VisaLetterDAO.CreateOrEditVisaLetter(student_id, visa_letter_id, visa_type, visa_period, apply_receive);
@@ -89,23 +89,61 @@ namespace ISM.WebApp.Controllers
         public IActionResult ExportToExcel(string fullname = "", bool gender = true, string apply_receive = "", string visa_period = "", string type_visa = "", string home_university = "", string nationality = "", string visa_type = "", string passport_number = "", string student_name = ""
            , DateTime? dob = null, DateTime? expired_dateFrom = null, DateTime? expired_dateTo = null)
         {
-
-            /*VisaLetterIndexViewModel visaLetterIndexView = new VisaLetterIndexViewModel();
-            dynamic json = Newtonsoft.Json.JsonConvert.SerializeObject(VisaLetterDAO.GetVisaLetter(visaLetterIndexView.page, visaLetterIndexView.pageSize, fullname, apply_receive, visa_period, type_visa, nationality, passport_number, dob, expired_dateFrom, expired_dateTo));
-            DataTable dt = JsonConvert.DeserializeObject(json,typeof( DataTable));
-
-            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-            var stream = new MemoryStream();
-            using (var package = new ExcelPackage(stream))
+            List<VisaLetter> visaLetterExcel = new List<VisaLetter>();
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Staff"))
             {
-                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
-                worksheet.Cells.LoadFromDataTable(dt, true);
-                package.Save();
+                visaLetterExcel = VisaLetterDAO.GetVisaLettersStaffToExcel(sessionUser.user_id);
             }
-            stream.Position = 0;
-            string excelName = $"VisaLetter-{DateTime.Now.ToString("yyyyMMdd")}.xlsx";
-            return File(stream,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",excelName);*/
-            return View();
+            else if (sessionUser.role_name.Equals("Admin"))
+            {
+                visaLetterExcel = VisaLetterDAO.GetVisaLettersAdminToExcel();
+            }
+            using (var wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add("Visa Letter");
+                var currentRow = 1;
+                ws.Cell(currentRow, 1).Value = "Student Name";
+                ws.Cell(currentRow, 2).Value = "Student Email";
+                ws.Cell(currentRow, 3).Value = "Passport Number";
+                ws.Cell(currentRow, 4).Value = "Passport Expire Date";
+                ws.Cell(currentRow, 5).Value = "Visa Type";
+                ws.Cell(currentRow, 6).Value = "Visa Period";
+                for (int i = 1; i < 7; i++)
+                {
+                    ws.Cell(currentRow, i).Style.Border.BottomBorder = XLBorderStyleValues.Thick;
+                    ws.Cell(currentRow, i).Style.Fill.SetBackgroundColor(XLColor.AliceBlue);
+                    ws.Cell(currentRow, i).Style.Font.Bold = true;
+                    ws.Cell(currentRow, i).Style.Font.FontSize = 12;
+                    ws.Cell(currentRow, i).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    ws.Column(i).Width = 30;
+                }
+
+                foreach (var item in visaLetterExcel)
+                {
+                    currentRow++;
+                    ws.Cell(currentRow, 1).Value = item.fullname;
+                    ws.Cell(currentRow, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 2).Value = item.email;
+                    ws.Cell(currentRow, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 3).Value = String.IsNullOrEmpty(item.passport_number) ? "N/A" : item.passport_number;
+                    ws.Cell(currentRow, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 4).Value = item.expired_date.HasValue ? item.expired_date.Value.ToString("yyyy-MMM-dd") : "N/A";
+                    ws.Cell(currentRow, 4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 5).Value = String.IsNullOrEmpty(item.visa_type) ? "N/A" : item.visa_type;
+                    ws.Cell(currentRow, 5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    ws.Cell(currentRow, 6).Value = String.IsNullOrEmpty(item.visa_period) ? "N/A" : item.visa_period;
+                    ws.Cell(currentRow, 6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    string excelName = $"VisaLetter-{DateTime.Now.ToString("yyyy-MMM-dd")}.xlsx";
+                    wb.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                }
+            }
         }
     }
 }

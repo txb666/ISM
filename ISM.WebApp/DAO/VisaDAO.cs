@@ -13,6 +13,8 @@ namespace ISM.WebApp.DAO
         bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port);
         bool CreateOrEdit(int days_before);
         Visa GetVisa(int student_id);
+        List<Visa> GetVisaLettersAdminToExcel();
+        List<Visa> GetVisaLettersStaffToExcel(int staff_id);
         bool CreateOrEditVisa(int? visa_id, int student_id, string picture, DateTime start_date, DateTime expired_date, DateTime date_entry, string entry_port);
     }
 }
