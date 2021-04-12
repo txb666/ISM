@@ -1,0 +1,167 @@
+﻿@model ISM.WebApp.ViewModels.RegisterAccomodationIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
+}
+
+<h1 style="text-align:center">Register Accommodation</h1>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="width:50%; margin: 0 auto">
+                <form>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Full Name:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.fullname" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Email:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.email" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.home_univercity" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Exchange Campus:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.exchange_campus" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Accomodation Option:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.accomodation_option" disabled>
+                    </div>
+                    <p>
+                        Room Preferences - Off-campus Housing (If you intend to live in the dormitory (Hanoi campus), you may skip this part.)
+                    </p>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Cost Per Month (in USD):</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.cost_per_month" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Room Size (in square meter):</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_size" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Room Type:</label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_type" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">
+                            Distance between Accommodation and FPT University (maximum you can accept)
+                            in kilometer
+                        </label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.distance" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Other Request </label>
+                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.other_request" disabled>
+                    </div>
+                    <div class="form-group row">
+                        <button onclick="showPopup('xmas-popup')" style="margin-left: 220px; width: 80px;" type="button" class="btn btn-success">Edit</button>
+                    </div>
+                </form>
+            </div>
+            <div style="float:left">
+                <a style="text-align: center" href="#">How to apply for a VietNam Visa</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="xmas-popup" class="popup">
+    <div class="popup-content" style="height:900px; width:900px">
+        <div class="row">
+            <div class="col-md-7">
+                <form>
+                    <input type="hidden" id="edit_student_id" value="@Model.student_register_accomodation.student_id" />
+                    <input type="hidden" id="edit_register_accomodation_id" value="@Model.student_register_accomodation.register_accomodation_id" />
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Exchange Campus</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_exchange_campus" value="@Model.student_register_accomodation.exchange_campus">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Accomodation Option:</label>
+                        <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_accomodation_option">
+                            @if (string.IsNullOrEmpty(Model.student_register_accomodation.accomodation_option) || Model.student_register_accomodation.accomodation_option.Equals("On-campus"))
+                            {
+                                <option value="On-campus" selected>On-campus</option>
+                                <option value="Off-campus">Off-campus</option>
+                            }
+                            else
+                            {
+                                <option value="On-campus">On-campus</option>
+                                <option value="Off-campus" selected>Off-campus</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Cost Per Month (in USD):</label>
+                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_cost_per_month" value="@Model.student_register_accomodation.cost_per_month">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Room Size (in square meter):</label>
+                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_room_size" value="@Model.student_register_accomodation.room_size">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Room Type:</label>
+                        <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_room_type">
+                            @if (string.IsNullOrEmpty(Model.student_register_accomodation.room_type) || Model.student_register_accomodation.exchange_campus.Equals("Other"))
+                            {
+                                <option value="Single room">Single room</option>
+                                <option value="Twin room">Twin room</option>
+                                <option value="Other" selected>Other (Please specify in the "Other requests" section) </option>
+                            }
+                            else if (Model.student_register_accomodation.room_type.Equals("Single room"))
+                            {
+                                <option value="Single room" selected>Single room</option>
+                                <option value="Twin room">Twin room</option>
+                                <option value="Other">Other (Please specify in the "Other requests" section) </option>
+                            }
+                            else
+                            {
+                                <option value="Single room">Single room</option>
+                                <option value="Twin room" selected>Twin room</option>
+                                <option value="Other">Other (Please specify in the "Other requests" section) </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                            Distance between Accommodation and FPT University (maximum you can accept)
+                            in kilometer
+                        </label>
+                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_distance" value="@Model.student_register_accomodation.distance">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Other Request:</label>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_other_request" value="@Model.student_register_accomodation.other_request">
+                    </div>
+                    <div class="form-group row">
+                        <button onclick="validateCreateOrEditRegisterAccomodation();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                            Save
+                        </button>
+                        <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

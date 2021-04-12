@@ -417,12 +417,13 @@ namespace ISM.WebApp.DAOImpl
         {
             SqlConnection con = null;
             string sql = " select a.pre_approval_visa_letter_id,a.student_id,c.fullname,c.gender,c.DOB,c.nationality,d.home_univercity,b.passport_number,b.expired_date,a.visa_type,a.visa_period,a.apply_receive"
-                       + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id inner join Users c on a.student_id=c.[user_id]"
-                       + " inner join Student_Group d on c.studentGroup_id=d.student_group_id"
-                       + " where a.student_id=@student_id";
+                       + " from Pre_Approval_Visa_Letter a left join Passports b on a.student_id=b.student_id right join Users c on a.student_id=c.[user_id]"
+                       + " left join Student_Group d on c.studentGroup_id=d.student_group_id"
+                       + " where c.[user_id]=@student_id";
             SqlDataReader reader = null;
             SqlCommand com = null;
             VisaLetter visaLetter = new VisaLetter();
+            visaLetter.student_id = student_id;                    
             try
             {
                 con = DBUtils.GetConnection();
@@ -433,7 +434,10 @@ namespace ISM.WebApp.DAOImpl
                 reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    visaLetter.pre_approval_visa_letter_id = (int)reader.GetValue(reader.GetOrdinal("pre_approval_visa_letter_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("pre_approval_visa_letter_id")))
+                    {
+                        visaLetter.pre_approval_visa_letter_id = (int)reader.GetValue(reader.GetOrdinal("pre_approval_visa_letter_id"));
+                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
                     {
                         visaLetter.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
@@ -485,6 +489,63 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return visaLetter;
+        }
+
+        public bool CreateOrEditVisaLetter(int student_id, int visa_letter_id, string visa_type, string visa_period, string apply_receive)
+        {
+            SqlConnection con = null;
+            SqlCommand com = null;
+            string sql = "";
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                sql = " select count(*) from Pre_Approval_Visa_Letter where student_id=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    sql = " insert into Pre_Approval_Visa_Letter(student_id,visa_type,visa_period,apply_receive)"
+                        + " values(@student_id,@visa_type,@visa_period,@apply_receive)";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+                    com.Parameters.Add("@visa_type", SqlDbType.NVarChar);
+                    com.Parameters["@visa_type"].Value = visa_type;
+                    com.Parameters.Add("@visa_period", SqlDbType.NVarChar);
+                    com.Parameters["@visa_period"].Value = visa_period;
+                    com.Parameters.Add("@apply_receive", SqlDbType.NVarChar);
+                    com.Parameters["@apply_receive"].Value = apply_receive;
+                    com.ExecuteNonQuery();
+                }
+                else
+                {
+                    sql = " update Pre_Approval_Visa_Letter set visa_type=@visa_type, visa_period=@visa_period, apply_receive=@apply_receive"
+                        + " where pre_approval_visa_letter_id=@pre_approval_visa_letter_id";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@pre_approval_visa_letter_id", SqlDbType.Int);
+                    com.Parameters["@pre_approval_visa_letter_id"].Value = visa_letter_id;
+                    com.Parameters.Add("@visa_type", SqlDbType.NVarChar);
+                    com.Parameters["@visa_type"].Value = visa_type;
+                    com.Parameters.Add("@visa_period", SqlDbType.NVarChar);
+                    com.Parameters["@visa_period"].Value = visa_period;
+                    com.Parameters.Add("@apply_receive", SqlDbType.NVarChar);
+                    com.Parameters["@apply_receive"].Value = apply_receive;
+                    com.ExecuteNonQuery();
+                }
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
         }
     }
 }

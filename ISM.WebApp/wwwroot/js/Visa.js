@@ -62,7 +62,7 @@ function validateNotificationVisa() {
     }
     $.ajax({
         type: "POST",
-        url: "/Visa/CreateOrEdit",
+        url: "/Visa/CreateOrEditNotificationConfig",
         data: { days_before: days_before },
         dataType: "text",
         success: function (msg) {
@@ -76,6 +76,58 @@ function validateNotificationVisa() {
         },
         error: function (req, status, error) {
             alert(error);
+        }
+    });
+}
+
+function validateCreateOrEditVisa() {
+    var student_id = document.getElementById("edit_student_id").value;
+    var visa_id = document.getElementById("edit_visa_id").value;
+    var start_date = document.getElementById("edit_start_date").value;
+    var expired_date = document.getElementById("edit_expired_date").value;
+    var date_entry = document.getElementById("edit_date_entry").value;
+    var entry_port = document.getElementById("edit_entry_port").value;
+    var picture = document.getElementById("edit_picture").files[0];
+    if (entry_port.trim().length == 0) {
+        alert("Entry port must not be empty");
+        return;
+    }
+    if (!start_date) {
+        alert("Start date must not be empty.");
+        return;
+    }
+    if (!expired_date) {
+        alert("Expired date must not be empty.");
+        return;
+    }
+    if (!date_entry) {
+        alert("Entry date must not be empty.");
+        return;
+    }
+    if (start_date >= expired_date) {
+        alert("Expired date must be greater than Start date.");
+        return;
+    }
+    var fdata = new FormData();
+    fdata.append("student_id", student_id);
+    fdata.append("visa_id", visa_id);
+    fdata.append("start_date", start_date);
+    fdata.append("expired_date", expired_date);
+    fdata.append("date_entry", date_entry);
+    fdata.append("entry_port", entry_port);
+    fdata.append("picture", picture);
+    $.ajax({
+        type: "post",
+        url: "/Visa/CreateOrEdit",
+        contentType: false,
+        processData: false,
+        data: fdata,
+        success: function () {
+            alert("Edit successful");
+            window.location.href = "/Visa";
+        },
+        error: function () {
+            alert("Edit failed");
         }
     });
 }

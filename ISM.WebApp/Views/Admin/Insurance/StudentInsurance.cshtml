@@ -96,10 +96,10 @@
                             @Model.insurances[i].fullname
                         </td>
                         <td>
-                            @Model.insurances[i].start_date.ToString("dd-MM-yyyy")
+                            @(Model.insurances[i].start_date.HasValue?Model.insurances[i].start_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
-                            @Model.insurances[i].expiry_date.ToString("dd-MM-yyyy")
+                            @(Model.insurances[i].expiry_date.HasValue?Model.insurances[i].expiry_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td style="text-align: center;">
                             @if (!String.IsNullOrEmpty(Model.insurances[i].picture))

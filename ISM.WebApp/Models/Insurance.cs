@@ -12,7 +12,7 @@ namespace ISM.WebApp.Models
         public string fullname { get; set; }
         public string account { get; set; }
         public string picture { get; set; }
-        public DateTime start_date { get; set; }
-        public DateTime expiry_date { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? expiry_date { get; set; }
     }
 }

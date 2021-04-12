@@ -82,3 +82,37 @@ function validateEditVisaLetter() {
         }
     });
 }
+
+function validateCreateOrEditVisaLetter() {
+    var visa_letter_id = document.getElementById("edit_visa_letter_id").value;
+    var student_id = document.getElementById("edit_student_id").value;
+    var visa_type = document.getElementById("edit_visa_type").value;
+    var visa_period = document.getElementById("edit_visa_period").value;
+    var apply_receive = document.getElementById("edit_apply_receive").value;
+    if (visa_period.trim().length == 0) {
+        alert("Visa period must not be empty");
+        return;
+    }
+    if (apply_receive.trim().length == 0) {
+        alert("Apply and receive must not be empty");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/VisaLetter/CreateOrEdit",
+        data: { student_id: student_id, visa_letter_id: visa_letter_id, visa_type: visa_type, visa_period: visa_period, apply_receive: apply_receive },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Edit successfull");
+                window.location.href = "/VisaLetter";
+            }
+            else {
+                alert("Edit failed");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}

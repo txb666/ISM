@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css">
-
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
@@ -78,10 +78,10 @@
             </div>
         </div>
         <!-- <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
         <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler aaa" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
@@ -96,14 +96,14 @@
                             Visa & Passport
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="/VisaLetter">
                                 My Pre-Approval Visa Letter
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="/Passport">
                                 My Passport
                             </a>
-                            <a class="dropdown-item" href="#">My visa</a>
+                            <a class="dropdown-item" href="/Visa">My visa</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -111,9 +111,9 @@
                             Insurance
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Insurance Instruction</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="List" asp-route-type="Insurance Instruction">Insurance Instruction</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student Insurance</a>
+                            <a class="dropdown-item" href="/Insurance">Student Insurance</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -121,11 +121,13 @@
                             Pre-departure
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">What to pack</a>
+                            <a class="dropdown-item" asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="What to pack">What to pack</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Student's Flight</a>
+                            <a class="dropdown-item" href="/Flight">Student's Flight</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Handbook</a>
+                            <a class="dropdown-item" href="/CurrentAccomodation">Current Accomodation</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/StudentHandbook">Handbook</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">General Agenda</a>
                         </div>
@@ -137,7 +139,7 @@
                         <div class="dropdown-description">
                             <a class="dropdown-item" href="#">Orientation Program</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Accommodation</a>
+                            <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Surveys</a>
                             <div class="dropdown-divider"></div>
@@ -148,13 +150,13 @@
                             Local recommendation
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">Da Nang</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="6">Da Nang</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ho Chi Minh</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="5">Ho Chi Minh</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Ha Noi</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="2">Ha Noi</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Can Tho</a>
+                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="7">Can Tho</a>
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -162,7 +164,7 @@
                             Job services
                         </a>
                         <div class="dropdown-description">
-                            <a class="dropdown-item" href="#">I want a Job</a>
+                            <a class="dropdown-item" href="/JobServices/IWantAJob">I want a Job</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Job Vancancies</a>
                         </div>
@@ -187,41 +189,77 @@
                 @RenderBody()
             </main>
         </div>
-        </div>
-        <footer style="margin-top:100px">
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
-                            <h3>Contact</h3>
-                            <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
-                            <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
-                            <p>
-                                <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
-                            </p>
+    </div>
+    <footer style="margin-top:100px">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 footer-about wow fadeInUp">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
+                        <p>
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
+                        </p>
 
-                        </div>
-                        <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
-                            <h3>Contact</h3>
-                            <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
-                            <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
-                            <p>
-                                <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
-                            </p>
-                        </div>
-                        <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
-                            <h3>Follow us</h3>
-                            <p>
-                                <a href="#"><i class="fab fa-facebook"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-google-plus-g"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-pinterest"></i></a>
-                            </p>
-                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown">
+                        <h3>Contact</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
+                        <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
+                        <p>
+                            <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 footer-social wow fadeInUp">
+                        <h3>Follow us</h3>
+                        <p>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </p>
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Passport.js" asp-append-version="true"></script>
+    <script src="~/js/ManageStaff.js" asp-append-version="true"></script>
+    <script src="~/js/StudentGroup.js" asp-append-version="true"></script>
+    <script src="~/js/Visa.js" asp-append-version="true"></script>
+    <script src="~/js/Student.js" asp-append-version="true"></script>
+    <script src="~/js/Insurance.js" asp-append-version="true"></script>
+    <script src="~/js/VisaLetter.js" asp-append-version="true"></script>
+    <script src="~/js/Orientation.js" asp-append-version="true"></script>
+    <script src="~/js/Transportation.js" asp-append-version="true"></script>
+    <script src="~/js/CurrentAccomodation.js" asp-append-version="true"></script>
+    <script src="~/js/Flight.js" asp-append-version="true"></script>
+    <script src="~/js/Article.js" asp-append-version="true"></script>
+    <script src="~/js/FAQ.js" asp-append-version="true"></script>
+    <script src="~/js/LocalRecommendation.js" asp-append-version="true"></script>
+    <script src="~/js/StudentHandbook.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterials.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterialSlide.js" asp-append-version="true"></script>
+    <script src="~/js/JobVacancy.js" asp-append-version="true"></script>
+    <script src="~/js/Meeting.js" asp-append-version="true"></script>
+    <script src="~/js/DetailedAgenda.js" asp-append-version="true"></script>
+    <script src="~/js/GeneralAgenda.js" asp-append-version="true"></script>
+    <script src="~/js/Information.js" asp-append-version="true"></script>
+    <script src="~/js/ContactInformation.js" asp-append-version="true"></script>
+    <script src="~/js/RegisterAccommodation.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

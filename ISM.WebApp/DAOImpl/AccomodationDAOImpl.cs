@@ -48,7 +48,7 @@ namespace ISM.WebApp.DAOImpl
                 if (string.IsNullOrEmpty(description))
                 {
                     com.Parameters["@description"].Value = DBNull.Value;
-                }              
+                }
                 com.Parameters.Add("@fee", SqlDbType.Float);
                 com.Parameters["@fee"].Value = fee;
                 if (fee == null)
@@ -70,7 +70,7 @@ namespace ISM.WebApp.DAOImpl
                 com.ExecuteNonQuery();
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -81,6 +81,122 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
+        public bool CreateOrEditRegisterAccomodation(int? register_accomodation_id, int student_id, string exchange_campus, string accomodation_option, double? cost_per_month, double? room_size, string room_type, double? distance, string other_request, DateTime register_date)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                sql = " select count(*) from Register_Accommodation where student_id=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    sql = " insert into Register_Accommodation(student_id,exchange_campus,accommodation_option,cost_per_month,room_size,room_type,distance,other_request,register_date)"
+                        + " values (@student_id,@exchange_campus,@accommodation_option,@cost_per_month,@room_size,@room_type,@distance,@other_request,@register_date)";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+                    com.Parameters.Add("@exchange_campus", SqlDbType.NVarChar);
+                    com.Parameters["@exchange_campus"].Value = exchange_campus;
+                    com.Parameters.Add("@accommodation_option", SqlDbType.NVarChar);
+                    com.Parameters["@accommodation_option"].Value = accomodation_option;
+                    com.Parameters.Add("@cost_per_month", SqlDbType.Float);
+                    com.Parameters["@cost_per_month"].Value = cost_per_month;
+                    if (cost_per_month == null)
+                    {
+                        com.Parameters["@cost_per_month"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@room_size", SqlDbType.Float);
+                    com.Parameters["@room_size"].Value = room_size;
+                    if (room_size == null)
+                    {
+                        com.Parameters["@room_size"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@room_type", SqlDbType.NVarChar);
+                    com.Parameters["@room_type"].Value = room_type;
+                    if (string.IsNullOrEmpty(room_type))
+                    {
+                        com.Parameters["@room_type"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@distance", SqlDbType.Float);
+                    com.Parameters["@distance"].Value = distance;
+                    if (distance == null)
+                    {
+                        com.Parameters["@distance"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@other_request", SqlDbType.NVarChar);
+                    com.Parameters["@other_request"].Value = other_request;
+                    if (string.IsNullOrEmpty(other_request))
+                    {
+                        com.Parameters["@other_request"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@register_date", SqlDbType.DateTime);
+                    com.Parameters["@register_date"].Value = register_date;
+                    com.ExecuteNonQuery();
+                }
+                else
+                {
+                    sql = " update Register_Accommodation set exchange_campus=@exchange_campus, accommodation_option=@accommodation_option,cost_per_month=@cost_per_month,room_size=@room_size,room_type=@room_type,distance=@distance,other_request=@other_request,register_date=@register_date"
+                        + " where register_accommodation_id=@register_accommodation_id";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@register_accommodation_id", SqlDbType.Int);
+                    com.Parameters["@register_accommodation_id"].Value = register_accomodation_id;
+                    com.Parameters.Add("@exchange_campus", SqlDbType.NVarChar);
+                    com.Parameters["@exchange_campus"].Value = exchange_campus;
+                    com.Parameters.Add("@accommodation_option", SqlDbType.NVarChar);
+                    com.Parameters["@accommodation_option"].Value = accomodation_option;
+                    com.Parameters.Add("@cost_per_month", SqlDbType.Float);
+                    com.Parameters["@cost_per_month"].Value = cost_per_month;
+                    if (cost_per_month == null)
+                    {
+                        com.Parameters["@cost_per_month"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@room_size", SqlDbType.Float);
+                    com.Parameters["@room_size"].Value = room_size;
+                    if (room_size == null)
+                    {
+                        com.Parameters["@room_size"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@room_type", SqlDbType.NVarChar);
+                    com.Parameters["@room_type"].Value = room_type;
+                    if (string.IsNullOrEmpty(room_type))
+                    {
+                        com.Parameters["@room_type"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@distance", SqlDbType.Float);
+                    com.Parameters["@distance"].Value = distance;
+                    if (distance == null)
+                    {
+                        com.Parameters["@distance"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@other_request", SqlDbType.NVarChar);
+                    com.Parameters["@other_request"].Value = other_request;
+                    if (string.IsNullOrEmpty(other_request))
+                    {
+                        com.Parameters["@other_request"].Value = DBNull.Value;
+                    }
+                    com.Parameters.Add("@register_date", SqlDbType.DateTime);
+                    com.Parameters["@register_date"].Value = register_date;
+                    com.ExecuteNonQuery();
+                }              
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
 
         public bool editCurrentAccomodation(int current_accomodation_id, string type, string location, string description, double? fee, string picture, string note)
         {
@@ -89,10 +205,10 @@ namespace ISM.WebApp.DAOImpl
                        + " where current_accommodation_id=@current_accommodation_id";
             SqlCommand com = null;
             try
-            {              
+            {
                 con = DBUtils.GetConnection();
                 con.Open();
-                com = new SqlCommand(sql, con);               
+                com = new SqlCommand(sql, con);
                 com.Parameters.Add("@type", SqlDbType.NVarChar);
                 com.Parameters["@type"].Value = type;
                 com.Parameters.Add("@location", SqlDbType.NVarChar);
@@ -108,7 +224,7 @@ namespace ISM.WebApp.DAOImpl
                 if (fee == null)
                 {
                     com.Parameters["@fee"].Value = DBNull.Value;
-                }              
+                }
                 com.Parameters.Add("@note", SqlDbType.Text);
                 com.Parameters["@note"].Value = note;
                 if (string.IsNullOrEmpty(note))
@@ -122,7 +238,7 @@ namespace ISM.WebApp.DAOImpl
                 com.ExecuteNonQuery();
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -170,7 +286,8 @@ namespace ISM.WebApp.DAOImpl
                         com.Parameters["@student_id"].Value = student_id;
                     }
                 }
-                else if (degreeOrMobility.Equals("Mobility")){
+                else if (degreeOrMobility.Equals("Mobility"))
+                {
                     if (student_group_id != null)
                     {
                         where += " and a.studentGroup_id=@studentGroup_id";
@@ -201,7 +318,7 @@ namespace ISM.WebApp.DAOImpl
                     where += " and upper(a.note) like upper('%' + @note + '%')";
                     com.Parameters.Add("@note", SqlDbType.Text);
                     com.Parameters["@note"].Value = note;
-                }            
+                }
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
@@ -295,7 +412,7 @@ namespace ISM.WebApp.DAOImpl
                     currentAccomodations.Add(ca);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -449,11 +566,11 @@ namespace ISM.WebApp.DAOImpl
                     {
                         r.other_request = (string)reader.GetValue(reader.GetOrdinal("other_request"));
                     }
-                    r.register_date=(DateTime)reader.GetValue(reader.GetOrdinal("register_date"));
+                    r.register_date = (DateTime)reader.GetValue(reader.GetOrdinal("register_date"));
                     registerAccomodations.Add(r);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.Write(e.Message);
             }
@@ -462,6 +579,91 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return registerAccomodations;
+        }
+
+        public RegisterAccomodation GetRegisterAccomodation(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select register_accommodation_id,exchange_campus,accommodation_option,cost_per_month,room_size,room_type,distance,other_request,register_date,home_univercity,fullname,email,account"
+                       + " from Register_Accommodation a right join Users b on a.student_id=b.user_id inner join Student_Group c on b.studentGroup_id=c.student_group_id"
+                       + " where b.[user_id]=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            RegisterAccomodation r = new RegisterAccomodation();
+            r.student_id = student_id;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(reader.GetOrdinal("register_accommodation_id")))
+                    {
+                        r.register_accomodation_id = (int)reader.GetValue(reader.GetOrdinal("register_accommodation_id"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("account")))
+                    {
+                        r.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        r.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("email")))
+                    {
+                        r.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("home_univercity")))
+                    {
+                        r.home_univercity = (string)reader.GetValue(reader.GetOrdinal("home_univercity"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("exchange_campus")))
+                    {
+                        r.exchange_campus = (string)reader.GetValue(reader.GetOrdinal("exchange_campus"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("accommodation_option")))
+                    {
+                        r.accomodation_option = (string)reader.GetValue(reader.GetOrdinal("accommodation_option"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("cost_per_month")))
+                    {
+                        r.cost_per_month = (double)reader.GetValue(reader.GetOrdinal("cost_per_month"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("room_size")))
+                    {
+                        r.room_size = (double)reader.GetValue(reader.GetOrdinal("room_size"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("room_type")))
+                    {
+                        r.room_type = (string)reader.GetValue(reader.GetOrdinal("room_type"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("distance")))
+                    {
+                        r.distance = (double)reader.GetValue(reader.GetOrdinal("distance"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("other_request")))
+                    {
+                        r.other_request = (string)reader.GetValue(reader.GetOrdinal("other_request"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("register_date")))
+                    {
+                        r.register_date = (DateTime)reader.GetValue(reader.GetOrdinal("register_date"));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return r;
         }
 
         public int getTotalCurrentAccomodations(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, string account, string fullname, int? student_id, int? student_group_id, string type, string location, string description, string note)
@@ -498,7 +700,8 @@ namespace ISM.WebApp.DAOImpl
                         com.Parameters["@student_id"].Value = student_id;
                     }
                 }
-                else if (degreeOrMobility.Equals("Mobility")){
+                else if (degreeOrMobility.Equals("Mobility"))
+                {
                     if (student_group_id != null)
                     {
                         where += " and a.studentGroup_id=@studentGroup_id";
@@ -563,7 +766,7 @@ namespace ISM.WebApp.DAOImpl
                 com.CommandText = sql;
                 totalCurrentAccomodation = (int)com.ExecuteScalar();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -634,7 +837,7 @@ namespace ISM.WebApp.DAOImpl
                     where += " and upper(a.other_request) like upper('%' + @other_request + '%')";
                     com.Parameters.Add("@other_request", SqlDbType.NVarChar);
                     com.Parameters["@other_request"].Value = other_request;
-                }      
+                }
                 if (degreeOrMobility.Equals("Mobility"))
                 {
                     if (isAdmin)
@@ -668,7 +871,7 @@ namespace ISM.WebApp.DAOImpl
                 com.CommandText = sql;
                 totalRegisterAccomodations = (int)com.ExecuteScalar();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -710,7 +913,7 @@ namespace ISM.WebApp.DAOImpl
                     isExist = false;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }

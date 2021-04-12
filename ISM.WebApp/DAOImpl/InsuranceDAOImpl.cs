@@ -12,6 +12,71 @@ namespace ISM.WebApp.DAOImpl
 {
     public class InsuranceDAOImpl : InsuranceDAO
     {
+        public bool CreateOrEditInsurance(int? insurance_id, int student_id, string picture, DateTime start_date, DateTime expiry_date)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                sql = " select count(*) from Insurances where student_id=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    sql = " insert into Insurances(student_id,picture,[start_date],[expiry_date]) values (@student_id,@picture,@start_date,@expiry_date)";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+                    com.Parameters.Add("@picture", SqlDbType.NVarChar);
+                    com.Parameters["@picture"].Value = picture;
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
+                    com.Parameters.Add("@expiry_date", SqlDbType.Date);
+                    com.Parameters["@expiry_date"].Value = expiry_date;
+                    com.ExecuteNonQuery();
+                }
+                else
+                {
+                    string p = "";
+                    if (!string.IsNullOrEmpty(picture))
+                    {
+                        p = " picture=@picture, ";
+                    }
+                    sql = " update Insurances set " + p + " [start_date]=@start_date,[expiry_date]=@expiry_date where insurance_id=@insurance_id";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@insurance_id", SqlDbType.Int);
+                    com.Parameters["@insurance_id"].Value = insurance_id;
+                    com.Parameters.Add("@picture", SqlDbType.NVarChar);
+                    com.Parameters["@picture"].Value = picture;
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
+                    com.Parameters.Add("@expiry_date", SqlDbType.Date);
+                    com.Parameters["@expiry_date"].Value = expiry_date;
+                    com.ExecuteNonQuery();
+                }
+                sql = " update Users set isUpdateInsurance=1 where [user_id]=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool editInsurance(int insurance_id, DateTime startDate, DateTime expiryDate)
         {
             SqlConnection con = null;
@@ -31,7 +96,7 @@ namespace ISM.WebApp.DAOImpl
                 com.ExecuteNonQuery();
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -75,13 +140,13 @@ namespace ISM.WebApp.DAOImpl
                     where += " and a.[start_date]=@startDate";
                     com.Parameters.Add("@startDate", SqlDbType.Date);
                     com.Parameters["@startDate"].Value = startDate;
-                }          
+                }
                 if (expiryDate != null)
                 {
                     where += " and a.[expiry_date]=@expiryDate";
                     com.Parameters.Add("@expiryDate", SqlDbType.Date);
                     com.Parameters["@expiryDate"].Value = expiryDate;
-                }        
+                }
                 com.Parameters.Add("@from", SqlDbType.Int);
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
@@ -132,11 +197,13 @@ namespace ISM.WebApp.DAOImpl
                     Insurance insurance = new Insurance();
                     insurance.insurance_id = (int)reader.GetValue(reader.GetOrdinal("insurance_id"));
                     insurance.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("fullname"))) {
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
                         insurance.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     }
                     insurance.account = (string)reader.GetValue(reader.GetOrdinal("account"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("picture"))){
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
                         insurance.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
                     }
                     insurance.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
@@ -144,7 +211,7 @@ namespace ISM.WebApp.DAOImpl
                     insurances.Add(insurance);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -158,12 +225,13 @@ namespace ISM.WebApp.DAOImpl
         public Insurance GetInsurance(int student_id)
         {
             SqlConnection con = null;
-            string sql = " select a.insurance_id,a.student_id,b.account,b.fullname,a.picture,a.[start_date],a.[expiry_date]"
-                       + " from Insurances a, Users b"
-                       + " where a.student_id=b.[user_id] and a.student_id=@student_id";
+            string sql = " select a.insurance_id,b.account,b.fullname,a.picture,a.[start_date],a.[expiry_date]"
+                       + " from Insurances a right join Users b on a.student_id=b.[user_id]"
+                       + " where b.[user_id]=@student_id";
             SqlDataReader reader = null;
             SqlCommand com = null;
             Insurance insurance = new Insurance();
+            insurance.student_id = student_id;
             try
             {
                 con = DBUtils.GetConnection();
@@ -174,19 +242,30 @@ namespace ISM.WebApp.DAOImpl
                 reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    insurance.insurance_id = (int)reader.GetValue(reader.GetOrdinal("insurance_id"));
-                    insurance.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("insurance_id")))
+                    {
+                        insurance.insurance_id = (int)reader.GetValue(reader.GetOrdinal("insurance_id"));
+                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
                     {
                         insurance.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
                     }
-                    insurance.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("account")))
+                    {
+                        insurance.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    }
                     if (!reader.IsDBNull(reader.GetOrdinal("picture")))
                     {
                         insurance.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
                     }
-                    insurance.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
-                    insurance.expiry_date = (DateTime)reader.GetValue(reader.GetOrdinal("expiry_date"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        insurance.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expiry_date")))
+                    {
+                        insurance.expiry_date = (DateTime)reader.GetValue(reader.GetOrdinal("expiry_date"));
+                    }
                 }
             }
             catch (Exception e)
@@ -243,7 +322,7 @@ namespace ISM.WebApp.DAOImpl
                     {
                         sql = " select count(*)"
                             + " from Insurances a, Users b, Student_Group c, Programs d"
-                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'"+where;
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'" + where;
                     }
                     else
                     {
@@ -271,7 +350,7 @@ namespace ISM.WebApp.DAOImpl
                 com.CommandText = sql;
                 totalInsurance = (int)com.ExecuteScalar();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }

@@ -7,7 +7,7 @@
     }
     $.ajax({
         type: "POST",
-        url: "/Passport/CreateOrEdit",
+        url: "/Passport/CreateOrEditNotificationConfig",
         data: { days_before: days_before },
         dataType: "text",
         success: function (msg) {
@@ -76,6 +76,58 @@ function validateEditPassport() {
         },
         error: function (req, status, error) {
             alert(error);
+        }
+    });
+}
+
+function validateCreateOrEditPassport() {
+    var student_id = document.getElementById("edit_student_id").value;
+    var passport_id = document.getElementById("edit_passport_id").value;
+    var passport_number = document.getElementById("edit_passport_number").value;
+    var start_date = document.getElementById("edit_start_date").value;
+    var expired_date = document.getElementById("edit_expired_date").value;
+    var issuing_authority = document.getElementById("edit_issuing_authority").value;
+    var picture = document.getElementById("edit_picture").files[0];
+    if (passport_number.trim().length==0) {
+        alert("Passport number must not be empty or contain special character");
+        return;
+    }
+    if (!start_date) {
+        alert("Start date must not be empty.");
+        return;
+    }
+    if (!expired_date) {
+        alert("Expired date must not be empty.");
+        return;
+    }
+    if (issuing_authority.trim().length==0) {
+        alert("Issuing authority must not be empty.");
+        return;
+    }
+    if (start_date >= expired_date) {
+        alert("Expired date must be greater than Start date.");
+        return;
+    }
+    var fdata = new FormData();
+    fdata.append("student_id", student_id);
+    fdata.append("passport_id", passport_id);
+    fdata.append("start_date", start_date);
+    fdata.append("expired_date", expired_date);
+    fdata.append("passport_number", passport_number);
+    fdata.append("issuing_authority", issuing_authority);
+    fdata.append("picture", picture);
+    $.ajax({
+        type: "post",
+        url: "/Passport/CreateOrEdit",
+        contentType: false,
+        processData: false,
+        data: fdata,
+        success: function () {
+            alert("Edit successful");
+            window.location.href = "/Passport";
+        },
+        error: function () {
+            alert("Edit failed");
         }
     });
 }

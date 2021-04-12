@@ -111,13 +111,13 @@
                             }
                         </td>
                         <td>
-                            @item.start_date.ToString("yyyy-MM-dd")
+                            @(item.start_date.HasValue?item.start_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
-                            @item.expired_date.ToString("yyyy-MM-dd")
+                            @(item.expired_date.HasValue?item.expired_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
-                            @item.date_entry.ToString("yyyy-MM-dd")
+                            @(item.date_entry.HasValue?item.date_entry.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
                             @item.entry_port
