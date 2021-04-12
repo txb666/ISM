@@ -41,6 +41,81 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
+        public bool CreateOrEditVisa(int? visa_id, int student_id, string picture, DateTime start_date, DateTime expired_date, DateTime date_entry, string entry_port)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                sql = " select count(*) from Visa where student_id=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    sql = " insert into Visa(student_id,picture,[start_date],expired_date,date_entry,entry_port)"
+                        + " values (@student_id,@picture,@start_date,@expired_date,@date_entry,@entry_port)";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+                    com.Parameters.Add("@picture", SqlDbType.NVarChar);
+                    com.Parameters["@picture"].Value = picture;
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
+                    com.Parameters.Add("@date_entry", SqlDbType.Date);
+                    com.Parameters["@date_entry"].Value = date_entry;
+                    com.Parameters.Add("@entry_port", SqlDbType.NVarChar);
+                    com.Parameters["@entry_port"].Value = entry_port;
+                    com.ExecuteNonQuery();
+                }
+                else
+                {
+                    string p = "";
+                    if (!string.IsNullOrEmpty(picture))
+                    {
+                        p = " picture=@picture, ";
+                    }
+                    sql = " update Visa set " + p + " [start_date]=@start_date,expired_date=@expired_date,date_entry=@date_entry,entry_port=@entry_port"
+                        + " where visa_id=@visa_id";
+                    com = new SqlCommand(sql, con);
+                    com.Parameters.Add("@visa_id", SqlDbType.Int);
+                    com.Parameters["@visa_id"].Value = visa_id;
+                    com.Parameters.Add("@picture", SqlDbType.NVarChar);
+                    com.Parameters["@picture"].Value = picture;
+                    com.Parameters.Add("@start_date", SqlDbType.Date);
+                    com.Parameters["@start_date"].Value = start_date;
+                    com.Parameters.Add("@expired_date", SqlDbType.Date);
+                    com.Parameters["@expired_date"].Value = expired_date;
+                    com.Parameters.Add("@date_entry", SqlDbType.Date);
+                    com.Parameters["@date_entry"].Value = date_entry;
+                    com.Parameters.Add("@entry_port", SqlDbType.NVarChar);
+                    com.Parameters["@entry_port"].Value = entry_port;
+                    com.ExecuteNonQuery();
+                }
+                sql = " update Users set isUpdateVisa=1 where [user_id]=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool editVisa(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port)
         {
             SqlConnection con = null;
@@ -297,12 +372,13 @@ namespace ISM.WebApp.DAOImpl
         public Visa GetVisa(int student_id)
         {
             SqlConnection con = null;
-            string sql = " select a.visa_id,a.student_id,b.account,b.fullname,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
-                       + " from Visa a, Users b"
-                       + " where a.student_id=b.[user_id] and a.student_id=@student_id";
+            string sql = " select a.visa_id,b.[user_id] as student_id,b.account,b.fullname,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
+                       + " from Visa a right join Users b on a.student_id=b.[user_id]"
+                       + " where b.[user_id]=@student_id";
             SqlDataReader reader = null;
             SqlCommand com = null;
             Visa visa = new Visa();
+            visa.student_id = student_id;
             try
             {
                 con = DBUtils.GetConnection();
@@ -313,14 +389,38 @@ namespace ISM.WebApp.DAOImpl
                 reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    visa.visa_id = (int)reader.GetValue(reader.GetOrdinal("visa_id"));
-                    visa.account = (string)reader.GetValue(reader.GetOrdinal("account"));
-                    visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
-                    visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
-                    visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
-                    visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
-                    visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
-                    visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_id")))
+                    {
+                        visa.visa_id = (int)reader.GetValue(reader.GetOrdinal("visa_id"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("account")))
+                    {
+                        visa.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        visa.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("entry_port")))
+                    {
+                        visa.entry_port = (string)reader.GetValue(reader.GetOrdinal("entry_port"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("date_entry")))
+                    {
+                        visa.date_entry = (DateTime)reader.GetValue(reader.GetOrdinal("date_entry"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        visa.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("start_date")))
+                    {
+                        visa.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visa.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }                       
                 }
             }
             catch (Exception e)

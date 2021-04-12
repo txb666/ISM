@@ -94,3 +94,43 @@ function editInsurance(id, account, fullname, startDate, expiryDate) {
     document.getElementById("edit_startDate").value = startDate;
     document.getElementById("edit_expiryDate").value = expiryDate;
 }
+
+function validateCreateOrEditInsurance() {
+    var student_id = document.getElementById("edit_student_id").value;
+    var insurance_id = document.getElementById("edit_insurance_id").value;   
+    var start_date = document.getElementById("edit_start_date").value;
+    var expiry_date = document.getElementById("edit_expiry_date").value;
+    var picture = document.getElementById("edit_picture").files[0];   
+    if (!start_date) {
+        alert("Start date must not be empty.");
+        return;
+    }
+    if (!expiry_date) {
+        alert("Expired date must not be empty.");
+        return;
+    }
+    if (start_date >= expiry_date) {
+        alert("Expiry date must be greater than Start date.");
+        return;
+    }
+    var fdata = new FormData();
+    fdata.append("student_id", student_id);
+    fdata.append("insurance_id", insurance_id);
+    fdata.append("start_date", start_date);
+    fdata.append("expiry_date", expiry_date);
+    fdata.append("picture", picture);
+    $.ajax({
+        type: "post",
+        url: "/Insurance/CreateOrEdit",
+        contentType: false,
+        processData: false,
+        data: fdata,
+        success: function () {
+            alert("Edit successful");
+            window.location.href = "/Insurance";
+        },
+        error: function () {
+            alert("Edit failed");
+        }
+    });
+}

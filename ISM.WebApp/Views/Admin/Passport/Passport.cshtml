@@ -114,10 +114,10 @@
                             @item.passport_number
                         </td>
                         <td>
-                            @item.start_date.ToString("yyyy-MM-dd")
+                            @(item.start_date.HasValue?item.start_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
-                            @item.expired_date.ToString("yyyy-MM-dd")
+                            @(item.expired_date.HasValue?item.expired_date.Value.ToString("dd-MM-yyyy"):"")
                         </td>
                         <td>
                             @item.issuing_authority

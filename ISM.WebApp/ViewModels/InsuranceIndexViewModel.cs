@@ -17,5 +17,6 @@ namespace ISM.WebApp.ViewModels
         public DateTime? startDate { get; set; }
         public DateTime? expiryDate { get; set; }
         public string degreeOrMobility { get; set; }
+        public Insurance studentInsurance { get; set; }
     }
 }

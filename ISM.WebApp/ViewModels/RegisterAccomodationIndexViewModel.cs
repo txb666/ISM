@@ -21,5 +21,6 @@ namespace ISM.WebApp.ViewModels
         public string accomodation_option { get; set; }
         public string room_type { get; set; }
         public string other_request { get; set; }
+        public RegisterAccomodation student_register_accomodation { get; set; }
     }
 }

@@ -14,5 +14,6 @@ namespace ISM.WebApp.DAO
         bool SetupNotificationDegree(int days_before, DateTime deadline);
         bool SetupNotificationMobility(int days_before);
         Insurance GetInsurance(int student_id);
+        bool CreateOrEditInsurance(int? insurance_id, int student_id, string picture, DateTime start_date, DateTime expiry_date);
     }
 }

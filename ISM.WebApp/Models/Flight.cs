@@ -7,7 +7,7 @@ namespace ISM.WebApp.Models
 {
     public class Flight
     {
-      public  int flight_id { get; set; }
+      public  int? flight_id { get; set; }
         public int student_id { get; set; }
         public string fullname { get; set; }
         public string account { get; set; }

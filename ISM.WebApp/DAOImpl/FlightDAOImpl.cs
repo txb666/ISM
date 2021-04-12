@@ -12,6 +12,181 @@ namespace ISM.WebApp.DAOImpl
 {
     public class FlightDAOImpl : FlightDAO
     {
+        public bool CreateOrEditFlight(int student_id, int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string picture_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d, string picture_d)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                sql = " select count(*) from Flights where student_id=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                int count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    sql = " insert into Flights(student_id,flight_number_a,arrival_date_a,arrival_time_a,airport_departure_a,airport_arrival_a,picture_a,flight_number_d,arrival_date_d,arrival_time_d,airport_departure_d,airport_arrival_d,picture_d)"
+                        + " values(@student_id,@flight_number_a,@arrival_date_a,@arrival_time_a,@airport_departure_a,@airport_arrival_a,@picture_a,@flight_number_d,@arrival_date_d,@arrival_time_d,@airport_departure_d,@airport_arrival_d,@picture_d)";
+                    com = new SqlCommand(sql, con);
+
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+
+                    com.Parameters.Add("@picture_a", SqlDbType.NVarChar);
+                    com.Parameters["@picture_a"].Value = picture_a;
+
+                    com.Parameters.Add("@picture_d", SqlDbType.NVarChar);
+                    com.Parameters["@picture_d"].Value = picture_d;
+
+                    com.Parameters.Add("@flight_number_a", SqlDbType.NVarChar);
+                    com.Parameters["@flight_number_a"].Value = flight_number_a;
+
+                    com.Parameters.Add("@airport_departure_a", SqlDbType.NVarChar);
+                    com.Parameters["@airport_departure_a"].Value = airport_departure_a;
+
+                    com.Parameters.Add("@airport_departure_d", SqlDbType.NVarChar);
+                    com.Parameters["@airport_departure_d"].Value = airport_departure_d;
+                    if (string.IsNullOrEmpty(airport_departure_d))
+                    {
+                        com.Parameters["@airport_departure_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@airport_arrival_a", SqlDbType.NVarChar);
+                    com.Parameters["@airport_arrival_a"].Value = airport_arrival_a;
+
+                    com.Parameters.Add("@airport_arrival_d", SqlDbType.NVarChar);
+                    com.Parameters["@airport_arrival_d"].Value = airport_arrival_d;
+                    if (string.IsNullOrEmpty(airport_arrival_d))
+                    {
+                        com.Parameters["@airport_arrival_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@flight_number_d", SqlDbType.NVarChar);
+                    com.Parameters["@flight_number_d"].Value = flight_number_d;
+                    if (string.IsNullOrEmpty(flight_number_d))
+                    {
+                        com.Parameters["@flight_number_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@arrival_date_a", SqlDbType.Date);
+                    com.Parameters["@arrival_date_a"].Value = arrival_date_a;
+
+                    com.Parameters.Add("@arrival_date_d", SqlDbType.Date);
+                    com.Parameters["@arrival_date_d"].Value = arrival_date_d;
+                    if (arrival_date_d == null)
+                    {
+                        com.Parameters["@arrival_date_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@arrival_time_a", SqlDbType.Time);
+                    com.Parameters["@arrival_time_a"].Value = arrival_time_a;
+
+                    com.Parameters.Add("@arrival_time_d", SqlDbType.Time);
+                    com.Parameters["@arrival_time_d"].Value = arrival_time_d;
+                    if (arrival_time_d == null)
+                    {
+                        com.Parameters["@arrival_time_d"].Value = DBNull.Value;
+                    }
+
+                    com.ExecuteNonQuery();
+                }
+                else
+                {
+                    string pa = "";
+                    string pd = "";
+                    if (!string.IsNullOrEmpty(picture_a))
+                    {
+                        pa = " picture_a=@picture_a, ";
+                    }
+                    if (!string.IsNullOrEmpty(picture_d))
+                    {
+                        pd = " picture_d=@picture_d, ";
+                    }
+                    sql = "update Flights set " + pa + pd + " [flight_number_a]=@flight_number_a,[arrival_date_a]=@arrival_date_a,[arrival_time_a]=@arrival_time_a,[airport_departure_a]=@airport_departure_a,[airport_arrival_a]=@airport_arrival_a,[flight_number_d]=@flight_number_d,[arrival_date_d]=@arrival_date_d,[arrival_time_d]=@arrival_time_d,[airport_departure_d]=@airport_departure_d,[airport_arrival_d]=@airport_arrival_d where flight_id=@flight_id";
+                    com = new SqlCommand(sql, con);
+
+                    com.Parameters.Add("@flight_id", SqlDbType.Int);
+                    com.Parameters["@flight_id"].Value = flight_id;
+
+                    com.Parameters.Add("@picture_a", SqlDbType.NVarChar);
+                    com.Parameters["@picture_a"].Value = picture_a;
+
+                    com.Parameters.Add("@picture_d", SqlDbType.NVarChar);
+                    com.Parameters["@picture_d"].Value = picture_d;
+
+                    com.Parameters.Add("@flight_number_a", SqlDbType.NVarChar);
+                    com.Parameters["@flight_number_a"].Value = flight_number_a;
+
+                    com.Parameters.Add("@airport_departure_a", SqlDbType.NVarChar);
+                    com.Parameters["@airport_departure_a"].Value = airport_departure_a;
+
+                    com.Parameters.Add("@airport_departure_d", SqlDbType.NVarChar);
+                    com.Parameters["@airport_departure_d"].Value = airport_departure_d;
+                    if (string.IsNullOrEmpty(airport_departure_d))
+                    {
+                        com.Parameters["@airport_departure_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@airport_arrival_a", SqlDbType.NVarChar);
+                    com.Parameters["@airport_arrival_a"].Value = airport_arrival_a;
+
+                    com.Parameters.Add("@airport_arrival_d", SqlDbType.NVarChar);
+                    com.Parameters["@airport_arrival_d"].Value = airport_arrival_d;
+                    if (string.IsNullOrEmpty(airport_arrival_d))
+                    {
+                        com.Parameters["@airport_arrival_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@flight_number_d", SqlDbType.NVarChar);
+                    com.Parameters["@flight_number_d"].Value = flight_number_d;
+                    if (string.IsNullOrEmpty(flight_number_d))
+                    {
+                        com.Parameters["@flight_number_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@arrival_date_a", SqlDbType.Date);
+                    com.Parameters["@arrival_date_a"].Value = arrival_date_a;
+
+                    com.Parameters.Add("@arrival_date_d", SqlDbType.Date);
+                    com.Parameters["@arrival_date_d"].Value = arrival_date_d;
+                    if (arrival_date_d==null)
+                    {
+                        com.Parameters["@arrival_date_d"].Value = DBNull.Value;
+                    }
+
+                    com.Parameters.Add("@arrival_time_a", SqlDbType.Time);
+                    com.Parameters["@arrival_time_a"].Value = arrival_time_a;
+
+                    com.Parameters.Add("@arrival_time_d", SqlDbType.Time);
+                    com.Parameters["@arrival_time_d"].Value = arrival_time_d;
+                    if (arrival_time_d == null)
+                    {
+                        com.Parameters["@arrival_time_d"].Value = DBNull.Value;
+                    }
+
+                    com.ExecuteNonQuery();
+                }
+                sql = " update Users set isUpdateFlight=1 where [user_id]=@student_id";
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
+
         public bool editFlightDegree(int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a)
         {
             SqlConnection con = null;
@@ -311,6 +486,99 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return flights;
+        }
+
+        public Flight GetFlight(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = " select flight_id,fullname,account,flight_number_a,arrival_date_a,arrival_time_a,airport_departure_a,airport_arrival_a,picture_a,flight_number_d,arrival_time_d,arrival_time_d,airport_departure_d,airport_arrival_d,picture_d"
+                       + " from Flights a right join Users b on a.student_id=b.[user_id]"
+                       + " where b.[user_id]=@student_id";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            Flight flight = new Flight();
+            flight.student_id = student_id;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_id")))
+                    {
+                        flight.flight_id = (int)reader.GetValue(reader.GetOrdinal("flight_id"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("account")))
+                    {
+                        flight.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("fullname")))
+                    {
+                        flight.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_a")))
+                    {
+                        flight.flight_number_a = (string)reader.GetValue(reader.GetOrdinal("flight_number_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_d")))
+                    {
+                        flight.flight_number_d = (string)reader.GetValue(reader.GetOrdinal("flight_number_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_a")))
+                    {
+                        flight.airport_departure_a = (string)reader.GetValue(reader.GetOrdinal("airport_departure_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_a")))
+                    {
+                        flight.airport_arrival_a = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_d")))
+                    {
+                        flight.airport_arrival_d = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_d")))
+                    {
+                        flight.airport_departure_d = (string)reader.GetValue(reader.GetOrdinal("airport_departure_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture_a")))
+                    {
+                        flight.picture_a = (string)reader.GetValue(reader.GetOrdinal("picture_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture_d")))
+                    {
+                        flight.picture_d = (string)reader.GetValue(reader.GetOrdinal("picture_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_a")))
+                    {
+                        flight.arrival_date_a = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_a")))
+                    {
+                        flight.arrival_time_a = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_d")))
+                    {
+                        flight.arrival_time_d = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_d")))
+                    {
+                        flight.arrival_date_d = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_d"));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return flight;
         }
 
         public int getTotalFlight(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, string account, string fullname, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d)

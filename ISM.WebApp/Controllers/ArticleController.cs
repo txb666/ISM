@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
@@ -24,6 +26,7 @@ namespace ISM.WebApp.Controllers
         }
         public IActionResult Index(int? id=null, string type=null)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             ArticleIndexViewModel view = new ArticleIndexViewModel();
             if (id != null)
             {
@@ -42,15 +45,32 @@ namespace ISM.WebApp.Controllers
             {
                 view.uniqueArticle = true;
             }
-            return View("Views/Admin/Article/Article.cshtml", view);
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/Article/Article.cshtml", view);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                return View("Views/Degree/Article/Article.cshtml", view);
+            }
+            return View();
         }
 
         public IActionResult List(string type)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             ArticleListViewModel view = new ArticleListViewModel();
             view.articles = articleDAO.getArticleByType(type);
             view.type = type;
-            return View("Views/Admin/Article/ArticleList.cshtml", view);
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/Article/ArticleList.cshtml", view);
+            }
+            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                return View("Views/Degree/Article/ArticleList.cshtml", view);
+            }
+            return View();
         }
 
         public IActionResult Edit(int article_id, string title, string type, IFormFile file)

@@ -21,5 +21,6 @@ namespace ISM.WebApp.ViewModels
         public DateTime? expired_date { get; set; }
         public DateTime? date_entry { get; set; }
         public string degreeOrMobility { get; set; }
+        public Visa studentVisa { get; set; }
     }
 }

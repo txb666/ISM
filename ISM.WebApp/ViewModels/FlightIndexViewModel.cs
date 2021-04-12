@@ -27,5 +27,6 @@ namespace ISM.WebApp.ViewModels
         public string airport_arrival_d { get; set; }
         public string picture_d { get; set; }
         public string degreeOrMobility { get; set; }
+        public Flight student_flight { get; set; }
     }
 }

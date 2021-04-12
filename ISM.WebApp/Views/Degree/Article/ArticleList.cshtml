@@ -1,0 +1,28 @@
+﻿@model ISM.WebApp.ViewModels.ArticleListViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
+}
+
+
+<h1 style="text-align: center;">@Model.type</h1>
+
+@foreach (var item in Model.articles)
+{
+    <a asp-controller="Article" asp-action="Index" asp-route-id="@item.article_id" asp-route-type="">@item.title</a>
+    <br />
+}
+

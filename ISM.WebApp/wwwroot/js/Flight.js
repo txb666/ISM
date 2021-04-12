@@ -205,3 +205,145 @@ function validateNotificationFlightMobility() {
         }
     });
 }
+
+function validateCreateOrEditFlight() {
+    var check = document.getElementById("degreeOrMobility_check").value;
+    if (check == "Mobility") {
+        var student_id = document.getElementById("edit_student_id").value;
+        var flight_id = document.getElementById("edit_flight_id").value;
+        var flight_number_a = document.getElementById("edit_flight_number_a").value;
+        var flight_number_d = document.getElementById("edit_flight_number_d").value;
+        var arrival_date_a = document.getElementById("edit_arrival_date_a").value;
+        var arrival_date_d = document.getElementById("edit_arrival_date_d").value;
+        var arrival_time_a = document.getElementById("edit_arrival_time_a").value;
+        var arrival_time_d = document.getElementById("edit_arrival_time_d").value;
+        var airport_departure_a = document.getElementById("edit_airport_departure_a").value;
+        var airport_departure_d = document.getElementById("edit_airport_departure_d").value;
+        var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
+        var airport_arrival_d = document.getElementById("edit_airport_arrival_d").value;
+        var picture_a = document.getElementById("edit_picture_a").files[0];
+        var picture_d = document.getElementById("edit_picture_d").files[0];
+        if (!arrival_date_a) {
+            alert("Date must not be empty.");
+            return;
+        }
+        if (!arrival_time_a) {
+            alert("Time must not be empty.");
+            return;
+        }
+        if (!arrival_date_d) {
+            alert("Date must not be empty.");
+            return;
+        }
+        if (!arrival_time_d) {
+            alert("Time must not be empty.");
+            return;
+        }
+        if (!flight_number_a) {
+            alert("Flight number must not be empty.");
+            return;
+        }
+        if (!flight_number_d) {
+            alert("Flight Number must not be empty.");
+            return;
+        }
+        if (!airport_departure_a) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        if (!airport_departure_d) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        if (!airport_arrival_a) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        if (!airport_arrival_d) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("flight_id", flight_id);
+        fdata.append("flight_number_a", flight_number_a);
+        fdata.append("flight_number_d", flight_number_d);
+        fdata.append("arrival_date_a", arrival_date_a);
+        fdata.append("arrival_date_d", arrival_date_d);
+        fdata.append("arrival_time_a", arrival_time_a);
+        fdata.append("arrival_time_d", arrival_time_d);
+        fdata.append("airport_departure_a", airport_departure_a);
+        fdata.append("airport_departure_d", airport_departure_d);
+        fdata.append("airport_arrival_a", airport_arrival_a);
+        fdata.append("airport_arrival_d", airport_arrival_d);
+        fdata.append("picture_a", picture_a);
+        fdata.append("picture_d", picture_d);
+        $.ajax({
+            type: "post",
+            url: "/Flight/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Flight";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
+    else {
+        var student_id = document.getElementById("edit_student_id").value;
+        var flight_id = document.getElementById("edit_flight_id").value;
+        var flight_number_a = document.getElementById("edit_flight_number_a").value;
+        var arrival_date_a = document.getElementById("edit_arrival_date_a").value;
+        var arrival_time_a = document.getElementById("edit_arrival_time_a").value;
+        var airport_departure_a = document.getElementById("edit_airport_departure_a").value;
+        var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
+        var picture_a = document.getElementById("edit_picture_a").files[0];
+        if (!arrival_date_a) {
+            alert("Date must not be empty.");
+            return;
+        }
+        if (!arrival_time_a) {
+            alert("Time must not be empty.");
+            return;
+        }
+        if (!flight_number_a) {
+            alert("Flight number must not be empty.");
+            return;
+        }
+        if (!airport_departure_a) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        if (!airport_arrival_a) {
+            alert("Airport must not be empty.");
+            return;
+        }
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("flight_id", flight_id);
+        fdata.append("flight_number_a", flight_number_a);
+        fdata.append("arrival_date_a", arrival_date_a);
+        fdata.append("arrival_time_a", arrival_time_a);
+        fdata.append("airport_departure_a", airport_departure_a);
+        fdata.append("airport_arrival_a", airport_arrival_a);
+        fdata.append("picture_a", picture_a);
+        $.ajax({
+            type: "post",
+            url: "/Flight/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Flight";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
+}
