@@ -12,7 +12,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="~/css/header.css">
+    <link rel="stylesheet" type="text/css" href="~/css/header.css" asp-append-version="true" >
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -25,7 +25,7 @@
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
         function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
+            document.getElementById("myDropdown").classList.toggle("show_degree");
         }
 
         // Close the dropdown if the user clicks outside of it
@@ -51,7 +51,6 @@
             <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
                 <img src="~/image/fpt.png" />
             </div>
-            <!-- <div class="col-xl-1 col-md-1 col-lg-1 "></div> -->
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                 <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
                     <span class="material-icons">notifications</span>
@@ -61,7 +60,6 @@
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top: 20px">
                 <div class="dropdown">
                     <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
-                    <button onclick="myFunction()" class="dropbtn"></button>
                     <div id="myDropdown" class="dropdown-content">
                         <a>
                             <form method="post" asp-controller="Information" asp-action="Index">
@@ -70,18 +68,13 @@
                         </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button class="btn btn-info">Log Out</button>
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
                             </form>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
         <nav class="navbar navbar-expand-lg navbar-light">
             <button class="navbar-toggler aaa" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">

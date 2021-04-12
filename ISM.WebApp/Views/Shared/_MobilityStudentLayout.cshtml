@@ -12,7 +12,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="~/css/header.css">
+    <link rel="stylesheet" type="text/css" href="~/css/header.css" asp-append-version="true">
     <!-- Bootstrap CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -25,7 +25,7 @@
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
         function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
+            document.getElementById("myDropdown").classList.toggle("show_mobility");
         }
 
         // Close the dropdown if the user clicks outside of it
@@ -61,7 +61,6 @@
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top: 20px">
                 <div class="dropdown">
                     <a onclick="myFunction()" style="font-weight: bold;">@sessionUser.username</a>
-                    @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
                     <div id="myDropdown" class="dropdown-content">
                         <a>
                             <form method="post" asp-controller="Information" asp-action="Index">
@@ -70,7 +69,7 @@
                         </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button class="btn btn-info">Log Out</button>
+                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
                             </form>
                         </a>
                     </div>
@@ -148,9 +147,6 @@
                             <a class="dropdown-item" href="#">Detailed agenda</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Transportation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Surveys</a>
-
                         </div>
                     </li>
                     <li class="nav-item dropdowns">
@@ -246,5 +242,36 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/Passport.js" asp-append-version="true"></script>
+    <script src="~/js/Visa.js" asp-append-version="true"></script>
+    <script src="~/js/Student.js" asp-append-version="true"></script>
+    <script src="~/js/Insurance.js" asp-append-version="true"></script>
+    <script src="~/js/VisaLetter.js" asp-append-version="true"></script>
+    <script src="~/js/Orientation.js" asp-append-version="true"></script>
+    <script src="~/js/Transportation.js" asp-append-version="true"></script>
+    <script src="~/js/CurrentAccomodation.js" asp-append-version="true"></script>
+    <script src="~/js/Flight.js" asp-append-version="true"></script>
+    <script src="~/js/Article.js" asp-append-version="true"></script>
+    <script src="~/js/FAQ.js" asp-append-version="true"></script>
+    <script src="~/js/LocalRecommendation.js" asp-append-version="true"></script>
+    <script src="~/js/StudentHandbook.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterials.js" asp-append-version="true"></script>
+    <script src="~/js/ORTMaterialSlide.js" asp-append-version="true"></script>
+    <script src="~/js/JobVacancy.js" asp-append-version="true"></script>
+    <script src="~/js/Meeting.js" asp-append-version="true"></script>
+    <script src="~/js/Information.js" asp-append-version="true"></script>
+    <script src="~/js/ContactInformation.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
