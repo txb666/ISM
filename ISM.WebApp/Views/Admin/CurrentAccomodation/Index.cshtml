@@ -109,7 +109,7 @@
         }
     </select>
     <button onclick="showPopup('xmas-popup')" style="float: right; width: 80px; border-radius:10px" class="btn btn-success">
-       Create
+        Create
     </button>
 </div>
 <br>
@@ -171,7 +171,7 @@
                     <td style="text-align:center;">
                         @if (!String.IsNullOrEmpty(@item.picture))
                         {
-                            <img src="~/image/CurrentAccomodation/@item.picture" alt=" " style="width: 50px; height: 50px;" asp-append-version="true"/>
+                            <img src="~/image/CurrentAccomodation/@item.picture" alt=" " style="width: 50px; height: 50px;" asp-append-version="true" />
                         }
                     </td>
                     <td>
@@ -179,7 +179,7 @@
                     </td>
                     <td style="text-align: center;">
                         <button style="width:80px;border-radius:10px" onclick="editCurrentAccomodation('@item.current_accomodation_id', '@(item.student!=null?item.student.user_id:0)', '@(item.student_group!=null?item.student_group.studentGroup_id:0)', '@item.type', '@item.location', '@item.description', '@item.fee', '@item.note', '@item.picture');showPopup('xmas-popup-assign')" class="btn btn-info">
-                             Edit
+                            Edit
                         </button>
                     </td>
                 </tr>
@@ -248,7 +248,7 @@
                         Save
                     </button>
                     <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                       Cancel
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -314,11 +314,29 @@
                         Save
                     </button>
                     <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                       Cancel
+                        Cancel
                     </button>
                 </div>
             </form>
         </div>
+    </div>
+</div>
+<!-- POP UP Set Up Notification -->
+<div id="xmas-popup-assign1" class="popup">
+    <div class="popup-content-assign1" style="height:300px">
+        <form id="notificationForm" asp-controller="CurrentAccomodation" asp-action="SetupNotification" method="post">
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
+                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_accomodation">
+            </div>
+            <div class="form-group row">
+                <button onclick="validateNotificationAccomodation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="hidePopup('xmas-popup-assign1')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -328,10 +346,8 @@
 
 <div style="margin-top: 20px;">
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button class="btn btn-danger">Set Up Notification</button>
-
+        <button onclick="showPopup('xmas-popup-assign1');" class="btn btn-danger">Set Up Notification</button>
     </i>
-
 </div>
 
 

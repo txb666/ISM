@@ -16,6 +16,8 @@ namespace ISM.WebApp.Models
         public string type { get; set; }
         public int days_before { get; set; }
         public int total_days { get; set; }
+        public double fee { get; set; }
+        public bool isPay { get; set; }
         public DateTime passport_expired { get; set; }
         public DateTime visa_expired { get; set; }
         public DateTime deadline { get; set; }

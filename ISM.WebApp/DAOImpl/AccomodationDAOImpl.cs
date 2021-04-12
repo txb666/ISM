@@ -720,6 +720,35 @@ namespace ISM.WebApp.DAOImpl
             }
             return isExist;
         }
+
+        public bool SetupNotification(int days_before)
+        {
+            SqlConnection con = null;
+            string sql = "begin tran if exists (select * from Config with (updlock,serializable) " +
+                         "where [type] = 'current_accomodation') begin update Config set days_before = @days_before where " +
+                         "[type] = 'current_accomodation' end else begin insert into Config([type],days_before) " +
+                         "values ('current_accomodation',@days_before) end commit tran";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@days_before", SqlDbType.Int);
+                com.Parameters["@days_before"].Value = days_before;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
     }
 }
 

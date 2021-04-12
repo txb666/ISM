@@ -142,3 +142,29 @@ function validateFileType(id) {
         alert("Only jpg/jpeg and png files are allowed!");
     }
 }
+
+function validateNotificationAccomodation() {
+    var days_before = document.getElementById("notification_input_accomodation").value;
+    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+        alert("Please input only positive number.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/CurrentAccomodation/SetupNotification",
+        data: { days_before: days_before },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Successfull");
+                window.location.href = '/CurrentAccomodation';
+            }
+            else {
+                alert("Failed");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}

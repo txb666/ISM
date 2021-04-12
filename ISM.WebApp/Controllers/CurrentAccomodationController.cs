@@ -133,5 +133,11 @@ namespace ISM.WebApp.Controllers
             bool result=accomodationDAO.isCurrentAccomodationExist(student_id, student_group_id);
             return result;
         }
+
+        public bool SetupNotification(int days_before)
+        {
+            bool result = accomodationDAO.SetupNotification(days_before);
+            return result;
+        }
     }
 }

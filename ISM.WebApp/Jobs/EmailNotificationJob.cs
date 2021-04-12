@@ -13,7 +13,7 @@ namespace ISM.WebApp.Jobs
 {
     public class EmailNotificationJob : IJob
     {
-        private List<Notification> GetNotificationsDegree()
+        private List<Notification> GetNotificationsDegree(string type)
         {
             SqlConnection con = null;
             String sql = "";
@@ -25,46 +25,92 @@ namespace ISM.WebApp.Jobs
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = NotificationConst.GET_ALL_NOTIFICATION_DEGREE;
-                com.CommandText = sql;
-                reader = com.ExecuteReader();
-                while (reader.Read())
+                if (type.Equals("passport"))
                 {
-                    Notification notification = new Notification();
-                    notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_DEGREE_PASSPORT;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
                     {
-                        notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                        {
+                            notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                        }
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Passport_Expired")))
+                        {
+                            notification.passport_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Passport_Expired"));
+                        }
+                        notifications.Add(notification);
                     }
-                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
-                    {
-                        notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
-                    }
-                    notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
-                    notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("type")))
-                    {
-                        notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
-                    {
-                        notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Passport_Expired")))
-                    {
-                        notification.passport_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Passport_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
-                    {
-                        notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("ORT_Date")))
-                    {
-                        notification.ort_date = (DateTime)reader.GetValue(reader.GetOrdinal("ORT_Date"));
-                    }
-                    notifications.Add(notification);
                 }
-                return notifications;
+                if (type.Equals("visa"))
+                {
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_DEGREE_VISA;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
+                        {
+                            notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
+                        }
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
+                        {
+                            notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
+                        }
+                        notifications.Add(notification);
+                    }
+                }
+                if (type.Equals("orientation"))
+                {
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_DEGREE_ORIENTATION;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("ORT_Date")))
+                        {
+                            notification.ort_date = (DateTime)reader.GetValue(reader.GetOrdinal("ORT_Date"));
+                        }
+                        notifications.Add(notification);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -74,10 +120,10 @@ namespace ISM.WebApp.Jobs
             {
                 DBUtils.closeAllResource(con, com, reader, null);
             }
-            return null;
+            return notifications;
         }
 
-        public List<Notification> GetNotificationsMobility()
+        public List<Notification> GetNotificationsMobility(string type)
         {
             SqlConnection con = null;
             String sql = "";
@@ -89,46 +135,92 @@ namespace ISM.WebApp.Jobs
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = NotificationConst.GET_ALL_NOTIFICATION_MOBILITY;
-                com.CommandText = sql;
-                reader = com.ExecuteReader();
-                while (reader.Read())
+                if (type.Equals("passport"))
                 {
-                    Notification notification = new Notification();
-                    notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_MOBILITY_PASSPORT;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
                     {
-                        notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("isUpdatePassport")))
+                        {
+                            notification.isUpdatePassport = (bool)reader.GetValue(reader.GetOrdinal("isUpdatePassport"));
+                        }
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Passport_Expired")))
+                        {
+                            notification.passport_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Passport_Expired"));
+                        }
+                        notifications.Add(notification);
                     }
-                    if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
-                    {
-                        notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
-                    }
-                    notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
-                    notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
-                    if (!reader.IsDBNull(reader.GetOrdinal("type")))
-                    {
-                        notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
-                    {
-                        notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Passport_Expired")))
-                    {
-                        notification.passport_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Passport_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
-                    {
-                        notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
-                    }
-                    if (!reader.IsDBNull(reader.GetOrdinal("Detail_Agenda_Date")))
-                    {
-                        notification.detail_agenda_date = (DateTime)reader.GetValue(reader.GetOrdinal("Detail_Agenda_Date"));
-                    }
-                    notifications.Add(notification);
                 }
-                return notifications;
+                if (type.Equals("visa"))
+                {
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_MOBILITY_VISA;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("isUpdateVisa")))
+                        {
+                            notification.isUpdateVisa = (bool)reader.GetValue(reader.GetOrdinal("isUpdateVisa"));
+                        }
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Visa_Expired")))
+                        {
+                            notification.visa_expired = (DateTime)reader.GetValue(reader.GetOrdinal("Visa_Expired"));
+                        }
+                        notifications.Add(notification);
+                    }
+                }
+                if (type.Equals("detail_agenda"))
+                {
+                    sql = NotificationConst.GET_ALL_NOTIFICATION_MOBILITY_DETAIL_AGENDA;
+                    com.CommandText = sql;
+                    reader = com.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Notification notification = new Notification();
+                        notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                        notification.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                        notification.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                        {
+                            notification.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("days_before")))
+                        {
+                            notification.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                        }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Detail_Agenda_Date")))
+                        {
+                            notification.detail_agenda_date = (DateTime)reader.GetValue(reader.GetOrdinal("Detail_Agenda_Date"));
+                        }
+                        notifications.Add(notification);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -138,7 +230,7 @@ namespace ISM.WebApp.Jobs
             {
                 DBUtils.closeAllResource(con, com, reader, null);
             }
-            return null;
+            return notifications;
         }
 
         private List<InsuranceFlightNotification> GetAllStudentWith(string type)
@@ -442,13 +534,91 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
+        private List<Notification> GetDegreeStudentAccomodation()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Notification> degreeAccomodationList = new List<Notification>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.student_id,b.fullname,b.email,a.fee,b.isPayCurrentAccomodation from Current_Accommodation a, Users b where a.student_id = b.[user_id] and b.[status] = 1";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Notification temp = new Notification();
+                    temp.user_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    temp.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    temp.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    temp.fee = (double)reader.GetValue(reader.GetOrdinal("fee"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("isPayCurrentAccomodation")))
+                    {
+                        temp.isPay = (bool)reader.GetValue(reader.GetOrdinal("isPayCurrentAccomodation"));
+                    }
+                    degreeAccomodationList.Add(temp);
+                }
+                return degreeAccomodationList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
+        private NotificationConfig GetConfigAccomodation()
+        {
+            SqlConnection con = null;
+            String sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            NotificationConfig temp = new NotificationConfig();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.[type],a.days_before from Config a where a.[type] = 'current_accomodation'";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    temp.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    temp.days_before = (int)reader.GetValue(reader.GetOrdinal("days_before"));
+                }
+                return temp;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return null;
+        }
+
         public Task Execute(IJobExecutionContext context)
         {
             EmailHelper helper = new EmailHelper();
             var now = DateTime.Now;
             DayOfWeek day = now.DayOfWeek;
-            List<Notification> degree_notifications = GetNotificationsDegree();
-            List<Notification> mobility_notifications = GetNotificationsMobility();
+            List<Notification> degree_notifications_passport = GetNotificationsDegree("passport");
+            List<Notification> degree_notifications_visa = GetNotificationsDegree("visa");
+            List<Notification> degree_notifications_orientation = GetNotificationsDegree("orientation");
+            List<Notification> mobility_notifications_passport = GetNotificationsMobility("passport");
+            List<Notification> mobility_notifications_visa = GetNotificationsMobility("visa");
+            List<Notification> mobility_notifications_detail_agenda = GetNotificationsMobility("detail_agenda");
             List<InsuranceFlightNotification> allStudentWithout = GetAllStudentWith("AllStudentWithout");
             List<InsuranceFlightNotification> allStudentWithInsurance = GetAllStudentWith("AllStudentWithInsurance");
             List<InsuranceFlightNotification> allStudentWithFlight = GetAllStudentWith("AllStudentWithFlight");
@@ -457,76 +627,92 @@ namespace ISM.WebApp.Jobs
             List<Notification> coordinatorDegreeList = GetCoordinatorDegree();
             List<Notification> coordinatorMobilityList = GetCoordinatorMobility();
             List<Notification> mobilityStudentList = GetMobilityStudent();
+            List<Notification> degreeAccomodationList = GetDegreeStudentAccomodation();
+            NotificationConfig accomodationConfig = GetConfigAccomodation();
             List<Notification> degreeNotificationList = new List<Notification>();
             List<Notification> mobilityNotificationList = new List<Notification>();
             try
             {
                 #region Degree
-                foreach (var item in degree_notifications)
+                if (degree_notifications_passport.Count != 0)
                 {
-                    if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
+                    foreach (var item in degree_notifications_passport)
                     {
-                        var expiredDate = item.passport_expired;
-                        var daysBefore = item.days_before;
-                        var totalDays = expiredDate.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
+                        if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
                         {
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
-                            string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
-                            Notification temp = new Notification();
-                            temp.user_id = item.user_id;
-                            temp.fullname = item.fullname;
-                            temp.email = item.email;
-                            temp.passport_expired = item.passport_expired;
-                            temp.total_days = totalDays;
-                            temp.type = item.type;
-                            degreeNotificationList.Add(temp);
-                        }
-                    }
-                    if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
-                    {
-                        var expiredDate = item.visa_expired;
-                        var daysBefore = item.days_before;
-                        var totalDays = expiredDate.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
-                            string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
-                            Notification temp = new Notification();
-                            temp.user_id = item.user_id;
-                            temp.fullname = item.fullname;
-                            temp.email = item.email;
-                            temp.visa_expired = item.passport_expired;
-                            temp.total_days = totalDays;
-                            temp.type = item.type;
-                            degreeNotificationList.Add(temp);
-                        }
-                    }
-                    if (item.type.Equals(notificationConst.TYPE_ORIENTATION))
-                    {
-                        var ort_date = item.ort_date;
-                        var daysBefore = item.days_before;
-                        var totalDays = ort_date.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string body = "Hello " + item.fullname + ",\n\nYour orientation " +
-                                          "dealine on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before dealine.";
-                            string student_notification = "Your orientation on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days lefts." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_ORIENTATION, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_ORIENTATION, student_notification);
+                            var expiredDate = item.passport_expired;
+                            var daysBefore = item.days_before;
+                            var totalDays = expiredDate.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                              "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                                string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
+                                Notification temp = new Notification();
+                                temp.user_id = item.user_id;
+                                temp.fullname = item.fullname;
+                                temp.email = item.email;
+                                temp.passport_expired = item.passport_expired;
+                                temp.total_days = totalDays;
+                                temp.type = item.type;
+                                degreeNotificationList.Add(temp);
+                            }
                         }
                     }
                 }
-                
+                if (degree_notifications_visa.Count != 0)
+                {
+                    foreach (var item in degree_notifications_visa)
+                    {
+                        if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
+                        {
+                            var expiredDate = item.visa_expired;
+                            var daysBefore = item.days_before;
+                            var totalDays = expiredDate.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                              "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                                string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
+                                Notification temp = new Notification();
+                                temp.user_id = item.user_id;
+                                temp.fullname = item.fullname;
+                                temp.email = item.email;
+                                temp.visa_expired = item.passport_expired;
+                                temp.total_days = totalDays;
+                                temp.type = item.type;
+                                degreeNotificationList.Add(temp);
+                            }
+                        }
+                    }
+                }
+                if (degree_notifications_orientation.Count != 0)
+                {
+                    foreach (var item in degree_notifications_orientation)
+                    {
+                        if (item.type.Equals(notificationConst.TYPE_ORIENTATION))
+                        {
+                            var ort_date = item.ort_date;
+                            var daysBefore = item.days_before;
+                            var totalDays = ort_date.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYour orientation " +
+                                              "dealine on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left before dealine.";
+                                string student_notification = "Your orientation on " + item.ort_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days lefts." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_ORIENTATION, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_ORIENTATION, student_notification);
+                            }
+                        }
+                    }
+                }
                 //Insurance
                 foreach (var item in allStudentWithout)
                 {
@@ -582,77 +768,91 @@ namespace ISM.WebApp.Jobs
                 #endregion
 
                 #region Mobility
-                foreach (var item in mobility_notifications)
+                if (mobility_notifications_passport.Count != 0)
                 {
-                    if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
+                    foreach (var item in mobility_notifications_passport)
                     {
-                        var expiredDate = item.passport_expired;
-                        var daysBefore = item.days_before;
-                        var totalDays = expiredDate.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
+                        if (item.type.Equals(notificationConst.TYPE_PASSPORT) && !item.isUpdatePassport == true)
                         {
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
-                            string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
-                            Notification temp = new Notification();
-                            temp.user_id = item.user_id;
-                            temp.fullname = item.fullname;
-                            temp.email = item.email;
-                            temp.passport_expired = item.passport_expired;
-                            temp.total_days = totalDays;
-                            temp.type = item.type;
-                            mobilityNotificationList.Add(temp);
-                        }
-                    }
-                    if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
-                    {
-                        var expiredDate = item.visa_expired;
-                        var daysBefore = item.days_before;
-                        var totalDays = expiredDate.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
-                                          "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left before it expire. Please renew!";
-                            string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
-                            Notification temp = new Notification();
-                            temp.user_id = item.user_id;
-                            temp.fullname = item.fullname;
-                            temp.email = item.email;
-                            temp.visa_expired = item.passport_expired;
-                            temp.total_days = totalDays;
-                            temp.type = item.type;
-                            mobilityNotificationList.Add(temp);
-                        }
-                    }
-                    if (item.type.Equals(notificationConst.TYPE_DETAIL_AGENDA))
-                    {
-                        var date = item.detail_agenda_date;
-                        var daysBefore = item.days_before;
-                        var totalDays = date.Subtract(now).Days;
-                        if (totalDays <= daysBefore && totalDays >= 0)
-                        {
-                            string body = "Hello " + item.fullname + ",\n\nThere are " +
-                                          "an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " +
-                                          "" + totalDays.ToString() + " days left.";
-                            string student_notification = "There are an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
-                            helper.SendMail(item.email, notificationConst.SUBJECT_DETAIL_AGENDA, body);
-                            InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_DETAIL_AGENDA, student_notification);
+                            var expiredDate = item.passport_expired;
+                            var daysBefore = item.days_before;
+                            var totalDays = expiredDate.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                              "expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                                string student_notification = "Your Passport expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_PASSPORT, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_PASSPORT, student_notification);
+                                Notification temp = new Notification();
+                                temp.user_id = item.user_id;
+                                temp.fullname = item.fullname;
+                                temp.email = item.email;
+                                temp.passport_expired = item.passport_expired;
+                                temp.total_days = totalDays;
+                                temp.type = item.type;
+                                mobilityNotificationList.Add(temp);
+                            }
                         }
                     }
                 }
-                
+                if (mobility_notifications_visa.Count != 0)
+                {
+                    foreach (var item in mobility_notifications_visa)
+                    {
+                        if (item.type.Equals(notificationConst.TYPE_VISA) && !item.isUpdateVisa == true)
+                        {
+                            var expiredDate = item.visa_expired;
+                            var daysBefore = item.days_before;
+                            var totalDays = expiredDate.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYour " + item.type + " " +
+                                              "expire on " + item.visa_expired.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left before it expire. Please renew!";
+                                string student_notification = "Your Visa expire on " + item.passport_expired.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left before it expire." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_VISA, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_VISA, student_notification);
+                                Notification temp = new Notification();
+                                temp.user_id = item.user_id;
+                                temp.fullname = item.fullname;
+                                temp.email = item.email;
+                                temp.visa_expired = item.passport_expired;
+                                temp.total_days = totalDays;
+                                temp.type = item.type;
+                                mobilityNotificationList.Add(temp);
+                            }
+                        }
+                    }
+                }
+                if (mobility_notifications_detail_agenda.Count != 0)
+                {
+                    foreach (var item in mobility_notifications_detail_agenda)
+                    {
+                        if (item.type.Equals(notificationConst.TYPE_DETAIL_AGENDA))
+                        {
+                            var date = item.detail_agenda_date;
+                            var daysBefore = item.days_before;
+                            var totalDays = date.Subtract(now).Days;
+                            if (totalDays <= daysBefore && totalDays >= 0)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nThere are " +
+                                              "an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " +
+                                              "" + totalDays.ToString() + " days left.";
+                                string student_notification = "There are an agenda on " + item.detail_agenda_date.ToString("yyyy-MMM-dd") + ", you have " + totalDays.ToString() + " days left." + " - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_DETAIL_AGENDA, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_DETAIL_AGENDA, student_notification);
+                            }
+                        }
+                    }
+                }
                 //Insurance
                 foreach (var item in allStudentWithout)
                 {
                     foreach (var studentInsurance in allStudentWithInsurance)
                     {
-                        if (item.student_id != studentInsurance.student_id || item.isUpdateInsurance != true)
+                        if (item.student_id != studentInsurance.student_id || !item.isUpdateInsurance == true)
                         {
                             foreach (var config in notificationConfigs)
                             {
@@ -678,7 +878,7 @@ namespace ISM.WebApp.Jobs
                 {
                     foreach (var studentFlight in allStudentWithFlight)
                     {
-                        if (item.student_id != studentFlight.student_id || item.isUpdateFlight != true)
+                        if (item.student_id != studentFlight.student_id || !item.isUpdateFlight == true)
                         {
                             foreach (var config in notificationConfigs)
                             {
@@ -728,6 +928,8 @@ namespace ISM.WebApp.Jobs
                     }
                 }
                 #endregion
+
+                #region Send mail to Coordinators
                 //Send mail to coordinator, who manage degree group
                 if (degreeNotificationList.Count != 0)
                 {
@@ -792,6 +994,29 @@ namespace ISM.WebApp.Jobs
                         helper.SendMail(item.email, notificationConst.SUBJECT_ISM_NOTIFICATION, body);
                     }
                 }
+                #endregion
+
+                #region Accomodation
+                var DaysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+                var lastDay = new DateTime(now.Year, now.Month, DaysInMonth);
+                var checkDays = lastDay.Subtract(now).Days;
+                if (degreeAccomodationList.Count != 0)
+                {
+                    if (checkDays <= accomodationConfig.days_before && checkDays > 0)
+                    {
+                        foreach (var item in degreeAccomodationList)
+                        {
+                            if (!item.isPay == true)
+                            {
+                                string body = "Hello " + item.fullname + ",\n\nYou have to pay for accommodation fee for " + now.ToString("MMMM-yyyy") + ". Accommodation fee is " + item.fee.ToString() + ".";
+                                string notification_web = "You have to pay for accommodation fee for " + now.ToString("MMMM-yyyy") + ". Accommodation fee is " + item.fee + ". - (Notice on: " + day.ToString() + "-" + now.ToString("yyyy-MMM-dd") + ")";
+                                helper.SendMail(item.email, notificationConst.SUBJECT_ACCOMMODATION, body);
+                                InsertNotificationInformation(item.user_id, notificationConst.SUBJECT_ACCOMMODATION, notification_web);
+                            }
+                        }
+                    }
+                }
+                #endregion
             }
             catch (Exception e)
             {

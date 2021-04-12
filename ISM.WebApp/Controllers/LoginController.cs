@@ -88,7 +88,7 @@ namespace ISM.WebApp.Controllers
                 var props = new AuthenticationProperties();
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-                return View("Views/Degree/Homepage/DegreeHomepage.cshtml");
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
             else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
                 && (newAccount.role_name.Equals("Mobility")) && (newAccount.status == true))
@@ -103,7 +103,7 @@ namespace ISM.WebApp.Controllers
                 var props = new AuthenticationProperties();
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
                 HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-                return View("Views/Mobility/Homepage/MobilityHomepage.cshtml");
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
             else
             {

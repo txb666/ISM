@@ -15,5 +15,6 @@ namespace ISM.WebApp.DAO
         bool isCurrentAccomodationExist(int? student_id, int? student_group_id);
         List<RegisterAccomodation> getRegisterAccomodation(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, int page, int pageSize, string account, string fullname, string email, string home_univercity, string exchange_campus, string accomodation_option, string room_type, string other_request);
         int getTotalRegisterAccomodation(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, string account, string fullname, string email, string home_univercity, string exchange_campus, string accomodation_option, string room_type, string other_request);
+        bool SetupNotification(int days_before);
     }
 }
