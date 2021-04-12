@@ -76,7 +76,12 @@ th {
 .show_staff {
     display: block;
 }
-
+.show_mobility {
+    display: block;
+}
+.show_degree {
+    display: block;
+}
 .icon-button {
     position: relative;
     display: flex;
