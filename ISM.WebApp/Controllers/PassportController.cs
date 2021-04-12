@@ -122,9 +122,9 @@ namespace ISM.WebApp.Controllers
                     ws.Cell(currentRow, 2).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
                     ws.Cell(currentRow, 3).Value = String.IsNullOrEmpty(item.passport_number) ? "N/A" : item.passport_number;
                     ws.Cell(currentRow, 3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    ws.Cell(currentRow, 4).Value = item.start_date.ToString("yyyy-MMM-dd");
+                    ws.Cell(currentRow, 4).Value = item.start_date.HasValue? item.start_date.Value.ToString("yyyy-MMM-dd") : "N/A";
                     ws.Cell(currentRow, 4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    ws.Cell(currentRow, 5).Value = item.expired_date.ToString("yyyy-MMM-dd");
+                    ws.Cell(currentRow, 5).Value = item.expired_date.HasValue ? item.expired_date.Value.ToString("yyyy-MMM-dd") : "N/A";
                     ws.Cell(currentRow, 5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
                     ws.Cell(currentRow, 6).Value = String.IsNullOrEmpty(item.issuing_authority) ? "N/A" : item.issuing_authority;
                     ws.Cell(currentRow, 6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);

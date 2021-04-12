@@ -79,15 +79,13 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
-        public IActionResult ExportToExcel()
         public bool CreateOrEdit(int student_id, int visa_letter_id, string visa_type, string visa_period, string apply_receive)
         {
             bool result = VisaLetterDAO.CreateOrEditVisaLetter(student_id, visa_letter_id, visa_type, visa_period, apply_receive);
             return result;
         }
 
-        public IActionResult ExportToExcel(string fullname = "", bool gender = true, string apply_receive = "", string visa_period = "", string type_visa = "", string home_university = "", string nationality = "", string visa_type = "", string passport_number = "", string student_name = ""
-           , DateTime? dob = null, DateTime? expired_dateFrom = null, DateTime? expired_dateTo = null)
+        public IActionResult ExportToExcel()
         {
             List<VisaLetter> visaLetterExcel = new List<VisaLetter>();
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));

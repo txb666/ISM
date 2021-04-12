@@ -4,8 +4,6 @@ namespace ISM.WebApp.Models
 {
     public class VisaLetter
     {
-        public int pre_approval_visa_letter_id { get; set; }
-        public int student_id { get; set; }
         public int? pre_approval_visa_letter_id { get; set; }
         public int student_id { get; set; }
         public string fullname { get; set; }
@@ -19,6 +17,5 @@ namespace ISM.WebApp.Models
         public string visa_type { get; set; }
         public string visa_period { get; set; }
         public string apply_receive { get; set; }
-       
     }
 }
