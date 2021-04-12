@@ -443,6 +443,167 @@ namespace ISM.WebApp.DAOImpl
             return totalFlight;
         }
 
+        public List<Flight> GetVisaLettersAdminToExcel()
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Flight> flights = new List<Flight>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select e.role_name,a.student_id,b.fullname,b.account,b.email,a.flight_number_a,a.airport_arrival_a,a.airport_departure_a," +
+                      "a.arrival_date_a,a.arrival_time_a,a.flight_number_d,a.airport_arrival_d,a.airport_departure_d,a.arrival_date_d,a.arrival_time_d " +
+                      "from Flights a, Users b, Roles e where b.role_id = e.role_id and a.student_id = b.[user_id]";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Flight flight = new Flight();
+                    flight.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    flight.role_name = (string)reader.GetValue(reader.GetOrdinal("role_name"));
+                    flight.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    flight.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    flight.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_a")))
+                    {
+                        flight.flight_number_a = (string)reader.GetValue(reader.GetOrdinal("flight_number_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_d")))
+                    {
+                        flight.flight_number_d = (string)reader.GetValue(reader.GetOrdinal("flight_number_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_a")))
+                    {
+                        flight.airport_arrival_a = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_d")))
+                    {
+                        flight.airport_arrival_d = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_a")))
+                    {
+                        flight.airport_departure_a = (string)reader.GetValue(reader.GetOrdinal("airport_departure_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_d")))
+                    {
+                        flight.airport_departure_d = (string)reader.GetValue(reader.GetOrdinal("airport_departure_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_a")))
+                    {
+                        flight.arrival_date_a = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_a")))
+                    {
+                        flight.arrival_time_a = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_d")))
+                    {
+                        flight.arrival_time_d = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_d")))
+                    {
+                        flight.arrival_date_d = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_d"));
+                    }
+                    flights.Add(flight);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return flights;
+        }
+
+        public List<Flight> GetVisaLettersStaffToExcel(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<Flight> flights = new List<Flight>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select e.role_name,a.student_id,b.fullname,b.account,b.email,a.flight_number_a,a.airport_arrival_a,a.airport_departure_a," +
+                      "a.arrival_date_a,a.arrival_time_a,a.flight_number_d,a.airport_arrival_d,a.airport_departure_d,a.arrival_date_d,a.arrival_time_d " +
+                      "from Flights a, Users b, Student_Group c, Coordinators d, Roles e where b.role_id = e.role_id and a.student_id = b.[user_id] " +
+                      "and b.studentGroup_id = c.student_group_id and c.student_group_id = d.studentGroup_id and d.staff_id = @staff_id";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    Flight flight = new Flight();
+                    flight.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    flight.role_name = (string)reader.GetValue(reader.GetOrdinal("role_name"));
+                    flight.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    flight.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    flight.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_a")))
+                    {
+                        flight.flight_number_a = (string)reader.GetValue(reader.GetOrdinal("flight_number_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("flight_number_d")))
+                    {
+                        flight.flight_number_d = (string)reader.GetValue(reader.GetOrdinal("flight_number_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_a")))
+                    {
+                        flight.airport_arrival_a = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_arrival_d")))
+                    {
+                        flight.airport_arrival_d = (string)reader.GetValue(reader.GetOrdinal("airport_arrival_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_a")))
+                    {
+                        flight.airport_departure_a = (string)reader.GetValue(reader.GetOrdinal("airport_departure_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("airport_departure_d")))
+                    {
+                        flight.airport_departure_d = (string)reader.GetValue(reader.GetOrdinal("airport_departure_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_a")))
+                    {
+                        flight.arrival_date_a = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_a")))
+                    {
+                        flight.arrival_time_a = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_a"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_time_d")))
+                    {
+                        flight.arrival_time_d = (TimeSpan)reader.GetValue(reader.GetOrdinal("arrival_time_d"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("arrival_date_d")))
+                    {
+                        flight.arrival_date_d = (DateTime)reader.GetValue(reader.GetOrdinal("arrival_date_d"));
+                    }
+                    flights.Add(flight);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return flights;
+        }
+
         public bool SetupNotificationDegree(int days_before, DateTime deadline)
         {
             SqlConnection con = null;

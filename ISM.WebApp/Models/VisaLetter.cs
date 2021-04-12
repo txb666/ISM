@@ -5,7 +5,9 @@ namespace ISM.WebApp.Models
     public class VisaLetter
     {
         public int pre_approval_visa_letter_id { get; set; }
+        public int student_id { get; set; }
         public string fullname { get; set; }
+        public string email { get; set; }
         public bool? gender { get; set; }
         public DateTime? dob { get; set; }
         public string nationality { get; set; }

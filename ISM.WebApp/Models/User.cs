@@ -9,6 +9,7 @@ namespace ISM.WebApp.Models
     {
         public int user_id { get; set; }
         public int role_id { get; set; }
+        public string role_name { get; set; }
         public int campus_id { get; set; }
         public string campus { get; set; }
         public int studentGroup_id { get; set; }

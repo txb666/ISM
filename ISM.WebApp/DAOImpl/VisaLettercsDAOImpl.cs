@@ -486,5 +486,115 @@ namespace ISM.WebApp.DAOImpl
             }
             return visaLetter;
         }
+
+        public List<VisaLetter> GetVisaLettersAdminToExcel()
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<VisaLetter> visaLetters = new List<VisaLetter>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select temp.student_id,temp.fullname,temp.email,e.passport_number,e.expired_date,temp.visa_type,temp.visa_period from" +
+                      " (select a.student_id,b.fullname,b.email,a.visa_type,a.visa_period from Pre_Approval_Visa_Letter a, Users b where " +
+                      "a.student_id = b.[user_id]) as temp FULL OUTER JOIN Passports e on e.student_id = temp.student_id where temp.student_id != ''";
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    VisaLetter visaLetter = new VisaLetter();
+                    visaLetter.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    visaLetter.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visaLetter.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
+                    {
+                        visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_type")))
+                    {
+                        visaLetter.visa_type = (string)reader.GetValue(reader.GetOrdinal("visa_type"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_period")))
+                    {
+                        visaLetter.visa_period = (string)reader.GetValue(reader.GetOrdinal("visa_period"));
+                    }
+                    visaLetters.Add(visaLetter);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visaLetters;
+        }
+
+        public List<VisaLetter> GetVisaLettersStaffToExcel(int staff_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<VisaLetter> visaLetters = new List<VisaLetter>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select temp.student_id,temp.fullname,temp.email,e.passport_number,e.expired_date,temp.visa_type,temp.visa_period " +
+                      "from (select a.student_id,b.fullname,b.email,a.visa_type,a.visa_period,d.staff_id from Pre_Approval_Visa_Letter a, " +
+                      "Users b, Student_Group c, Coordinators d where a.student_id = b.[user_id] and b.studentGroup_id = " +
+                      "c.student_group_id and c.student_group_id = d.studentGroup_id) as temp FULL OUTER JOIN Passports e " +
+                      "on e.student_id = temp.student_id where temp.staff_id = @staff_id";
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    VisaLetter visaLetter = new VisaLetter();
+                    visaLetter.student_id = (int)reader.GetValue(reader.GetOrdinal("student_id"));
+                    visaLetter.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    visaLetter.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("passport_number")))
+                    {
+                        visaLetter.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("expired_date")))
+                    {
+                        visaLetter.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+                    }
+                    if(!reader.IsDBNull(reader.GetOrdinal("visa_type")))
+                    {
+                        visaLetter.visa_type = (string)reader.GetValue(reader.GetOrdinal("visa_type"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("visa_period")))
+                    {
+                        visaLetter.visa_period = (string)reader.GetValue(reader.GetOrdinal("visa_period"));
+                    }
+                    visaLetters.Add(visaLetter);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return visaLetters;
+        }
     }
 }
