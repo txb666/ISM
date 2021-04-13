@@ -20,5 +20,6 @@ namespace ISM.WebApp.ViewModels
         public TimeSpan? time { get; set; }
         public string location { get; set; }
         public string require_document { get; set; }
+        public User student { get; set; }
     }
 }

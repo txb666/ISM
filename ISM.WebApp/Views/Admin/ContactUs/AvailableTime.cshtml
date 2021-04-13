@@ -81,10 +81,10 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-<button onclick="showPopup('xmas-popup-assign1')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+<button onclick="showPopup('xmas-popup-assign1-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
    View Student Register
 </button>
-<button onclick="showPopup('xmas-popup-assign')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+<button onclick="showPopup('xmas-popup-assign-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
     View Meeting Schedule
 </button>
 <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
@@ -166,8 +166,8 @@
 </div>
 
 
-<div id="xmas-popup-assign" class="popup">
-    <div class="popup-content-assign">
+<div id="xmas-popup-assign-book" class="popup">
+    <div class="popup-content-assign-book">
         <h1 align="center">Meeting Schedule</h1>
         <form>
             <div class="table-scroll-meeting">
@@ -209,7 +209,7 @@
                 </table>
             </div>
             <div class="form-group row">
-                <button onclick="hidePopup('xmas-popup-assign')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                <button onclick="hidePopup('xmas-popup-assign-book')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                    Cancel
                 </button>
             </div>
@@ -217,8 +217,8 @@
     </div>
 </div>
 
-<div id="xmas-popup-assign1" class="popup">
-    <div class="popup-content-assign1">
+<div id="xmas-popup-assign1-book" class="popup">
+    <div class="popup-content-assign1-book">
         <h1 align="center">Student Registed</h1>
         <form>
             <div class="table-scroll-meeting">
@@ -260,7 +260,7 @@
                 </table>
             </div>
             <div class="form-group row">
-                <button onclick="hidePopup('xmas-popup-assign1')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                <button onclick="hidePopup('xmas-popup-assign1-book')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                     Cancel
                 </button>
             </div>

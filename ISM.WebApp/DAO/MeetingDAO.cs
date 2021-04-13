@@ -18,5 +18,11 @@ namespace ISM.WebApp.DAO
         List<MeetingSchedule> GetMeetingSchedule(int staff_id);
         bool AcceptMeetingRegister(int ms_id);
         bool SetupNotification(int days_before);
+        List<User> GetStaff(int page, int pageSize, int student_id, string staff_name, string staff_email);
+        int GetTotalStaff(int student_id, string staff_name, string staff_email);
+        bool isExist(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time);
+        bool BookAMeeting(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time, string note);
+        List<MeetingSchedule> GetStudentMeetingSchedule(int student_id);
+        User GetStaffById(int staff_id);
     }
 }

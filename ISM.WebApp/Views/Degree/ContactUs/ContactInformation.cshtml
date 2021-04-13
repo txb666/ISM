@@ -1,33 +1,111 @@
-﻿@{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+﻿@model ISM.WebApp.ViewModels.ContactInformationIndexViewModel;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Contact Information Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Contact Information Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
 }
-
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;"> Contact Information </h1>
+    <div style="height:50px">
+        <div class="dropdown_search">
+            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+            <div id="myDropdown_search" class="dropdown-content_search" style="height: 260px; margin-top: 10px;">
+                <form style="width: 320px;" id="searchForm" asp-controller="ContactInformation" asp-action="Index" method="get">
+                    <div class="form-group row" style="margin-top: 10px">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
+                        <input name="staff_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_name">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
+                        <input name="staff_email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_email">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
+                        <input name="telephone" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.telephone">
+                    </div>
+                    <div class="form-group row">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
+                        <input name="position" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.position">
+                    </div>
+                    <input type="hidden" name="page" id="inputPage" />
+                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <br>
     <br>
+    <div id="overlay"></div>
     <div class="table-scroll">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Account</th>
                     <th scope="col">Telephone</th>
-
+                    <th scope="col">Picture</th>
+                    <th scope="col">Position</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Mark</td>
-                    <td>Mark</td>
-
-                </tr>
+                @foreach (var item in Model.contactList)
+                {
+                    <tr>
+                        <td>
+                            @item.staff_name
+                        </td>
+                        <td>
+                            @item.staff_email
+                        </td>
+                        <td>
+                            @item.staff_telephone
+                        </td>
+                        <td style="text-align: center;">
+                            @if (!String.IsNullOrEmpty(item.picture))
+                            {
+                                <img src="~/image/ContactInformation/@item.picture" style="width: 50px; height: 50px;" asp-append-version="true">
+                            }
+                        </td>
+                        <td>
+                            @item.staff_position
+                        </td>
+                    </tr>
+                }
         </table>
-
     </div>
-
+    <div>
+        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+    </div>
 </div>
+<script>
+    function myFunction1() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_contact_information");
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>

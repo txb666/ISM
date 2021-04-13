@@ -17,5 +17,6 @@ namespace ISM.WebApp.ViewModels
         public int page { get; set; }
         public int totalPage { get; set; }
         public int pageSize { get; set; }
+        public User staff { get; set; }
     }
 }
