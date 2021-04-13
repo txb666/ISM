@@ -44,7 +44,7 @@
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Accomodation Option:</label>
                         <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.accomodation_option" disabled>
                     </div>
-                    <p>
+                    <p style="text-align:center">
                         Room Preferences - Off-campus Housing (If you intend to live in the dormitory (Hanoi campus), you may skip this part.)
                     </p>
                     <div class="form-group row">
@@ -71,7 +71,7 @@
                         <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.other_request" disabled>
                     </div>
                     <div class="form-group row">
-                        <button onclick="showPopup('xmas-popup')" style="margin-left: 220px; width: 80px;" type="button" class="btn btn-success">Edit</button>
+                        <button onclick="showPopup('xmas-popup')" style="margin-left: 330px; width: 80px; border-radius:10px" type="button" class="btn btn-info">Edit</button>
                     </div>
                 </form>
             </div>
@@ -83,10 +83,9 @@
 </div>
 
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:900px; width:900px">
+    <div class="popup-content" style="height:500px; width:500px; overflow-y:scroll; overflow-x:hidden">
         <div class="row">
-            <div class="col-md-7">
-                <form>
+                <form style="width:500px">
                     <input type="hidden" id="edit_student_id" value="@Model.student_register_accomodation.student_id" />
                     <input type="hidden" id="edit_register_accomodation_id" value="@Model.student_register_accomodation.register_accomodation_id" />
                     <div class="form-group row">
@@ -162,6 +161,5 @@
             </div>
         </div>
     </div>
-</div>
 
 
