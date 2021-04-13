@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class StudentHandbookController : Controller
     {
         public StudentHandbookDAO studentHandbookDAO;
@@ -24,14 +26,32 @@ namespace ISM.WebApp.Controllers
         }
         public IActionResult Index()
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             List<StudentHandbook> studentHandbooks = studentHandbookDAO.getAllStudentHandbook();
-            return View("Views/Admin/Pre-Departure/StudentHandbook.cshtml", studentHandbooks);
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/Pre-Departure/StudentHandbook.cshtml", studentHandbooks);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                return View("Views/Degree/PreDeparture/StudentHandbook.cshtml", studentHandbooks);
+            }
+            return View();
         }
 
         public IActionResult Detail(int id)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             StudentHandbook studentHandbook = studentHandbookDAO.GetStudentHandbookById(id);
-            return View("Views/Admin/Pre-Departure/StudentHandbookDetail.cshtml", studentHandbook);
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/Pre-Departure/StudentHandbookDetail.cshtml", studentHandbook);
+            }
+            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                return View("Views/Degree/PreDeparture/StudentHandbookDetail.cshtml", studentHandbook);
+            }
+            return View();
         }
 
         public IActionResult Edit(int student_handbook_id, string title, IFormFile file)

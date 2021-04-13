@@ -1,0 +1,172 @@
+﻿@model ISM.WebApp.ViewModels.DetailedAgendaDetailViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
+}
+
+<h1 style="text-align: center;"> Detailed Agenda </h1>
+<div style="height:50px">
+    <div class="dropdown_search">
+        <button onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 290px">
+            <form style="width: 320px;" id="searchForm" asp-controller="DetailedAgenda" asp-action="Detail" method="get">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date</label>
+                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time Zone</label>
+                    <select name="time_zone" style="border-radius: 5px; width: 200px;">
+                        @if (string.IsNullOrEmpty(Model.time_zone))
+                        {
+                            <option value="" selected>All</option>
+                        }
+                        else
+                        {
+                            <option value="">All</option>
+                        }
+                        @for (int i = 0; i <= 12; i++)
+                        {
+                            string timezone = "GMT+" + i;
+                            if (!string.IsNullOrEmpty(Model.time_zone) && Model.time_zone.Equals(timezone))
+                            {
+                                <option value="@timezone" selected>@timezone</option>
+                            }
+                            <option value="@timezone">@timezone</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
+                    <input name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
+                    <input name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
+                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                </div>
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Time Start</th>
+                <th scope="col">Time End</th>
+                <th scope="col">Time Zone</th>
+                <th scope="col">Venue</th>
+                <th scope="col">PIC</th>
+                <th scope="col">Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.detailedAgendas)
+            {
+                <tr>
+                    <td>
+                        @item.date.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @item.time_start
+                    </td>
+                    <td>
+                        @item.time_end
+                    </td>
+                    <td>
+                        @item.time_zone
+                    </td>
+                    <td>
+                        @item.venue
+                    </td>
+                    <td>
+                        @item.PIC
+                    </td>
+                    <td>
+                        @item.content
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+
+<script>
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn_search')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content_search");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show_search')) {
+                    openDropdown.classList.remove('show_search');
+                }
+            }
+        }
+    }
+
+    function search_visa() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
+    }
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+</script>

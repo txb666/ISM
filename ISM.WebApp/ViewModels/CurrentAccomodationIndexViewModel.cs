@@ -23,5 +23,6 @@ namespace ISM.WebApp.ViewModels
         public string description { get; set; }
         public string note { get; set; }
         public string degreeOrMobility { get; set; }
+        public CurrentAccomodation student_current_accomodation { get; set; }
     }
 }

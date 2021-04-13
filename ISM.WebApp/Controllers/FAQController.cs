@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
+using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
@@ -19,6 +22,7 @@ namespace ISM.WebApp.Controllers
         }
         public IActionResult Index(string question=null,string answer=null,int page=1)
         {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             FAQIndexViewModel view = new FAQIndexViewModel();
             view.page = page;
             view.pageSize = pagingConst.PAGE_SIZE;
@@ -26,7 +30,14 @@ namespace ISM.WebApp.Controllers
             view.faqs = fAQDAO.getFAQ(view.page, view.pageSize, question, answer);
             view.question = question;
             view.answer = answer;
-            return View("Views/Admin/FAQs/FAQs.cshtml", view);
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/FAQs/FAQs.cshtml", view);
+            }
+            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility")) {
+                return View("Views/Degree/FAQs/FAQs.cshtml", view);
+            }
+            return View();
         }
 
         public bool Create(string question, string answer)

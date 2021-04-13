@@ -51,18 +51,37 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Detail(int student_group_id=0, DateTime? date=null, string time_zone=null, string venue=null, string PIC=null, string content = null, int page=1)
         {
-            DetailedAgendaDetailViewModel view = new DetailedAgendaDetailViewModel();
-            view.page = page;
-            view.pageSize = pagingConst.PAGE_SIZE;
-            view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
-            view.totalPage = PagingUtils.calculateTotalPage(detailedAgendaDAO.GetTotalDetailedAgenda(student_group_id,date,time_zone,venue,PIC,content), view.pageSize);
-            view.detailedAgendas = detailedAgendaDAO.GetDetailedAgenda(student_group_id, date, time_zone, venue, PIC, content, view.page, view.pageSize);
-            view.date = date;
-            view.time_zone = time_zone;
-            view.venue = venue;
-            view.PIC = PIC;
-            view.content = content;
-            return View("Views/Admin/Program/DetailedAgendaDetail.cshtml", view);
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                DetailedAgendaDetailViewModel view = new DetailedAgendaDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
+                view.totalPage = PagingUtils.calculateTotalPage(detailedAgendaDAO.GetTotalDetailedAgenda(student_group_id, date, time_zone, venue, PIC, content), view.pageSize);
+                view.detailedAgendas = detailedAgendaDAO.GetDetailedAgenda(student_group_id, date, time_zone, venue, PIC, content, view.page, view.pageSize);
+                view.date = date;
+                view.time_zone = time_zone;
+                view.venue = venue;
+                view.PIC = PIC;
+                view.content = content;
+                return View("Views/Admin/Program/DetailedAgendaDetail.cshtml", view);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                DetailedAgendaDetailViewModel view = new DetailedAgendaDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(detailedAgendaDAO.GetTotalDetailedAgenda(student_group_id, date, time_zone, venue, PIC, content), view.pageSize);
+                view.detailedAgendas = detailedAgendaDAO.GetDetailedAgenda(sessionUser.student_group_id, date, time_zone, venue, PIC, content, view.page, view.pageSize);
+                view.date = date;
+                view.time_zone = time_zone;
+                view.venue = venue;
+                view.PIC = PIC;
+                view.content = content;
+                return View("Views/Degree/Program/DetailedAgendaDetail.cshtml", view);
+            }
+            return View();
         }
 
         public bool Create(int student_group_id, DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone, string venue, string PIC, string content)
