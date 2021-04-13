@@ -249,6 +249,84 @@ namespace ISM.WebApp.DAOImpl
             return false;
         }
 
+        public CurrentAccomodation GetCurrentAccomodation(int? student_id, int? student_group_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            if (student_id != null)
+            {
+                 sql = " select a.current_accommodation_id,b.fullname,b.account,a.[type],a.[location],a.[description],a.fee,a.picture,a.note"
+                           + " from Current_Accommodation a right join Users b on a.student_id=b.[user_id]"
+                           + " where b.[user_id]=@student_id";
+            }
+            else 
+            {
+                sql = " select a.current_accommodation_id,a.[type],a.[location],a.[description],a.fee,a.picture,a.note"
+                    + " from Current_Accommodation a right join Student_Group b on a.studentGroup_id=b.student_group_id"
+                    + " where b.student_group_id=@student_group_id";
+            }
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            CurrentAccomodation ca = new CurrentAccomodation();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                if (student_id != null)
+                {
+                    com.Parameters.Add("@student_id", SqlDbType.Int);
+                    com.Parameters["@student_id"].Value = student_id;
+                }
+                else
+                {
+                    com.Parameters.Add("@student_group_id", SqlDbType.Int);
+                    com.Parameters["@student_group_id"].Value = student_group_id;
+                }
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(reader.GetOrdinal("current_accommodation_id")))
+                    {
+                        ca.current_accomodation_id = (int)reader.GetValue(reader.GetOrdinal("current_accommodation_id"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("type")))
+                    {
+                        ca.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("location")))
+                    {
+                        ca.location = (string)reader.GetValue(reader.GetOrdinal("location"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("description")))
+                    {
+                        ca.description = (string)reader.GetValue(reader.GetOrdinal("description"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("fee")))
+                    {
+                        ca.fee = (double)reader.GetValue(reader.GetOrdinal("fee"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        ca.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("note")))
+                    {
+                        ca.note = (string)reader.GetValue(reader.GetOrdinal("note"));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return ca;
+        }
+
         public List<CurrentAccomodation> GetCurrentAccomodations(bool isAdmin, bool haveDegree, string degreeOrMobility, int current_staff_id, int page, int pageSize, string account, string fullname, int? student_id, int? student_group_id, string type, string location, string description, string note)
         {
             int from = page * pageSize - (pageSize - 1);

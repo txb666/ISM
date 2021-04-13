@@ -7,7 +7,7 @@ namespace ISM.WebApp.Models
 {
     public class CurrentAccomodation
     {
-        public int current_accomodation_id { get; set; }
+        public int? current_accomodation_id { get; set; }
         public User student { get; set; }
         public StudentGroup student_group { get; set; }
         public string type { get; set; }

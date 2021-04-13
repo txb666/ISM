@@ -14,24 +14,27 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class OrientationController : Controller
     {
         public OrientationDAO _orientationDAO;
-        public OrientationController(OrientationDAO orientationDAO)
+        public UserDAO userDAO;
+        public OrientationController(OrientationDAO orientationDAO, UserDAO userDAO)
         {
             _orientationDAO = orientationDAO;
+            this.userDAO = userDAO;
         }
         public IActionResult Index(int page = 1, string account = "", string fullname = "")
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
             int current_user_id = sessionUser.user_id;
+            bool haveDegree = sessionUser.haveDegree;
             OrientationIndexViewModel viewModel = new OrientationIndexViewModel();
             viewModel.page = page;
             viewModel.pageSize = 5;
-            viewModel.totalPage = PagingUtils.calculateTotalPage(_orientationDAO.GetTotalDegreeStudent(isAdmin, current_user_id, account, fullname), viewModel.pageSize);
-            viewModel.students = _orientationDAO.GetDegreeStudent(isAdmin,current_user_id,account,fullname,viewModel.page,viewModel.pageSize);
+            viewModel.totalPage = PagingUtils.calculateTotalPage(userDAO.getTotalDegreeStudent(isAdmin, haveDegree, account, fullname), viewModel.pageSize);
+            viewModel.students = userDAO.getDegreeStudent(isAdmin, haveDegree, account, fullname, viewModel.page, viewModel.pageSize);
             viewModel.account = account;
             viewModel.fullname = fullname;
             return View("Views/Admin/Program/OrientationSchedule.cshtml", viewModel);
@@ -40,17 +43,36 @@ namespace ISM.WebApp.Controllers
         [HttpGet]
         public IActionResult SearchORT(int id, int page = 1, string content = "", DateTime? date = null, TimeSpan? time = null, string location = "", string require_document = "")
         {
-            OrientationIndexViewModel viewModel = new OrientationIndexViewModel();
-            viewModel.page = page;
-            viewModel.pageSize = 5;
-            viewModel.totalPage = PagingUtils.calculateTotalPage(_orientationDAO.GetSearchTotalORT(id, content, date, time, location, require_document), viewModel.pageSize);
-            viewModel.orientationSchedules = _orientationDAO.GetSearchOrientationSchedules(id, viewModel.page, viewModel.pageSize, content, date, time, location, require_document);
-            viewModel.content = content;
-            viewModel.date = date;
-            viewModel.time = time;
-            viewModel.location = location;
-            viewModel.require_document = require_document;
-            return View("Views/Admin/Program/OrientationScheduleForStudent.cshtml", viewModel);
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                OrientationIndexViewModel viewModel = new OrientationIndexViewModel();
+                viewModel.page = page;
+                viewModel.pageSize = 5;
+                viewModel.totalPage = PagingUtils.calculateTotalPage(_orientationDAO.GetSearchTotalORT(id, content, date, time, location, require_document), viewModel.pageSize);
+                viewModel.orientationSchedules = _orientationDAO.GetSearchOrientationSchedules(id, viewModel.page, viewModel.pageSize, content, date, time, location, require_document);
+                viewModel.content = content;
+                viewModel.date = date;
+                viewModel.time = time;
+                viewModel.location = location;
+                viewModel.require_document = require_document;
+                return View("Views/Admin/Program/OrientationScheduleForStudent.cshtml", viewModel);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                OrientationIndexViewModel viewModel = new OrientationIndexViewModel();
+                viewModel.page = page;
+                viewModel.pageSize = 5;
+                viewModel.totalPage = PagingUtils.calculateTotalPage(_orientationDAO.GetSearchTotalORT(sessionUser.user_id, content, date, time, location, require_document), viewModel.pageSize);
+                viewModel.orientationSchedules = _orientationDAO.GetSearchOrientationSchedules(sessionUser.user_id, viewModel.page, viewModel.pageSize, content, date, time, location, require_document);
+                viewModel.content = content;
+                viewModel.date = date;
+                viewModel.time = time;
+                viewModel.location = location;
+                viewModel.require_document = require_document;
+                return View("Views/Degree/Program/OrientationSchedule.cshtml", viewModel);
+            }
+            return View();
         }
 
         public bool CreateORT(int id, string content, DateTime date, TimeSpan time, string location, string requirement)

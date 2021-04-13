@@ -57,7 +57,7 @@ namespace ISM.WebApp.DAOImpl
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select a.[user_id],a.account,a.[password],a.[status],a.isFirstLoggedIn,b.role_name from Users a inner join Roles b on a.role_id = b.role_id where a.account = @account and a.[password] = @password";
+                sql = "select a.[user_id],a.studentGroup_id,a.account,a.[password],a.[status],a.isFirstLoggedIn,b.role_name from Users a inner join Roles b on a.role_id = b.role_id where a.account = @account and a.[password] = @password";
                 com.Parameters.Add("@account", SqlDbType.NVarChar);
                 com.Parameters["@account"].Value = account;
                 com.Parameters.Add("@password", SqlDbType.NVarChar);
@@ -67,6 +67,10 @@ namespace ISM.WebApp.DAOImpl
                 while (reader.Read())
                 {
                     user.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("studentGroup_id")))
+                    {
+                        user.student_group_id = (int)reader.GetValue(reader.GetOrdinal("studentGroup_id"));
+                    }
                     user.username = (string)reader.GetValue(reader.GetOrdinal("account"));
                     user.password = (string)reader.GetValue(reader.GetOrdinal("password"));
                     user.role_name = (string)reader.GetValue(reader.GetOrdinal("role_name"));

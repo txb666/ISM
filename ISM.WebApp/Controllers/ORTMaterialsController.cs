@@ -51,15 +51,31 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Detail(int student_group_id=0, string content=null, string note=null, int page=1)
         {
-            ORTMaterialsDetailViewModel view = new ORTMaterialsDetailViewModel();
-            view.page = page;
-            view.pageSize = pagingConst.PAGE_SIZE;
-            view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
-            view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterials(student_group_id,content,note), view.pageSize);
-            view.materials = orientationDAO.GetORTMaterials(student_group_id, view.page, view.pageSize, content, note);
-            view.content = content;
-            view.note = note;
-            return View("Views/Admin/Program/ORTMaterialDetail.cshtml", view);
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                ORTMaterialsDetailViewModel view = new ORTMaterialsDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
+                view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterials(student_group_id, content, note), view.pageSize);
+                view.materials = orientationDAO.GetORTMaterials(student_group_id, view.page, view.pageSize, content, note);
+                view.content = content;
+                view.note = note;
+                return View("Views/Admin/Program/ORTMaterialDetail.cshtml", view);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                ORTMaterialsDetailViewModel view = new ORTMaterialsDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterials(sessionUser.student_group_id, content, note), view.pageSize);
+                view.materials = orientationDAO.GetORTMaterials(sessionUser.student_group_id, view.page, view.pageSize, content, note);
+                view.content = content;
+                view.note = note;
+                return View("Views/Degree/Program/OrientationMaterialDetail.cshtml", view);
+            }
+            return View();
         }
 
         public bool Create(int student_group_id, string content, string note)

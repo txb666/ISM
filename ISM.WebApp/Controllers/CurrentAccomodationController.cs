@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class CurrentAccomodationController : Controller
     {
         public StudentGroupDAO StudentGroupDAO;
@@ -34,37 +34,54 @@ namespace ISM.WebApp.Controllers
         public IActionResult Index(string degreeOrMobility="",string account="",string fullname="",int? student_id=null,int? student_group_id=null,string type="",string location="",string description="",string note="",int page=1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
-            bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
-            bool haveDegree = isAdmin == true ? true : sessionUser.haveDegree;
-            int current_staff_id = sessionUser.user_id;
-            if (string.IsNullOrEmpty(degreeOrMobility))
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
             {
-                if (haveDegree)
+                bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
+                bool haveDegree = isAdmin == true ? true : sessionUser.haveDegree;
+                int current_staff_id = sessionUser.user_id;
+                if (string.IsNullOrEmpty(degreeOrMobility))
                 {
-                    degreeOrMobility = "Degree";
+                    if (haveDegree)
+                    {
+                        degreeOrMobility = "Degree";
+                    }
+                    else
+                    {
+                        degreeOrMobility = "Mobility";
+                    }
                 }
-                else
-                {
-                    degreeOrMobility = "Mobility";
-                }
+                CurrentAccomodationIndexViewModel view = new CurrentAccomodationIndexViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(accomodationDAO.getTotalCurrentAccomodations(isAdmin, haveDegree, degreeOrMobility, current_staff_id, account, fullname, student_id, student_group_id, type, location, description, note), view.pageSize);
+                view.currentAccomodations = accomodationDAO.GetCurrentAccomodations(isAdmin, haveDegree, degreeOrMobility, current_staff_id, view.page, view.pageSize, account, fullname, student_id, student_group_id, type, location, description, note);
+                view.degreeStudents = userDAO.getAllDegreeStudents();
+                view.manageGroup = StudentGroupDAO.GetStudentGroupByStaff(current_staff_id, isAdmin, "Mobility");
+                view.account = account;
+                view.fullname = fullname;
+                view.type = type;
+                view.location = location;
+                view.description = description;
+                view.note = note;
+                view.student_id = student_id;
+                view.student_group_id = student_group_id;
+                view.degreeOrMobility = degreeOrMobility;
+                return View("Views/Admin/CurrentAccomodation/Index.cshtml", view);
             }
-            CurrentAccomodationIndexViewModel view = new CurrentAccomodationIndexViewModel();
-            view.page = page;
-            view.pageSize = pagingConst.PAGE_SIZE;
-            view.totalPage = PagingUtils.calculateTotalPage(accomodationDAO.getTotalCurrentAccomodations(isAdmin,haveDegree,degreeOrMobility,current_staff_id,account,fullname,student_id,student_group_id,type,location,description,note),view.pageSize);
-            view.currentAccomodations = accomodationDAO.GetCurrentAccomodations(isAdmin, haveDegree, degreeOrMobility, current_staff_id, view.page, view.pageSize, account, fullname, student_id, student_group_id, type, location, description, note);
-            view.degreeStudents = userDAO.getAllDegreeStudents();
-            view.manageGroup = StudentGroupDAO.GetStudentGroupByStaff(current_staff_id, isAdmin, "Mobility");
-            view.account = account;
-            view.fullname = fullname;
-            view.type = type;
-            view.location = location;
-            view.description = description;
-            view.note = note;
-            view.student_id = student_id;
-            view.student_group_id = student_group_id;
-            view.degreeOrMobility = degreeOrMobility;
-            return View("Views/Admin/CurrentAccomodation/Index.cshtml", view);
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                CurrentAccomodationIndexViewModel view = new CurrentAccomodationIndexViewModel();
+                if (sessionUser.role_name.Equals("Degree"))
+                {
+                    view.student_current_accomodation = accomodationDAO.GetCurrentAccomodation(sessionUser.user_id, null);
+                }
+                else if(sessionUser.role_name.Equals("Mobility"))
+                {
+                    view.student_current_accomodation = accomodationDAO.GetCurrentAccomodation(null, sessionUser.student_group_id);
+                }
+                return View("Views/Degree/PreDeparture/CurrentAccomodation.cshtml", view);
+            }
+            return View();
         }
 
         public IActionResult Create(int? student_id, int? student_group_id, string type, string location, string description, double? fee, string note, IFormFile picture)

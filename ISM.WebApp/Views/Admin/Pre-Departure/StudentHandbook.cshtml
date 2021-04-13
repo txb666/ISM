@@ -1,7 +1,20 @@
 ﻿@model IEnumerable<ISM.WebApp.Models.StudentHandbook>
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
 @{
-    ViewData["Title"] = "Admin Home Page";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Admin")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Staff")
+    {
+        ViewData["Title"] = "Avaliable Time Page";
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
 }
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">Student's Handbook</h1>

@@ -1,4 +1,4 @@
-﻿@model ISM.WebApp.ViewModels.OrientationIndexViewModel
+﻿@model ISM.WebApp.ViewModels.JobVacancyIndexViewModel
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
@@ -17,31 +17,31 @@
     }
 }
 
-<h1 style="text-align: center;"> Orientation Schedule</h1>
+<h1 style="text-align: center;"> Job Vancacies </h1>
 <div style="height:50px">
     <div class="dropdown_search">
         <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
-        <div id="myDropdown_search" class="dropdown-content_search" style="height: 320px; margin-top: 10px;">
-            <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="SearchORT" method="get">
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 330px; margin-top: 10px;">
+            <form style="width: 320px;" id="searchForm" asp-controller="JobVacancy" asp-action="Index" method="get">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
+                    <input name="job_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_name">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input name="job_location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_location">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Employment Type:</label>
+                    <input name="employment_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.employment_type">
+                </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
                     <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                    <input name="time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.time.HasValue?Model.time.Value.ToString(@"hh\:mm\:ss"):"")">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                    <input name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline for Apply:</label>
+                    <input name="deadline" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.deadline.HasValue?Model.deadline.Value.ToString("yyyy-MMM-dd"):"")">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
@@ -55,35 +55,34 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">Content</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
+                <th scope="col">Job</th>
                 <th scope="col">Location</th>
-                <th scope="col">Requirement for Student</th>
+                <th scope="col">Employment Type</th>
+                <th scope="col">Content</th>
+                <th scope="col">Deadline for Apply</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.orientationSchedules)
+            @foreach (var item in Model.jobVacancies)
             {
                 <tr>
+                    <td>
+                        @item.job_name
+                    </td>
+                    <td>
+                        @item.job_location
+                    </td>
+                    <td>
+                        @item.employment_type
+                    </td>
                     <td>
                         @item.content
                     </td>
                     <td>
-                        @item.date.ToString("yyyy-MMM-dd")
-                    </td>
-                    <td>
-                        @item.time.ToString(@"hh\:mm\:ss")
-                    </td>
-                    <td>
-                        @item.location
-                    </td>
-                    <td>
-                        @item.require_document
-                    </td>
+                        @item.deadline.ToString("yyyy-MMM-dd")
+                    </td>                  
                 </tr>
             }
-            </tbody>
     </table>
 </div>
 
@@ -93,7 +92,7 @@
 
 <script>
     function myFunction1() {
-        document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule_student");
+        document.getElementById("myDropdown_search").classList.toggle("show_search_jobVacancy");
     }
     function filterFunction() {
         var input, filter, ul, li, a, i;
@@ -111,3 +110,4 @@
         }
     }
 </script>
+@*</div>*@

@@ -1,0 +1,53 @@
+﻿@model ISM.WebApp.ViewModels.CurrentAccomodationIndexViewModel
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@using ISM.WebApp.Constant;
+@using ISM.WebApp.Utils
+@{
+    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
+}
+
+<h1 style="text-align:center">Current Accomodation</h1>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/image/CurrentAccomodation/@Model.student_current_accomodation.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+        </div>
+        <div class="col-md-8">
+            <form>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_current_accomodation.type" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_current_accomodation.location" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_current_accomodation.description" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_current_accomodation.fee" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_current_accomodation.note" disabled>
+                </div>                             
+            </form>
+        </div>
+    </div>
+</div>
+

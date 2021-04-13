@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ISM.WebApp.Models.StudentHandbook>
+﻿
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
@@ -16,11 +16,15 @@
         Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
     }
 }
+
+
 <div style="height: 500px; background-color: white;">
-    <h1 style="text-align: center;">Student's Handbook</h1>
-    @foreach (var item in Model)
-    {
-        <a asp-controller="StudentHandbook" asp-action="Detail" asp-route-id="@item.student_handbook_id">@item.title</a>
-        <br />
-    }
+    <h1 style="text-align: center;">I Want A Job</h1>
+    <a asp-controller="Article" asp-action="List" asp-route-type="Tips and samples for CV">Tips and samples for CV</a>
+    <br />
+    <a asp-controller="Article" asp-action="List" asp-route-type="Tips to prepare for job interview">Tips to prepare for job interview</a>
+    <br />
+    <a asp-controller="Article" asp-action="List" asp-route-type="Jobs 101">Jobs 101</a>
+    <br />
 </div>
+

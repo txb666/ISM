@@ -18,5 +18,6 @@ namespace ISM.WebApp.DAO
         RegisterAccomodation GetRegisterAccomodation(int student_id);
         bool CreateOrEditRegisterAccomodation(int? register_accomodation_id, int student_id, string exchange_campus, string accomodation_option, double? cost_per_month, double? room_size, string room_type, double? distance, string other_request, DateTime register_date);
         bool SetupNotification(int days_before);
+        CurrentAccomodation GetCurrentAccomodation(int? student_id, int? student_group_id);
     }
 }

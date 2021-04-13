@@ -160,9 +160,11 @@
                 </form>
             </div>
         </div>*@
-    <button style="float: right; width:80px; border-radius:10px" class="btn btn-success">
-        <a style="text-decoration: none; color:white" href="/StudentGroup/Create">Create</a>
-    </button>
+
+        <a href="/StudentGroup/Create">
+            <button style="float: right; width:80px; border-radius:10px" class="btn btn-success">Create</button>
+        </a>
+
 </div>
 <br>
 <br>
@@ -216,10 +218,10 @@
                     <td>
                         @item.note
                     </td>
-                    <td style="text-align: center;">
-                        <button style="width: 80px; border-radius: 10px" class="btn btn-info">
-                            <a style="text-decoration:none; color:white;" asp-action="Edit" asp-route-id="@item.studentGroup_id">Edit</a>
-                        </button>
+                    <td style="text-align: center;">                       
+                            <a asp-action="Edit" asp-route-id="@item.studentGroup_id">
+                                <button style="width: 80px; border-radius: 10px" class="btn btn-info">Edit</button>
+                            </a>                       
                     </td>
                 </tr>
             }

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class TransportationController : Controller
     {
         public TransportationDAO transportationDAO;
@@ -52,19 +52,38 @@ namespace ISM.WebApp.Controllers
         }
 
         public IActionResult Detail(int studentGroup_id = 0, DateTime? date = null, string bus = null, string driver = null, string itinerary = null, string supporter = null, int page = 1)
-        {         
-            TransportationDetailViewModel view = new TransportationDetailViewModel();
-            view.current_student_group = studentGroupDAO.getStudentGroupById(studentGroup_id);
-            view.page = page;
-            view.pageSize = pagingConst.PAGE_SIZE;
-            view.totalPage = PagingUtils.calculateTotalPage(transportationDAO.getTotalTransportation(view.current_student_group.studentGroup_id, date, bus, driver, itinerary, supporter), view.pageSize);
-            view.transportations = transportationDAO.GetTransportations(view.current_student_group.studentGroup_id, view.page, view.pageSize, date, bus, driver, itinerary, supporter);
-            view.date = date;
-            view.bus = bus;
-            view.driver = driver;
-            view.itinerary = itinerary;
-            view.supporter = supporter;
-            return View("Views/Admin/Program/TransportationDetail.cshtml", view);
+        {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                TransportationDetailViewModel view = new TransportationDetailViewModel();
+                view.current_student_group = studentGroupDAO.getStudentGroupById(studentGroup_id);
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(transportationDAO.getTotalTransportation(view.current_student_group.studentGroup_id, date, bus, driver, itinerary, supporter), view.pageSize);
+                view.transportations = transportationDAO.GetTransportations(view.current_student_group.studentGroup_id, view.page, view.pageSize, date, bus, driver, itinerary, supporter);
+                view.date = date;
+                view.bus = bus;
+                view.driver = driver;
+                view.itinerary = itinerary;
+                view.supporter = supporter;
+                return View("Views/Admin/Program/TransportationDetail.cshtml", view);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                TransportationDetailViewModel view = new TransportationDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(transportationDAO.getTotalTransportation(sessionUser.student_group_id, date, bus, driver, itinerary, supporter), view.pageSize);
+                view.transportations = transportationDAO.GetTransportations(sessionUser.student_group_id, view.page, view.pageSize, date, bus, driver, itinerary, supporter);
+                view.date = date;
+                view.bus = bus;
+                view.driver = driver;
+                view.itinerary = itinerary;
+                view.supporter = supporter;
+                return View("Views/Degree/Program/TransportationDetail.cshtml", view);
+            }
+            return View();
         }
 
         public bool Create(int student_group_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)

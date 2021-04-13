@@ -56,10 +56,20 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Detail(int student_group_id = 0)
         {
-            GeneralAgendaDetailViewModel view = new GeneralAgendaDetailViewModel();
-            view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
-            view.generalAgenda = generalAgendaDAO.GetGeneralAgendaByStudentGroup(student_group_id);
-            return View("Views/Admin/Pre-Departure/GeneralAgendaDetail.cshtml", view);
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff")){
+                GeneralAgendaDetailViewModel view = new GeneralAgendaDetailViewModel();
+                view.current_student_group = studentGroupDAO.getStudentGroupById(student_group_id);
+                view.generalAgenda = generalAgendaDAO.GetGeneralAgendaByStudentGroup(student_group_id);
+                return View("Views/Admin/Pre-Departure/GeneralAgendaDetail.cshtml", view);
+            }
+            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                GeneralAgendaDetailViewModel view = new GeneralAgendaDetailViewModel();
+                view.generalAgenda = generalAgendaDAO.GetGeneralAgendaByStudentGroup(sessionUser.student_group_id);
+                return View("Views/Degree/PreDeparture/GeneralAgendaDetail.cshtml", view);
+            }
+            return View();
         }
 
         public IActionResult Edit(int general_agenda_id, string note, IFormFile file)

@@ -1,51 +1,40 @@
-﻿@model ISM.WebApp.ViewModels.ArticleIndexViewModel
+﻿@model ISM.WebApp.Models.StudentHandbook
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Admin")
+    if (sessionUser.role_name == "Degree")
     {
-        ViewData["Title"] = "Avaliable Time Page";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        ViewData["Title"] = "Pre-Approval Visa Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
     }
-    else if (sessionUser.role_name == "Staff")
+    else if (sessionUser.role_name == "Mobility")
     {
-        ViewData["Title"] = "Avaliable Time Page";
-        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+        ViewData["Title"] = "Pre-Approval Visa  Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
     }
 }
 
-<h1 style="text-align: center;">@Model.article.title</h1>
-<div style="height: 50px;">
-    @if (Model.uniqueArticle == false)
-    {
-        <button onclick="deleteArticle('@Model.article.article_id','@Model.article.type','@Model.article.fileName')" class="btn btn-danger" style="float:right; margin-left:10px;width:80px;border-radius:10px">
-            @*<a style="text-decoration:none; color:white;" href="#">Delete</a>*@ Delete
-        </button>
-    }
-    <button onclick="showPopup('xmas-popup')" class="btn btn-success" style="float:right;width:80px;border-radius:10px">
-        @*<a style="text-decoration:none; color:white" href="#xmas-popup">Edit</a>*@ Edit
-    </button>
 
+<h1 style="text-align: center;">@Model.title</h1>
+<div style="height: 50px;">
     <div id="xmas-popup" class="popup" href="#">
-        <div class="popup-content" style="height:300px">
-            <form id="editArticleForm" enctype="multipart/form-data">
-                <h1 style="text-align: center; margin-bottom: 40px;">Edit Article</h1>
-                <input type="hidden" id="edit_article_id" value="@Model.article.article_id" />
-                <input type="hidden" id="edit_old_file_name" value="@Model.article.fileName" />
-                <input type="hidden" id="edit_type" value="@Model.article.type" />
+        <div class="popup-content" style="height:260px">
+            <form id="editStudentHandbookForm" enctype="multipart/form-data">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Handbook</h1>
+                <input type="hidden" id="edit_student_handbook_id" value="@Model.student_handbook_id" />
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;" for="title">Title</label>
-                    <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="text" name="title" id="edit_title" value="@Model.article.title" @(Model.uniqueArticle == true ? "disabled" : "") />
+                    <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="text" name="title" id="edit_title" value="@Model.title" disabled />
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;" for="uploadFile">Select a PDF file:</label>
                     <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="file" name="uploadFile" id="edit_file" accept="application/pdf">
                 </div>
                 <div class="form-group row">
-                    <button id="save" style="margin-left: 190px; width: 80px;" class="btn btn-success" onclick="validateEditArticle()" type="button">Save</button>
+                    <button id="save" style="margin-left: 190px; width: 80px;" class="btn btn-success" onclick="validateEditStudentHandbook()" type="button">Save</button>
                     <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                         @* <a style="text-decoration: none; color: white;" href="#" id="btnEditCancel">Cancel</a>*@ Cancel
                     </button>
@@ -55,10 +44,9 @@
     </div>
 </div>
 
-<a href="~/Article/@Model.article.type/@Model.article.fileName" style="font-size:24px;" download>download file</a>
+<a href="~/Article/Student Handbook/@Model.file_name" style="font-size:24px;" download>download file</a>
 <br />
 <h1>Preview</h1>
-<br />
 <div class="top-bar">
     <button class="btn" id="prev-page">
         <i class="fas fa-arrow-circle-left"></i> Prev Page
@@ -75,14 +63,14 @@
 <canvas id="pdf-render" style="width:100%;"></canvas>
 <script>
 
-    const url = '../../Article/@Model.article.type/@Model.article.fileName?' + performance.now();
+    const url = '../../Article/Student Handbook/@Model.file_name?' + performance.now();
 
     let pdfDoc = null,
         pageNum = 1,
         pageIsRendering = false,
         pageNumIsPending = null;
 
-    const scale = 4,
+    const scale = 5,
         canvas = document.getElementById('pdf-render'),
         ctx = canvas.getContext('2d');
 

@@ -40,16 +40,33 @@ namespace ISM.WebApp.Controllers
 
         public IActionResult Detail(int student_id=0, string program="", string content="", string material="", int page = 1)
         {
-            ORTMaterialSlideDetailViewModel view = new ORTMaterialSlideDetailViewModel();
-            view.page = page;
-            view.pageSize = pagingConst.PAGE_SIZE;
-            view.current_student = userDAO.getUserById(student_id);
-            view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterialSlides(student_id, program, content, material), view.pageSize);
-            view.materials = orientationDAO.GetORTMaterialSlides(student_id, view.page, view.pageSize, program, content, material);
-            view.program = program;
-            view.material = material;
-            view.content = content;
-            return View("Views/Admin/Program/ORTMaterialSlideDetail.cshtml", view);
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
+            {
+                ORTMaterialSlideDetailViewModel view = new ORTMaterialSlideDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.current_student = userDAO.getUserById(student_id);
+                view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterialSlides(student_id, program, content, material), view.pageSize);
+                view.materials = orientationDAO.GetORTMaterialSlides(student_id, view.page, view.pageSize, program, content, material);
+                view.program = program;
+                view.material = material;
+                view.content = content;
+                return View("Views/Admin/Program/ORTMaterialSlideDetail.cshtml", view);
+            }
+            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                ORTMaterialSlideDetailViewModel view = new ORTMaterialSlideDetailViewModel();
+                view.page = page;
+                view.pageSize = pagingConst.PAGE_SIZE;
+                view.totalPage = PagingUtils.calculateTotalPage(orientationDAO.getTotalORTMaterialSlides(sessionUser.user_id, program, content, material), view.pageSize);
+                view.materials = orientationDAO.GetORTMaterialSlides(sessionUser.user_id, view.page, view.pageSize, program, content, material);
+                view.program = program;
+                view.material = material;
+                view.content = content;
+                return View("Views/Degree/Program/ORTMaterialSlideDetail.cshtml", view);
+            }
+            return View();
         }
 
         public bool Create(int student_id, string program, string content, string material)
