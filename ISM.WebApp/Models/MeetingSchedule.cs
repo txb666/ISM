@@ -23,6 +23,7 @@ namespace ISM.WebApp.Models
         public int ms_id_s { get; set; }
         public int staff_id_s { get; set; }
         public string staff_name_s { get; set; }
+        public string staff_email_s { get; set; }
         public int student_id_s { get; set; }
         public string student_account_s { get; set; }
         public string student_name_s { get; set; }

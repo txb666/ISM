@@ -26,29 +26,46 @@ namespace ISM.WebApp.Controllers
         }
         public IActionResult Index(int page = 1, string staff_name = "", string staff_account = "", string staff_email = "", string telephone = "", string position = "", bool? status = null)
         {
-            ContactInformationIndexViewModel model = new ContactInformationIndexViewModel();
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
-            bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
-            int current_staff_id = sessionUser.user_id;
-            if (isAdmin)
+            if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))
             {
+                ContactInformationIndexViewModel model = new ContactInformationIndexViewModel();
+                bool isAdmin = sessionUser.role_name.Equals("Admin") ? true : false;
+                int current_staff_id = sessionUser.user_id;
+                if (isAdmin)
+                {
+                    model.page = page;
+                    model.pageSize = pagingConst.PAGE_SIZE;
+                    model.totalPage = PagingUtils.calculateTotalPage(_contactInformationDAO.GetTotalContactInformation(staff_name, staff_account, staff_email, telephone, position, status), model.pageSize);
+                    model.contactList = _contactInformationDAO.GetContactInformation(model.page, model.pageSize, staff_name, staff_account, staff_email, telephone, position, status);
+                    model.contact = _contactInformationDAO.GetContact(current_staff_id);
+                    model.staff_name = staff_name;
+                    model.staff_email = staff_email;
+                    model.staff_account = staff_account;
+                    model.telephone = telephone;
+                    model.position = position;
+                    model.status = status;
+                }
+                else
+                {
+                    model.contact = _contactInformationDAO.GetContact(current_staff_id);
+                }
+                return View("Views/Admin/ContactUs/ContactInformation.cshtml", model);
+            }
+            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            {
+                ContactInformationIndexViewModel model = new ContactInformationIndexViewModel();
                 model.page = page;
                 model.pageSize = pagingConst.PAGE_SIZE;
-                model.totalPage = PagingUtils.calculateTotalPage(_contactInformationDAO.GetTotalContactInformation(staff_name, staff_account, staff_email, telephone, position, status), model.pageSize);
-                model.contactList = _contactInformationDAO.GetContactInformation(model.page, model.pageSize, staff_name, staff_account, staff_email, telephone, position, status);
-                model.contact = _contactInformationDAO.GetContact(current_staff_id);
+                model.totalPage = PagingUtils.calculateTotalPage(_contactInformationDAO.GetTotalContactInformationForStudent(sessionUser.user_id, staff_name, staff_email, telephone, position), model.pageSize);
+                model.contactList = _contactInformationDAO.GetContactInformationForStudent(model.page, model.pageSize, sessionUser.user_id, staff_name, staff_email, telephone, position);
                 model.staff_name = staff_name;
                 model.staff_email = staff_email;
-                model.staff_account = staff_account;
                 model.telephone = telephone;
                 model.position = position;
-                model.status = status;
+                return View("Views/Degree/ContactUs/ContactInformation.cshtml", model);
             }
-            else
-            {
-                model.contact = _contactInformationDAO.GetContact(current_staff_id);
-            }
-            return View("Views/Admin/ContactUs/ContactInformation.cshtml", model);
+            return View();
         }
 
         public IActionResult CreateOrEdit(int user_id, string telephone, string position, IFormFile picture)

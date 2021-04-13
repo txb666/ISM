@@ -191,3 +191,59 @@ function validateSetupNotificationMeeting() {
         }
     });
 }
+
+function StudentBookMeeting(staff_id, staff_name, date, start, end) {
+    document.getElementById("book_date_id").value = date;
+    document.getElementById("book_startTime_id").value = start;
+    document.getElementById("book_endTime_id").value = end;
+    document.getElementById("book_staff_id").value = staff_id;
+    document.getElementById("book_staff_name_id").value = staff_name;
+}
+
+function validateBookAMeeting(student_id) {
+    var staff_id = document.getElementById("book_staff_id").value;
+    var dateAT = document.getElementById("book_date_id").value;
+    var startTimeAT = document.getElementById("book_startTime_id").value;
+    var endTimeAT = document.getElementById("book_endTime_id").value;
+    var note = document.getElementById("book_note_id").value;
+    var searchbtn = document.getElementById("searchBtn");
+    if (!note) {
+        alert("Please enter meeting note.");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/Meeting/isExist",
+        data: { staff_id: staff_id, student_id: student_id, date: dateAT, start_time: startTimeAT, end_time: endTimeAT },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                alert("Can not book a meeting at same time.");
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Meeting/BookAMeeting",
+                    data: { staff_id: staff_id, student_id: student_id, date: dateAT, start_time: startTimeAT, end_time: endTimeAT, note: note },
+                    dataType: "text",
+                    success: function (msg) {
+                        if (msg == "true") {
+                            alert("Book successfull");
+                            searchbtn.click();
+                        }
+                        else {
+                            alert("Book failed")
+                        }
+                    },
+                    error: function (req, status, error) {
+                        alert(error);
+                    }
+                });
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}

@@ -50,6 +50,7 @@ namespace ISM.WebApp.Controllers
             viewModel.time = time;
             viewModel.location = location;
             viewModel.require_document = require_document;
+            viewModel.student = _orientationDAO.GetStudentById(id);
             return View("Views/Admin/Program/OrientationScheduleForStudent.cshtml", viewModel);
         }
 

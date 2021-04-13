@@ -28,5 +28,6 @@ namespace ISM.WebApp.DAO
         bool DeleteORTMaterialSlide(int ort_material_slide_id);
         int getTotalORTMaterials(int student_group_id, string content, string note);
         int getTotalORTMaterialSlides(int student_id, string program, string content, string material);
+        User GetStudentById(int student_id);
     }
 }

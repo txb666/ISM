@@ -181,6 +181,15 @@ ul li {
     border: 5px solid #fff;
 }
 
+#xmas-popup-assign-book .popup-content-assign-book {
+    width: 1000px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+
 #xmas-popup-notification .popup-content-notification {
     width: 500px;
     height: 500px;
@@ -209,6 +218,15 @@ ul li {
 
 #xmas-popup-assign1 .popup-content-assign1 {
     width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+
+#xmas-popup-assign1-book .popup-content-assign1-book {
+    width: 1000px;
     height: 500px;
     background: white;
     margin: 10px auto;
@@ -399,6 +417,10 @@ POPUP SETUP NOTIFICATION*/
 }
 
 .show_search_contact_information {
+    display: block;
+}
+
+.show_search_staff_availableTime {
     display: block;
 }
 

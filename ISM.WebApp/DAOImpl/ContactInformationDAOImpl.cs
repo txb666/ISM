@@ -219,6 +219,91 @@ namespace ISM.WebApp.DAOImpl
             return contactInformationList;
         }
 
+        public List<ContactInformation> GetContactInformationForStudent(int page, int pageSize, int student_id, string staff_name, string staff_email, string telephone, string position)
+        {
+            int from = page * pageSize - (pageSize - 1);
+            int to = page * pageSize;
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            List<ContactInformation> contactInformationList = new List<ContactInformation>();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(staff_name))
+                {
+                    where += " and upper(temp.fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = staff_name;
+                }
+                if (!string.IsNullOrEmpty(staff_email))
+                {
+                    where += " and upper(temp.email) like upper('%' + @email + '%')";
+                    com.Parameters.Add("@email", SqlDbType.NVarChar);
+                    com.Parameters["@email"].Value = staff_email;
+                }
+                if (!string.IsNullOrEmpty(telephone))
+                {
+                    where += " and upper(temp.telephone) like upper('%' + @telephone + '%')";
+                    com.Parameters.Add("@telephone", SqlDbType.NVarChar);
+                    com.Parameters["@telephone"].Value = telephone;
+                }
+                if (!string.IsNullOrEmpty(position))
+                {
+                    where += " and upper(temp.position) like upper('%' + @position + '%')";
+                    com.Parameters.Add("@position", SqlDbType.NVarChar);
+                    com.Parameters["@position"].Value = position;
+                }
+                com.Parameters.Add("@from", SqlDbType.Int);
+                com.Parameters["@from"].Value = from;
+                com.Parameters.Add("@to", SqlDbType.Int);
+                com.Parameters["@to"].Value = to;
+                sql = "select * from (select ROW_NUMBER() over (order by temp.[user_id] asc) rownumber,d.[user_id] as Student_id,d.fullname " +
+                      "as Student_Name,temp.[user_id],temp.fullname,temp.email,temp.telephone,temp.picture,temp.position,temp.studentGroup_id " +
+                      "from Users d, (select c.[user_id],c.fullname,c.email,a.telephone,a.picture,a.position,b.studentGroup_id " +
+                      "from Contact_Information a, Coordinators b, Users c where a.staff_id = b.staff_id and a.staff_id = c.[user_id]) " +
+                      "as temp where d.studentGroup_id = temp.studentGroup_id and d.[user_id] = @student_id"+ where +") as " +
+                      "temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    ContactInformation contact = new ContactInformation();
+                    contact.staff_name = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    contact.staff_email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                    if (!reader.IsDBNull(reader.GetOrdinal("telephone")))
+                    {
+                        contact.staff_telephone = (string)reader.GetValue(reader.GetOrdinal("telephone"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("picture")))
+                    {
+                        contact.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+                    }
+                    if (!reader.IsDBNull(reader.GetOrdinal("position")))
+                    {
+                        contact.staff_position = (string)reader.GetValue(reader.GetOrdinal("position"));
+                    }
+                    contactInformationList.Add(contact);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return contactInformationList;
+        }
+
         public int GetTotalContactInformation(string staff_name, string staff_account, string staff_email, string telephone, string position, bool? status)
         {
             SqlConnection con = null;
@@ -271,6 +356,64 @@ namespace ISM.WebApp.DAOImpl
                 sql = "select count(*) from (select a.contact_information_id," +
                       "a.staff_id,b.account,b.fullname,b.email,b.[status],a.telephone,a.picture,a.position from Users b full outer " +
                       "join Contact_Information a on a.staff_id = b.[user_id] where b.role_id = 2" + where + ") as temp";
+                com.CommandText = sql;
+                total = Convert.ToInt32(com.ExecuteScalar());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return total;
+        }
+
+        public int GetTotalContactInformationForStudent(int student_id, string staff_name, string staff_email, string telephone, string position)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlCommand com = null;
+            int total = 0;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                string where = "";
+                if (!string.IsNullOrEmpty(staff_name))
+                {
+                    where += " and upper(temp.fullname) like upper('%' + @fullname + '%')";
+                    com.Parameters.Add("@fullname", SqlDbType.NVarChar);
+                    com.Parameters["@fullname"].Value = staff_name;
+                }
+                if (!string.IsNullOrEmpty(staff_email))
+                {
+                    where += " and upper(temp.email) like upper('%' + @email + '%')";
+                    com.Parameters.Add("@email", SqlDbType.NVarChar);
+                    com.Parameters["@email"].Value = staff_email;
+                }
+                if (!string.IsNullOrEmpty(telephone))
+                {
+                    where += " and upper(temp.telephone) like upper('%' + @telephone + '%')";
+                    com.Parameters.Add("@telephone", SqlDbType.NVarChar);
+                    com.Parameters["@telephone"].Value = telephone;
+                }
+                if (!string.IsNullOrEmpty(position))
+                {
+                    where += " and upper(temp.position) like upper('%' + @position + '%')";
+                    com.Parameters.Add("@position", SqlDbType.NVarChar);
+                    com.Parameters["@position"].Value = position;
+                }
+                sql = "select count(*) from (select d.[user_id] as Student_id,d.fullname " +
+                      "as Student_Name,temp.[user_id],temp.fullname,temp.email,temp.telephone,temp.picture,temp.position,temp.studentGroup_id " +
+                      "from Users d, (select c.[user_id],c.fullname,c.email,a.telephone,a.picture,a.position,b.studentGroup_id " +
+                      "from Contact_Information a, Coordinators b, Users c where a.staff_id = b.staff_id and a.staff_id = c.[user_id]) " +
+                      "as temp where d.studentGroup_id = temp.studentGroup_id and d.[user_id] = @student_id" + where + ") as temp";
+                com.Parameters.Add("@student_id", SqlDbType.Int);
+                com.Parameters["@student_id"].Value = student_id;
                 com.CommandText = sql;
                 total = Convert.ToInt32(com.ExecuteScalar());
             }

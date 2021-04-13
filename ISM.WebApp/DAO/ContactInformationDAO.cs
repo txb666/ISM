@@ -12,5 +12,7 @@ namespace ISM.WebApp.DAO
         int GetTotalContactInformation(string staff_name, string staff_account, string staff_email, string telephone, string position, bool? status);
         ContactInformation GetContact(int current_staff_id);
         bool CreateOrEdit(int user_id, string telephone, string position, string picture);
+        List<ContactInformation> GetContactInformationForStudent(int page, int pageSize, int student_id, string staff_name, string staff_email, string telephone, string position);
+        int GetTotalContactInformationForStudent(int student_id, string staff_name, string staff_email, string telephone, string position);
     }
 }

@@ -652,6 +652,41 @@ namespace ISM.WebApp.DAOImpl
             return total;
         }
 
+        public User GetStudentById(int student_id)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            User staff = new User();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand();
+                com.Connection = con;
+                sql = "select fullname,email from Users where [user_id] = @user_id";
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = student_id;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    staff.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+                    staff.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return staff;
+        }
+
         public int GetTotalDegreeStudent(bool isAdmin, int staff_id, string account, string fullname)
         {
             SqlConnection con = null;
