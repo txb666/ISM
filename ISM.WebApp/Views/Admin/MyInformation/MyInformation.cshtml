@@ -15,6 +15,16 @@
         ViewData["Title"] = "My Information Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
+    else if (sessionUser.role_name == "Degree")
+    {
+        ViewData["Title"] = "My Information Page";
+        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
+    }
+    else if (sessionUser.role_name == "Mobility")
+    {
+        ViewData["Title"] = "My Information Page";
+        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
+    }
 }
 <h1 style="text-align: center; margin-bottom: 50px;">My Information</h1>
 <div class="container">
