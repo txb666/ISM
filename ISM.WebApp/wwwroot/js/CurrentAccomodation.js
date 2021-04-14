@@ -23,52 +23,95 @@
         alert("location must not be empty or contain special character");
         return;
     }
-    if (!allowedExtensions.exec(fileName)) {
-        alert('Only jpg/jpeg and png files are allowed!');
-        picture.value = '';
-        return;
+    if (!fileName) {
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("student_group_id", student_group_id);
+        fdata.append("type", type);
+        fdata.append("location", location);
+        fdata.append("description", description);
+        fdata.append("fee", fee);
+        fdata.append("note", note);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "POST",
+            url: "/CurrentAccomodation/isCurrentAccomodationExist",
+            data: { student_id: student_id, student_group_id: student_group_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Information about current accomodation of this student/student group already exist");
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: "/CurrentAccomodation/Create",
+                        contentType: false,
+                        processData: false,
+                        data: fdata,
+                        success: function () {
+                            alert("Create successful");
+                            window.location.href = '/CurrentAccomodation';
+                        },
+                        error: function () {
+                            alert("Create failed");
+                        }
+                    });
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
     }
-    var fdata = new FormData();
-    fdata.append("student_id", student_id);
-    fdata.append("student_group_id", student_group_id);
-    fdata.append("type", type);
-    fdata.append("location", location);
-    fdata.append("description", description);
-    fdata.append("fee", fee);
-    fdata.append("note", note);
-    fdata.append("picture", picture);
-    $.ajax({
-        type: "POST",
-        url: "/CurrentAccomodation/isCurrentAccomodationExist",
-        data: { student_id: student_id, student_group_id: student_group_id },
-        dataType: "text",
-        success: function (msg) {
-            if (msg == "true") {
-                alert("Information about current accomodation of this student/student group already exist");
-                return;
-            }
-            else {
-                $.ajax({
-                    type: "post",
-                    url: "/CurrentAccomodation/Create",
-                    contentType: false,
-                    processData: false,
-                    data: fdata,
-                    success: function () {
-                        alert("Create successful");
-                        window.location.href = '/CurrentAccomodation';
-                    },
-                    error: function () {
-                        alert("Create failed");
-                    }
-                });
-            }
-        },
-        error: function (req, status, error) {
-            alert(error);
+    else {
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
+            return;
         }
-    }); 
-   
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("student_group_id", student_group_id);
+        fdata.append("type", type);
+        fdata.append("location", location);
+        fdata.append("description", description);
+        fdata.append("fee", fee);
+        fdata.append("note", note);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "POST",
+            url: "/CurrentAccomodation/isCurrentAccomodationExist",
+            data: { student_id: student_id, student_group_id: student_group_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Information about current accomodation of this student/student group already exist");
+                    return;
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: "/CurrentAccomodation/Create",
+                        contentType: false,
+                        processData: false,
+                        data: fdata,
+                        success: function () {
+                            alert("Create successful");
+                            window.location.href = '/CurrentAccomodation';
+                        },
+                        error: function () {
+                            alert("Create failed");
+                        }
+                    });
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
 }
 
 function editCurrentAccomodation(current_accomodation_id, student_id, student_group_id, type, location, description, fee, note, pictureName) {
@@ -105,8 +148,7 @@ function validateEditCurrentAccomodation() {
     var pictureName = document.getElementById("edit_pictureName").value;
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
         alert("type must not be empty or contain special character");
         return;
@@ -115,35 +157,65 @@ function validateEditCurrentAccomodation() {
         alert("location must not be empty or contain special character");
         return;
     }
-    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
-        return;
+    if (!fileName) {
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("student_group_id", student_group_id);
+        fdata.append("current_accomodation_id", current_accomodation_id);
+        fdata.append("type", type);
+        fdata.append("location", location);
+        fdata.append("description", description);
+        fdata.append("fee", fee);
+        fdata.append("note", note);
+        fdata.append("picture", picture);
+        fdata.append("pictureName", pictureName);
+        $.ajax({
+            type: "post",
+            url: "/CurrentAccomodation/Edit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = '/CurrentAccomodation';
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
     }
-    var fdata = new FormData();
-    fdata.append("student_id", student_id);
-    fdata.append("student_group_id", student_group_id);
-    fdata.append("current_accomodation_id", current_accomodation_id);
-    fdata.append("type", type);
-    fdata.append("location", location);
-    fdata.append("description", description);
-    fdata.append("fee", fee);
-    fdata.append("note", note);
-    fdata.append("picture", picture);
-    fdata.append("pictureName", pictureName);
-    $.ajax({
-        type: "post",
-        url: "/CurrentAccomodation/Edit",
-        contentType: false,
-        processData: false,
-        data: fdata,
-        success: function () {
-            alert("Edit successful");
-            window.location.href = '/CurrentAccomodation';
-        },
-        error: function () {
-            alert("Edit failed");
+    else {
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
+            return;
         }
-    });
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("student_group_id", student_group_id);
+        fdata.append("current_accomodation_id", current_accomodation_id);
+        fdata.append("type", type);
+        fdata.append("location", location);
+        fdata.append("description", description);
+        fdata.append("fee", fee);
+        fdata.append("note", note);
+        fdata.append("picture", picture);
+        fdata.append("pictureName", pictureName);
+        $.ajax({
+            type: "post",
+            url: "/CurrentAccomodation/Edit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = '/CurrentAccomodation';
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
 }
 
 function validateFileType(id) {

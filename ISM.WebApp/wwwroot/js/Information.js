@@ -19,33 +19,63 @@
             alert("Date of Birth must not be greater than current date.");
             return;
         }
-        if (!allowedExtensions.exec(fileName)) {
-            alert('Only jpg/jpeg and png files are allowed!');
-            picture.value = '';
+        if (dob_check.getFullYear() < 1940) {
+            alert("Year of birth date must be greater than 1940.");
             return;
         }
-        var fdata = new FormData();
-        fdata.append("user_id", user_id);
-        fdata.append("fullname", fullname);
-        fdata.append("nationality", nationality);
-        fdata.append("dob", dob);
-        fdata.append("gender", gender);
-        fdata.append("contact", contact);
-        fdata.append("picture", picture);
-        $.ajax({
-            type: "post",
-            url: "/Information/SaveProfile",
-            contentType: false,
-            processData: false,
-            data: fdata,
-            success: function () {
-                alert("Successful");
-                window.location.href = '/Information';
-            },
-            error: function () {
-                alert("Failed");
+        if (!fileName) {
+            var fdata = new FormData();
+            fdata.append("user_id", user_id);
+            fdata.append("fullname", fullname);
+            fdata.append("nationality", nationality);
+            fdata.append("dob", dob);
+            fdata.append("gender", gender);
+            fdata.append("contact", contact);
+            fdata.append("picture", picture);
+            $.ajax({
+                type: "post",
+                url: "/Information/SaveProfile",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Successful");
+                    window.location.href = '/Information';
+                },
+                error: function () {
+                    alert("Failed");
+                }
+            });
+        }
+        else {
+            if (!allowedExtensions.exec(fileName)) {
+                alert('Only jpg/jpeg and png files are allowed!');
+                picture.value = '';
+                return;
             }
-        });
+            var fdata = new FormData();
+            fdata.append("user_id", user_id);
+            fdata.append("fullname", fullname);
+            fdata.append("nationality", nationality);
+            fdata.append("dob", dob);
+            fdata.append("gender", gender);
+            fdata.append("contact", contact);
+            fdata.append("picture", picture);
+            $.ajax({
+                type: "post",
+                url: "/Information/SaveProfile",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Successful");
+                    window.location.href = '/Information';
+                },
+                error: function () {
+                    alert("Failed");
+                }
+            });
+        }
     }
     else {
         return;

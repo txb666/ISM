@@ -89,11 +89,6 @@ function validateCreateOrEditPassport() {
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    if (!allowedExtensions.exec(fileName)) {
-        alert('Only jpg/jpeg and png files are allowed!');
-        picture.value = '';
-        return;
-    }
     if (passport_number.trim().length==0) {
         alert("Passport number must not be empty or contain special character");
         return;
@@ -114,26 +109,57 @@ function validateCreateOrEditPassport() {
         alert("Expired date must be greater than Start date.");
         return;
     }
-    var fdata = new FormData();
-    fdata.append("student_id", student_id);
-    fdata.append("passport_id", passport_id);
-    fdata.append("start_date", start_date);
-    fdata.append("expired_date", expired_date);
-    fdata.append("passport_number", passport_number);
-    fdata.append("issuing_authority", issuing_authority);
-    fdata.append("picture", picture);
-    $.ajax({
-        type: "post",
-        url: "/Passport/CreateOrEdit",
-        contentType: false,
-        processData: false,
-        data: fdata,
-        success: function () {
-            alert("Edit successful");
-            window.location.href = "/Passport";
-        },
-        error: function () {
-            alert("Edit failed");
+    if (!fileName) {
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("passport_id", passport_id);
+        fdata.append("start_date", start_date);
+        fdata.append("expired_date", expired_date);
+        fdata.append("passport_number", passport_number);
+        fdata.append("issuing_authority", issuing_authority);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "post",
+            url: "/Passport/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Passport";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
+    else {
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
+            return;
         }
-    });
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("passport_id", passport_id);
+        fdata.append("start_date", start_date);
+        fdata.append("expired_date", expired_date);
+        fdata.append("passport_number", passport_number);
+        fdata.append("issuing_authority", issuing_authority);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "post",
+            url: "/Passport/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Passport";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
 }

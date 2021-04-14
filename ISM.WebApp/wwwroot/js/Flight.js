@@ -266,45 +266,78 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (!allowedExtensions.exec(fileName)) {
-            alert('Only jpg/jpeg and png files are allowed!');
-            picture_a.value = '';
-            return;
+        if (!fileName || !fileName_d) {
+            var fdata = new FormData();
+            fdata.append("student_id", student_id);
+            fdata.append("flight_id", flight_id);
+            fdata.append("flight_number_a", flight_number_a);
+            fdata.append("flight_number_d", flight_number_d);
+            fdata.append("arrival_date_a", arrival_date_a);
+            fdata.append("arrival_date_d", arrival_date_d);
+            fdata.append("arrival_time_a", arrival_time_a);
+            fdata.append("arrival_time_d", arrival_time_d);
+            fdata.append("airport_departure_a", airport_departure_a);
+            fdata.append("airport_departure_d", airport_departure_d);
+            fdata.append("airport_arrival_a", airport_arrival_a);
+            fdata.append("airport_arrival_d", airport_arrival_d);
+            fdata.append("picture_a", picture_a);
+            fdata.append("picture_d", picture_d);
+            $.ajax({
+                type: "post",
+                url: "/Flight/CreateOrEdit",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Edit successful");
+                    window.location.href = "/Flight";
+                },
+                error: function () {
+                    alert("Edit failed");
+                }
+            });
         }
-        if (!allowedExtensions.exec(fileName_d)) {
-            alert('Only jpg/jpeg and png files are allowed!');
-            picture_d.value = '';
-            return;
-        }
-        var fdata = new FormData();
-        fdata.append("student_id", student_id);
-        fdata.append("flight_id", flight_id);
-        fdata.append("flight_number_a", flight_number_a);
-        fdata.append("flight_number_d", flight_number_d);
-        fdata.append("arrival_date_a", arrival_date_a);
-        fdata.append("arrival_date_d", arrival_date_d);
-        fdata.append("arrival_time_a", arrival_time_a);
-        fdata.append("arrival_time_d", arrival_time_d);
-        fdata.append("airport_departure_a", airport_departure_a);
-        fdata.append("airport_departure_d", airport_departure_d);
-        fdata.append("airport_arrival_a", airport_arrival_a);
-        fdata.append("airport_arrival_d", airport_arrival_d);
-        fdata.append("picture_a", picture_a);
-        fdata.append("picture_d", picture_d);
-        $.ajax({
-            type: "post",
-            url: "/Flight/CreateOrEdit",
-            contentType: false,
-            processData: false,
-            data: fdata,
-            success: function () {
-                alert("Edit successful");
-                window.location.href = "/Flight";
-            },
-            error: function () {
-                alert("Edit failed");
+        else {
+            if (!allowedExtensions.exec(fileName)) {
+                alert('Only jpg/jpeg and png files are allowed!');
+                picture_a.value = '';
+                return;
             }
-        });
+            if (!allowedExtensions.exec(fileName_d)) {
+                alert('Only jpg/jpeg and png files are allowed!');
+                picture_d.value = '';
+                return;
+            }
+            var fdata = new FormData();
+            fdata.append("student_id", student_id);
+            fdata.append("flight_id", flight_id);
+            fdata.append("flight_number_a", flight_number_a);
+            fdata.append("flight_number_d", flight_number_d);
+            fdata.append("arrival_date_a", arrival_date_a);
+            fdata.append("arrival_date_d", arrival_date_d);
+            fdata.append("arrival_time_a", arrival_time_a);
+            fdata.append("arrival_time_d", arrival_time_d);
+            fdata.append("airport_departure_a", airport_departure_a);
+            fdata.append("airport_departure_d", airport_departure_d);
+            fdata.append("airport_arrival_a", airport_arrival_a);
+            fdata.append("airport_arrival_d", airport_arrival_d);
+            fdata.append("picture_a", picture_a);
+            fdata.append("picture_d", picture_d);
+            $.ajax({
+                type: "post",
+                url: "/Flight/CreateOrEdit",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Edit successful");
+                    window.location.href = "/Flight";
+                },
+                error: function () {
+                    alert("Edit failed");
+                }
+            });
+        }
     }
     else {
         var student_id = document.getElementById("edit_student_id").value;
@@ -336,33 +369,60 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (!allowedExtensions.exec(fileName)) {
-            alert('Only jpg/jpeg and png files are allowed!');
-            picture_a.value = '';
-            return;
+        if (!fileName) {
+            var fdata = new FormData();
+            fdata.append("student_id", student_id);
+            fdata.append("flight_id", flight_id);
+            fdata.append("flight_number_a", flight_number_a);
+            fdata.append("arrival_date_a", arrival_date_a);
+            fdata.append("arrival_time_a", arrival_time_a);
+            fdata.append("airport_departure_a", airport_departure_a);
+            fdata.append("airport_arrival_a", airport_arrival_a);
+            fdata.append("picture_a", picture_a);
+            $.ajax({
+                type: "post",
+                url: "/Flight/CreateOrEdit",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Edit successful");
+                    window.location.href = "/Flight";
+                },
+                error: function () {
+                    alert("Edit failed");
+                }
+            });
         }
-        var fdata = new FormData();
-        fdata.append("student_id", student_id);
-        fdata.append("flight_id", flight_id);
-        fdata.append("flight_number_a", flight_number_a);
-        fdata.append("arrival_date_a", arrival_date_a);
-        fdata.append("arrival_time_a", arrival_time_a);
-        fdata.append("airport_departure_a", airport_departure_a);
-        fdata.append("airport_arrival_a", airport_arrival_a);
-        fdata.append("picture_a", picture_a);
-        $.ajax({
-            type: "post",
-            url: "/Flight/CreateOrEdit",
-            contentType: false,
-            processData: false,
-            data: fdata,
-            success: function () {
-                alert("Edit successful");
-                window.location.href = "/Flight";
-            },
-            error: function () {
-                alert("Edit failed");
+        else {
+            if (!allowedExtensions.exec(fileName)) {
+                alert('Only jpg/jpeg and png files are allowed!');
+                picture_a.value = '';
+                return;
             }
-        });
+            var fdata = new FormData();
+            fdata.append("student_id", student_id);
+            fdata.append("flight_id", flight_id);
+            fdata.append("flight_number_a", flight_number_a);
+            fdata.append("arrival_date_a", arrival_date_a);
+            fdata.append("arrival_time_a", arrival_time_a);
+            fdata.append("airport_departure_a", airport_departure_a);
+            fdata.append("airport_arrival_a", airport_arrival_a);
+            fdata.append("picture_a", picture_a);
+            $.ajax({
+                type: "post",
+                url: "/Flight/CreateOrEdit",
+                contentType: false,
+                processData: false,
+                data: fdata,
+                success: function () {
+                    alert("Edit successful");
+                    window.location.href = "/Flight";
+                },
+                error: function () {
+                    alert("Edit failed");
+                }
+            });
+        }
     }
 }

@@ -89,11 +89,6 @@ function validateCreateOrEditVisa() {
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    if (!allowedExtensions.exec(fileName)) {
-        alert('Only jpg/jpeg and png files are allowed!');
-        picture.value = '';
-        return;
-    }
     if (entry_port.trim().length == 0) {
         alert("Entry port must not be empty");
         return;
@@ -114,26 +109,57 @@ function validateCreateOrEditVisa() {
         alert("Expired date must be greater than Start date.");
         return;
     }
-    var fdata = new FormData();
-    fdata.append("student_id", student_id);
-    fdata.append("visa_id", visa_id);
-    fdata.append("start_date", start_date);
-    fdata.append("expired_date", expired_date);
-    fdata.append("date_entry", date_entry);
-    fdata.append("entry_port", entry_port);
-    fdata.append("picture", picture);
-    $.ajax({
-        type: "post",
-        url: "/Visa/CreateOrEdit",
-        contentType: false,
-        processData: false,
-        data: fdata,
-        success: function () {
-            alert("Edit successful");
-            window.location.href = "/Visa";
-        },
-        error: function () {
-            alert("Edit failed");
+    if (!fileName) {
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("visa_id", visa_id);
+        fdata.append("start_date", start_date);
+        fdata.append("expired_date", expired_date);
+        fdata.append("date_entry", date_entry);
+        fdata.append("entry_port", entry_port);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "post",
+            url: "/Visa/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Visa";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
+    else {
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
+            return;
         }
-    });
+        var fdata = new FormData();
+        fdata.append("student_id", student_id);
+        fdata.append("visa_id", visa_id);
+        fdata.append("start_date", start_date);
+        fdata.append("expired_date", expired_date);
+        fdata.append("date_entry", date_entry);
+        fdata.append("entry_port", entry_port);
+        fdata.append("picture", picture);
+        $.ajax({
+            type: "post",
+            url: "/Visa/CreateOrEdit",
+            contentType: false,
+            processData: false,
+            data: fdata,
+            success: function () {
+                alert("Edit successful");
+                window.location.href = "/Visa";
+            },
+            error: function () {
+                alert("Edit failed");
+            }
+        });
+    }
 }
