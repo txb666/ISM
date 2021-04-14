@@ -269,12 +269,12 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+            alert("Only jpg/jpeg and png files are allowed!.");
             return;
         }
-        if (extFile_d != "jpg" || extFile_d != "jpeg" || extFile_d != "png") {
-            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+        if (!extFile_d == "jpg" || !extFile_d == "jpeg" || !extFile_d == "png") {
+            alert("Only jpg/jpeg and png files are allowed!");
             return;
         }
         var fdata = new FormData();
@@ -339,8 +339,8 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+            alert("Only jpg/jpeg and png files are allowed!");
             return;
         }
         var fdata = new FormData();

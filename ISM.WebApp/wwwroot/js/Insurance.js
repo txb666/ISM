@@ -116,8 +116,8 @@ function validateCreateOrEditInsurance() {
         alert("Expiry date must be greater than Start date.");
         return;
     }
-    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+        alert("Only jpg/jpeg and png files are allowed!");
         return;
     }
     var fdata = new FormData();

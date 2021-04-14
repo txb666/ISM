@@ -24,8 +24,8 @@
         alert("location must not be empty or contain special character");
         return;
     }
-    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+        alert("Only jpg/jpeg and png files are allowed!");
         return;
     }
     var fdata = new FormData();
@@ -115,7 +115,7 @@ function validateEditCurrentAccomodation() {
         alert("location must not be empty or contain special character");
         return;
     }
-    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
         alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
         return;
     }

@@ -12,20 +12,16 @@
     var current = new Date();
     var check = confirm("Do you want to save?");
     if (check) {
-        if (!nationality || !dob || !gender || !contact) {
+        if (!fullname || !nationality || !dob || !gender || !contact) {
             alert("Please fill out all information fields.");
-            return;
-        }
-        if (/^[A-Za-z0-9\s]+$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
-            alert("fullname must not be empty or contain special character");
             return;
         }
         if (dob_check.getTime() > current.getTime()) {
             alert("Date of Birth must not be greater than current date.");
             return;
         }
-        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+            alert("Only jpg/jpeg and png files are allowed!");
             return;
         }
         var fdata = new FormData();

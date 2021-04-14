@@ -15,7 +15,7 @@
             alert("Position must not be empty");
             return;
         }
-        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
             alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
             return;
         }
@@ -61,8 +61,8 @@ function validateCreateOrEditAdmin(user_id) {
             alert("Position must not be empty");
             return;
         }
-        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
-            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
+        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
+            alert("Only jpg/jpeg and png files are allowed!");
             return;
         }
         var fdata = new FormData();

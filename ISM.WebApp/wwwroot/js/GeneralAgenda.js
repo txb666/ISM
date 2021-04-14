@@ -5,7 +5,7 @@
     var fileName = document.getElementById("edit_file").value;
     var idxDot = fileName.lastIndexOf(".") + 1;
     var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-    if (extFile != "xlsx" || extFile != "xls" || extFile != "csv" || extFile != "pdf") {
+    if (!extFile == "xlsx" || !extFile == "xls" || !extFile == "csv" || !extFile == "pdf") {
         alert("Only xlsx/xls/csv and pdf file are allowed!");
         return;
     }

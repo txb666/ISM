@@ -13,7 +13,7 @@ function validateEditArticle() {
         alert("Title must not be empty or contain special character");
         return;
     }
-    if (extFile != "pdf") {
+    if (!extFile == "pdf") {
         alert("Only pdf file are allowed!");
         return;
     }
@@ -51,7 +51,7 @@ function validateCreateArticle() {
         alert("Title must not be empty or contain special character");
         return;
     }
-    if (extFile != "pdf") {
+    if (!extFile == "pdf") {
         alert("Only pdf file are allowed!");
         return;
     }
