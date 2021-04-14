@@ -3,10 +3,10 @@
     var note = document.getElementById("edit_note").value;
     var file = document.getElementById("edit_file").files[0];
     var fileName = document.getElementById("edit_file").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-    if (!extFile == "xlsx" || !extFile == "xls" || !extFile == "csv" || !extFile == "pdf") {
-        alert("Only xlsx/xls/csv and pdf file are allowed!");
+    var allowedExtensions = /(\.xlsx|\.xls|\.csv|\.pdf)$/i;
+    if (!allowedExtensions.exec(fileName)) {
+        alert('Only xlsx/xls/csv and pdf file are allowed!');
+        file.value = '';
         return;
     }
     var fdata = new FormData();

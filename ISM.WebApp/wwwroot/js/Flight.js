@@ -208,6 +208,7 @@ function validateNotificationFlightMobility() {
 
 function validateCreateOrEditFlight() {
     var check = document.getElementById("degreeOrMobility_check").value;
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (check == "Mobility") {
         var student_id = document.getElementById("edit_student_id").value;
         var flight_id = document.getElementById("edit_flight_id").value;
@@ -222,13 +223,9 @@ function validateCreateOrEditFlight() {
         var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
         var airport_arrival_d = document.getElementById("edit_airport_arrival_d").value;
         var picture_a = document.getElementById("edit_picture_a").files[0];
-        var fileName = document.getElementById("edit_picture_a").value;
-        var idxDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
         var picture_d = document.getElementById("edit_picture_d").files[0];
+        var fileName = document.getElementById("edit_picture_a").value;
         var fileName_d = document.getElementById("edit_picture_d").value;
-        var idxDot_d = fileName_d.lastIndexOf(".") + 1;
-        var extFile_d = fileName.substr(idxDot_d, fileName_d.length).toLowerCase();
         if (!arrival_date_a) {
             alert("Date must not be empty.");
             return;
@@ -269,12 +266,14 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-            alert("Only jpg/jpeg and png files are allowed!.");
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture_a.value = '';
             return;
         }
-        if (!extFile_d == "jpg" || !extFile_d == "jpeg" || !extFile_d == "png") {
-            alert("Only jpg/jpeg and png files are allowed!");
+        if (!allowedExtensions.exec(fileName_d)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture_d.value = '';
             return;
         }
         var fdata = new FormData();
@@ -317,8 +316,6 @@ function validateCreateOrEditFlight() {
         var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
         var picture_a = document.getElementById("edit_picture_a").files[0];
         var fileName = document.getElementById("edit_picture_a").value;
-        var idxDot = fileName.lastIndexOf(".") + 1;
-        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
         if (!arrival_date_a) {
             alert("Date must not be empty.");
             return;
@@ -339,8 +336,9 @@ function validateCreateOrEditFlight() {
             alert("Airport must not be empty.");
             return;
         }
-        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-            alert("Only jpg/jpeg and png files are allowed!");
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture_a.value = '';
             return;
         }
         var fdata = new FormData();

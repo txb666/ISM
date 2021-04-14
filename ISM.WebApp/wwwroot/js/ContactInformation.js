@@ -49,8 +49,7 @@ function validateCreateOrEditAdmin(user_id) {
     var position = document.getElementById('contact_infor_position').value;
     var picture = document.getElementById("contact_information_picture_admin").files[0];
     var fileName = document.getElementById("contact_information_picture_admin").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     var check = confirm("Do you want to save?");
     if (check) {
         if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(telephone) == false) {
@@ -61,8 +60,9 @@ function validateCreateOrEditAdmin(user_id) {
             alert("Position must not be empty");
             return;
         }
-        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-            alert("Only jpg/jpeg and png files are allowed!");
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
             return;
         }
         var fdata = new FormData();

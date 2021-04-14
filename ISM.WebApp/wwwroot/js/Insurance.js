@@ -102,8 +102,12 @@ function validateCreateOrEditInsurance() {
     var expiry_date = document.getElementById("edit_expiry_date").value;
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(fileName)) {
+        alert('Only jpg/jpeg and png files are allowed!');
+        picture.value = '';
+        return;
+    }
     if (!start_date) {
         alert("Start date must not be empty.");
         return;
@@ -114,10 +118,6 @@ function validateCreateOrEditInsurance() {
     }
     if (start_date >= expiry_date) {
         alert("Expiry date must be greater than Start date.");
-        return;
-    }
-    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-        alert("Only jpg/jpeg and png files are allowed!");
         return;
     }
     var fdata = new FormData();

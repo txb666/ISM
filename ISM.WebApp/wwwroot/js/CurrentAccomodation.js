@@ -14,8 +14,7 @@
     var note = document.getElementById("create_note").value;
     var picture = document.getElementById("create_picture").files[0];
     var fileName = document.getElementById("create_picture").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
         alert("type must not be empty or contain special character");
         return;
@@ -24,8 +23,9 @@
         alert("location must not be empty or contain special character");
         return;
     }
-    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-        alert("Only jpg/jpeg and png files are allowed!");
+    if (!allowedExtensions.exec(fileName)) {
+        alert('Only jpg/jpeg and png files are allowed!');
+        picture.value = '';
         return;
     }
     var fdata = new FormData();

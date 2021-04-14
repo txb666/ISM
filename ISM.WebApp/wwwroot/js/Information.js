@@ -6,8 +6,7 @@
     var contact = document.getElementById("profile_contact_id").value;
     var picture = document.getElementById("profile_picture_id").files[0];
     var fileName = document.getElementById("profile_picture_id").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     var dob_check = new Date(document.getElementById("profile_dob_id").value);
     var current = new Date();
     var check = confirm("Do you want to save?");
@@ -20,8 +19,9 @@
             alert("Date of Birth must not be greater than current date.");
             return;
         }
-        if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-            alert("Only jpg/jpeg and png files are allowed!");
+        if (!allowedExtensions.exec(fileName)) {
+            alert('Only jpg/jpeg and png files are allowed!');
+            picture.value = '';
             return;
         }
         var fdata = new FormData();

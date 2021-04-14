@@ -88,8 +88,12 @@ function validateCreateOrEditVisa() {
     var entry_port = document.getElementById("edit_entry_port").value;
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
-    var idxDot = fileName.lastIndexOf(".") + 1;
-    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    if (!allowedExtensions.exec(fileName)) {
+        alert('Only jpg/jpeg and png files are allowed!');
+        picture.value = '';
+        return;
+    }
     if (entry_port.trim().length == 0) {
         alert("Entry port must not be empty");
         return;
@@ -108,10 +112,6 @@ function validateCreateOrEditVisa() {
     }
     if (start_date >= expired_date) {
         alert("Expired date must be greater than Start date.");
-        return;
-    }
-    if (!extFile == "jpg" || !extFile == "jpeg" || !extFile == "png") {
-        alert("Only jpg/jpeg and png files are allowed!");
         return;
     }
     var fdata = new FormData();
