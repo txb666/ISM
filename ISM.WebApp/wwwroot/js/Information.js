@@ -5,10 +5,27 @@
     var gender = document.getElementById("profile_gender_id").value;
     var contact = document.getElementById("profile_contact_id").value;
     var picture = document.getElementById("profile_picture_id").files[0];
+    var fileName = document.getElementById("profile_picture_id").value;
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var dob_check = new Date(document.getElementById("profile_dob_id").value);
+    var current = new Date();
     var check = confirm("Do you want to save?");
     if (check) {
-        if (!fullname || !nationality || !dob || !gender || !contact) {
+        if (!nationality || !dob || !gender || !contact) {
             alert("Please fill out all information fields.");
+            return;
+        }
+        if (/^[A-Za-z0-9\s]+$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
+            alert("fullname must not be empty or contain special character");
+            return;
+        }
+        if (dob_check.getTime() > current.getTime()) {
+            alert("Date of Birth must not be greater than current date.");
+            return;
+        }
+        if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+            alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
             return;
         }
         var fdata = new FormData();

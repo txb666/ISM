@@ -13,12 +13,19 @@
     var fee = document.getElementById("create_fee").value;
     var note = document.getElementById("create_note").value;
     var picture = document.getElementById("create_picture").files[0];
+    var fileName = document.getElementById("create_picture").value;
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
         alert("type must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(location) == false || /^\s*$/.test(location) == true) {
         alert("location must not be empty or contain special character");
+        return;
+    }
+    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
         return;
     }
     var fdata = new FormData();
@@ -97,12 +104,19 @@ function validateEditCurrentAccomodation() {
     var note = document.getElementById("edit_note").value;
     var pictureName = document.getElementById("edit_pictureName").value;
     var picture = document.getElementById("edit_picture").files[0];
+    var fileName = document.getElementById("edit_picture").value;
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
         alert("type must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(location) == false || /^\s*$/.test(location) == true) {
         alert("location must not be empty or contain special character");
+        return;
+    }
+    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
         return;
     }
     var fdata = new FormData();

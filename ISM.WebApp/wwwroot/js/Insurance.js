@@ -100,7 +100,10 @@ function validateCreateOrEditInsurance() {
     var insurance_id = document.getElementById("edit_insurance_id").value;   
     var start_date = document.getElementById("edit_start_date").value;
     var expiry_date = document.getElementById("edit_expiry_date").value;
-    var picture = document.getElementById("edit_picture").files[0];   
+    var picture = document.getElementById("edit_picture").files[0];
+    var fileName = document.getElementById("edit_picture").value;
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
     if (!start_date) {
         alert("Start date must not be empty.");
         return;
@@ -111,6 +114,10 @@ function validateCreateOrEditInsurance() {
     }
     if (start_date >= expiry_date) {
         alert("Expiry date must be greater than Start date.");
+        return;
+    }
+    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
         return;
     }
     var fdata = new FormData();

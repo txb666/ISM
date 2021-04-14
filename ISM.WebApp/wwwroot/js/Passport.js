@@ -87,6 +87,9 @@ function validateCreateOrEditPassport() {
     var expired_date = document.getElementById("edit_expired_date").value;
     var issuing_authority = document.getElementById("edit_issuing_authority").value;
     var picture = document.getElementById("edit_picture").files[0];
+    var fileName = document.getElementById("edit_picture").value;
+    var idxDot = fileName.lastIndexOf(".") + 1;
+    var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
     if (passport_number.trim().length==0) {
         alert("Passport number must not be empty or contain special character");
         return;
@@ -105,6 +108,10 @@ function validateCreateOrEditPassport() {
     }
     if (start_date >= expired_date) {
         alert("Expired date must be greater than Start date.");
+        return;
+    }
+    if (extFile != "jpg" || extFile != "jpeg" || extFile != "png") {
+        alert("Only jpg/jpeg and png files are allowed. Please choose jpg/jpeg/png file only.");
         return;
     }
     var fdata = new FormData();
