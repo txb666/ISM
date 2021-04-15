@@ -73,6 +73,10 @@ function validateCreateArticle() {
         alert("Title must not be empty or contain special character");
         return;
     }
+    if (!fileName) {
+        alert("Please choose a pdf file");
+        return;
+    }
     if (!allowedExtensions.exec(fileName)) {
         alert('Only pdf file are allowed!');
         file.value = '';
