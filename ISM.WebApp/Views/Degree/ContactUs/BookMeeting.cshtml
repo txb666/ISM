@@ -5,6 +5,7 @@
 @using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    var current_date = DateTime.Now;
     if (sessionUser.role_name == "Degree")
     {
         ViewData["Title"] = "Contact Information Page";
@@ -66,7 +67,10 @@
                         @item.end_time.ToString(@"hh\:mm\:ss")
                     </td>
                     <td style="text-align:center;">
-                        <button onclick="showPopup('xmas-popup'); StudentBookMeeting('@item.staff_id', '@item.staff_name', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: auto; border-radius: 10px;" class="btn btn-info">Book a Meeting</button>
+                        @if (item.date.CompareTo(current_date) > 0)
+                        {
+                            <button onclick="showPopup('xmas-popup'); StudentBookMeeting('@item.staff_id', '@item.staff_name', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');" style="width: auto; border-radius: 10px;" class="btn btn-info">Book a Meeting</button>
+                        }
                     </td>
                 </tr>
             }

@@ -1,7 +1,11 @@
 ﻿function validateNotificationTransportation() {
     var hours_before = document.getElementById("notification_input").value;
     var searchButton = document.getElementById("searchBtn");
-    if (/^[1-9]\d*$/.test(hours_before) == false && hours_before.length != 0) {
+    if (!hours_before) {
+        alert("Hours before must not be empty.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(hours_before) == false) {
         alert("Please input only positive number.");
         return;
     }

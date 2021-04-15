@@ -152,11 +152,21 @@ function editFlightMobility(degreeOrMobility, id, account, fullname, flight_numb
 function validateNotificationFlightDegree() {
     var deadline = document.getElementById("degree_deadline_id").value;
     var days_before = document.getElementById("degree_daysBefore_id").value;
+    var current_date = new Date();
+    var date_check = new Date(document.getElementById("degree_deadline_id").value);
     if (!deadline) {
         alert("Deadline must not be empty.");
         return;
     }
-    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+    if (!days_before) {
+        alert("Days before must not be empty.");
+        return;
+    }
+    if (date_check.getTime() < current_date.getTime()) {
+        alert("Deadline must be greater than current date.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(days_before) == false) {
         alert("Please input only positive number.");
         return;
     }
@@ -182,7 +192,11 @@ function validateNotificationFlightDegree() {
 
 function validateNotificationFlightMobility() {
     var days_before = document.getElementById("mobility_days_before_id").value;
-    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+    if (!days_before) {
+        alert("Days before must not be empty.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(days_before) == false) {
         alert("Please input only positive number.");
         return;
     }

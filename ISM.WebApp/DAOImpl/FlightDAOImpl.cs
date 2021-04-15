@@ -491,7 +491,7 @@ namespace ISM.WebApp.DAOImpl
         public Flight GetFlight(int student_id)
         {
             SqlConnection con = null;
-            string sql = " select flight_id,fullname,account,flight_number_a,arrival_date_a,arrival_time_a,airport_departure_a,airport_arrival_a,picture_a,flight_number_d,arrival_time_d,arrival_time_d,airport_departure_d,airport_arrival_d,picture_d"
+            string sql = " select flight_id,fullname,account,flight_number_a,arrival_date_a,arrival_time_a,airport_departure_a,airport_arrival_a,picture_a,flight_number_d,arrival_date_d,arrival_time_d,airport_departure_d,airport_arrival_d,picture_d"
                        + " from Flights a right join Users b on a.student_id=b.[user_id]"
                        + " where b.[user_id]=@student_id";
             SqlDataReader reader = null;

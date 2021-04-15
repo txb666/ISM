@@ -169,7 +169,11 @@ function deleteORT() {
 function validateNotificationORT() {
     var days_before = document.getElementById("ort_notification_input").value;
     var searchButton = document.getElementById("searchBtn");
-    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+    if (!days_before) {
+        alert("Days before must not be empty.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(days_before) == false) {
         alert("Please input only positive number.");
         return;
     }

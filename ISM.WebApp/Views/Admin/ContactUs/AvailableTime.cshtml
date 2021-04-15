@@ -5,6 +5,7 @@
 @using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+    var current_date = DateTime.Now;
     if (sessionUser.role_name == "Admin")
     {
         ViewData["Title"] = "Avaliable Time Page";
@@ -69,9 +70,12 @@
                         @item.end_time.ToString(@"hh\:mm\:ss")
                     </td>
                     <td style="text-align:center;">
-                        <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');showPopup('xmas-popup');" style="width: 80px; border-radius: 10px;" class="btn btn-info">
-                          Edit
-                        </button>
+                        @if (item.date.CompareTo(current_date) > 0)
+                        {
+                            <button onclick="editMATform('@item.mat_id', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.start_time)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime3(item.end_time)');showPopup('xmas-popup');" style="width: 80px; border-radius: 10px;" class="btn btn-info">
+                                Edit
+                            </button>
+                        }
                         <button onclick="deleteMAT('@item.mat_id', '@item.staff_id');" style="width: 80px; border-radius: 10px;" class="btn btn-danger" asp-controller="" asp-action="">Delete</button>
                     </td>
                 </tr>

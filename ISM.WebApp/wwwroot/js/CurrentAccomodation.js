@@ -231,7 +231,11 @@ function validateFileType(id) {
 
 function validateNotificationAccomodation() {
     var days_before = document.getElementById("notification_input_accomodation").value;
-    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+    if (!days_before) {
+        alert("Days before must not be empty.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(days_before) == false) {
         alert("Please input only positive number.");
         return;
     }

@@ -2,8 +2,14 @@
     var dateAT = document.getElementById("create_date_id").value;
     var startTimeAT = document.getElementById("create_startTime_id").value;
     var endTimeAT = document.getElementById("create_endTime_id").value;
+    var date_check = new Date(document.getElementById("create_date_id").value);
+    var current = new Date();
     if (!dateAT) {
         alert("Date must not be empty.");
+        return;
+    }
+    if (date_check.getTime() <= current.getTime()) {
+        alert("Date must not be smaller than current date.");
         return;
     }
     if (!startTimeAT || !endTimeAT) {
@@ -168,7 +174,11 @@ function acceptMR(ms_id) {
 
 function validateSetupNotificationMeeting() {
     var days_before = document.getElementById('notification_input_meeting').value;
-    if (/^[1-9]\d*$/.test(days_before) == false && days_before.length != 0) {
+    if (!days_before) {
+        alert("Days before must not be empty.");
+        return;
+    }
+    if (/^[1-9]\d*$/.test(days_before) == false) {
         alert("Please input only positive number.");
         return;
     }
