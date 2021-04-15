@@ -11,6 +11,18 @@
     if (exchange_campus.trim().length == 0) {
         alert("Exchange Campus must not be empty");
         return;
+    } else if (cost_per_month.trim().length == 0) {
+        alert("Cost Per of Month must not be empty")
+        return;
+    } else if (room_size.trim().length == 0) {
+        alert("Room size must not be empty")
+        return;
+    } else if (distance.trim().length == 0) {
+        alert("Distance must not be empty")
+        return;
+    } else if (other_request.trim().length == 0) {
+        alert("Other request must not be empty")
+        return;
     }
     $.ajax({
         type: "POST",
