@@ -37,8 +37,18 @@ function validateCreateDetailedAgenda() {
     var venue = document.getElementById("create_venue").value;
     var PIC = document.getElementById("create_PIC").value;
     var content = document.getElementById("create_content").value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById("create_date").value);
     if (!date || !time_start || !time_end) {
-        alert("date and time must not be empty");
+        alert("Date and time must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date");
+        return;
+    }
+    if (time_start >= time_end) {
+        alert("Start time must be smaller than end time");
         return;
     }
     if (/^\s*$/.test(time_zone) == true) {
@@ -98,8 +108,18 @@ function validateEditDetailedAgenda() {
     var venue = document.getElementById("edit_venue").value;
     var PIC = document.getElementById("edit_PIC").value;
     var content = document.getElementById("edit_content").value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById("edit_date").value);
     if (!date || !time_start || !time_end) {
         alert("date and time must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date");
+        return;
+    }
+    if (time_start >= time_end) {
+        alert("Start time must be smaller than end time");
         return;
     }
     if (/^\s*$/.test(time_zone) == true) {

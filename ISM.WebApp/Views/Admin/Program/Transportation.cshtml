@@ -34,21 +34,21 @@
                     <select name="program" style="border-radius: 5px; width: 200px;">
                         @if (string.IsNullOrEmpty(Model.program))
                         {
-                        <option value="" selected>All</option>
+                            <option value="" selected>All</option>
                         }
                         else
                         {
-                        <option value="">All</option>
+                            <option value="">All</option>
                         }
                         @for (int i = 0; i < Model.programList.Count; i++)
                         {
                             if (Model.programList[i].program_name.Equals(Model.program))
                             {
-                        <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
+                                <option value="@Model.programList[i].program_name" selected>@Model.programList[i].program_name</option>
                             }
                             else
                             {
-                        <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
+                                <option value="@Model.programList[i].program_name">@Model.programList[i].program_name</option>
                             }
                         }
                     </select>
@@ -63,21 +63,21 @@
                     <select name="campus" style="border-radius: 5px; width: 200px;">
                         @if (string.IsNullOrEmpty(Model.campus))
                         {
-                        <option value="" selected>All</option>
+                            <option value="" selected>All</option>
                         }
                         else
                         {
-                        <option value="">All</option>
+                            <option value="">All</option>
                         }
                         @for (int i = 0; i < Model.campusList.Count; i++)
                         {
                             if (Model.campusList[i].campus_name.Equals(Model.campus))
                             {
-                        <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
+                                <option value="@Model.campusList[i].campus_name" selected>@Model.campusList[i].campus_name</option>
                             }
                             else
                             {
-                        <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
+                                <option value="@Model.campusList[i].campus_name">@Model.campusList[i].campus_name</option>
                             }
                         }
                     </select>
@@ -86,7 +86,7 @@
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
-    </div>  
+    </div>
 </div>
 <br>
 <br>
@@ -107,34 +107,34 @@
         <tbody>
             @foreach (var item in Model.studentGroups)
             {
-            <tr>
-                <td>
-                    @item.year
-                </td>
-                <td>
-                    @item.program_name
-                </td>
-                <td>
-                    @item.duration_start
-                </td>
-                <td>
-                    @item.duration_end
-                </td>
-                <td>
-                    @item.home_university
-                </td>
-                <td>
-                    @item.campus_name
-                </td>               
-                <td>
-                    @item.note
-                </td>    
-                <td style="text-align:center;">
-                    <button class="btn btn-info">
-                        <a style="text-decoration:none;color:white" asp-controller="Transportation" asp-action="Detail" asp-route-studentGroup_id="@item.studentGroup_id">View Transportation</a>
-                    </button>
-                 </td>
-            </tr>
+                <tr>
+                    <td>
+                        @item.year
+                    </td>
+                    <td>
+                        @item.program_name
+                    </td>
+                    <td>
+                        @item.duration_start.ToString("yyyy-MMM-dd")
+                    </td>
+                    <td>
+                        @item.duration_end.ToString("yyyy-MMM-dd")
+                    </td>
+                    <td>
+                        @item.home_university
+                    </td>
+                    <td>
+                        @item.campus_name
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td style="text-align:center;">
+                        <button class="btn btn-info">
+                            <a style="text-decoration:none;color:white" asp-controller="Transportation" asp-action="Detail" asp-route-studentGroup_id="@item.studentGroup_id">View Transportation</a>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -143,6 +143,31 @@
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
+<!-- POP UP Set Up Notification -->
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign" style="height:245px">
+        <form id="notificationForm" asp-controller="Transportation" asp-action="SetupNotification" method="post">
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Hours before:</label>
+                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
+            </div>
+            <div class="form-group row">
+                <button id="save" onclick="validateNotificationTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
+<div style="margin-top: 20px;">
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button class="btn btn-danger">
+            <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Setup Notification</a>
+        </button>
+    </i>
+</div>
 
 @*</div>*@

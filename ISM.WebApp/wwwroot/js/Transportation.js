@@ -1,6 +1,5 @@
 ﻿function validateNotificationTransportation() {
     var hours_before = document.getElementById("notification_input").value;
-    var searchButton = document.getElementById("searchBtn");
     if (!hours_before) {
         alert("Hours before must not be empty.");
         return;
@@ -17,7 +16,7 @@
         success: function (msg) {
             if (msg == "true") {
                 alert("Successfull");
-                searchButton.click();
+                window.location.href = "/Transportation";
             }
             else {
                 alert("Failed");
@@ -38,8 +37,14 @@ function validateCreateTransportation() {
     var itinerary = document.getElementById("create_itinerary").value;
     var supporter = document.getElementById("create_supporter").value;
     var note = document.getElementById("create_note").value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById("create_date").value);
     if (!date || !time) {
         alert("date and time must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(bus) == false || /^\s*$/.test(bus) == true) {
@@ -99,8 +104,14 @@ function validateEditTransportation() {
     var itinerary = document.getElementById("edit_itinerary").value;
     var supporter = document.getElementById("edit_supporter").value;
     var note = document.getElementById("edit_note").value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById("edit_date").value);
     if (!date || !time) {
         alert("date and time must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(bus) == false || /^\s*$/.test(bus) == true) {
