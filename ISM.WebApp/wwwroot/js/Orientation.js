@@ -3,10 +3,11 @@
     var content = document.getElementById('ort_content_id').value;
     var date = document.getElementById('ort_date_id').value;
     var time = document.getElementById('ort_time_id').value;
-    var location = document.getElementById('ort_location_id').value;
+    var location_ort = document.getElementById('ort_location_id').value;
     var requirement = document.getElementById('ort_requirement_id').value;
-    var searchbtn = document.getElementById('searchBtn');
-    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false && content.length != 0) {
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById('ort_date_id').value);
+    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
         alert("Content must not be empty or contain special character.");
         return;
     }
@@ -14,22 +15,26 @@
         alert("Date must not be empty.");
         return;
     }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date.");
+        return;
+    }
     if (!time) {
         alert("Time must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(location) == false && location.length != 0) {
+    if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
         alert("Location must not be empty or contain special character.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false && requirement.length != 0) {
+    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
         alert("Requirement must not be empty or contain special character.");
         return;
     }
     $.ajax({
         type: "POST",
         url: "/Orientation/isExist",
-        data: { id: student_id, content: content, date: date, time: time, location: location },
+        data: { id: student_id, content: content, date: date, time: time, location: location_ort },
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
@@ -51,12 +56,13 @@
                             $.ajax({
                                 type: "POST",
                                 url: "/Orientation/CreateORT",
-                                data: { id: student_id, content: content, date: date, time: time, location: location, requirement: requirement },
+                                data: { id: student_id, content: content, date: date, time: time, location: location_ort, requirement: requirement },
                                 dataType: "text",
                                 success: function (msg) {
                                     if (msg == "true") {
                                         alert("Create successfull");
-                                        searchbtn.click();
+                                        document.getElementById("xmas-popup").style.display = "none";
+                                        location.reload();
                                     }
                                     else {
                                         alert("Create failed")
@@ -80,12 +86,12 @@
     });
 }
 
-function editORT(id, content, date, time, location, requirement) {
+function editORT(id, content, date, time, location_ort, requirement) {
     document.getElementById('edit_ort_id').value = id;
     document.getElementById('edit_ort_content_id').value = content;
     document.getElementById('edit_ort_date_id').value = date;
     document.getElementById('edit_ort_time_id').value = time;
-    document.getElementById('edit_ort_location_id').value = location;
+    document.getElementById('edit_ort_location_id').value = location_ort;
     document.getElementById('edit_ort_requirement_id').value = requirement;
 }
 
@@ -94,10 +100,11 @@ function validateEditORT() {
     var content = document.getElementById('edit_ort_content_id').value;
     var date = document.getElementById('edit_ort_date_id').value;
     var time = document.getElementById('edit_ort_time_id').value;
-    var location = document.getElementById('edit_ort_location_id').value;
+    var location_ort = document.getElementById('edit_ort_location_id').value;
     var requirement = document.getElementById('edit_ort_requirement_id').value;
-    var searchbtn = document.getElementById('searchBtn');
-    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false && content.length != 0) {
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById('edit_ort_date_id').value);
+    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
         alert("Content must not be empty or contain special character.");
         return;
     }
@@ -105,27 +112,32 @@ function validateEditORT() {
         alert("Date must not be empty.");
         return;
     }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Date must be greater than current date.");
+        return;
+    }
     if (!time) {
         alert("Time must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(location) == false && location.length != 0) {
+    if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
         alert("Location must not be empty or contain special character.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false && requirement.length != 0) {
+    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
         alert("Requirement must not be empty or contain special character.");
         return;
     }
     $.ajax({
         type: "POST",
         url: "/Orientation/EditORT",
-        data: { id: id, content: content, date: date, time: time, location: location, requirement: requirement },
+        data: { id: id, content: content, date: date, time: time, location: location_ort, requirement: requirement },
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
                 alert("Edit successfull");
-                searchbtn.click();
+                document.getElementById("xmas-popup-assign").style.display = "none";
+                location.reload();
             }
             else {
                 alert("Edit failed")
@@ -139,7 +151,6 @@ function validateEditORT() {
 
 function deleteORT() {
     var id = document.getElementById('delete_ort_id').value;
-    var searchbtn = document.getElementById('searchBtn');
     var temp = confirm("Do you want to delete?");
     if (temp) {
         $.ajax({
@@ -150,7 +161,7 @@ function deleteORT() {
             success: function (msg) {
                 if (msg == "true") {
                     alert("Delete successfull");
-                    searchbtn.click();
+                    location.reload();
                 }
                 else {
                     alert("Delete failed")
@@ -168,7 +179,6 @@ function deleteORT() {
 
 function validateNotificationORT() {
     var days_before = document.getElementById("ort_notification_input").value;
-    var searchButton = document.getElementById("searchBtn");
     if (!days_before) {
         alert("Days before must not be empty.");
         return;

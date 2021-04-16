@@ -41,7 +41,7 @@ namespace ISM.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchORT(int id, int page = 1, string content = "", DateTime? date = null, TimeSpan? time = null, string location = "", string require_document = "")
+        public IActionResult StudentOrientation(int id, int page = 1, string content = "", DateTime? date = null, TimeSpan? time = null, string location = "", string require_document = "")
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
             if (sessionUser.role_name.Equals("Admin") || sessionUser.role_name.Equals("Staff"))

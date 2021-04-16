@@ -216,7 +216,6 @@ function validateBookAMeeting(student_id) {
     var startTimeAT = document.getElementById("book_startTime_id").value;
     var endTimeAT = document.getElementById("book_endTime_id").value;
     var note = document.getElementById("book_note_id").value;
-    var searchbtn = document.getElementById("searchBtn");
     if (!note) {
         alert("Please enter meeting note.");
         return;
@@ -240,7 +239,8 @@ function validateBookAMeeting(student_id) {
                     success: function (msg) {
                         if (msg == "true") {
                             alert("Book successfull");
-                            searchbtn.click();
+                            document.getElementById("xmas-popup").style.display = "none";
+                            location.reload();
                         }
                         else {
                             alert("Book failed")
