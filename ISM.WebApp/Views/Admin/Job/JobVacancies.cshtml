@@ -89,7 +89,7 @@
                             <button style="width:80px; border-radius:10px;" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)');showPopup('xmas-popup-assign');"class="btn btn-info">
                                 Edit
                             </button>
-                            <button style="width:80px; border-radius:10px;" onclick="deleteJV();" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
+                            <button style="width:80px; border-radius:10px;" onclick="deleteJV('@item.jobVacancy_id');" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
                         </td>
                     </tr>
                 }

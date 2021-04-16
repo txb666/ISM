@@ -4,6 +4,8 @@
     var job_emp_type = document.getElementById('create_et_id').value;
     var job_content = document.getElementById('create_content_id').value;
     var job_deadline = document.getElementById('create_deadline_id').value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById('create_deadline_id').value);
     if (!job_name) {
         alert("Job name must not be empty");
         return;
@@ -22,6 +24,10 @@
     }
     if (!job_deadline) {
         alert("Job deadline must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Deadline must be greater than current date.");
         return;
     }
     $.ajax({
@@ -60,6 +66,8 @@ function validateEditJobVacancy() {
     var job_emp_type = document.getElementById('edit_et_id').value;
     var job_content = document.getElementById('edit_content_id').value;
     var job_deadline = document.getElementById('edit_deadline_id').value;
+    var current_date = new Date();
+    var check_date = new Date(document.getElementById('edit_deadline_id').value);
     if (!job_name) {
         alert("Job name must not be empty");
         return;
@@ -78,6 +86,10 @@ function validateEditJobVacancy() {
     }
     if (!job_deadline) {
         alert("Job deadline must not be empty");
+        return;
+    }
+    if (check_date.getTime() <= current_date.getTime()) {
+        alert("Deadline must be greater than current date.");
         return;
     }
     $.ajax({
