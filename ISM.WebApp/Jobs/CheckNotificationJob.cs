@@ -119,41 +119,41 @@ namespace ISM.WebApp.Jobs
             return null;
         }
 
-        private List<StudentGroup> GetStudentGroups()
-        {
-            SqlConnection con = null;
-            String sql = "";
-            SqlDataReader reader = null;
-            SqlCommand com = null;
-            List<StudentGroup> studentGroups = new List<StudentGroup>();
-            try
-            {
-                con = DBUtils.GetConnection();
-                con.Open();
-                com = new SqlCommand(sql, con);
-                sql = "select a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b where a.program_id = b.program_id";
-                com.CommandText = sql;
-                reader = com.ExecuteReader();
-                while (reader.Read())
-                {
-                    StudentGroup studentGroup = new StudentGroup();
-                    studentGroup.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
-                    studentGroup.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
-                    studentGroup.type = (string)reader.GetValue(reader.GetOrdinal("type"));
-                    studentGroups.Add(studentGroup);
-                }
-                return studentGroups;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                DBUtils.closeAllResource(con, com, reader, null);
-            }
-            return null;
-        }
+        //private List<StudentGroup> GetStudentGroups()
+        //{
+        //    SqlConnection con = null;
+        //    String sql = "";
+        //    SqlDataReader reader = null;
+        //    SqlCommand com = null;
+        //    List<StudentGroup> studentGroups = new List<StudentGroup>();
+        //    try
+        //    {
+        //        con = DBUtils.GetConnection();
+        //        con.Open();
+        //        com = new SqlCommand(sql, con);
+        //        sql = "select a.student_group_id,b.[program_name],b.[type] from Student_Group a, Programs b where a.program_id = b.program_id";
+        //        com.CommandText = sql;
+        //        reader = com.ExecuteReader();
+        //        while (reader.Read())
+        //        {
+        //            StudentGroup studentGroup = new StudentGroup();
+        //            studentGroup.studentGroup_id = (int)reader.GetValue(reader.GetOrdinal("student_group_id"));
+        //            studentGroup.program_name = (string)reader.GetValue(reader.GetOrdinal("program_name"));
+        //            studentGroup.type = (string)reader.GetValue(reader.GetOrdinal("type"));
+        //            studentGroups.Add(studentGroup);
+        //        }
+        //        return studentGroups;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //    }
+        //    finally
+        //    {
+        //        DBUtils.closeAllResource(con, com, reader, null);
+        //    }
+        //    return null;
+        //}
 
         private void InsertDay(string notificationType, int studentGroup_id, int days_before)
         {
