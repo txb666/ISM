@@ -114,7 +114,7 @@
                     @item.content
                 </td>
                 <td style="text-align: center;">
-                    <button style="width:80px;border-radius:10px" onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign1');" class="btn btn-info">
+                    <button style="width:80px;border-radius:10px" onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign');" class="btn btn-info">
                         Edit
                     </button>
                     <button style="width:80px;border-radius:10px" onclick="deleteDetailedAgenda('@item.detailed_agenda_id');" class="btn btn-danger">
@@ -174,8 +174,8 @@
             </form>
         </div>
     </div>
-    <div id="xmas-popup-assign1" class="popup" href="#">
-        <div class="popup-content-assign1">
+    <div id="xmas-popup-assign" class="popup" href="#">
+        <div class="popup-content-assign">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Detailed Agenda</h1>
                 <input type="hidden" id="edit_detailed_agenda_id">
@@ -215,7 +215,7 @@
                 </div>
                 <div class="form-group row">
                     <button id="save" onclick="validateEditDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button onclick="hidePopup('xmas-popup-assign1')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <button id="cancel" onclick="hidePopup('xmas-popup-assign');"  style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
                 </div>

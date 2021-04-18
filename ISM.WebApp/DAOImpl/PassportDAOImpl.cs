@@ -221,53 +221,53 @@ namespace ISM.WebApp.DAOImpl
             return passport;
         }
 
-        public Passport GetPassportById(int id)
-        {
-            SqlConnection con = null;
-            string sql = "";
-            SqlDataReader reader = null;
-            SqlCommand com = null;
-            Passport passport = new Passport();
-            try
-            {
-                con = DBUtils.GetConnection();
-                con.Open();
-                com = new SqlCommand();
-                com.Connection = con;
-                string where = "";
-                if (id != 0)
-                {
-                    where += " and a.passport_id=@id";
-                    com.Parameters.Add("@id", SqlDbType.Int);
-                    com.Parameters["@id"].Value = id;
-                }
-                sql = "select * from (select b.account,a.passport_id,b.fullname,a.passport_number,a.picture," +
-                      "a.[start_date],a.expired_date,a.issuing_authority from Passports a, Users b " +
-                      "where a.student_id = b.[user_id]" + where + ") as temp";
-                com.CommandText = sql;
-                reader = com.ExecuteReader();
-                while (reader.Read())
-                {
-                    passport.passport_id = (int)reader.GetValue(reader.GetOrdinal("passport_id"));
-                    passport.account = (string)reader.GetValue(reader.GetOrdinal("account"));
-                    passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
-                    passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
-                    passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
-                    passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
-                    passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
-                    passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                DBUtils.closeAllResource(con, com, reader, null);
-            }
-            return passport;
-        }
+        //public Passport GetPassportById(int id)
+        //{
+        //    SqlConnection con = null;
+        //    string sql = "";
+        //    SqlDataReader reader = null;
+        //    SqlCommand com = null;
+        //    Passport passport = new Passport();
+        //    try
+        //    {
+        //        con = DBUtils.GetConnection();
+        //        con.Open();
+        //        com = new SqlCommand();
+        //        com.Connection = con;
+        //        string where = "";
+        //        if (id != 0)
+        //        {
+        //            where += " and a.passport_id=@id";
+        //            com.Parameters.Add("@id", SqlDbType.Int);
+        //            com.Parameters["@id"].Value = id;
+        //        }
+        //        sql = "select * from (select b.account,a.passport_id,b.fullname,a.passport_number,a.picture," +
+        //              "a.[start_date],a.expired_date,a.issuing_authority from Passports a, Users b " +
+        //              "where a.student_id = b.[user_id]" + where + ") as temp";
+        //        com.CommandText = sql;
+        //        reader = com.ExecuteReader();
+        //        while (reader.Read())
+        //        {
+        //            passport.passport_id = (int)reader.GetValue(reader.GetOrdinal("passport_id"));
+        //            passport.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+        //            passport.fullname = (string)reader.GetValue(reader.GetOrdinal("fullname"));
+        //            passport.passport_number = (string)reader.GetValue(reader.GetOrdinal("passport_number"));
+        //            passport.picture = (string)reader.GetValue(reader.GetOrdinal("picture"));
+        //            passport.start_date = (DateTime)reader.GetValue(reader.GetOrdinal("start_date"));
+        //            passport.expired_date = (DateTime)reader.GetValue(reader.GetOrdinal("expired_date"));
+        //            passport.issuing_authority = (string)reader.GetValue(reader.GetOrdinal("issuing_authority"));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //    }
+        //    finally
+        //    {
+        //        DBUtils.closeAllResource(con, com, reader, null);
+        //    }
+        //    return passport;
+        //}
 
         public List<Passport> GetPassports(bool isAdmin, string degreeOrMobility, bool haveDegree, int current_staff_id, int page, int pageSize, string fullname, string account, string passport_number, DateTime? start_date, DateTime? expired_date, string issuing_authority)
         {

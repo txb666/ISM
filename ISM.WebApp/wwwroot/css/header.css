@@ -283,7 +283,6 @@ POPUP SETUP NOTIFICATION*/
 .table-scroll-meeting {
     overflow-y: scroll;
     height: 350px;
-    overflow-x: hidden;
 }
 
 
