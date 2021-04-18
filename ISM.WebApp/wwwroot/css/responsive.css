@@ -28,8 +28,12 @@
         padding: 10px 6px !important;
     }
 
+    #responsive{
+        overflow-y:scroll;
+        overflow-x:hidden;
+    }
     #xmas-popup-assign .popup-content-assign {
-        height: 500px !important;
+        height: 520px !important;
         width: 320px !important;
     }
     #xmas-popup-notification .popup-content-notification {
@@ -48,6 +52,18 @@
         height: 400px !important;
         width: 320px !important
     }
+    #xmas-popup-assign1-book .popup-content-assign1-book{
+        overflow-y:scroll;
+        height:500px;
+        width:320px;
+        overflow-x:hidden
+    }
+    #xmas-popup-assign-book .popup-content-assign-book {
+        overflow-y: scroll;
+        height: 500px;
+        width: 320px;
+        overflow-x: hidden
+    }
 
     img {
         width: 150px !important;
@@ -59,6 +75,9 @@
     }
 
     .table-scroll {
+        width: 320px !important;
+    }
+    .table-scroll-meeting {
         width: 320px !important;
     }
 

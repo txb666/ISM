@@ -97,7 +97,7 @@
                             @item.note
                         </td>
                         <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign1');" class="btn btn-info">
+                            <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign');" class="btn btn-info">
                                 Edit
                             </button>
                             <button style="width:80px;border-radius:10px" onclick="deleteTransportation('@item.transportations_id')" class="btn btn-danger">
@@ -151,8 +151,8 @@
                 </form>
             </div>
         </div>
-        <div id="xmas-popup-assign1" class="popup" href="#">
-            <div class="popup-content-assign1">
+        <div id="xmas-popup-assign" class="popup" href="#">
+            <div class="popup-content-assign">
                 <form id="editTransportationForm">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
                     <input type="hidden" id="edit_transportation_id">
@@ -186,7 +186,7 @@
                     </div>
                     <div class="form-group row">
                         <button id="save" onclick="validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button onclick="hidePopup('xmas-popup-assign1')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             Cancel
                         </button>
                     </div>
