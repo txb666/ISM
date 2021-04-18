@@ -19,10 +19,5 @@ namespace ISM.WebApp.ViewModels
         public DateTime? endDate { get; set; }
         public bool? gender { get; set; }
         public bool? status { get; set; }
-
-        public StaffIndexViewModel()
-        {
-
-        }
     }
 }
