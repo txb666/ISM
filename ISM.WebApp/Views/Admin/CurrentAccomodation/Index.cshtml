@@ -96,18 +96,20 @@
             </form>
         </div>
     </div>
-    <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; margin-left: 35%; border-radius: 5px;">
-        @if (Model.degreeOrMobility.Equals("Degree"))
-        {
-            <option value="Degree" selected>Degree Student</option>
-            <option value="Mobility">Mobility Student</option>
-        }
-        else
-        {
-            <option value="Degree">Degree Student</option>
-            <option value="Mobility" selected>Mobility Student</option>
-        }
-    </select>
+    <center>
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
+        </select>
+    </center>
     <button onclick="showPopup('xmas-popup')" style="float: right; width: 80px; border-radius:10px" class="btn btn-success">
         Create
     </button>
