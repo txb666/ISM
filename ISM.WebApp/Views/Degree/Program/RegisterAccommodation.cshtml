@@ -41,7 +41,7 @@
                         <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.exchange_campus" disabled>
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Accomodation Option:</label>
+                        <label style="margin-left: 50px; font-weight: bold; width:150px;">Accommodation Option:</label>
                         <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.accomodation_option" disabled>
                     </div>
                     <p style="text-align:center">
@@ -90,7 +90,7 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_exchange_campus" value="@Model.student_register_accomodation.exchange_campus">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Accomodation Option:</label>
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Accommodation Option:</label>
                         <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_accomodation_option">
                             @if (string.IsNullOrEmpty(Model.student_register_accomodation.accomodation_option) || Model.student_register_accomodation.accomodation_option.Equals("On-campus"))
                             {
