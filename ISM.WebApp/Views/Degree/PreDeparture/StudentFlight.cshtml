@@ -48,7 +48,7 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_a.HasValue?Model.student_flight.arrival_date_a.Value.ToString("dd-MM-yyyy"):"")" disabled>
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time In Vietnam:</label>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time in Vietnam:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_a" disabled>
                 </div>
                 <div class="form-group row">
@@ -66,11 +66,11 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_d" disabled>
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_d.HasValue ? Model.student_flight.arrival_date_d.Value.ToString("dd-MM-yyyy") : "")" disabled>
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time In Vietnam:</label>
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Time in Vietnam:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_d" disabled>
                 </div>
                 <div class="form-group row">
@@ -116,7 +116,7 @@
                         <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_a" value="@(Model.student_flight.arrival_date_a.HasValue?Model.student_flight.arrival_date_a.Value.ToString("yyyy-MM-dd"):"")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time In Vietnam:</label>
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time in Vietnam:</label>
                         <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_a" value="@Model.student_flight.arrival_time_a">
                     </div>
                     <div class="form-group row">
@@ -138,11 +138,11 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_d" value="@Model.student_flight.flight_number_d">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date:</label>
                         <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_date_d" value="@(Model.student_flight.arrival_date_d.HasValue ? Model.student_flight.arrival_date_d.Value.ToString("yyyy-MM-dd") : "")">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time In Vietnam:</label>
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Time in Vietnam:</label>
                         <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_arrival_time_d" value="@Model.student_flight.arrival_time_d">
                     </div>
                     <div class="form-group row">
