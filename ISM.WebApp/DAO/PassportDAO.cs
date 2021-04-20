@@ -17,5 +17,6 @@ namespace ISM.WebApp.DAO
         List<Passport> GetVisaLettersAdminToExcel();
         List<Passport> GetVisaLettersStaffToExcel(int staff_id);
         bool CreateOrEditPassport(int student_id, int? passport_id, string picture, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority);
+        bool SkipNotification(int user_id);
     }
 }

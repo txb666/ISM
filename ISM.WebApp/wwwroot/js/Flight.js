@@ -1,4 +1,31 @@
-﻿function validateEditFlight() {
+﻿function skipNotificationFlight(user_id) {
+    var check = confirm("Have you actually submitted the flight ticket document?");
+    if (check) {
+        $.ajax({
+            type: "POST",
+            url: "/Flight/SkipNotification",
+            data: { user_id: user_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Successfull");
+                    window.location.href = '/Flight';
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    else {
+        return;
+    }
+}
+
+function validateEditFlight() {
     var check = document.getElementById("degreeOrMobility_id_check").value;
     var searchBtn = document.getElementById("searchButton");
     if (check == "Mobility") {

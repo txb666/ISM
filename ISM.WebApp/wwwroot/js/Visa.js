@@ -1,4 +1,31 @@
-﻿function editVisa(id, start_date, expired_date, entry_date, entry_port) {
+﻿function skipNotificationVisa(user_id) {
+    var check = confirm("Have you actually submitted the document for renew your visa?");
+    if (check) {
+        $.ajax({
+            type: "POST",
+            url: "/Visa/SkipNotification",
+            data: { user_id: user_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Successfull");
+                    window.location.href = '/Visa';
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    else {
+        return;
+    }
+}
+
+function editVisa(id, start_date, expired_date, entry_date, entry_port) {
     document.getElementById("edit_startDate").value = start_date;
     document.getElementById("edit_expiredDate").value = expired_date;
     document.getElementById("edit_entryDate").value = entry_date;

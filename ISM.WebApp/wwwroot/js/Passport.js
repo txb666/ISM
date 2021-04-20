@@ -1,4 +1,31 @@
-﻿function validateNotificationPassport() {
+﻿function skipNotificationPassport(user_id) {
+    var check = confirm("Have you actually submitted the document for renew your passport?");
+    if (check) {
+        $.ajax({
+            type: "POST",
+            url: "/Passport/SkipNotification",
+            data: { user_id: user_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Successfull");
+                    window.location.href = '/Passport';
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    else {
+        return;
+    }
+}
+
+function validateNotificationPassport() {
     var days_before = document.getElementById("notification_input").value;
     if (!days_before) {
         alert("Days before must not be empty.");

@@ -109,5 +109,12 @@ namespace ISM.WebApp.Controllers
             }
             return Json(new { status = "success", message = "Edit successfully" });
         }
+
+        [Authorize(Roles = "Degree,Mobility")]
+        public bool SkipNotification(int user_id)
+        {
+            bool result = insuranceDAO.SkipNotification(user_id);
+            return result;
+        }
     }
 }

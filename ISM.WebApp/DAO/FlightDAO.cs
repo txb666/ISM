@@ -18,5 +18,6 @@ namespace ISM.WebApp.DAO
         List<Flight> GetVisaLettersStaffToExcel(int staff_id);
         bool CreateOrEditFlight(int student_id, int? flight_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string picture_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d, string picture_d);
         Flight GetFlight(int student_id);
+        bool SkipNotification(int user_id);
     }
 }

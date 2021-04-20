@@ -1,4 +1,31 @@
-﻿function validateNotificationInsuranceDegree() {
+﻿function skipNotificationInsurance(user_id) {
+    var check = confirm("Have you actually submitted the insurance document?");
+    if (check) {
+        $.ajax({
+            type: "POST",
+            url: "/Insurance/SkipNotification",
+            data: { user_id: user_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Successfull");
+                    window.location.href = '/Insurance';
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    else {
+        return;
+    }
+}
+
+function validateNotificationInsuranceDegree() {
     var deadline = document.getElementById("degree_deadline_id").value;
     var days_before = document.getElementById("degree_daysBefore_id").value;
     var current_date = new Date();

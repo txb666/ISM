@@ -16,5 +16,6 @@ namespace ISM.WebApp.DAO
         List<Visa> GetVisaLettersAdminToExcel();
         List<Visa> GetVisaLettersStaffToExcel(int staff_id);
         bool CreateOrEditVisa(int? visa_id, int student_id, string picture, DateTime start_date, DateTime expired_date, DateTime date_entry, string entry_port);
+        bool SkipNotification(int user_id);
     }
 }

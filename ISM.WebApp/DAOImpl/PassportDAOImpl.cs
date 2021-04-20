@@ -592,5 +592,31 @@ namespace ISM.WebApp.DAOImpl
             }
             return passports;
         }
+
+        public bool SkipNotification(int user_id)
+        {
+            SqlConnection con = null;
+            string sql = "update Users set isUpdatePassport = 1 where [user_id] = @user_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
+        }
     }
 }
