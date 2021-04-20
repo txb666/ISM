@@ -67,6 +67,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public bool CreateOrEdit(int student_id, int? register_accomodation_id, string exchange_campus, string accomodation_option, double? cost_per_month, double? room_size, string room_type, double? distance, string other_request)
         {
             DateTime register_date = DateTime.Now;

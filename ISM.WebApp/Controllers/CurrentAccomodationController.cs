@@ -84,6 +84,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create(int? student_id, int? student_group_id, string type, string location, string description, double? fee, string note, IFormFile picture)
         {
             string pictureName = "";
@@ -115,6 +116,7 @@ namespace ISM.WebApp.Controllers
             return Json(new { status = "success", message = "Create successfully" });
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int? student_id, int? student_group_id, int current_accomodation_id, string type, string location, string description, double? fee, string note, IFormFile picture, string pictureName)
         {
             if (picture != null)
@@ -145,12 +147,14 @@ namespace ISM.WebApp.Controllers
             return Json(new { status = "success", message = "Edit successfully" });
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool isCurrentAccomodationExist(int? student_id, int? student_group_id)
         {
             bool result=accomodationDAO.isCurrentAccomodationExist(student_id, student_group_id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int days_before)
         {
             bool result = accomodationDAO.SetupNotification(days_before);

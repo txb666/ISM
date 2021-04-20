@@ -72,19 +72,22 @@ namespace ISM.WebApp.Controllers
             }
             return View();
         }
-        
+
+        [Authorize(Roles = "Admin,Staff")]
         public bool edit(int id, string visa_type,string visa_period,string apply_receive)
         {
             bool result = VisaLetterDAO.editVisaLetter(id, visa_type, visa_period, apply_receive);
             return result;
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public bool CreateOrEdit(int student_id, int visa_letter_id, string visa_type, string visa_period, string apply_receive)
         {
             bool result = VisaLetterDAO.CreateOrEditVisaLetter(student_id, visa_letter_id, visa_type, visa_period, apply_receive);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult ExportToExcel()
         {
             List<VisaLetter> visaLetterExcel = new List<VisaLetter>();

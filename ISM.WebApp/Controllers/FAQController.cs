@@ -7,12 +7,14 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class FAQController : Controller
     {
         public FAQDAO fAQDAO;
@@ -40,17 +42,21 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Create(string question, string answer)
         {
             bool result = fAQDAO.createFAQ(question, answer);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int faq_id, string question, string answer)
         {
             bool result = fAQDAO.editFAQ(faq_id, question, answer);
             return result;
         }
+
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int faq_id)
         {
             bool result = fAQDAO.deleteFAQ(faq_id);

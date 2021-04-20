@@ -6,7 +6,6 @@
 }
 <!doctype html>
 <html lang="en">
-
 <head>
     <title>FPT INTERNATIONAL MANAGE STUDENT</title>
     <!-- Required meta tags -->
@@ -57,13 +56,15 @@
             <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
                 <img style="margin-top: 10px" src="~/image/fpt.png" />
             </div>
-            <!-- <div class="col-xl-1 col-md-1 col-lg-1 "></div> -->
-            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
-                    <span class="material-icons">notifications</span>
-                    <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
-                </button>
-            </div>
+            @if (sessionUser.isFirstLoggedIn == false)
+            {
+                <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+                    <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
+                        <span class="material-icons">notifications</span>
+                        <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
+                    </button>
+                </div>
+            }
             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top:20px">
                 <div class="dropdown">
                     <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
@@ -76,7 +77,7 @@
                         </a>
                         <a>
                             <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
+                                <button id="logout_btn_id" style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
                             </form>
                         </a>
                     </div>
@@ -84,123 +85,126 @@
             </div>
         </div>
 
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-expanded="true">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        @if (sessionUser.isFirstLoggedIn == false)
+        {
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-expanded="true">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                <ul class="navbar-nav" style="margin: 0 auto;">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="/Staff">Staff</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Student
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/StudentGroup">Student Group</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Student">Manage Student</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Visa & Passport
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/VisaLetter">Pre-Approval Visa Letter</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Visa">Visa</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Passport">Passport</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Insurance
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="Article" asp-action="List" asp-route-type="Insurance Instruction">Insurance Instruction</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Insurance">Student Insurance</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Pre-departure
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="What to pack">What to pack</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Flight">Student's Flight</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/StudentHandbook">Handbook</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/CurrentAccomodation">Current Accommodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/GeneralAgenda">General Agenda</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Program
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/Orientation">Orientation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/DetailedAgenda">Detailed agenda</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Transportation">Transportation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/ORTMaterials">Orientation Materials</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/ORTMaterialSlide">ORT Material/Slide</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Local Recommendation
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="6">Da Nang</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="5">Ho Chi Minh</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="2">Ha Noi</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="7">Can Tho</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Job services
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/JobServices/IWantAJob">I want a Job</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/JobVacancy">Job Vacancies</a>
+                    <ul class="navbar-nav" style="margin: 0 auto;">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="/Staff">Staff</a>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Student
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" href="/StudentGroup">Student Group</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Student">Manage Student</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Visa & Passport
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" href="/VisaLetter">Pre-Approval Visa Letter</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Visa">Visa</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Passport">Passport</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Insurance
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" asp-controller="Article" asp-action="List" asp-route-type="Insurance Instruction">Insurance Instruction</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Insurance">Student Insurance</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Pre-departure
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="What to pack">What to pack</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Flight">Student's Flight</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/StudentHandbook">Handbook</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/CurrentAccomodation">Current Accommodation</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/GeneralAgenda">General Agenda</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Program
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" href="/Orientation">Orientation</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/DetailedAgenda">Detailed agenda</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Transportation">Transportation</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/ORTMaterials">Orientation Materials</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/ORTMaterialSlide">ORT Material/Slide</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Local Recommendation
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="6">Da Nang</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="5">Ho Chi Minh</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="2">Ha Noi</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="7">Can Tho</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" id="navbarDropdown">
+                                Job services
+                            </a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" href="/JobServices/IWantAJob">I want a Job</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/JobVacancy">Job Vacancies</a>
 
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="/FAQ">FAQs</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link">Contact Us</a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/ContactInformation">Contact Information</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Meeting">View meeting</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link" href="/FAQ">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdowns">
+                            <a class="nav-link">Contact Us</a>
+                            <div class="dropdown-description">
+                                <a class="dropdown-item" href="/ContactInformation">Contact Information</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Meeting">View meeting</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        }
 
         <div class="container-fluid">
             <main role="main" class="pb-3">

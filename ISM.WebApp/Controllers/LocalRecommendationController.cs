@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class LocalRecommendationController : Controller
     {
         public LocalRecommendationDAO localRecommendationDAO;
@@ -42,6 +44,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int local_recommendation_id, string title, IFormFile file)
         {
             string file_name = "local_recommendation_" + local_recommendation_id + ".pdf";

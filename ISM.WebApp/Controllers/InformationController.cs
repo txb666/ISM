@@ -2,6 +2,7 @@
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
     public class InformationController : Controller
     {
         public InformationDAO _informationDAO;
@@ -64,8 +66,13 @@ namespace ISM.WebApp.Controllers
 
         public bool UpdatePassword(int user_id, string new_password)
         {
-            bool result = _informationDAO.ChangePassword(user_id, new_password);
-            return result;
+            bool result_changePassword = _informationDAO.ChangePassword(user_id, new_password);
+            bool result_update = _informationDAO.updateAccount(user_id);
+            if (result_changePassword && result_update)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

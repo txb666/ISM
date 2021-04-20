@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ISM.WebApp.Constant;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ISM.WebApp.Controllers
 {
@@ -39,70 +40,130 @@ namespace ISM.WebApp.Controllers
                 return RedirectToAction("Index");
             }
             Account newAccount = new Account();
-            var account = _accountDAO.GetAccount(txtAccount,txtPassword);
+            var account = _accountDAO.GetAccount(txtAccount, txtPassword);
             newAccount = account;
             newAccount.haveDegree = _accountDAO.haveDegree(newAccount.user_id);
             newAccount.totalNotification = _accountDAO.GetTotalNotification(newAccount.user_id);
             newAccount.webNotifications = _accountDAO.GetWebNotifications(newAccount.user_id);
 
-            if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_name.Equals("Admin")) && (newAccount.status == true))
+            if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password) && (newAccount.role_name.Equals("Admin")) && (newAccount.status == true))
             {
-                var claims = new List<Claim>
+                if (newAccount.isFirstLoggedIn == false)
                 {
-                    new Claim(ClaimTypes.Name, txtAccount),
-                    new Claim(ClaimTypes.Role, "Admin")
-                };
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                var props = new AuthenticationProperties();
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Admin")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
+                else if (newAccount.isFirstLoggedIn == true)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Guest")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
                 return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
-            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_name.Equals("Staff")) && (newAccount.status == true))
+            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password) && (newAccount.role_name.Equals("Staff")) && (newAccount.status == true))
             {
-                var claims = new List<Claim>
-                 {
-                     new Claim(ClaimTypes.Name, txtAccount),
-                     new Claim(ClaimTypes.Role, "Staff")
-                 };
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                var props = new AuthenticationProperties();
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                if (newAccount.isFirstLoggedIn == false)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Staff")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
+                else if (newAccount.isFirstLoggedIn == true)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Guest")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
                 return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
-            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_name.Equals("Degree")) && (newAccount.status == true))
+            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password) && (newAccount.role_name.Equals("Degree")) && (newAccount.status == true))
             {
-                var claims = new List<Claim>
-                 {
-                     new Claim(ClaimTypes.Name, txtAccount),
-                     new Claim(ClaimTypes.Role, "Degree")
-                 };
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                var props = new AuthenticationProperties();
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                if (newAccount.isFirstLoggedIn == false)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Degree")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
+                else if (newAccount.isFirstLoggedIn == true)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Guest")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
                 return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
-            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-                && (newAccount.role_name.Equals("Mobility")) && (newAccount.status == true))
+            else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password) && (newAccount.role_name.Equals("Mobility")) && (newAccount.status == true))
             {
-                var claims = new List<Claim>
-                 {
-                     new Claim(ClaimTypes.Name, txtAccount),
-                     new Claim(ClaimTypes.Role, "Mobility")
-                 };
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                var props = new AuthenticationProperties();
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-                HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                if (newAccount.isFirstLoggedIn == false)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Mobility")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
+                else if (newAccount.isFirstLoggedIn == true)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, txtAccount),
+                        new Claim(ClaimTypes.Role, "Guest")
+                    };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    var props = new AuthenticationProperties();
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
+                    HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
+                }
                 return View("Views/Admin/Homepage/AdminHomepage.cshtml");
             }
             else
@@ -111,94 +172,7 @@ namespace ISM.WebApp.Controllers
             }
         }
 
-        //[HttpPost, ActionName("Index")]
-        //public async Task<IActionResult> Login(string txtAccount, string txtPassword)
-        //{
-        //    if (string.IsNullOrEmpty(txtAccount) || string.IsNullOrEmpty(txtPassword))
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //    Account newAccount = new Account();
-        //    var accounts = _accountDAO.GetAccounts();
-        //    foreach (Account account in accounts)
-        //    {
-        //        if ((txtAccount.ToLower() == account.username.ToLower()) && (txtPassword == account.password))
-        //        {
-        //            newAccount = account;
-        //            newAccount.haveDegree = _accountDAO.haveDegree(newAccount.user_id);
-        //        }
-        //        else
-        //        {
-        //            return View();
-        //        }
-        //    }
-
-        //    if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-        //        && (newAccount.role_name.Equals("Admin")) && (newAccount.status == true))
-        //    {
-        //        var claims = new List<Claim>
-        //        {
-        //            new Claim(ClaimTypes.Name, txtAccount),
-        //            new Claim(ClaimTypes.Role, "Admin")
-        //        };
-        //        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //        var principal = new ClaimsPrincipal(identity);
-        //        var props = new AuthenticationProperties();
-        //        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-        //        HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-        //        return View("Views/Admin/Homepage/AdminHomepage.cshtml");
-        //    }
-        //    else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-        //        && (newAccount.role_name.Equals("Staff")) && (newAccount.status == true))
-        //    {
-        //         var claims = new List<Claim>
-        //         {
-        //             new Claim(ClaimTypes.Name, txtAccount),
-        //             new Claim(ClaimTypes.Role, "Staff")
-        //         };
-        //         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //         var principal = new ClaimsPrincipal(identity);
-        //         var props = new AuthenticationProperties();
-        //         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-        //         HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-        //         return View("Views/Staff/Homepage/StaffHomepage.cshtml");
-        //    }
-        //    else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-        //        && (newAccount.role_name.Equals("Degree")) && (newAccount.status == true))
-        //    {
-        //         var claims = new List<Claim>
-        //         {
-        //             new Claim(ClaimTypes.Name, txtAccount),
-        //             new Claim(ClaimTypes.Role, "Degree")
-        //         };
-        //         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //         var principal = new ClaimsPrincipal(identity);
-        //         var props = new AuthenticationProperties();
-        //         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-        //         HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-        //         return View("Views/Degree/Homepage/DegreeHomepage.cshtml");
-        //    }
-        //    else if ((txtAccount.ToLower() == newAccount.username) && (txtPassword == newAccount.password)
-        //        && (newAccount.role_name.Equals("Mobility")) && (newAccount.status == true))
-        //    {
-        //         var claims = new List<Claim>
-        //         {
-        //             new Claim(ClaimTypes.Name, txtAccount),
-        //             new Claim(ClaimTypes.Role, "Mobility")
-        //         };
-        //         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //         var principal = new ClaimsPrincipal(identity);
-        //         var props = new AuthenticationProperties();
-        //         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
-        //         HttpContext.Session.SetString(LoginConst.SessionKeyName, JsonConvert.SerializeObject(newAccount));
-        //         return View("Views/Mobility/Homepage/MobilityHomepage.cshtml");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
-
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
         [HttpPost, ActionName("Logout")]
         public async Task<IActionResult> Logout()
         {

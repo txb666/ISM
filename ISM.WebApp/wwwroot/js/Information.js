@@ -86,6 +86,7 @@ function validateChangePassword(user_id) {
     var current_password = document.getElementById("edit_current_password").value;
     var new_password = document.getElementById("edit_new_password").value;
     var confirm_password = document.getElementById("edit_confirm_new_password").value;
+    var logout = document.getElementById("logout_btn_id");
     if (!current_password || !new_password || !confirm_password) {
         alert("Please fill out all fields.");
         return;
@@ -117,7 +118,7 @@ function validateChangePassword(user_id) {
                     success: function (msg) {
                         if (msg == "true") {
                             alert("Change password successfull");
-                            window.location.href = "/Information";
+                            logout.click();
                         }
                         else {
                             alert("Change password failed");

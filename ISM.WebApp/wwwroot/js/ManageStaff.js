@@ -41,7 +41,6 @@ function validateCreateStaff() {
     var startDate = document.getElementById("create_startDate").value;
     var endDate = document.getElementById("create_endDate").value;
     var status = document.getElementById("create_status").value;
-    var searchButton = document.getElementById("searchButton");
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
         alert("email not in right format");
         return;
@@ -79,7 +78,7 @@ function validateCreateStaff() {
                     success: function (msg) {
                         if (msg > 0) {
                             alert("Create Staff successfull");
-                            searchButton.click();
+                            location.reload();
                         }
                         else {
                             alert("Create Staff failed")
@@ -116,7 +115,6 @@ function validateEditStaff() {
     var startDate = document.getElementById("edit_startDate").value;
     var endDate = document.getElementById("edit_endDate").value;
     var status = document.getElementById("edit_status").value;
-    var searchButton = document.getElementById("searchButton");
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
         alert("email empty or not in right format");
         return;
@@ -150,7 +148,7 @@ function validateEditStaff() {
                     success: function (msg) {
                         if (msg == "true") {
                             alert("Edit Staff successfull");
-                            searchButton.click();
+                            location.reload();
                         }
                         else {
                             alert("Edit Staff failed")

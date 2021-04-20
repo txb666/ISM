@@ -69,18 +69,21 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int passport_id, string passport_number, DateTime start_date, DateTime expired_date, string issuing_authority)
         {
             bool result = passportDAO.editPassport(passport_id, passport_number, start_date, expired_date, issuing_authority);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CreateOrEditNotificationConfig(int days_before)
         {
             bool result = passportDAO.CreateOrEdit(days_before);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult ExportToExcel()
         {
             List<Passport> passportExcel = new List<Passport>();
@@ -140,6 +143,7 @@ namespace ISM.WebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public IActionResult CreateOrEdit(int student_id, int? passport_id, string passport_number, string issuing_authority, DateTime start_date, DateTime expired_date, IFormFile picture)
         {
             string pictureName = "";

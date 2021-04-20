@@ -8,6 +8,7 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Mobility")]
     public class GeneralAgendaController : Controller
     {
         public GeneralAgendaDAO generalAgendaDAO;
@@ -32,6 +34,8 @@ namespace ISM.WebApp.Controllers
             this.campusDAO = campusDAO;
             this.hostingEnvironment = hostingEnvironment;
         }
+
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Index(int? year = null, string program = "", DateTime? duration_start = null, DateTime? duration_end = null, string home_univercity = "", string campus = "", string note = "", int page = 1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
@@ -63,7 +67,7 @@ namespace ISM.WebApp.Controllers
                 view.generalAgenda = generalAgendaDAO.GetGeneralAgendaByStudentGroup(student_group_id);
                 return View("Views/Admin/Pre-Departure/GeneralAgendaDetail.cshtml", view);
             }
-            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if(sessionUser.role_name.Equals("Mobility"))
             {
                 GeneralAgendaDetailViewModel view = new GeneralAgendaDetailViewModel();
                 view.generalAgenda = generalAgendaDAO.GetGeneralAgendaByStudentGroup(sessionUser.student_group_id);
@@ -72,6 +76,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int general_agenda_id, string note, IFormFile file)
         {
             string fileName = "";

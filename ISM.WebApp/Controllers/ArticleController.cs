@@ -7,6 +7,7 @@ using ISM.WebApp.Constant;
 using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class ArticleController : Controller
     {
         public ArticleDAO articleDAO;
@@ -73,6 +75,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int article_id, string title, string type, IFormFile file)
         {
             string fileName = "article_"+article_id + ".pdf";
@@ -93,6 +96,7 @@ namespace ISM.WebApp.Controllers
             return Json(new { status = "success", message = "Edit successfully" });
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Create(string title, string type, IFormFile file)
         {
             int inserted_id = articleDAO.CreateArticle(type, title);
@@ -110,6 +114,7 @@ namespace ISM.WebApp.Controllers
                 return Json(new { status = "error", message = "Edit Failed" });                   
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int article_id, string type, string file_name)
         {
             bool result = articleDAO.DeleteArticle(article_id);
@@ -122,6 +127,5 @@ namespace ISM.WebApp.Controllers
             }
             return result;
         }
-
     }
 }

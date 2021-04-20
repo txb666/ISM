@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ISM.WebApp.Constant;
 using ISM.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class JobServicesController : Controller
     {
         public IActionResult Index()

@@ -54,6 +54,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Edit(int student_handbook_id, string title, IFormFile file)
         {
             string file_name = "student_handbook_" + student_handbook_id + ".pdf";

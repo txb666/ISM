@@ -7,12 +7,14 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Mobility")]
     public class DetailedAgendaController : Controller
     {
         public DetailedAgendaDAO detailedAgendaDAO;
@@ -27,6 +29,7 @@ namespace ISM.WebApp.Controllers
             this.programDAO = programDAO;
             this.campusDAO = campusDAO;
         }
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Index(int? year = null, string program = "", DateTime? duration_start = null, DateTime? duration_end = null, string home_univercity = "", string campus = "", string note = "", int page = 1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
@@ -84,30 +87,35 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Create(int student_group_id, DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone, string venue, string PIC, string content)
         {
             bool result = detailedAgendaDAO.CreateDetailedAgenda(student_group_id, date, time_start, time_end, time_zone, venue, PIC, content);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int detailed_agenda_id, DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone, string venue, string PIC, string content)
         {
             bool result = detailedAgendaDAO.EditDetailedAgenda(detailed_agenda_id, date, time_start, time_end, time_zone, venue, PIC, content);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int detailed_agenda_id)
         {
             bool result = detailedAgendaDAO.DeleteDetailedAgenda(detailed_agenda_id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool IsDetailedAgendaExist(DateTime date, TimeSpan time_start, TimeSpan time_end, string time_zone)
         {
             bool result = detailedAgendaDAO.isDetailedAgendaExist(date, time_start, time_end, time_zone);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int days_before)
         {
             bool result = detailedAgendaDAO.SetupNotification(days_before);

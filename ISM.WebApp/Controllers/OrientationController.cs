@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
+    [Authorize(Roles = "Admin,Staff,Degree")]
     public class OrientationController : Controller
     {
         public OrientationDAO _orientationDAO;
@@ -59,7 +59,7 @@ namespace ISM.WebApp.Controllers
                 viewModel.student = _orientationDAO.GetStudentById(id);
                 return View("Views/Admin/Program/OrientationScheduleForStudent.cshtml", viewModel);
             }
-            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if(sessionUser.role_name.Equals("Degree"))
             {
                 OrientationIndexViewModel viewModel = new OrientationIndexViewModel();
                 viewModel.page = page;
@@ -76,36 +76,42 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CreateORT(int id, string content, DateTime date, TimeSpan time, string location, string requirement)
         {
             bool result = _orientationDAO.createORTSchedule(id, content, date, time, location, requirement);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool isExist(int id, string content, DateTime date, TimeSpan time, string location)
         {
             bool result = _orientationDAO.isORTAlreadyExist(id, content, date, time, location);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool isSameTime(int id, DateTime date, TimeSpan time)
         {
             bool result = _orientationDAO.isSameTime(id, date, time);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool EditORT(int id, string content, DateTime date, TimeSpan time, string location, string requirement)
         {
             bool result = _orientationDAO.editORTSchedule(id, content, date, time, location, requirement);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool DeleteORT(int id)
         {
             bool result = _orientationDAO.deleteORTSchedule(id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int days_before)
         {
             bool result = _orientationDAO.SetupNotification(days_before);

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
+    [Authorize(Roles = "Admin,Staff,Mobility")]
     public class TransportationController : Controller
     {
         public TransportationDAO transportationDAO;
@@ -29,6 +29,7 @@ namespace ISM.WebApp.Controllers
             this.programDAO = programDAO;
             this.campusDAO = campusDAO;
         }
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult Index(int? year = null, string program = "", DateTime? duration_start = null, DateTime? duration_end = null, string home_univercity = "", string campus = "", string note = "", int page = 1)
         {
             Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
@@ -86,24 +87,28 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Create(int student_group_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)
         {
             bool result = transportationDAO.createTransportation(student_group_id, date, time, bus, driver, itinerary, supporter, note);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int transportation_id, DateTime date, TimeSpan time, string bus, string driver, string itinerary, string supporter, string note)
         {
             bool result = transportationDAO.editTransportation(transportation_id, date, time, bus, driver, itinerary, supporter, note);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int transportations_id)
         {
             bool result = transportationDAO.DeleteTransportation(transportations_id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int hours_before)
         {
             bool result = transportationDAO.setupNotification(hours_before);

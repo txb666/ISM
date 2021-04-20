@@ -76,6 +76,7 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(string degreeOrMobility = "", int? flight_id = null, string flight_number_a = "", DateTime? arrival_date_a = null, TimeSpan? arrival_time_a = null, string airport_departure_a = "", string airport_arrival_a = "", string flight_number_d = "", DateTime? arrival_date_d = null, TimeSpan? arrival_time_d = null, string airport_departure_d = "", string airport_arrival_d = "")
         {
             bool result = false;
@@ -90,18 +91,21 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool NotificationDegree(int days_before, DateTime deadline)
         {
             bool result = flightDAO.SetupNotificationDegree(days_before, deadline);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool NotificationMobility(int days_before)
         {
             bool result = flightDAO.SetupNotificationMobility(days_before);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult ExportToExcel()
         {
             List<Flight> flightsExcel = new List<Flight>();
@@ -224,6 +228,7 @@ namespace ISM.WebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public IActionResult CreateOrEdit(int? flight_id, int student_id, string flight_number_a, DateTime? arrival_date_a, TimeSpan? arrival_time_a, string airport_departure_a, string airport_arrival_a, string flight_number_d, DateTime? arrival_date_d, TimeSpan? arrival_time_d, string airport_departure_d, string airport_arrival_d, IFormFile picture_a, IFormFile picture_d)
         {
             string pictureName_a = "";

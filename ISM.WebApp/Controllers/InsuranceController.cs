@@ -67,24 +67,28 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int id, DateTime startDate, DateTime expiryDate)
         {
             bool result = insuranceDAO.editInsurance(id, startDate, expiryDate);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool NotificationDegree(int days_before, DateTime deadline)
         {
             bool result = insuranceDAO.SetupNotificationDegree(days_before, deadline);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool NotificationMobility(int days_before)
         {
             bool result = insuranceDAO.SetupNotificationMobility(days_before);
             return result;
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public IActionResult CreateOrEdit(int student_id, int? insurance_id, DateTime start_date, DateTime expiry_date, IFormFile picture)
         {
             string pictureName = "";

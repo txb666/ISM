@@ -7,12 +7,14 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using ISM.WebApp.Utils;
 using ISM.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Mobility")]
     public class ORTMaterialsController : Controller
     {
         public OrientationDAO orientationDAO;
@@ -64,7 +66,7 @@ namespace ISM.WebApp.Controllers
                 view.note = note;
                 return View("Views/Admin/Program/ORTMaterialDetail.cshtml", view);
             }
-            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if(sessionUser.role_name.Equals("Mobility"))
             {
                 ORTMaterialsDetailViewModel view = new ORTMaterialsDetailViewModel();
                 view.page = page;
@@ -78,18 +80,21 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Create(int student_group_id, string content, string note)
         {
             bool result = orientationDAO.CreateORTMaterial(student_group_id, content, note);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int ort_materials_id, string content, string note)
         {
             bool result = orientationDAO.EditORTMaterial(ort_materials_id, content, note);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int ort_materials_id)
         {
             bool result = orientationDAO.DeleteORTMaterial(ort_materials_id);

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class MeetingController : Controller
     {
         public MeetingDAO _meetingDAO;
@@ -69,48 +70,56 @@ namespace ISM.WebApp.Controllers
             return View("Views/Degree/ContactUs/BookMeeting.cshtml", viewModel);
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CreateMAT(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
         {
             bool result = _meetingDAO.CreateMAT(staff_id, date, start_time, end_time);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool EditMAT(int mat_id, int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
         {
             bool result = _meetingDAO.EditMAT(mat_id, staff_id, date, start_time, end_time);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool DeleteMAT(int mat_id, int staff_id)
         {
             bool result = _meetingDAO.DeleteMAT(mat_id, staff_id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CheckMAT(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
         {
             bool result = _meetingDAO.isSameTime(staff_id, date, start_time, end_time);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool AcceptMR(int ms_id)
         {
             bool result = _meetingDAO.AcceptMeetingRegister(ms_id);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int days_before)
         {
             bool result = _meetingDAO.SetupNotification(days_before);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool isExist(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
         {
             bool result = _meetingDAO.isExist(staff_id,student_id,date,start_time,end_time);
             return result;
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public bool BookAMeeting(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time, string note)
         {
             bool result = _meetingDAO.BookAMeeting(staff_id, student_id, date, start_time, end_time, note);

@@ -10,9 +10,11 @@ using ISM.WebApp.Utils;
 using Newtonsoft.Json;
 using ISM.WebApp.Constant;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree")]
     public class ORTMaterialSlideController : Controller
     {
         public OrientationDAO orientationDAO;
@@ -54,7 +56,7 @@ namespace ISM.WebApp.Controllers
                 view.content = content;
                 return View("Views/Admin/Program/ORTMaterialSlideDetail.cshtml", view);
             }
-            else if (sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if (sessionUser.role_name.Equals("Degree"))
             {
                 ORTMaterialSlideDetailViewModel view = new ORTMaterialSlideDetailViewModel();
                 view.page = page;
@@ -69,22 +71,25 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Create(int student_id, string program, string content, string material)
         {
             bool result = orientationDAO.CreateORTMaterialSlide(student_id, program, content, material);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int ort_material_slide_id, string program, string content, string material)
         {
             bool result = orientationDAO.EditORTMaterialSlide(ort_material_slide_id, program, content, material);
             return result;
         }
+
+        [Authorize(Roles = "Admin,Staff")]
         public bool Delete(int ort_material_slide_id)
         {
             bool result = orientationDAO.DeleteORTMaterialSlide(ort_material_slide_id);
             return result;
         }
-
     }
 }

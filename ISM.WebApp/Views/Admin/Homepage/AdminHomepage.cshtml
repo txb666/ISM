@@ -29,8 +29,12 @@
     <div style="height: 50px;">
         <br>
         <br>
-        <div class="table-scroll">
-            
+        <div>
+            @if (sessionUser.isFirstLoggedIn == true)
+            {
+                <h1 style="text-align: center; margin-bottom: 50px; color: red; font-weight: bold;">PLEASE CHANGE YOUR PASSWORD AND UPDATE YOUR INFORMATION!</h1>
+                <a style="text-align: center;" href="/Information">Click here to update password and information...</a>
+            }
         </div>
     </div>
 </div>

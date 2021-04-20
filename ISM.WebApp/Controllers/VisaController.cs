@@ -69,18 +69,21 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool Edit(int visa_id, DateTime start_date, DateTime expired_date, DateTime entry_date, string entry_port)
         {
             bool result = visaDAO.editVisa(visa_id,start_date,expired_date,entry_date,entry_port);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CreateOrEditNotificationConfig(int days_before)
         {
             bool result = visaDAO.CreateOrEdit(days_before);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public IActionResult ExportToExcel()
         {
             List<Visa> visaExcel = new List<Visa>();
@@ -140,6 +143,7 @@ namespace ISM.WebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Degree,Mobility")]
         public IActionResult CreateOrEdit(int student_id, int? visa_id, DateTime start_date, DateTime expired_date, DateTime date_entry, string entry_port, IFormFile picture)
         {
             string pictureName = "";

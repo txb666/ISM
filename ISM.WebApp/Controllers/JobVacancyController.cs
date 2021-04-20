@@ -10,9 +10,11 @@ using ISM.WebApp.DAO;
 using ISM.WebApp.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ISM.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
     public class JobVacancyController : Controller
     {
         public JobVacancyDAO _jobVacancyDAO;
@@ -45,18 +47,21 @@ namespace ISM.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool CreateJV(string job_name, string job_location, string employment_type, string content, DateTime deadline)
         {
             bool result = _jobVacancyDAO.CreateJobVacancy(job_name, job_location, employment_type, content, deadline);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool EditJV(int job_id, string job_name, string job_location, string employment_type, string content, DateTime deadline)
         {
             bool result = _jobVacancyDAO.EditJobVacancy(job_id, job_name, job_location, employment_type, content, deadline);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public bool DeleteJV(int job_id)
         {
             bool result = _jobVacancyDAO.DeleteJobVacancy(job_id);
