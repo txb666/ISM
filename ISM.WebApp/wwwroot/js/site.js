@@ -3,25 +3,23 @@
 
 // Write your JavaScript code.
 function validateLogin() {
-    var username = document.getElementById("login_username_id").value;
-    var password = document.getElementById("login_password_id").value;
     $.ajax({
         type: "POST",
         url: "/Login/AccountIsExist",
-        data: { username: username, password: password },
+        data: { username: document.getElementById("login_username_id").value, password: document.getElementById("login_password_id").value },
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
                 $.ajax({
                     type: "POST",
                     url: "/Login/AccountIsActive",
-                    data: { username: username, password: password },
+                    data: { username: document.getElementById("login_username_id").value, password: document.getElementById("login_password_id").value },
                     dataType: "text",
                     success: function (msg) {
                         if (msg == "true") {
                             var fdata = new FormData();
-                            fdata.append("txtAccount", username);
-                            fdata.append("txtPassword", password);
+                            fdata.append("txtAccount", document.getElementById("login_username_id").value);
+                            fdata.append("txtPassword", document.getElementById("login_password_id").value);
                             $.ajax({
                                 type: "POST",
                                 url: "/Login/Index",
