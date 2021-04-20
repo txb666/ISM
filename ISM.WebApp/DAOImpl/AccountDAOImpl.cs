@@ -13,10 +13,42 @@ namespace ISM.WebApp.DAOImpl
 {
     public class AccountDAOImpl : AccountDAO
     {
-        public bool checkLogin(string username, string password)
+        public bool checkAccountInactive(string username, string password)
         {
             SqlConnection con = null;
             String sql = "select count(*) from Users a where a.account = @account and a.[password] = @password and a.[status] = 1";
+            SqlCommand com = null;
+            bool result = false;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@account", SqlDbType.NVarChar);
+                com.Parameters["@account"].Value = username;
+                com.Parameters.Add("@password", SqlDbType.NVarChar);
+                com.Parameters["@password"].Value = password;
+                int count = (int)com.ExecuteScalar();
+                if (count > 0)
+                {
+                    result = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return result;
+        }
+
+        public bool checkLogin(string username, string password)
+        {
+            SqlConnection con = null;
+            String sql = "select count(*) from Users a where a.account = @account and a.[password] = @password";
             SqlCommand com = null;
             bool result = false;
             try

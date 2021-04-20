@@ -213,7 +213,13 @@ namespace ISM.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool check(string username, string password)
+        public bool AccountIsActive(string username, string password)
+        {
+            bool result = _accountDAO.checkAccountInactive(username, password);
+            return result;
+        }
+
+        public bool AccountIsExist(string username, string password)
         {
             bool result = _accountDAO.checkLogin(username, password);
             return result;

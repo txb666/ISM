@@ -12,6 +12,7 @@ namespace ISM.WebApp.DAO
         Account GetAccount(string account, string password);
         bool haveDegree(int user_id);
         bool checkLogin(string username, string password);
+        bool checkAccountInactive(string username, string password);
         List<WebNotification> GetWebNotifications(int user_id);
         int GetTotalNotification(int user_id);
     }

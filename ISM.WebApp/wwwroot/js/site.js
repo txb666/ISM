@@ -2,6 +2,53 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+function validateLogin() {
+    var username = document.getElementById("login_username_id").value;
+    var password = document.getElementById("login_password_id").value;
+    $.ajax({
+        type: "POST",
+        url: "/Login/AccountIsExist",
+        data: { username: username, password: password },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "true") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Login/AccountIsActive",
+                    data: { username: username, password: password },
+                    dataType: "text",
+                    success: function (msg) {
+                        if (msg == "true") {
+                            var fdata = new FormData();
+                            fdata.append("txtAccount", username);
+                            fdata.append("txtPassword", password);
+                            $.ajax({
+                                type: "POST",
+                                url: "/Login/Index",
+                                contentType: false,
+                                processData: false,
+                                data: fdata,
+                            });
+                        }
+                        else {
+                            alert("Account is Inactive.");
+                        }
+                    },
+                    error: function (req, status, error) {
+                        alert(error);
+                    }
+                });
+            }
+            else {
+                alert("Username or Password incorrect.");
+            }
+        },
+        error: function (req, status, error) {
+            alert(error);
+        }
+    });
+}
+
 function search(page) {
     var form = document.getElementById('searchForm');
     var inputPage = document.getElementById('inputPage');
