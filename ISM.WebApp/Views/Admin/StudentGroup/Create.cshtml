@@ -87,9 +87,8 @@
                             <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
                         }
                     </select>
+                    <button style="margin-left:10px; height:40px; margin-top:8px;" type="button" onclick='addCoordinator();' class="btn btn-info">Assign</button>
                 </div>
-
-                <button type="button" onclick='addCoordinator();'>Add</button>
                 <table id="create_coordinatorTable" class="table table-bordered">
                 </table>
             </form>

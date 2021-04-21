@@ -117,6 +117,7 @@ function rebuildSelectCoordinator() {
 
 function rebuildCoordinatorTable() {
     var ele = document.getElementById('create_coordinatorTable');
+    var temp = 'class="btn btn-danger"';
     var content = "<tr>"
         + "<th scope='col'>Coordinator</th>"
         + "<th scope='col'> </th>"
@@ -124,7 +125,7 @@ function rebuildCoordinatorTable() {
     for (var i = 0; i < tableList.length; i++) {
         var row = "<tr>"
             + "<td>" + tableList[i].account + "</td>"
-            + "<td> <button onclick='deleteCoordinator(" + tableList[i].user_id + ")'>Delete</button> </td>"
+            + "<td> <button onclick='deleteCoordinator(" + tableList[i].user_id + ")'" + temp + ">Remove</button></td>"
             + "</tr>";
         content += row;
     }
