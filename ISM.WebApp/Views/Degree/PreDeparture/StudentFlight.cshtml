@@ -82,7 +82,7 @@
                     </div>
                 }
                 <div class="form-group row">
-                    <button type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -159,7 +159,7 @@
                         </div>
                     }
                     <div class="form-group row">
-                        <button onclick="disableButton('save'); validateCreateOrEditFlight();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditFlight();" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

@@ -42,7 +42,7 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentInsurance.expiry_date.HasValue?Model.studentInsurance.expiry_date.Value.ToString("dd-MM-yyyy"):"")" disabled>
                 </div>
                 <div class="form-group row">
-                    <button type="button" onclick="showPopup('xmas-popup')" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button id="save_create" type="button" onclick="showPopup('xmas-popup')" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -53,7 +53,7 @@
 <button id="insurance_btn_skip" type="button" onclick="disableButton('insurance_btn_skip'); skipNotificationInsurance('@sessionUser.user_id');" style="border-radius: 10px; width: auto; float:right" class="btn btn-danger">Skip Notification</button>
 
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:420px; width:900px">
+    <div id="responsive" class="popup-content" style="height:420px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
@@ -75,7 +75,7 @@
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save'); validateCreateOrEditInsurance();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditInsurance();" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button id="cancel" onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
