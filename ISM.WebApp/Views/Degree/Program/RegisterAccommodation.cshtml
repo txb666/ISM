@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Degree")
@@ -147,7 +146,7 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_other_request" value="@Model.student_register_accomodation.other_request">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateCreateOrEditRegisterAccomodation();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditRegisterAccomodation();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

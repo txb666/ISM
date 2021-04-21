@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -19,10 +18,10 @@
 
 <h1 style="text-align: center;">@Model.title</h1>
 <div style="height: 50px;">
-    <button onclick="showPopup('xmas-popup')" class="btn btn-info" style="float:right;width:80px;border-radius:10px">
-        @*<a style="text-decoration:none; color:white" href="#xmas-popup">Edit</a>*@ Edit
+    <button type="button" onclick="showPopup('xmas-popup')" class="btn btn-info" style="float:right;width:80px;border-radius:10px">
+        Edit
     </button>
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:260px">
             <form id="editStudentHandbookForm" enctype="multipart/form-data">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Handbook</h1>
@@ -36,9 +35,9 @@
                     <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="file" name="uploadFile" id="edit_file" accept="application/pdf">
                 </div>
                 <div class="form-group row">
-                    <button id="save" style="margin-left: 190px; width: 80px;" class="btn btn-success" onclick="validateEditStudentHandbook()" type="button">Save</button>
+                    <button id="save" style="margin-left: 190px; width: 80px;" class="btn btn-success" onclick="disableButton('save'); validateEditStudentHandbook()" type="submit">Save</button>
                     <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        @* <a style="text-decoration: none; color: white;" href="#" id="btnEditCancel">Cancel</a>*@ Cancel
+                        Cancel
                     </button>
                 </div>
             </form>

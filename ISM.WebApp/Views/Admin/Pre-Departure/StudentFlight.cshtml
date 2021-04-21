@@ -15,11 +15,11 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@*<div style="height: 500px; background-color: white;">*@
+
 <h1 style="text-align: center;">Student's Flights</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
             <form id="searchForm" asp-controller="Flight" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
@@ -86,7 +86,7 @@
                     }
                 </select>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
             </form>
         </div>
     </div>
@@ -212,7 +212,7 @@
     </table>
 
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:500px">
             <form style="height:480px;overflow-x:hidden" class="table-scroll" id="editFlightForm" asp-controller="Flight" asp-action="Edit" method="post">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Flight </h1>
@@ -269,7 +269,7 @@
                     </div>
                 }
                 <div class="form-group row">
-                    <button id="save" onclick="validateEditFlight();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save" onclick="disableButton('save'); validateEditFlight();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                     <button id="cancel" onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
@@ -279,7 +279,7 @@
     </div>
 
     <!-- popup code Notification -->
-    <div id="xmas-popup-setupnotification-degree" class="popup" href="#">
+    <div id="xmas-popup-setupnotification-degree" class="popup">
         <div class="popup-content-setupnotification-degree" style="height:300px">
             <form id="degree_notificationForm" asp-controller="Flight" asp-action="NotificationDegree" method="post">
                 <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
@@ -292,7 +292,7 @@
                     <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateNotificationFlightDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button onclick="disableButton('save_setup'); validateNotificationFlightDegree();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>
                     <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                         Cancel
                     </button>
@@ -300,7 +300,7 @@
             </form>
         </div>
     </div>
-    <div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
+    <div id="xmas-popup-setupnotification-mobility" class="popup">
         <div class="popup-content-setupnotification-mobility" style="height:250px">
             <form id="mobility_notificationForm" asp-controller="Flight" asp-action="NotificationMobility" method="post">
                 <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
@@ -309,7 +309,7 @@
                     <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateNotificationFlightMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button onclick="disableButton('save_setup_2'); validateNotificationFlightMobility();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup_2">Save</button>
                     <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                         Cancel
                     </button>
@@ -328,20 +328,18 @@
         <a style="text-decoration: none; color: white;" href="/Flight/ExportToExcel">Export to excel</a>
     </button>
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
+        <button type="button" onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
             Setup Notification Degree
         </button>
     </i>
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
+        <button type="button" onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
             Setup Notification Mobility
         </button>
     </i>
 </div>
-@*</div>*@
 
-<script>
-    function myFunction1() {
+<script>function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_insurance");
     }
     function filterFunction() {
@@ -358,6 +356,5 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>
 

@@ -1,331 +1,31 @@
 ﻿@model ISM.WebApp.ViewModels.StudentGroupEditViewModel
-@{
-    Layout = null;
-}
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+
+    ViewData["Title"] = "Edit Student Group Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 @{
     var coordinatorList = Json.Serialize(Model.coordinatorList).ToString();
     var tableList = Json.Serialize(Model.group.coordinators).ToString();
 }
-<!doctype html>
-<html lang="en">
-<head>
-    <title>FPT INTERNATIONAL MANAGE STUDENT</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="~/css/header.css" asp-append-version="true">
-    <!-- Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
-    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true">
 
-    <script>
-        /* When the user clicks on the button,
-        toggle between hiding and showing the dropdown content */
-        function myFunction_showuser() {
-            document.getElementById("myDropdown").classList.toggle("show_staff");
-        }
+<script>window.onload = function () {
+        document.getElementById("initializeButton").click();
+    };</script>
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
+<button id="initializeButton" style="display: none;" onclick="initializeEdit(@coordinatorList,@tableList);">hidden</button>
 
-        window.onload = function () {
-            document.getElementById("initializeButton").click();
-        };
-
-    </script>
-</head>
-
-<body>
-    <button id="initializeButton" style="display: none;" onclick="initializeEdit(@coordinatorList,@tableList);">hidden</button>
-    <div class="container-fluid logo-user">
-        <div class="row" style="height:100px;">
-            <div class="col-xl-10 col-lg-8 col-md-8 col-sm-6 col-6">
-                <img style="margin-top:10px" src="~/image/fpt.png" />
-            </div>
-
-            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                <button type="button" class="icon-button" onclick="showPopup('xmas-popup-notification');">
-                    <span class="material-icons">notifications</span>
-                    <a><span class="icon-button__badge">@sessionUser.totalNotification</span> </a>
-                </button>
-            </div>
-            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3" style="margin-top:20px">
-                <div class="dropdown">
-                    <a onclick="myFunction_showuser()" style="font-weight: bold;">@sessionUser.username</a>
-                    @*<button onclick="myFunction()" class="dropbtn">@sessionUser.username</button>*@
-                    <div id="myDropdown" class="dropdown-content">
-                        <a>
-                            <form method="post" asp-controller="Information" asp-action="Index">
-                                <button style="width:80px; border-radius:10px" class="btn btn-info">Profile</button>
-                            </form>
-                        </a>
-                        <a>
-                            <form method="post" asp-controller="Login" asp-action="Logout">
-                                <button style="width:80px; border-radius:10px" class="btn btn-info">Log Out</button>
-                            </form>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
-        <nav class="navbar navbar-expand-lg navbar-light" style="margin-left: 50px;">
-            <a class="navbar-brand" style="margin-left: 0;" href="#">
-                <!-- <img src="images/fpt.png" /> -->
-
-
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation"
-                    style="background-color: blueviolet;">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav" style="margin: 0 auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="/Staff">Staff</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Student
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/StudentGroup">Student Group</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Student">Manage Student</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Visa & Passport
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/VisaLetter">Pre-Approval Visa Letter</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Visa">Visa</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Passport">Passport</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Insurance
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="Article" asp-action="List" asp-route-type="Insurance Instruction">Insurance Instruction</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Insurance">Student Insurance</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Pre-departure
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="What to pack">What to pack</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Flight">Student's Flight</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/StudentHandbook">Handbook</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/CurrentAccomodation">Current Accomodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/GeneralAgenda">General Agenda</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Program
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/Orientation">Orientation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/DetailedAgenda">Detailed agenda</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/RegisterAccomodation">Register Accommodation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Transportation">Transportation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/ORTMaterials">Orientation Materials</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/ORTMaterialSlide">ORT Material/Slide</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Local recommendation
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="6">Da Nang</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="5">Ho Chi Minh</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="2">Ha Noi</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="LocalRecommendation" asp-action="Detail" asp-route-id="7">Can Tho</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" id="navbarDropdown">
-                            Job services
-                        </a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/JobServices/IWantAJob">I want a Job</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/JobVacancy">Job Vacancies</a>
-
-                        </div>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link" href="/FAQ">FAQs</a>
-                    </li>
-                    <li class="nav-item dropdowns">
-                        <a class="nav-link">Contact Us</a>
-                        <div class="dropdown-description">
-                            <a class="dropdown-item" href="/ContactInformation">Contact Information</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Meeting">Book a meeting</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <form id="editStudentGroupForm">
-                        <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>
-                        <div class="form-group row">
-                            <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id" />
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                            <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_program" disabled>
-                                @for (int i = 0; i < Model.programList.Count; i++)
-                                {
-                                    if (Model.group.program_id == Model.programList[i].programm_id)
-                                    {
-                                        <option value="@Model.programList[i].programm_id" selected>@Model.programList[i].program_name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
-                            <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_start" value="@Model.group.duration_start.ToString("yyyy-MM-dd")" disabled>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
-                            <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_end" value="@Model.group.duration_end.ToString("yyyy-MM-dd")" disabled>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
-                            <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_home_univercity" value="@Model.group.home_university" disabled>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
-                            <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
-                                @for (int i = 1; i < Model.campusList.Count; i++)
-                                {
-                                    if (Model.group.campus_id == Model.campusList[i].campus_id)
-                                    {
-                                        <option value="@Model.campusList[i].campus_id" selected>@Model.campusList[i].campus_name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
-                            <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note" value="@Model.group.note">
-                        </div>
-
-                    </form>
-                </div>
-
-                <div class="col-6">
-                    <form>
-                        <h1 style="text-align: center; margin-top: 20px;">Coordinator Management</h1>
-                        <div class="form-group row">
-                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
-                            <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
-                                @if (Model.coordinatorList.Count > 0)
-                                {
-                                    <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
-                                }
-                                @for (int i = 1; i < Model.coordinatorList.Count; i++)
-                                {
-                                    <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
-                                }
-                            </select>
-                        </div>
-                        <button type="button" onclick='addCoordinator();'>Add</button>
-                        <table id="create_coordinatorTable" class="table table-bordered">
-                            <tr>
-                                <th scope="col">Coordinator</th>
-                                <th scope="col"> </th>
-                            </tr>
-                            @for (int i = 0; i < Model.group.coordinators.Count; i++)
-                            {
-                                <tr>
-                                    <td> @Model.group.coordinators[i].account </td>
-                                    <td> <button onclick="deleteCoordinator('@Model.group.coordinators[i].user_id')">delete</button> </td>
-                                </tr>
-                            }
-                        </table>
-                    </form>
-
-                </div>
-            </div>
-
-            <center>
-                <button onclick="editStudentGroup();" style=" width: 80px;" type="button"
-                        class="btn btn-success">
-                    Save
-                </button>
-                <a href="/StudentGroup">
-                    <button style="width: 80px;" type="button" class="btn btn-danger">Cancel</button>
-                </a>
-            </center>
-
-        </div>
-
-        @*<form id="editStudentGroupForm">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <form id="editStudentGroupForm">
                 <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>
                 <div class="form-group row">
-                    <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id"/>
+                    <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id" />
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
                     <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_program" disabled>
                         @for (int i = 0; i < Model.programList.Count; i++)
@@ -356,7 +56,7 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
                     <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
-                        @for (int i = 0; i < Model.campusList.Count; i++)
+                        @for (int i = 1; i < Model.campusList.Count; i++)
                         {
                             if (Model.group.campus_id == Model.campusList[i].campus_id)
                             {
@@ -364,7 +64,7 @@
                             }
                             else
                             {
-                            <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
+                                <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
                             }
                         }
                     </select>
@@ -373,7 +73,13 @@
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
                     <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note" value="@Model.group.note">
                 </div>
-                <h3>Coordinator Management</h3>
+
+            </form>
+        </div>
+
+        <div class="col-6">
+            <form>
+                <h1 style="text-align: center; margin-top: 20px;">Coordinator Management</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
                     <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
@@ -401,74 +107,19 @@
                         </tr>
                     }
                 </table>
-                <div class="form-group row">
-                    <button onclick="editStudentGroup();" style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success">
-                        Save
-                    </button>
-                    <button style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        <a style="text-decoration: none; color: white;" href="#">Cancel</a>
-                    </button>
-                </div>
-            </form>*@
-    </div>
-    <div id="xmas-popup-notification" class="popup">
-        <div class="popup-content-notification">
-            <h1 align="center">Notifications</h1>
-            <form>
-                <div class="table-scroll-meeting">
-                    <div class="border border-warning" style="border-radius:10px">
-                        @foreach (var item in sessionUser.webNotifications)
-                        {
-                            <p style="font-weight:bold; color:red">@item.title</p>
-                            <p style="background-color: lightgrey">@item.content</p>
-                        }
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <button onclick="hidePopup('xmas-popup-notification')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
-                        Cancel
-                    </button>
-                </div>
             </form>
+
         </div>
     </div>
-    <footer style="margin-top:100px">
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-lg-6 footer-about wow fadeInUp">
-                        <h3>Contact</h3>
-                        <p><i class="fas fa-map-marker-alt"></i> FPT Education Global – Hanoi Campus</p>
-                        <p><i class="fas fa-phone"></i> Phone: (84+) 902423331</p>
-                        <p>
-                            <i class="fas fa-envelope"></i> Email: <a href="mailto:international.ss@fpt.edu.vn">international.ss@fpt.edu.vn</a>
-                        </p>
-                    </div>
-                    <div class="col-md-6 col-lg-6 footer-contact wow fadeInDown">
 
-                        <p style="margin-top:50px"><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
-                        <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
-                        <p>
-                            <i class="fas fa-envelope"></i> Email: <a href="mailto:Utnt4@fe.edu.vn">Utnt4@fe.edu.vn</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <center>
+        <button id="save_edit" onclick="disableButton('save_edit'); editStudentGroup();" style=" width: 80px;" type="submit"
+                class="btn btn-success">
+            Save
+        </button>
+        <a href="/StudentGroup">
+            <button style="width: 80px;" type="button" class="btn btn-danger">Cancel</button>
+        </a>
+    </center>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-    <script src="~/js/site.js"></script>
-    <script src="~/js/StudentGroup.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>

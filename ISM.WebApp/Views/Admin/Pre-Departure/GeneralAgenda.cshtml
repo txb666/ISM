@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -17,12 +16,11 @@
     }
 }
 
-@*<div style="height: 500px; background-color: white;">*@
 <h1 style="text-align: center;">General Agenda</h1>
 <div style="height: 50px;">
     <!-- SEARCH FORM -->
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 270px; margin-top: 10px;">
             <form style="width: 320px;" asp-controller="GeneralAgenda" asp-action="Index" method="get" id="searchForm">
                 <div class="form-group row">
@@ -83,7 +81,7 @@
                     </select>
                 </div>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
@@ -131,9 +129,9 @@
                     </td>
                     <td>
                         <button class="btn btn-info">
-                        <a style="text-decoration:none;color:white" asp-controller="GeneralAgenda" asp-action="Detail" asp-route-student_group_id="@item.studentGroup_id">View General Agenda</a>
-                    </button>
-                     </td>
+                            <a style="text-decoration:none;color:white" asp-controller="GeneralAgenda" asp-action="Detail" asp-route-student_group_id="@item.studentGroup_id">View General Agenda</a>
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -142,7 +140,3 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-
-
-
-@*</div>*@

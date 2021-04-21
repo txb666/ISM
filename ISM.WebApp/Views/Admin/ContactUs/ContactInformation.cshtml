@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -21,7 +20,7 @@
 {
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+            <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 350px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="ContactInformation" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -74,11 +73,11 @@
                         </select>
                     </div>
                     <input type="hidden" name="page" id="inputPage" />
-                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                    <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
                 </form>
             </div>
         </div>
-        <button onclick="showPopup('xmas-popup-assign')" style="float: right; width:auto; border-radius:10px;" class="btn btn-success">
+        <button type="button" onclick="showPopup('xmas-popup-assign')" style="float: right; width:auto; border-radius:10px;" class="btn btn-success">
             My Contact Information
         </button>
     </div>
@@ -221,7 +220,7 @@ else
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_staff" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateCreateOrEditStaff('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        <button onclick="disableButton('save_edit'); validateCreateOrEditStaff('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
@@ -270,7 +269,7 @@ else
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_admin" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateCreateOrEditAdmin('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        <button onclick="disableButton('save_create'); validateCreateOrEditAdmin('@sessionUser.user_id');" id="save_create" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

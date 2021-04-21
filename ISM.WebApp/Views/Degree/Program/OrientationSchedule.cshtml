@@ -1,20 +1,7 @@
 ﻿@model ISM.WebApp.ViewModels.OrientationIndexViewModel
-@using Microsoft.AspNetCore.Http;
-@using Newtonsoft.Json;
-@using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Degree")
-    {
-        ViewData["Title"] = "Pre-Approval Visa Page";
-        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Mobility")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
-    }
+    ViewData["Title"] = "Orientation Schedule Page";
+    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
 }
 
 <h1 style="text-align: center;"> Orientation Schedule</h1>
@@ -47,7 +34,7 @@
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
-    </div>   
+    </div>
 </div>
 <br>
 <br>
@@ -83,7 +70,7 @@
                     </td>
                 </tr>
             }
-            </tbody>
+        </tbody>
     </table>
 </div>
 
@@ -91,8 +78,7 @@
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
-<script>
-    function myFunction1() {
+<script>function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule_student");
     }
     function filterFunction() {
@@ -109,5 +95,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

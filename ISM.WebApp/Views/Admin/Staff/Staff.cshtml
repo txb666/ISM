@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -17,13 +16,11 @@
     }
 }
 
-
-@*<div style="height: 500px; background-color: white;">*@
 <h1 style="text-align: center;">Staff</h1>
 <div style="height: 50px;">
     <!-- SEARCH FORM -->
     <div class="dropdown_search">
-        <button onclick="myFunction1()"style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 350px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="Staff" asp-action="Index" method="get">
                 <div class="form-group row">
@@ -76,13 +73,13 @@
                     </select>
                 </div>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
             </form>
         </div>
     </div>
 
-    <button onclick="showPopup('xmas-popup')" style="float:right;width:80px; border-radius:10px" class="btn btn-success">
-      Create
+    <button type="button" onclick="showPopup('xmas-popup')" style="float:right;width:80px; border-radius:10px" class="btn btn-success">
+        Create
     </button>
 
 
@@ -133,8 +130,8 @@
                     </td>
                     <td style="text-align: center;">
                         <button style="width:80px; border-radius:10px"
-                        onclick="editStaff('@item.user_id','@item.fullname','@item.email','@item.account','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)','@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
-                          Edit
+                                onclick="editStaff('@item.user_id','@item.fullname','@item.email','@item.account','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.startDate)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.endDate)','@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
+                            Edit
                         </button>
                     </td>
 
@@ -145,7 +142,7 @@
 
 
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:420px">
             <form id="createStaffForm" asp-controller="Staff" asp-action="Create" method="post">
                 <h1 style="text-align: center; margin-top: 20px;">Create Staff</h1>
@@ -177,15 +174,16 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateCreateStaff();" style=" width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button onclick="disableButton('save_create'); validateCreateStaff();" style=" width: 80px;" type="submit" class="btn btn-success" id="save_create">Save</button>
                     <button onclick="hidePopup('xmas-popup')" style="width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                    Cancel</button>
+                        Cancel
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="xmas-popup-assign" class="popup" href="#">
+    <div id="xmas-popup-assign" class="popup">
         <div class="popup-content-assign" style="background-color:white;height:420px">
             <form id="editStaffForm" asp-controller="Staff" asp-action="Edit" method="post">
                 <h1 style="text-align: center; margin-top: 20px;">Edit Staff</h1>
@@ -219,9 +217,9 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateEditStaff();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                    <button onclick="disableButton('save_edit'); validateEditStaff();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_edit">Save</button>
                     <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                    Cancel
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -232,4 +230,3 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-@*</div>*@

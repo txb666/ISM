@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.TransportationDetailViewModel
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @using ISM.WebApp.Utils
@@ -15,13 +16,11 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@model ISM.WebApp.ViewModels.TransportationDetailViewModel
 
-@*<div style="height: 500px; background-color: white;">*@
 <h1 style="text-align: center;"> Transportation For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="search_visa()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="search_visa()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 310px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="Transportation" asp-action="Detail" method="get">
                 <div class="form-group row">
@@ -46,209 +45,206 @@
                 </div>
                 <input type="hidden" name="studentGroup_id" id="search_student_group_id" value="@Model.current_student_group.studentGroup_id" />
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
-    <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px" " class="btn btn-success">
+    <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px" type="button" class="btn btn-success">
         Create
     </button>
 </div>
 
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Bus</th>
+                <th scope="col">Driver</th>
+                <th scope="col">Itinerary</th>
+                <th scope="col">Supporter</th>
+                <th scope="col">Note</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.transportations)
+            {
                 <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Bus</th>
-                    <th scope="col">Driver</th>
-                    <th scope="col">Itinerary</th>
-                    <th scope="col">Supporter</th>
-                    <th scope="col">Note</th>
-                    <th></th>
+                    <td>
+                        @item.date.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @item.time
+                    </td>
+                    <td>
+                        @item.bus
+                    </td>
+                    <td>
+                        @item.driver
+                    </td>
+                    <td>
+                        @item.itinerary
+                    </td>
+                    <td>
+                        @item.supporter
+                    </td>
+                    <td>
+                        @item.note
+                    </td>
+                    <td style="text-align: center;">
+                        <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign');" class="btn btn-info">
+                            Edit
+                        </button>
+                        <button style="width:80px;border-radius:10px" onclick="deleteTransportation('@item.transportations_id')" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.transportations)
-                {
-                    <tr>
-                        <td>
-                            @item.date.ToString("dd-MM-yyyy")
-                        </td>
-                        <td>
-                            @item.time
-                        </td>
-                        <td>
-                            @item.bus
-                        </td>
-                        <td>
-                            @item.driver
-                        </td>
-                        <td>
-                            @item.itinerary
-                        </td>
-                        <td>
-                            @item.supporter
-                        </td>
-                        <td>
-                            @item.note
-                        </td>
-                        <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="EditTransportation('@item.transportations_id', '@FormatUtil.ToInputDate2(item.date)', '@item.time', '@item.bus', '@item.driver', '@item.itinerary', '@item.supporter', '@item.note'); showPopup('xmas-popup-assign');" class="btn btn-info">
-                                Edit
-                            </button>
-                            <button style="width:80px;border-radius:10px" onclick="deleteTransportation('@item.transportations_id')" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:500px">
-                <form id="editTransportationForm">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Create Transportation</h1>
-                    <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_date">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_time">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_bus">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_driver">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_itinerary">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_supporter">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
-                    </div>
-                    <div class="form-group row">
-                        <button id="save" onclick="validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="xmas-popup-assign" class="popup" href="#">
-            <div class="popup-content-assign">
-                <form id="editTransportationForm">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
-                    <input type="hidden" id="edit_transportation_id">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_time">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_bus">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_driver">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_itinerary">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_supporter">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
-                    </div>
-                    <div class="form-group row">
-                        <button id="save" onclick="validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                        <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
+            }
+        </tbody>
+    </table>
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup">
+        <div class="popup-content" style="height:500px">
+            <form id="editTransportationForm">
+                <h1 style="text-align: center; margin-bottom: 40px;">Create Transportation</h1>
+                <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_date">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_time">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_bus">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_driver">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_itinerary">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_supporter">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
+                </div>
+                <div class="form-group row">
+                    <button id="save_create" onclick="disableButton('save_create'); validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                    <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    <div>
-        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+    <div id="xmas-popup-assign" class="popup">
+        <div class="popup-content-assign">
+            <form id="editTransportationForm">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
+                <input type="hidden" id="edit_transportation_id">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_time">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_bus">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_driver">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_itinerary">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_supporter">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
+                </div>
+                <div class="form-group row">
+                    <button id="save_edit" onclick="disableButton('save_edit'); validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                    <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
-    <script>
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
+<script>function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
                 }
             }
         }
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn_search')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content_search");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show_search')) {
-                        openDropdown.classList.remove('show_search');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn_search')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content_search");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show_search')) {
+                    openDropdown.classList.remove('show_search');
                 }
             }
         }
+    }
 
-        function search_visa() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
-        }
+    function search_visa() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
+    }
 
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
             }
         }
-    </script>
-@*</div>*@
+    }</script>

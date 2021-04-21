@@ -1,23 +1,7 @@
-﻿
-@using Microsoft.AspNetCore.Http;
-@using Newtonsoft.Json;
-@using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
-@{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Degree")
-    {
+﻿@{
         ViewData["Title"] = "Pre-Approval Visa Page";
         Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Mobility")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
-    }
 }
-
-
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">I Want A Job</h1>
     <a asp-controller="Article" asp-action="List" asp-route-type="Tips and samples for CV">Tips and samples for CV</a>
@@ -27,4 +11,3 @@
     <a asp-controller="Article" asp-action="List" asp-route-type="Jobs 101">Jobs 101</a>
     <br />
 </div>
-

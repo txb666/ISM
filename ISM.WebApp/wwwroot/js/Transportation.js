@@ -138,7 +138,7 @@ function validateEditTransportation() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Edit Transportation successfull");
-                document.getElementById("xmas-popup-assign1").style.display = "none";
+                document.getElementById("xmas-popup-assign").style.display = "none";
                 location.reload();
             }
             else {

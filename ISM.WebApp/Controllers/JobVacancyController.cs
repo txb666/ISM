@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
+    [Authorize(Roles = "Admin,Staff,Degree")]
     public class JobVacancyController : Controller
     {
         public JobVacancyDAO _jobVacancyDAO;
@@ -40,7 +40,7 @@ namespace ISM.WebApp.Controllers
             {
                 return View("Views/Admin/Job/JobVacancies.cshtml", viewModel);
             }
-            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if(sessionUser.role_name.Equals("Degree"))
             {
                 return View("Views/Degree/Job/JobVacancies.cshtml", viewModel);
             }

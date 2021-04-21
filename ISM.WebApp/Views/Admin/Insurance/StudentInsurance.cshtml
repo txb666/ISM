@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -17,214 +16,211 @@
     }
 }
 
-@*<div style="height: 500px; background-color: white;">*@
-    <h1 style="text-align: center;">Student's Insurance</h1>
-    <div style="height: 50px;">
-        <div class="dropdown_search">
-            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 250px;">
-                <form id="searchForm" asp-controller="Insurance" asp-action="Index" method="get" style="width: 320px;">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                        <input type="date" name="startDate" style="width: 200px; border-radius: 5px;" id="" value="@(Model.startDate.HasValue?Model.startDate.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date:</label>
-                        <input type="date" name="expiryDate" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expiryDate.HasValue?Model.expiryDate.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
-                        @if (Model.degreeOrMobility.Equals("Degree"))
-                        {
-                            <option value="Degree" selected>Degree Student</option>
-                            <option value="Mobility">Mobility Student</option>
-                        }
-                        else
-                        {
-                            <option value="Degree">Degree Student</option>
-                            <option value="Mobility" selected>Mobility Student</option>
-                        }
-                    </select>
-                    <input type="hidden" name="page" id="inputPage" />
-                    <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
-                </form>
-            </div>
+<h1 style="text-align: center;">Student's Insurance</h1>
+<div style="height: 50px;">
+    <div class="dropdown_search">
+        <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 250px;">
+            <form id="searchForm" asp-controller="Insurance" asp-action="Index" method="get" style="width: 320px;">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                    <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                    <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                    <input type="date" name="startDate" style="width: 200px; border-radius: 5px;" id="" value="@(Model.startDate.HasValue?Model.startDate.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date:</label>
+                    <input type="date" name="expiryDate" style="width: 200px; border-radius: 5px;" id="" value="@(Model.expiryDate.HasValue?Model.expiryDate.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
+                    @if (Model.degreeOrMobility.Equals("Degree"))
+                    {
+                        <option value="Degree" selected>Degree Student</option>
+                        <option value="Mobility">Mobility Student</option>
+                    }
+                    else
+                    {
+                        <option value="Degree">Degree Student</option>
+                        <option value="Mobility" selected>Mobility Student</option>
+                    }
+                </select>
+                <input type="hidden" name="page" id="inputPage" />
+                <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+            </form>
         </div>
-        <center>
-            <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; border-radius: 5px;">
-                @if (Model.degreeOrMobility.Equals("Degree"))
-                {
-                    <option value="Degree" selected>Degree Student</option>
-                    <option value="Mobility">Mobility Student</option>
-                }
-                else
-                {
-                    <option value="Degree">Degree Student</option>
-                    <option value="Mobility" selected>Mobility Student</option>
-                }
-            </select>
-        </center>
     </div>
-    <br>
-    <br>
-    <div id="overlay"></div>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
+    <center>
+        <select onchange="searchDegreeOrMobility()" id="outside_degreeOrMobility" style="text-align: center; border-radius: 5px;">
+            @if (Model.degreeOrMobility.Equals("Degree"))
+            {
+                <option value="Degree" selected>Degree Student</option>
+                <option value="Mobility">Mobility Student</option>
+            }
+            else
+            {
+                <option value="Degree">Degree Student</option>
+                <option value="Mobility" selected>Mobility Student</option>
+            }
+        </select>
+    </center>
+</div>
+<br>
+<br>
+<div id="overlay"></div>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Account</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Expired Date</th>
+                <th scope="col">Picture</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.insurances.Count; i++)
+            {
                 <tr>
-                    <th scope="col">Account</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">Expired Date</th>
-                    <th scope="col">Picture</th>
-                    <th scope="col"> </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.insurances.Count; i++)
-                {
-                    <tr>
-                        <td>
-                            @Model.insurances[i].account
-                        </td>
-                        <td>
-                            @Model.insurances[i].fullname
-                        </td>
-                        <td>
-                            @(Model.insurances[i].start_date.HasValue?Model.insurances[i].start_date.Value.ToString("dd-MM-yyyy"):"")
-                        </td>
-                        <td>
-                            @(Model.insurances[i].expiry_date.HasValue?Model.insurances[i].expiry_date.Value.ToString("dd-MM-yyyy"):"")
-                        </td>
-                        <td style="text-align: center;">
-                            @if (!String.IsNullOrEmpty(Model.insurances[i].picture))
-                            {
-                                <img src="~/image/Insurance/@Model.insurances[i].picture" style="width: 50px; height: 50px;" asp-append-version="true">
-                            }
-                        </td>
-                        @{
-                            var editedInsurance = Json.Serialize(Model.insurances[i]).ToString();
+                    <td>
+                        @Model.insurances[i].account
+                    </td>
+                    <td>
+                        @Model.insurances[i].fullname
+                    </td>
+                    <td>
+                        @(Model.insurances[i].start_date.HasValue?Model.insurances[i].start_date.Value.ToString("dd-MM-yyyy"):"")
+                    </td>
+                    <td>
+                        @(Model.insurances[i].expiry_date.HasValue?Model.insurances[i].expiry_date.Value.ToString("dd-MM-yyyy"):"")
+                    </td>
+                    <td style="text-align: center;">
+                        @if (!String.IsNullOrEmpty(Model.insurances[i].picture))
+                        {
+                            <img src="~/image/Insurance/@Model.insurances[i].picture" style="width: 50px; height: 50px;" asp-append-version="true">
                         }
-                        <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px" onclick="editInsurance('@Model.insurances[i].insurance_id','@Model.insurances[i].account','@Model.insurances[i].fullname','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].start_date)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].expiry_date)');showPopup('xmas-popup')" class="btn btn-info">
-                               Edit
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <!-- popup code -->
-        <div id="xmas-popup" class="popup" href="#">
-            <div class="popup-content" style="height:350px">
-                <form id="editInsuranceForm" asp-controller="Insurance" asp-action="Edit" method="post">
-                    <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Insurance</h1>
-                    <input type="hidden" id="edit_id" />
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
-                    </div>
-
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Start Date:
-                        </label>
-                        <input type="date"
-                               style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_startDate">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Expiry Date:
-                        </label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expiryDate">
-                    </div>
-                    <div class="form-group row">
-                        <button onclick="validateEditInsurance();" style="margin-left: 190px; width: 80px;" type="button"
-                                class="btn btn-success" id="save">
-                            Save
+                    </td>
+                    @{
+                        var editedInsurance = Json.Serialize(Model.insurances[i]).ToString();
+                    }
+                    <td style="text-align: center;">
+                        <button style="width:80px; border-radius:10px" onclick="editInsurance('@Model.insurances[i].insurance_id','@Model.insurances[i].account','@Model.insurances[i].fullname','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].start_date)','@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.insurances[i].expiry_date)');showPopup('xmas-popup')" class="btn btn-info">
+                            Edit
                         </button>
-                        <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                           Cancel
-                        </button>
-                    </div>
-                </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- popup code -->
+    <div id="xmas-popup" class="popup">
+        <div class="popup-content" style="height:350px">
+            <form id="editInsuranceForm" asp-controller="Insurance" asp-action="Edit" method="post">
+                <h1 style="text-align: center; margin-bottom: 40px;">Edit Student Insurance</h1>
+                <input type="hidden" id="edit_id" />
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
+                </div>
+
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                        Start Date:
+                    </label>
+                    <input type="date"
+                           style="width: 300px; height: 30px; margin-left: 30px; border-radius: 5px;" id="edit_startDate">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">
+                        Expiry Date:
+                    </label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expiryDate">
+                </div>
+                <div class="form-group row">
+                    <button onclick="disableButton('save_edit'); validateEditInsurance();" style="margin-left: 190px; width: 80px;" type="submit"
+                            class="btn btn-success" id="save_edit">
+                        Save
+                    </button>
+                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
+
+<div style="margin-top: 20px;">
+
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button type="button" onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
+            Setup Notification Degree
+        </button>
+    </i>
+    <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
+        <button type="button" onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
+            Setup Notification Mobility
+        </button>
+    </i>
+
+</div>
+<!-- popup code Notification -->
+<div id="xmas-popup-setupnotification-degree" class="popup">
+    <div class="popup-content-setupnotification-degree" style="height:300px">
+        <form id="degree_notificationForm" asp-controller="Insurance" asp-action="NotificationDegree" method="post">
+            <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline:</label>
+                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id">
             </div>
-        </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
+                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
+            </div>
+            <div class="form-group row">
+                <button onclick="disableButton('save_setup'); validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>
+                <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
+</div>
+<div id="xmas-popup-setupnotification-mobility" class="popup">
+    <div class="popup-content-setupnotification-mobility" style="height:250px">
+        <form id="mobility_notificationForm" asp-controller="Insurance" asp-action="NotificationMobility" method="post">
+            <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
+                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
+            </div>
+            <div class="form-group row">
+                <button onclick="disableButton('save_setup_2'); validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup_2">Save</button>
+                <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-    <div>
-        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
-    </div>
-
-    <div style="margin-top: 20px;">
-        
-        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button onclick="showPopup('xmas-popup-setupnotification-degree')" class="btn btn-danger">
-                Setup Notification Degree
-            </button>
-        </i>
-        <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-            <button onclick="showPopup('xmas-popup-setupnotification-mobility')" class="btn btn-danger">
-                Setup Notification Mobility
-            </button>
-        </i>
-
-    </div>
-    <!-- popup code Notification -->
-    <div id="xmas-popup-setupnotification-degree" class="popup" href="#">
-        <div class="popup-content-setupnotification-degree" style="height:300px">
-            <form id="degree_notificationForm" asp-controller="Insurance" asp-action="NotificationDegree" method="post">
-                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Degree Student</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_deadline_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                    <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
-                </div>
-                <div class="form-group row">
-                    <button onclick="validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                       Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
-        <div class="popup-content-setupnotification-mobility" style="height:250px">
-            <form id="mobility_notificationForm" asp-controller="Insurance" asp-action="NotificationMobility" method="post">
-                <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                    <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
-                </div>
-                <div class="form-group row">
-                    <button onclick="validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
-                    <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                       Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-@*</div>*@
-
-<script>
-    function myFunction1() {
+<script>function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_insurance");
     }
     function filterFunction() {
@@ -241,5 +237,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

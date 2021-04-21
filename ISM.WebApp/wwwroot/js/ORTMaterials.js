@@ -49,7 +49,7 @@ function validateEditORTMaterials() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Edit ORT Materials successfull");
-                document.getElementById("xmas-popup-assign1").style.display = "none";
+                document.getElementById("xmas-popup-assign").style.display = "none";
                 location.reload();
             }
             else {
@@ -72,7 +72,6 @@ function deleteORTMaterials(ort_materials_id) {
             success: function (msg) {
                 if (msg == "true") {
                     alert("Delete ORT Materials successfull");
-                    document.getElementById("xmas-popup-assign1").style.display = "none";
                     location.reload();
                 }
                 else {

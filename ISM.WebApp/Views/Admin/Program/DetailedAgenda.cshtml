@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -17,12 +16,11 @@
     }
 }
 
-@*<div style="height: 500px; background-color: white;">*@
 <h1 style="text-align: center;">Detailed Agenda</h1>
 <div style="height: 50px;">
     <!-- SEARCH FORM -->
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 280px">
             <form style="width: 320px;" asp-controller="DetailedAgenda" asp-action="Index" method="get" id="searchForm">
                 <div class="form-group row">
@@ -83,7 +81,7 @@
                     </select>
                 </div>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
@@ -152,9 +150,9 @@
                 <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_detail_agenda">
             </div>
             <div class="form-group row">
-                <button id="save" onclick="validateSetupNotification();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                    <a style="text-decoration: none; color: white;" href="#">Cancel</a>
+                <button id="save" onclick="disableButton('save'); validateSetupNotification();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                <button id="cancel" onclick="hidePopup('xmas-popup-assign');" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    Cancel
                 </button>
             </div>
         </form>
@@ -163,9 +161,8 @@
 
 <div style="margin-top: 20px;">
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-        <button class="btn btn-danger">
-            <a style="text-decoration: none; color: white;" href="#xmas-popup-assign">Setup Notification</a>
+        <button type="button" onclick="showPopup('xmas-popup-assign')" class="btn btn-danger">
+            Setup Notification
         </button>
     </i>
 </div>
-@*</div>*@

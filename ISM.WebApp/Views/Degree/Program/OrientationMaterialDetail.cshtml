@@ -1,26 +1,13 @@
 ﻿@model ISM.WebApp.ViewModels.ORTMaterialsDetailViewModel
-@using Microsoft.AspNetCore.Http;
-@using Newtonsoft.Json;
-@using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Degree")
-    {
-        ViewData["Title"] = "Pre-Approval Visa Page";
-        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Mobility")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
-    }
+    ViewData["Title"] = "Orientation Materials Page";
+    Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
 }
 
 <h1 style="text-align: center;"> ORT Materials </h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 150px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="ORTMaterials" asp-action="Detail" method="get">
                 <div class="form-group row">
@@ -32,7 +19,7 @@
                     <input name="note" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
@@ -60,7 +47,7 @@
                     </td>
                     <td>
                         @Model.materials[i].note
-                    </td>                   
+                    </td>
                 </tr>
             }
         </tbody>
@@ -71,8 +58,7 @@
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
-<script>
-    function myFunction() {
+<script>function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
@@ -122,6 +108,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
-@*</div>*@
+    }</script>

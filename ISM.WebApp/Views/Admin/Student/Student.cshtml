@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -16,10 +15,11 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
+
 <h1 style="text-align: center;">Student Information</h1>
 <div style="height: 50px;">
     <div class="dropdown_search">
-        <button onclick="myFunction1()"style="width:80px; border-radius:10px"  class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height:450px">
             <form style="width: 320px;" id="searchForm" asp-controller="Student" asp-action="Index" method="get">
                 <div class="form-group row">
@@ -156,7 +156,7 @@
                     }
                 </select>
                 <input type="hidden" name="page" id="inputPage" />
-                <button id="searchButton" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
             </form>
         </div>
     </div>
@@ -173,7 +173,7 @@
             <option value="Mobility" selected>Mobility Student</option>
         }
     </select>
-    <button onclick="showPopup('xmas-popup')" style="float: right;width:80px; border-radius:10px" class="btn btn-success">
+    <button type="button" onclick="showPopup('xmas-popup')" style="float: right;width:80px; border-radius:10px" class="btn btn-success">
         Create
     </button>
 
@@ -268,7 +268,7 @@
                         }
                     </td>
                     <td style="text-align: center;">
-                        <button style="width:80px; border-radius:10px"  onclick="editStudent('@item.user_id', '@item.fullname', '@item.email', '@item.account', '@item.studentGroup_id', '@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
+                        <button style="width:80px; border-radius:10px" onclick="editStudent('@item.user_id', '@item.fullname', '@item.email', '@item.account', '@item.studentGroup_id', '@item.status');showPopup('xmas-popup-assign')" class="btn btn-info">
                             Edit
                         </button>
                     </td>
@@ -278,7 +278,7 @@
     </table>
 
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:370px">
             <form id="createStudentForm">
                 <h1 style="text-align: center;">Create Student</h1>
@@ -318,8 +318,8 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateCreateStudent('@Model.degreeOrMobility');" style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success" id="save">
+                    <button onclick="disableButton('save_create'); validateCreateStudent('@Model.degreeOrMobility');" style="margin-left: 190px; width: 80px;" type="submit"
+                            class="btn btn-success" id="save_create">
                         Save
                     </button>
                     <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
@@ -329,7 +329,7 @@
             </form>
         </div>
     </div>
-    <div id="xmas-popup-assign" class="popup" href="#">
+    <div id="xmas-popup-assign" class="popup">
         <div class="popup-content-assign" style="height:370px">
             <form id="editStudentForm" asp-controller="Student" asp-action="Edit" method="post">
                 <h1 style="text-align: center;">Edit Student</h1>
@@ -371,8 +371,8 @@
                     </select>
                 </div>
                 <div class="form-group row">
-                    <button onclick="validateEditStudent();" style="margin-left: 190px; width: 80px;" type="button"
-                            class="btn btn-success" id="save">
+                    <button onclick="disableButton('save_edit'); validateEditStudent();" style="margin-left: 190px; width: 80px;" type="submit"
+                            class="btn btn-success" id="save_edit">
                         Save
                     </button>
                     <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">

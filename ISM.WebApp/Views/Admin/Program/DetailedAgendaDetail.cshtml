@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.DetailedAgendaDetailViewModel
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
 @using ISM.WebApp.Utils
@@ -15,12 +16,11 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@model ISM.WebApp.ViewModels.DetailedAgendaDetailViewModel
-@*<div style="height: 500px; background-color: white;">*@
+
 <h1 style="text-align: center;"> Detailed Agenda For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 290px">
             <form style="width: 320px;" id="searchForm" asp-controller="DetailedAgenda" asp-action="Detail" method="get">
                 <div class="form-group row">
@@ -63,11 +63,11 @@
                 </div>
                 <input type="hidden" name="student_group_id" value="@Model.current_student_group.studentGroup_id" />
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
-    <button style="width:80px;border-radius:10px;float:right" onclick="showPopup('xmas-popup')" class="btn btn-success">
+    <button type="button" style="width:80px;border-radius:10px;float:right" onclick="showPopup('xmas-popup')" class="btn btn-success">
         Create
     </button>
 </div>
@@ -91,42 +91,42 @@
         <tbody>
             @foreach (var item in Model.detailedAgendas)
             {
-            <tr>
-                <td>
-                    @item.date.ToString("dd-MM-yyyy")
-                </td>
-                <td>
-                    @item.time_start
-                </td>
-                <td>
-                    @item.time_end
-                </td>
-                <td>
-                    @item.time_zone
-                </td>
-                <td>
-                    @item.venue
-                </td>
-                <td>
-                    @item.PIC
-                </td>
-                <td>
-                    @item.content
-                </td>
-                <td style="text-align: center;">
-                    <button style="width:80px;border-radius:10px" onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign');" class="btn btn-info">
-                        Edit
-                    </button>
-                    <button style="width:80px;border-radius:10px" onclick="deleteDetailedAgenda('@item.detailed_agenda_id');" class="btn btn-danger">
-                        Delete
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @item.date.ToString("dd-MM-yyyy")
+                    </td>
+                    <td>
+                        @item.time_start
+                    </td>
+                    <td>
+                        @item.time_end
+                    </td>
+                    <td>
+                        @item.time_zone
+                    </td>
+                    <td>
+                        @item.venue
+                    </td>
+                    <td>
+                        @item.PIC
+                    </td>
+                    <td>
+                        @item.content
+                    </td>
+                    <td style="text-align: center;">
+                        <button type="button" style="width:80px;border-radius:10px" onclick="EditDetailedAgenda('@item.detailed_agenda_id','@FormatUtil.ToInputDate2(item.date)','@item.time_start','@item.time_end','@item.time_zone','@item.venue','@item.PIC','@item.content'); showPopup('xmas-popup-assign');" class="btn btn-info">
+                            Edit
+                        </button>
+                        <button style="width:80px;border-radius:10px" onclick="deleteDetailedAgenda('@item.detailed_agenda_id');" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:500px">
             <form>
                 <h1 style="text-align: center; margin-bottom: 40px;">Create Detailed Agenda</h1>
@@ -146,11 +146,11 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">TimeZone</label>
                     <select name="program" style="border-radius: 5px; width: 300px; margin-left:30px" id="create_time_zone">
-                       @for(int i = 0; i <= 12; i++)
-                       {
-                           string timezone = "GMT+" + i;
-                           <option value="@timezone">@timezone</option>
-                       }
+                        @for (int i = 0; i <= 12; i++)
+                        {
+                            string timezone = "GMT+" + i;
+                            <option value="@timezone">@timezone</option>
+                        }
                     </select>
                 </div>
                 <div class="form-group row">
@@ -166,7 +166,7 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content">
                 </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateCreateDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save_create" onclick="disableButton('save_create'); validateCreateDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                     <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
@@ -174,7 +174,7 @@
             </form>
         </div>
     </div>
-    <div id="xmas-popup-assign" class="popup" href="#">
+    <div id="xmas-popup-assign" class="popup">
         <div class="popup-content-assign">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Detailed Agenda</h1>
@@ -214,8 +214,8 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content">
                 </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateEditDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button id="cancel" onclick="hidePopup('xmas-popup-assign');"  style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    <button id="save_edit" onclick="disableButton('save_edit'); validateEditDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                    <button id="cancel" onclick="hidePopup('xmas-popup-assign');" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
                 </div>
@@ -227,57 +227,54 @@
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
-<script>
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
+<script>function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
                 }
             }
         }
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn_search')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content_search");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show_search')) {
-                        openDropdown.classList.remove('show_search');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn_search')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content_search");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show_search')) {
+                    openDropdown.classList.remove('show_search');
                 }
             }
         }
+    }
 
-        function search_visa() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
-        }
+    function search_visa() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
+    }
 
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
             }
         }
-</script>
-@*</div>*@
+    }</script>

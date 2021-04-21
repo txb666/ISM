@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -19,7 +18,7 @@
 
 <h1 style="text-align: center;">@Model.type</h1>
 <div style="height:50px">
-    <button onclick="showPopup('xmas-popup')" class="btn btn-success" style="float:right;width:80px;border-radius:10px">
+    <button type="button" onclick="showPopup('xmas-popup')" class="btn btn-success" style="float:right;width:80px;border-radius:10px">
         Create
     </button>
 </div>
@@ -29,7 +28,7 @@
     <a asp-controller="Article" asp-action="Index" asp-route-id="@item.article_id" asp-route-type="">@item.title</a>
     <br />
 }
-<div id="xmas-popup" class="popup" href="#">
+<div id="xmas-popup" class="popup">
     <div class="popup-content" style="height:300px">
         <form id="createArticleForm" enctype="multipart/form-data">
             <h1 style="text-align: center; margin-bottom: 40px;">Create Article</h1>
@@ -43,7 +42,7 @@
                 <input style="width: 300px; margin-left: 30px; border-radius: 5px;" type="file" id="create_file">
             </div>
             <div class="form-group row">
-                <button onclick="validateCreateArticle()" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="disableButton('save'); validateCreateArticle();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save">Save</button>
                 <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                     Cancel
                 </button>

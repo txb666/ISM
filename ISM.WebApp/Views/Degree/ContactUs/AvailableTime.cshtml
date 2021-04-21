@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Degree")
@@ -16,10 +15,11 @@
         Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
     }
 }
+
 <h1 style="text-align: center;">Available Time</h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 190px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="Meeting" asp-action="Index" method="get">
                 <div class="form-group row">
@@ -31,7 +31,7 @@
                     <input name="staff_email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.email">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
@@ -69,8 +69,7 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-<script>
-    function myFunction1() {
+<script>function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_staff_availableTime");
     }
     function filterFunction() {
@@ -87,5 +86,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

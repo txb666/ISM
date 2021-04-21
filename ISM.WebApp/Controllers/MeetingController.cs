@@ -112,7 +112,7 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
-        [Authorize(Roles = "Admin,Staff")]
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
         public bool isExist(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
         {
             bool result = _meetingDAO.isExist(staff_id,student_id,date,start_time,end_time);

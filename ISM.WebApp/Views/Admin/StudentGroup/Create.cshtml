@@ -2,140 +2,109 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Admin")
-    {
-        ViewData["Title"] = "Pre-Approval Visa Page";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Staff")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_StaffLayout.cshtml";
-    }
+
+    ViewData["Title"] = "Create Student Group Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
 }
 @{
     var coordinatorList = Json.Serialize(Model.coordinatorList).ToString();
 }
 
-<script>
-    window.onload = function () {
+<script>window.onload = function () {
         document.getElementById("initializeButton").click();
-    };
-</script>
+    };</script>
 
 <button id="initializeButton" style="display: none;" onclick="initializeCreate(@coordinatorList);">hidden</button>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <form id="createStudentGroupForm">
-                    <h1 style="text-align: center; margin-top: 20px;">Create Student Group</h1>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
-                        <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_program">
-                            @if (Model.programList.Count > 0)
-                            {
-                                <option value="@Model.programList[0].programm_id" selected>@Model.programList[0].program_name</option>
-                            }
-                            @for (int i = 1; i < Model.programList.Count; i++)
-                            {
-                                <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <form id="createStudentGroupForm">
+                <h1 style="text-align: center; margin-top: 20px;">Create Student Group</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
+                    <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_program">
+                        @if (Model.programList.Count > 0)
+                        {
+                            <option value="@Model.programList[0].programm_id" selected>@Model.programList[0].program_name</option>
+                        }
+                        @for (int i = 1; i < Model.programList.Count; i++)
+                        {
+                            <option value="@Model.programList[i].programm_id">@Model.programList[i].program_name</option>
 
-                            }
-                        </select>
-                    </div>
-
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
-                        <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_start">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
-                        <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_end">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
-                        <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_home_univercity">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
-                        <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_campus">
-                            @if (Model.campusList.Count > 0)
-                            {
-                                <option value="@Model.campusList[0].campus_id" selected>@Model.campusList[0].campus_name</option>
-                            }
-                            @for (int i = 1; i < Model.campusList.Count; i++)
-                            {
-                                <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
-                        <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
-                    </div>
-                </form>
-
-            </div>
-
-            <div class="col-6">
-                <form>
-                    <h1 style="text-align:center; margin-top: 20px">Coordinator Management</h1>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
-                        <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
-                            @if (Model.coordinatorList.Count > 0)
-                            {
-                                <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
-                            }
-                            @for (int i = 1; i < Model.coordinatorList.Count; i++)
-                            {
-                                <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
-                            }
-                        </select>
-                    </div>
-
-                    <button type="button" onclick='addCoordinator();'>Add</button>
-                    <table id="create_coordinatorTable" class="table table-bordered">
-                    </table>
-                </form>
-
-
-            </div>
-        </div>
-        <center>
-            <button onclick="createStudentGroup();" style=" width: 80px;" type="button"
-                    class="btn btn-success">
-                Save
-            </button>        
-                <a href="/StudentGroup">
-                    <button style="width: 80px;" type="button" class="btn btn-danger">Cancel</button>
-                </a>
-            
-        </center>
-    </div>
-
-<div id="xmas-popup-notification" class="popup">
-    <div class="popup-content-notification">
-        <h1 align="center">Notifications</h1>
-        <form>
-            <div class="table-scroll-meeting">
-                <div class="border border-warning" style="border-radius:10px">
-                    @foreach (var item in sessionUser.webNotifications)
-                    {
-                        <p style="font-weight:bold; color:red">@item.title</p>
-                        <p style="background-color: lightgrey">@item.content</p>
-                    }
+                        }
+                    </select>
                 </div>
-            </div>
-            <div class="form-group row">
-                <button onclick="hidePopup('xmas-popup-notification')" id="cacel" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
-                    Cancel
-                </button>
-            </div>
-        </form>
+
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
+                    <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_start">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
+                    <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_duration_end">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
+                    <input type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_home_univercity">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
+                    <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="create_campus">
+                        @if (Model.campusList.Count > 0)
+                        {
+                            <option value="@Model.campusList[0].campus_id" selected>@Model.campusList[0].campus_name</option>
+                        }
+                        @for (int i = 1; i < Model.campusList.Count; i++)
+                        {
+                            <option value="@Model.campusList[i].campus_id">@Model.campusList[i].campus_name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
+                    <input type="text" name="note" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
+                </div>
+            </form>
+
+        </div>
+
+        <div class="col-6">
+            <form>
+                <h1 style="text-align:center; margin-top: 20px">Coordinator Management</h1>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose Coordinator:</label>
+                    <select name="add_coordinator" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="add_coordinator">
+                        @if (Model.coordinatorList.Count > 0)
+                        {
+                            <option value="@Model.coordinatorList[0].user_id" selected>@Model.coordinatorList[0].account</option>
+                        }
+                        @for (int i = 1; i < Model.coordinatorList.Count; i++)
+                        {
+                            <option value="@Model.coordinatorList[i].user_id">@Model.coordinatorList[i].account</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="button" onclick='addCoordinator();'>Add</button>
+                <table id="create_coordinatorTable" class="table table-bordered">
+                </table>
+            </form>
+
+
+        </div>
     </div>
+    <center>
+        <button id="save_create" onclick="disableButton('save_create'); createStudentGroup();" style=" width: 80px;" type="submit"
+                class="btn btn-success">
+            Save
+        </button>
+        <a href="/StudentGroup">
+            <button style="width: 80px;" type="button" class="btn btn-danger">Cancel</button>
+        </a>
+
+    </center>
 </div>

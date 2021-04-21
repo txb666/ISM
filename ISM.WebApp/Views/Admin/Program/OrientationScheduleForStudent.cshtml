@@ -15,178 +15,175 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@*<div style="height: 500px; background-color: white;">*@
-    <h1 style="text-align: center;"> Orientation Schedule: @(Model.student.fullname + " - " + Model.student.email)</h1>
-    <div style="height:50px">
-        <div class="dropdown_search">
-            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 320px; margin-top: 10px;">
-                <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="StudentOrientation" method="get">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                        <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                        <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                        <input name="time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.time.HasValue?Model.time.Value.ToString(@"hh\:mm\:ss"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                        <input name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
-                    </div>
-                    <input type="hidden" name="page" id="inputPage">
-                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
-                </form>
-            </div>
+
+<h1 style="text-align: center;"> Orientation Schedule: @(Model.student.fullname + " - " + Model.student.email)</h1>
+<div style="height:50px">
+    <div class="dropdown_search">
+        <button type="button" onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 320px; margin-top: 10px;">
+            <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="StudentOrientation" method="get">
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                    <input name="time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.time.HasValue?Model.time.Value.ToString(@"hh\:mm\:ss"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                    <input name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
+                    <input name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
+                </div>
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+            </form>
         </div>
-        <button onclick="showPopup('xmas-popup')" style="float: right;width:80px; border-radius:10px" class="btn btn-success">
-          Create
-        </button>
     </div>
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
+    <button type="button" onclick="showPopup('xmas-popup')" style="float: right;width:80px; border-radius:10px" class="btn btn-success">
+        Create
+    </button>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Content</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Location</th>
+                <th scope="col">Requirement for Student</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.orientationSchedules)
+            {
                 <tr>
-                    <th scope="col">Content</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Requirement for Student</th>
-                    <th></th>
+                    <td>
+                        @item.content
+                    </td>
+                    <td>
+                        @item.date.ToString("yyyy-MMM-dd")
+                    </td>
+                    <td>
+                        @item.time.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @item.location
+                    </td>
+                    <td>
+                        @item.require_document
+                    </td>
+                    <td style="text-align: center;">
+                        <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
+                        <button style="width:80px; border-radius:10px" onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document');showPopup('xmas-popup-assign')" class="btn btn-info">
+                            Edit
+                        </button>
+                        <button style="width:80px; border-radius:10px" onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.orientationSchedules)
-                {
-                    <tr>
-                        <td>
-                            @item.content
-                        </td>
-                        <td>
-                            @item.date.ToString("yyyy-MMM-dd")
-                        </td>
-                        <td>
-                            @item.time.ToString(@"hh\:mm\:ss")
-                        </td>
-                        <td>
-                            @item.location
-                        </td>
-                        <td>
-                            @item.require_document
-                        </td>
-                        <td style="text-align: center;">
-                            <input type="hidden" id="delete_ort_id" value="@item.ortSchedule_id" />
-                            <button style="width:80px; border-radius:10px" onclick="editORT('@item.ortSchedule_id', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.date)', '@ISM.WebApp.Utils.FormatUtil.ToInputTime(item.time)', '@item.location', '@item.require_document');showPopup('xmas-popup-assign')" class="btn btn-info">
-                                Edit
-                            </button>
-                            <button style="width:80px; border-radius:10px" onclick="deleteORT();" class="btn btn-danger" asp-controller="Orientation" asp-action="DeleteORT">Delete</button>
-                        </td>
-                    </tr>
-                }
-        </table>
-    </div>
-    <div>
-        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
-    </div>
+            }
+    </table>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
-    <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:500px">
-            <form asp-controller="Orientation" asp-action="CreateORT" method="post">
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Create Orientation Schedule</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_content_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_date_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_time_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_location_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_requirement_id">
-                </div>
-                <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
-                <div class="form-group row">
-                    <button id="save" onclick="validateCreateORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button onclick="hidePopup('xmas-popup')"  id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+<div id="xmas-popup" class="popup">
+    <div class="popup-content" style="height:500px">
+        <form asp-controller="Orientation" asp-action="CreateORT" method="post">
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Create Orientation Schedule</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_content_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_date_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_time_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_location_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="ort_requirement_id">
+            </div>
+            <input type="hidden" id="ort_studentid" value="@Context.Request.RouteValues["id"]" />
+            <div class="form-group row">
+                <button id="save_create" onclick="disableButton('save_create'); validateCreateORT();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:440px">
-            <form asp-controller="Orientation" asp-action="EditORT" method="post">
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Edit Orientation Schedule</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_content_id" disabled>
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_date_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
-                    <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_time_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_location_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_requirement_id">
-                </div>
-                <input type="hidden" id="edit_ort_id" />
-                <div class="form-group row">
-                    <button id="save" onclick="validateEditORT();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
-                    <button onclick="hidePopup('xmas-popup-assign')"  id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign" style="height:440px">
+        <form asp-controller="Orientation" asp-action="EditORT" method="post">
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Edit Orientation Schedule</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_content_id" disabled>
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
+                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_date_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Time:</label>
+                <input type="time" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_time_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_location_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
+                <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ort_requirement_id">
+            </div>
+            <input type="hidden" id="edit_ort_id" />
+            <div class="form-group row">
+                <button id="save_edit" onclick="disableButton('save_edit'); validateEditORT();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        function myFunction1() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule_student");
-        }
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+<script>function myFunction1() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_orientation_schedule_student");
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
             }
         }
-    </script>
-@*</div>*@
+    }</script>

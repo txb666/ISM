@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace ISM.WebApp.Controllers
 {
-    [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
+    [Authorize(Roles = "Admin,Staff,Degree")]
     public class JobServicesController : Controller
     {
         public IActionResult Index()
@@ -25,7 +25,7 @@ namespace ISM.WebApp.Controllers
             {
                 return View("Views/Admin/Job/IWantAJob.cshtml");
             }
-            else if(sessionUser.role_name.Equals("Degree") || sessionUser.role_name.Equals("Mobility"))
+            else if(sessionUser.role_name.Equals("Degree"))
             {
                 return View("Views/Degree/Job/IWantAJob.cshtml");
             }

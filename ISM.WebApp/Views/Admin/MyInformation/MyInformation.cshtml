@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -26,6 +25,7 @@
         Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
     }
 }
+
 <h1 style="text-align: center; margin-bottom: 50px;">My Information</h1>
 @if (sessionUser.isFirstLoggedIn == true)
 { 
@@ -78,11 +78,11 @@
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact" disabled>
                 </div>
                 <div class="form-group row">
-                    <button class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px">
-                        <a style="text-decoration: none; color: white;" href="#xmas-popup">Change Password</a>
+                    <button onclick="showPopup('xmas-popup');" class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px" type="button">
+                        Change Password
                     </button>
-                    <button style="border-radius: 10px; width: 150px; margin-left:10px" class="btn btn-info">
-                        <a href="#xmas-popup-assign" style="text-decoration:none;color:white">Edit Information</a>
+                    <button onclick="showPopup('xmas-popup-assign')" style="border-radius: 10px; width: 150px; margin-left:10px" class="btn btn-info" type="button">
+                        Edit Information
                     </button>
                 </div>
             </form>
@@ -108,9 +108,9 @@
                 <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
             </div>
             <div class="form-group row" style="margin-top: 50px;">
-                <button id="save" onclick="validateChangePassword('@sessionUser.user_id');" style="width: 80px;" type="button" class="btn btn-success">Save</button>
-                <button id="cancel" style="width: 80px;" type="button" class="btn btn-danger">
-                    <a href="#" style="text-decoration:none;color:white">Cancel</a>
+                <button id="save_create" onclick="disableButton('save_create'); validateChangePassword('@sessionUser.user_id');" style="width: 80px;" type="submit" class="btn btn-success">Save</button>
+                <button onclick="hidePopup('xmas-popup');" id="cancel" style="width: 80px;" type="button" class="btn btn-danger">
+                    Cancel
                 </button>
             </div>
         </form>
@@ -165,11 +165,11 @@
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture_id" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="validateSaveInformation('@sessionUser.user_id');" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
-                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            <a href="#" style="text-decoration:none;color:white">Cancel</a>
+                        <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            Cancel
                         </button>
                     </div>
                 </form>
@@ -177,5 +177,3 @@
         </div>
     </div>
 </div>
-
-

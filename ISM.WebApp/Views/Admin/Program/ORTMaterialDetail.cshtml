@@ -1,7 +1,7 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.ORTMaterialsDetailViewModel
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -15,14 +15,13 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@model ISM.WebApp.ViewModels.ORTMaterialsDetailViewModel
-@*<div style="height: 500px; background-color: white;">*@
+
 <h1 style="text-align: center;"> ORT Materials For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="search_visa()"style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
+        <button type="button" onclick="search_visa()" style="width:80px;border-radius:10px" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 150px; margin-top: 10px;">
-            <form style="width: 320px;" id="searchForm" asp-controller="ORTMaterials" asp-action="Detail" method="get">              
+            <form style="width: 320px;" id="searchForm" asp-controller="ORTMaterials" asp-action="Detail" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
                     <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
@@ -30,15 +29,15 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
                     <input name="note" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
-                </div>             
+                </div>
                 <input type="hidden" name="student_group_id" id="search_student_group_id" value="@Model.current_student_group.studentGroup_id" />
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
 </div>
-<button onclick="showPopup('xmas-popup')" style="float: right;width:80px;border-radius:10px"" class="btn btn-success">
+<button onclick="showPopup('xmas-popup')" style="float: right;width:80px;border-radius:10px" type="button" class="btn btn-success">
     Create
 </button>
 <br>
@@ -54,36 +53,36 @@
             </tr>
         </thead>
         <tbody>
-            @for(int i=0;i<Model.materials.Count;i++)                
+            @for (int i = 0; i < Model.materials.Count; i++)
             {
-            <tr>
-                <td>
-                    @(i+1)
-                </td>
-                <td>
-                    @Model.materials[i].content
-                </td>
-                <td>
-                    @Model.materials[i].note
-                </td>
-                <td style="text-align: center;">
-                    <button style="width:80px;border-radius:10px" onclick="EditORTMaterials('@Model.materials[i].ort_materials_id','@Model.materials[i].content','@Model.materials[i].note'); showPopup('xmas-popup-assign');" class="btn btn-info">
-                        Edit
-                    </button>
-                    <button style="width:80px;border-radius:10px" onclick="deleteORTMaterials('@Model.materials[i].ort_materials_id')" class="btn btn-danger">
-                        Delete
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @(i+1)
+                    </td>
+                    <td>
+                        @Model.materials[i].content
+                    </td>
+                    <td>
+                        @Model.materials[i].note
+                    </td>
+                    <td style="text-align: center;">
+                        <button style="width:80px;border-radius:10px" onclick="EditORTMaterials('@Model.materials[i].ort_materials_id','@Model.materials[i].content','@Model.materials[i].note'); showPopup('xmas-popup-assign');" class="btn btn-info">
+                            Edit
+                        </button>
+                        <button style="width:80px;border-radius:10px" onclick="deleteORTMaterials('@Model.materials[i].ort_materials_id')" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:250px">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Create ORT Materials</h1>
-                <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">              
+                <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content">
@@ -91,9 +90,9 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
-                </div>              
+                </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateCreateORTMaterials();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save_create" onclick="disableButton('save_create'); validateCreateORTMaterials();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                     <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
@@ -101,11 +100,11 @@
             </form>
         </div>
     </div>
-    <div id="xmas-popup-assign" class="popup" href="#">
+    <div id="xmas-popup-assign" class="popup">
         <div class="popup-content-assign" style="height:250px">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit ORT Materials</h1>
-                <input type="hidden" id="edit_ort_materials_id">              
+                <input type="hidden" id="edit_ort_materials_id">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content">
@@ -113,9 +112,9 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
-                </div>               
+                </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateEditORTMaterials();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save_edit" onclick="disableButton('save_edit'); validateEditORTMaterials();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                     <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
@@ -129,8 +128,7 @@
 </div>
 
 
-<script>
-    function myFunction() {
+<script>function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
@@ -180,6 +178,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
-@*</div>*@
+    }</script>

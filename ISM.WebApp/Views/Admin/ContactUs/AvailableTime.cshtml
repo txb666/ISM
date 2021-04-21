@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     var current_date = DateTime.Now;
@@ -20,7 +19,7 @@
 <h1 style="text-align: center;">Available Time</h1>
 <div style="height:50px">
     <div class="dropdown_search">
-        <button onclick="myFunction1()" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Search</button>
+        <button type="button" onclick="myFunction1()" style="width: 80px; border-radius: 10px;" class="btn btn-primary">Search</button>
         <div id="myDropdown_search" class="dropdown-content_search" style="height: 190px; margin-top: 10px;">
             <form style="width: 320px;" id="searchForm" asp-controller="Meeting" asp-action="Index" method="get">
                 <div class="form-group row">
@@ -36,12 +35,12 @@
                     <input name="end_time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.end_time.HasValue?Model.end_time.Value.ToString(@"hh\:mm\:ss"):"")">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
-                <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
-    <button onclick="showPopup('xmas-popup-setupnotification-degree')" style="width: 80px; border-radius: 10px; float: right;" class="btn btn-success">
-    Create
+    <button type="button" onclick="showPopup('xmas-popup-setupnotification-degree')" style="width: 80px; border-radius: 10px; float: right;" class="btn btn-success">
+        Create
     </button>
 </div>
 <br>
@@ -85,21 +84,21 @@
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
-<button onclick="showPopup('xmas-popup-assign1-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
-   View Student Register
+<button type="button" onclick="showPopup('xmas-popup-assign1-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+    View Student Register
 </button>
-<button onclick="showPopup('xmas-popup-assign-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
+<button type="button" onclick="showPopup('xmas-popup-assign-book')" style="width: 200px; border-radius: 10px; float: right; margin-left:10px" class="btn btn-success">
     View Meeting Schedule
 </button>
 <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
-    <button onclick="showPopup('xmas-popup-setupnotification-mobility')" style="width:220px;border-radius:10px;" class="btn btn-danger">
+    <button type="button" onclick="showPopup('xmas-popup-setupnotification-mobility')" style="width:220px;border-radius:10px;" class="btn btn-danger">
         Setup Notification
     </button>
 </i>
 
 
 <!-- popup code -->
-<div id="xmas-popup" class="popup" href="#">
+<div id="xmas-popup" class="popup">
     <div class="popup-content" style="height:300px">
         <form>
             <h1 style="text-align: center; margin-top: 20px;"> Edit Available Time</h1>
@@ -117,7 +116,7 @@
                 <input type="time" id="edit_endTime_id">
             </div>
             <div class="form-group row">
-                <button onclick="validateEditMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="disableButton('save_edit'); validateEditMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_edit">Save</button>
                 <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">Cancel</button>
 
             </div>
@@ -125,7 +124,7 @@
     </div>
 </div>
 
-<div id="xmas-popup-setupnotification-degree" class="popup" href="#">
+<div id="xmas-popup-setupnotification-degree" class="popup">
     <div class="popup-content-setupnotification-degree" style="height:300px">
         <form>
             <h1 style="text-align: center; margin-top: 20px;"> Create Available Time</h1>
@@ -142,16 +141,16 @@
                 <input type="time" id="create_endTime_id">
             </div>
             <div class="form-group row">
-                <button onclick="validateCreateMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="disableButton('save_create'); validateCreateMAT('@sessionUser.user_id');" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_create">Save</button>
                 <button onclick="hidePopup('xmas-popup-setupnotification-degree')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                Cancel
+                    Cancel
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<div id="xmas-popup-setupnotification-mobility" class="popup" href="#">
+<div id="xmas-popup-setupnotification-mobility" class="popup">
     <div class="popup-content-setupnotification-mobility" style="height:200px">
         <form id="mobility_notificationForm" asp-controller="" asp-action="" method="post">
             <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification</h1>
@@ -160,7 +159,7 @@
                 <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_meeting">
             </div>
             <div class="form-group row">
-                <button onclick="validateSetupNotificationMeeting();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save">Save</button>
+                <button onclick="disableButton('save_setup'); validateSetupNotificationMeeting();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>
                 <button onclick="hidePopup('xmas-popup-setupnotification-mobility')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
                     Cancel
                 </button>
@@ -214,7 +213,7 @@
             </div>
             <div class="form-group row">
                 <button onclick="hidePopup('xmas-popup-assign-book')" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
-                   Cancel
+                    Cancel
                 </button>
             </div>
         </form>
@@ -257,14 +256,14 @@
                                     @item.note_r
                                 </td>
                                 <td style="text-align:center;">
-                                    <button onclick="acceptMR('@item.ms_id_r');" type="button" class="btn btn-success">Accept</button>
+                                    <button onclick="disableButton('accept_btn_id'); acceptMR('@item.ms_id_r');" type="submit" class="btn btn-success" id="accept_btn_id">Accept</button>
                                 </td>
                             </tr>
                         }
                 </table>
             </div>
             <div class="form-group row">
-                <button onclick="hidePopup('xmas-popup-assign1-book')"  style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
+                <button onclick="hidePopup('xmas-popup-assign1-book')" style="margin: auto;margin-top: 30px;width: 80px;" type="button" class="btn btn-danger">
                     Cancel
                 </button>
             </div>
@@ -272,8 +271,7 @@
     </div>
 </div>
 
-<script>
-    function myFunction1() {
+<script>function myFunction1() {
         document.getElementById("myDropdown_search").classList.toggle("show_search_meetingAT");
     }
     function filterFunction() {
@@ -290,5 +288,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

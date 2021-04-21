@@ -68,7 +68,7 @@ function validateEditORTMaterialSlide() {
         success: function (msg) {
             if (msg == "true") {
                 alert("Edit successfull");
-                document.getElementById("xmas-popup").style.display = "none";
+                document.getElementById("xmas-popup-assign").style.display = "none";
                 location.reload();
             }
             else {
@@ -91,7 +91,6 @@ function deleteORTMaterialSlide(ort_material_slide_id) {
             success: function (msg) {
                 if (msg == "true") {
                     alert("Delete  successfull");
-                    document.getElementById("xmas-popup-assign1").style.display = "none";
                     location.reload();
                 }
                 else {

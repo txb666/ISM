@@ -1,7 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function disableButton(id) {
+    document.getElementById(id).disabled = true;
+    document.getElementById(id).style.opacity = '0.5';
+    var wait = 2000;
+    setTimeout(function () {
+        document.getElementById(id).disabled = false;
+        document.getElementById(id).style.opacity = '1';
+    }, wait);
+}
 
-// Write your JavaScript code.
 function validateLogin() {
     $.ajax({
         type: "POST",

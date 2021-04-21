@@ -1,20 +1,7 @@
 ﻿@model ISM.WebApp.ViewModels.ORTMaterialSlideDetailViewModel
-@using Microsoft.AspNetCore.Http;
-@using Newtonsoft.Json;
-@using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Degree")
-    {
-        ViewData["Title"] = "Pre-Approval Visa Page";
-        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Mobility")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
-    }
+    ViewData["Title"] = "Orientation Material/Slide Page";
+    Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
 }
 
 <h1 style="text-align: center;"> ORT Material/Slide </h1>
@@ -39,7 +26,7 @@
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
-    </div>   
+    </div>
 </div>
 <br>
 <br>
@@ -64,19 +51,18 @@
                     </td>
                     <td>
                         @item.material
-                    </td>                   
+                    </td>
                 </tr>
             }
         </tbody>
-    </table>  
+    </table>
 </div>
 
 <div>
     @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
 </div>
 
-<script>
-    function myFunction() {
+<script>function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
@@ -126,5 +112,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

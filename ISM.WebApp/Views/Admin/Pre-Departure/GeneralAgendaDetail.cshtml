@@ -1,7 +1,7 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@model ISM.WebApp.ViewModels.GeneralAgendaDetailViewModel
+@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -15,23 +15,22 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
-@model ISM.WebApp.ViewModels.GeneralAgendaDetailViewModel
-@*<div style="height: 500px; background-color: white;">*@
+
 <h1 style="text-align: center;"> General Agenda For Student Group: @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)  </h1>
 <div style="height:50px">
 
 </div>
-<button onclick="showPopup('xmas-popup');" style="float: right; width:80px;border-radius:10px" class="btn btn-info">
+<button type="button" onclick="showPopup('xmas-popup');" style="float: right; width:80px;border-radius:10px" class="btn btn-info">
     Edit
 </button>
 <br>
 <br>
-<div>   
+<div>
     <a href="~/GeneralAgenda/@Model.generalAgenda.content" style="font-size:18px;" download>Download General Agenda</a>
     <h3>Note:</h3>
     <p style="font-size:16px;">@Model.generalAgenda.note</p>
     <!-- popup code -->
-    <div id="xmas-popup" class="popup" href="#">
+    <div id="xmas-popup" class="popup">
         <div class="popup-content" style="height:270px">
             <form>
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit General Agenda</h1>
@@ -39,13 +38,13 @@
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Choose a pdf/excel file</label>
                     <input type="file" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_file" accept=".xlsx, .xls, .csv, .pdf">
-                </div>                        
+                </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note</label>
                     <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note" value="@Model.generalAgenda.note">
                 </div>
                 <div class="form-group row">
-                    <button id="save" onclick="validateEditGeneralAgenda();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                    <button id="save" onclick="disableButton('save'); validateEditGeneralAgenda();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                     <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                         Cancel
                     </button>
@@ -55,57 +54,54 @@
     </div>
 </div>
 
-<script>
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
+<script>function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
                 }
             }
         }
+    }
 
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn_search')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content_search");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show_search')) {
-                        openDropdown.classList.remove('show_search');
-                    }
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn_search')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content_search");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show_search')) {
+                    openDropdown.classList.remove('show_search');
                 }
             }
         }
+    }
 
-        function search_visa() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
-        }
+    function search_visa() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_visa");
+    }
 
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
             }
         }
-</script>
-@*</div>*@
+    }</script>

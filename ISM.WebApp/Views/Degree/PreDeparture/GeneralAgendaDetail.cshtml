@@ -1,20 +1,7 @@
 ﻿@model ISM.WebApp.ViewModels.GeneralAgendaDetailViewModel
-@using Microsoft.AspNetCore.Http;
-@using Newtonsoft.Json;
-@using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
-    if (sessionUser.role_name == "Degree")
-    {
-        ViewData["Title"] = "Pre-Approval Visa Page";
-        Layout = "~/Views/Shared/_DegreeStudentLayout.cshtml";
-    }
-    else if (sessionUser.role_name == "Mobility")
-    {
-        ViewData["Title"] = "Pre-Approval Visa  Page";
-        Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
-    }
+    ViewData["Title"] = "Pre-Approval Visa  Page";
+    Layout = "~/Views/Shared/_MobilityStudentLayout.cshtml";
 }
 
 <h1 style="text-align: center;"> General Agenda </h1>
@@ -29,8 +16,7 @@
     <p style="font-size:16px;">@Model.generalAgenda.note</p>
 </div>
 
-<script>
-    function myFunction() {
+<script>function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
@@ -80,5 +66,4 @@
                 a[i].style.display = "none";
             }
         }
-    }
-</script>
+    }</script>

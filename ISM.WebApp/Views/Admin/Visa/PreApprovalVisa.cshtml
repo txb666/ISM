@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@using ISM.WebApp.Utils
 @{
     var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
@@ -16,11 +15,12 @@
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
 }
+
 <div style="height: 500px; background-color: white;">
     <h1 style="text-align: center;">Pre-Approval Visa Letter</h1>
     <div style="height:50px">
         <div class="dropdown_search">
-            <button onclick="myFunction1()" style="width: 80px; border-radius: 10px" class="btn btn-primary">Search</button>
+            <button type="button" onclick="myFunction1()" style="width: 80px; border-radius: 10px" class="btn btn-primary">Search</button>
             <div id="myDropdown_search" class="dropdown-content_search" style="height: 400px; margin-top: 10px;">
                 <form style="width: 320px;" id="searchForm" asp-controller="VisaLetter" asp-action="Index" method="get">
                     <div class="form-group row">
@@ -70,7 +70,7 @@
                         }
                     </select>
                     <input type="hidden" name="page" id="inputPage" />
-                    <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
+                    <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;"> Search</button>
                 </form>
             </div>
         </div>
@@ -114,57 +114,57 @@
                 <tbody>
                     @foreach (var item in Model.VisaLetters)
                     {
-                    <tr>
-                        <td>
-                            @item.fullname
-                        </td>
-                        <td>
-                            @if (item.gender == null)
-                            {
-
-                            }
-                            else if (item.gender == true)
-                            {
-                                @:Male
-                            }
-                            else if (item.gender == false)
-                            {
-                                @:Female
-                            }
-                        </td>
-                        <td>
-                            @(item.dob.HasValue?item.dob.Value.ToString("dd-MM-yyyy"):"")
-                        </td>
-                        <td>
-                            @item.nationality
-                        </td>
-                        @if (Model.degreeOrMobility.Equals("Mobility"))
-                        {
+                        <tr>
                             <td>
-                                @item.home_univercity
+                                @item.fullname
                             </td>
-                        }
-                        <td>
-                            @item.passport_number
-                        </td>
-                        <td>
-                            @(item.expired_date.HasValue?item.expired_date.Value.ToString("dd-MM-yyyy"):"")
-                        </td>
-                        <td>
-                            @item.visa_type
-                        </td>
-                        <td>
-                            @item.visa_period
-                        </td>
-                        <td>
-                            @item.apply_receive
-                        </td>
-                        <td style="text-align: center;">
-                            <button style="width: 80px; border-radius: 10px" onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period', '@item.apply_receive'); showPopup('xmas-popup')" class="btn btn-info">
-                               Edit
-                            </button>
-                        </td>
-                    </tr>
+                            <td>
+                                @if (item.gender == null)
+                                {
+
+                                }
+                                else if (item.gender == true)
+                                {
+                                    @:Male
+                                }
+                                else if (item.gender == false)
+                                {
+                                    @:Female
+                                }
+                            </td>
+                            <td>
+                                @(item.dob.HasValue?item.dob.Value.ToString("dd-MM-yyyy"):"")
+                            </td>
+                            <td>
+                                @item.nationality
+                            </td>
+                            @if (Model.degreeOrMobility.Equals("Mobility"))
+                            {
+                                <td>
+                                    @item.home_univercity
+                                </td>
+                            }
+                            <td>
+                                @item.passport_number
+                            </td>
+                            <td>
+                                @(item.expired_date.HasValue?item.expired_date.Value.ToString("dd-MM-yyyy"):"")
+                            </td>
+                            <td>
+                                @item.visa_type
+                            </td>
+                            <td>
+                                @item.visa_period
+                            </td>
+                            <td>
+                                @item.apply_receive
+                            </td>
+                            <td style="text-align: center;">
+                                <button style="width: 80px; border-radius: 10px" onclick="editVisaLetter('@item.pre_approval_visa_letter_id', '@item.visa_type', '@item.visa_period', '@item.apply_receive'); showPopup('xmas-popup')" class="btn btn-info">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -172,14 +172,13 @@
         <div>
             @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
         </div>
-        <div id="xmas-popup" class="popup" href="#">
+        <div id="xmas-popup" class="popup">
             <div class="popup-content" style="height:360px">
                 <form id="editVisaLetterForm" asp-controller="VisaLetter" asp-action="edit" method="post">
                     <h1 style="text-align: center; margin-bottom: 40px;">Edit Pre-approval Visa Letter</h1>
                     <input id="edit_VisaLetter_id" type="hidden">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Type of Visa:</label>
-                        @*<input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_VisaType">*@
                         <select id="edit_VisaType" style="width: 300px; margin-left: 30px; border-radius: 5px;">
                             <option value="Single entry visa">Single entry visa</option>
                             <option value="Multiple entry visa">Multiple entry visa</option>
@@ -194,7 +193,7 @@
                         <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ApplyReceive">
                     </div>
                     <div class="form-group row">
-                        <button id="save" onclick="validateEditVisaLetter();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">Save</button>
+                        <button id="save" onclick="disableButton('save'); validateEditVisaLetter();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             Cancel
                         </button>
@@ -211,4 +210,3 @@
         </button>
     </div>
 </div>
-
