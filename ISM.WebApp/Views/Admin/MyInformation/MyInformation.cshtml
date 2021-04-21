@@ -92,7 +92,7 @@
 
 <!-- popup code -->
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:450px">
+    <div class="popup-content" style="height:410px">
         <form id="change_password_form" asp-controller="Information" asp-action="UpdatePassword" method="post">
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">
@@ -168,7 +168,7 @@
                         <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
-                        <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;"class="btn btn-danger">
+                        <button type="button" onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;"class="btn btn-danger">
                             Cancel
                         </button>
                     </div>
