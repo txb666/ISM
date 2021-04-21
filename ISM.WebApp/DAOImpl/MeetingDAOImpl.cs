@@ -444,13 +444,13 @@ namespace ISM.WebApp.DAOImpl
                 string where = "";
                 if (!string.IsNullOrEmpty(staff_name))
                 {
-                    where += " and upper(temp.fullname) like upper('%' + @fullname + '%')";
+                    where += " and upper(temp5.fullname) like upper('%' + @fullname + '%')";
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = staff_name;
                 }
                 if (!string.IsNullOrEmpty(staff_email))
                 {
-                    where += " and upper(temp.email) like upper('%' + @email + '%')";
+                    where += " and upper(temp5.email) like upper('%' + @email + '%')";
                     com.Parameters.Add("@email", SqlDbType.NVarChar);
                     com.Parameters["@email"].Value = staff_email;
                 }
@@ -458,10 +458,13 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters["@from"].Value = from;
                 com.Parameters.Add("@to", SqlDbType.Int);
                 com.Parameters["@to"].Value = to;
-                sql = "select * from (select ROW_NUMBER() over (order by temp.[user_id] asc) rownumber,d.[user_id] as Student_id,d.fullname as " +
-                      "Student_Name,temp.[user_id],temp.fullname,temp.email,temp.studentGroup_id from Users d, (select c.[user_id],c.fullname," +
-                      "c.email,b.studentGroup_id from Coordinators b, Users c where b.staff_id = c.[user_id]) as temp where d.studentGroup_id = " +
-                      "temp.studentGroup_id and d.[user_id] = @student_id"+ where +") as temp where temp.rownumber>=@from and temp.rownumber<=@to";
+                sql = "select * from (select ROW_NUMBER() over (order by temp5.Student_id asc) rownumber,temp5.Student_id,temp5.Student_Name," +
+                      "temp5.[user_id],temp5.fullname,temp5.email from (select * from (select * from (select a.[user_id] as Student_id,a.fullname " +
+                      "as Student_Name from Users a where a.[user_id] = @student_id) as temp1,(select b.[user_id],b.fullname,b.email from " +
+                      "Users b where b.role_id = 1) as temp2) as temp4 union select d.[user_id] as Student_id,d.fullname as Student_Name,temp.[user_id]," +
+                      "temp.fullname,temp.email from Users d, (select c.[user_id],c.fullname,c.email,b.studentGroup_id from Coordinators b, " +
+                      "Users c where b.staff_id = c.[user_id]) as temp where d.studentGroup_id = temp.studentGroup_id and d.[user_id] = @student_id) " +
+                      "as temp5 where 1=1"+ where +") as temp6 where temp6.rownumber>=@from and temp6.rownumber<=@to";
                 com.Parameters.Add("@student_id", SqlDbType.NVarChar);
                 com.Parameters["@student_id"].Value = student_id;
                 com.CommandText = sql;
@@ -504,20 +507,23 @@ namespace ISM.WebApp.DAOImpl
                 string where = "";
                 if (!string.IsNullOrEmpty(staff_name))
                 {
-                    where += " and upper(temp.fullname) like upper('%' + @fullname + '%')";
+                    where += " and upper(temp5.fullname) like upper('%' + @fullname + '%')";
                     com.Parameters.Add("@fullname", SqlDbType.NVarChar);
                     com.Parameters["@fullname"].Value = staff_name;
                 }
                 if (!string.IsNullOrEmpty(staff_email))
                 {
-                    where += " and upper(temp.email) like upper('%' + @email + '%')";
+                    where += " and upper(temp5.email) like upper('%' + @email + '%')";
                     com.Parameters.Add("@email", SqlDbType.NVarChar);
                     com.Parameters["@email"].Value = staff_email;
                 }
-                sql = "select count(*) from (select d.[user_id] as Student_id,d.fullname as " +
-                      "Student_Name,temp.[user_id],temp.fullname,temp.email,temp.studentGroup_id from Users d, (select c.[user_id],c.fullname," +
-                      "c.email,b.studentGroup_id from Coordinators b, Users c where b.staff_id = c.[user_id]) as temp where d.studentGroup_id = " +
-                      "temp.studentGroup_id and d.[user_id] = @student_id" + where + ") as temp";
+                sql = "select count(*) from (select temp5.Student_id,temp5.Student_Name," +
+                      "temp5.[user_id],temp5.fullname,temp5.email from (select * from (select * from (select a.[user_id] as Student_id,a.fullname " +
+                      "as Student_Name from Users a where a.[user_id] = @student_id) as temp1,(select b.[user_id],b.fullname,b.email from " +
+                      "Users b where b.role_id = 1) as temp2) as temp4 union select d.[user_id] as Student_id,d.fullname as Student_Name,temp.[user_id]," +
+                      "temp.fullname,temp.email from Users d, (select c.[user_id],c.fullname,c.email,b.studentGroup_id from Coordinators b, " +
+                      "Users c where b.staff_id = c.[user_id]) as temp where d.studentGroup_id = temp.studentGroup_id and d.[user_id] = @student_id) " +
+                      "as temp5 where 1=1" + where + ") as temp6";
                 com.Parameters.Add("@student_id", SqlDbType.NVarChar);
                 com.Parameters["@student_id"].Value = student_id;
                 com.CommandText = sql;
