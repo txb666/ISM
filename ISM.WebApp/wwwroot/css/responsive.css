@@ -36,6 +36,10 @@
         height: 520px !important;
         width: 320px !important;
     }
+    #xmas-popup-assign1 .popup-content-assign1 {
+        height: 520px !important;
+        width: 320px !important;
+    }
     #xmas-popup-notification .popup-content-notification {
         height: 500px !important;
         width: 320px !important;
@@ -93,7 +97,16 @@
         width: 150px !important;
     }
 
-    #save {
+    #save_create {
+        margin: auto !important;
+    }
+    #save_edit {
+        margin: auto !important;
+    }
+    #save_setup {
+        margin: auto !important;
+    }
+    #save_setup_2 {
         margin: auto !important;
     }
 
