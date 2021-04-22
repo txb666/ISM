@@ -24,11 +24,11 @@
             <form id="searchForm" asp-controller="Insurance" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
@@ -128,11 +128,11 @@
                 <input type="hidden" id="edit_id" />
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
+                    <input maxlength="100" type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname" disabled>
                 </div>
 
                 <div class="form-group row">
@@ -191,7 +191,7 @@
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
+                <input maxlength="3" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="degree_daysBefore_id">
             </div>
             <div class="form-group row">
                 <button onclick="disableButton('save_setup'); validateNotificationInsuranceDegree();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>
@@ -208,7 +208,7 @@
             <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification Mobility Student</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
+                <input maxlength="3" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="mobility_days_before_id">
             </div>
             <div class="form-group row">
                 <button onclick="disableButton('save_setup_2'); validateNotificationInsuranceMobility();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup_2">Save</button>

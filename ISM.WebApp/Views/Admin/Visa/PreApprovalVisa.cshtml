@@ -25,7 +25,7 @@
                 <form style="width: 320px;" id="searchForm" asp-controller="VisaLetter" asp-action="Index" method="get">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;"> Full Name:</label>
-                        <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" value="@Model.fullname">
+                        <input maxlength="100" name="fullname" type="text" style="width: 200px; border-radius: 5px;" value="@Model.fullname">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">DOB:</label>
@@ -37,25 +37,23 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
-                        <input name="nationality" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.nationality">
+                        <input maxlength="250" name="nationality" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.nationality">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                        <input name="passport_number" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.passport_number">
+                        <input maxlength="250" name="passport_number" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.passport_number">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Type of Visa:</label>
-                        <input name="visa_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.visa_type">
+                        <input maxlength="250" name="visa_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.visa_type">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">
-                            Visa Period
-                        </label>
-                        <input name="visa_period" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.visa_period">
+                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Visa Period:</label>
+                        <input maxlength="250" name="visa_period" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.visa_period">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Apply and Receive:</label>
-                        <input name="apply_receive" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.apply_receive">
+                        <input maxlength="250" name="apply_receive" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.apply_receive">
                     </div>
                     <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
                         @if (Model.degreeOrMobility.Equals("Degree"))
@@ -186,14 +184,14 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Visa Period:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_VisaPeriod">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_VisaPeriod">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Apply and Receive:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ApplyReceive">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_ApplyReceive">
                     </div>
                     <div class="form-group row">
-                        <button id="save_edit" onclick="disableButton('save_edit'); validateEditVisaLetter();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
+                        <button id="save" onclick="disableButton('save'); validateEditVisaLetter();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             Cancel
                         </button>
@@ -205,8 +203,10 @@
 
     <div>
         <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to apply for a Vietnam visa" style="text-decoration: none;"> How to apply for a VietNam Visa</a>
-        <button class="btn btn-success" style="float:right">
-            <a style="text-decoration: none; color: white;" href="/VisaLetter/ExportToExcel">Export to excel</a>
-        </button>
+        <a style="text-decoration: none; color: white;" href="/VisaLetter/ExportToExcel">
+            <button class="btn btn-success" style="float:right">
+                Export to excel
+            </button>
+        </a>
     </div>
 </div>

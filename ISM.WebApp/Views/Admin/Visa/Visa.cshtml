@@ -24,11 +24,11 @@
             <form style="width: 320px;" id="searchForm" asp-controller="Visa" asp-action="Index" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account</label>
-                    <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    <input maxlength="30" name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name</label>
-                    <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    <input maxlength="100" name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
-                    <input name="entry_port" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.entry_port">
+                    <input maxlength="250" name="entry_port" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.entry_port">
                 </div>
                 <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
                     @if (Model.degreeOrMobility.Equals("Degree"))
@@ -151,7 +151,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entryPort">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entryPort">
                 </div>
                 <div class="form-group row">
                     <button onclick="disableButton('save_edit'); validateEditVisa();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_edit">Save</button>
@@ -174,7 +174,7 @@
             <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
+                <input maxlength="3" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input">
             </div>
             <div class="form-group row">
                 <button onclick="disableButton('save_setup'); validateNotificationVisa();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>
@@ -190,12 +190,14 @@
 
 <div style="margin-top: 20px;">
     <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your visa" style="text-decoration: none;"> How to renew your Visa</a>
+    <a style="text-decoration: none; color: white; float:right; margin-left:5px;" href="/Visa/ExportToExcel">
+        <button style="width: 150px;" class="btn btn-success">
+            Export to excel
+        </button>
+    </a>
     <i class="fa fa-asterisk" aria-hidden="true" style="float: right;">
         <button type="button" onclick="showPopup('xmas-popup-assign')" class="btn btn-danger">
             Setup Notification
-        </button>
-        <button style="width: 150px;" class="btn btn-success">
-            <a style="text-decoration: none; color: white;" href="/Visa/ExportToExcel">Export to excel</a>
         </button>
     </i>
 </div>

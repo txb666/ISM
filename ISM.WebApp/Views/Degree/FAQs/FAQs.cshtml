@@ -24,11 +24,11 @@
             <form id="searchForm" asp-controller="FAQ" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Question:</label>
-                    <input type="text" name="question" style="width: 200px; border-radius: 5px;" id="" value="@Model.question">
+                    <input maxlength="250" type="text" name="question" style="width: 200px; border-radius: 5px;" id="" value="@Model.question">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Answer:</label>
-                    <input type="text" name="answer" style="width: 200px; border-radius: 5px;" id="" value="@Model.answer">
+                    <input maxlength="250" type="text" name="answer" style="width: 200px; border-radius: 5px;" id="" value="@Model.answer">
                 </div>
                 <input type="hidden" name="page" id="inputPage" />
                 <button id="searchButton" type="submit" onclick="disableButton('searchButton'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>

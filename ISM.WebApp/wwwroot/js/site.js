@@ -9,6 +9,11 @@
 }
 
 function validateLogin() {
+    var check = document.getElementById("login_username_id").value;
+    if (/^[A-Za-z0-9]+$/.test(check) == false || /^\s*$/.test(check) == true) {
+        alert("Username or Password incorrect (account must not contain special character).");
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/Login/AccountIsExist",

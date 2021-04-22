@@ -32,15 +32,15 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.fullname" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.account" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_a" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
@@ -52,17 +52,17 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_a" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_a" disabled>
                 </div>
                 @if (sessionUser.role_name.Equals("Mobility"))
                 {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_d" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date:</label>
@@ -74,15 +74,15 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_d" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_d" disabled>
                     </div>
                 }
                 <div class="form-group row">
-                    <button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -109,7 +109,7 @@
                     <input type="hidden" id="degreeOrMobility_check" value="@sessionUser.role_name" />
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_a" value="@Model.student_flight.flight_number_a">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_a" value="@Model.student_flight.flight_number_a">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
@@ -121,11 +121,11 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_a" value="@Model.student_flight.airport_departure_a">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_a" value="@Model.student_flight.airport_departure_a">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_a" value="@Model.student_flight.airport_arrival_a">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_a" value="@Model.student_flight.airport_arrival_a">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -135,7 +135,7 @@
                     {
                         <div class="form-group row">
                             <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_d" value="@Model.student_flight.flight_number_d">
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_flight_number_d" value="@Model.student_flight.flight_number_d">
                         </div>
                         <div class="form-group row">
                             <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date:</label>
@@ -147,11 +147,11 @@
                         </div>
                         <div class="form-group row">
                             <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_d" value="@Model.student_flight.airport_departure_d">
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_departure_d" value="@Model.student_flight.airport_departure_d">
                         </div>
                         <div class="form-group row">
                             <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                            <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_d" value="@Model.student_flight.airport_arrival_d">
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_airport_arrival_d" value="@Model.student_flight.airport_arrival_d">
                         </div>
                         <div class="form-group row">
                             <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -159,7 +159,7 @@
                         </div>
                     }
                     <div class="form-group row">
-                        <button onclick="disableButton('save_edit'); validateCreateOrEditFlight();" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditFlight();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

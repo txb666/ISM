@@ -27,15 +27,15 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.fullname" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.account" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.passport_number" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.passport_number" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
@@ -47,10 +47,10 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.issuing_authority" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_passport.issuing_authority" disabled>
                 </div>
                 <div class="form-group row">
-                    <button id="save_edit" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -62,7 +62,7 @@
 <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your passport" style="text-decoration: none;">How to renew your Passport</a>
 
 <div id="xmas-popup" class="popup">
-    <div id="responsive" class="popup-content" style="height:450px; width:900px">
+    <div class="popup-content" style="height:450px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/Passport/@Model.student_passport.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
@@ -73,7 +73,7 @@
                     <input type="hidden" id="edit_passport_id" value="@Model.student_passport.passport_id" />
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_passport_number" value="@Model.student_passport.passport_number">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_passport_number" value="@Model.student_passport.passport_number">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
@@ -85,14 +85,14 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_issuing_authority" value="@Model.student_passport.issuing_authority">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_issuing_authority" value="@Model.student_passport.issuing_authority">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_create'); validateCreateOrEditPassport();" id="save_create" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditPassport();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

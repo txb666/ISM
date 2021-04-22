@@ -12,7 +12,7 @@
             <form style="width: 320px;" id="searchForm" asp-controller="Orientation" asp-action="StudentOrientation" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
@@ -24,11 +24,11 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
+                    <input maxlength="250" name="location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Requirement for Student:</label>
-                    <input name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
+                    <input maxlength="250" name="require_document" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.require_document">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>

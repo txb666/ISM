@@ -12,15 +12,15 @@
             <form style="width: 320px;" id="searchForm" asp-controller="ORTMaterialSlide" asp-action="Detail" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Program</label>
-                    <input name="program" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.program">
+                    <input maxlength="250" name="program" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.program">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Material</label>
-                    <input name="material" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.material">
+                    <input maxlength="250" name="material" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.material">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>

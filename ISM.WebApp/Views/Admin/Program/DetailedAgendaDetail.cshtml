@@ -51,15 +51,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
-                    <input name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
+                    <input  maxlength="250" name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
-                    <input name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
+                    <input maxlength="250" name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <input type="hidden" name="student_group_id" value="@Model.current_student_group.studentGroup_id" />
                 <input type="hidden" name="page" id="inputPage">
@@ -127,7 +127,7 @@
     </table>
     <!-- popup code -->
     <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:480px">
+        <div class="popup-content" style="height:500px">
             <form>
                 <h1 style="text-align: center; margin-bottom: 40px;">Create Detailed Agenda</h1>
                 <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">
@@ -155,15 +155,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_venue">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_venue">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_PIC">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_PIC">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content">
                 </div>
                 <div class="form-group row">
                     <button id="save_create" onclick="disableButton('save_create'); validateCreateDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
@@ -175,7 +175,7 @@
         </div>
     </div>
     <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:480px">
+        <div class="popup-content-assign">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Detailed Agenda</h1>
                 <input type="hidden" id="edit_detailed_agenda_id">
@@ -203,15 +203,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_venue">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_venue">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_PIC">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_PIC">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content">
                 </div>
                 <div class="form-group row">
                     <button id="save_edit" onclick="disableButton('save_edit'); validateEditDetailedAgenda();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>

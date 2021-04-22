@@ -40,11 +40,11 @@
             <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="Index" method="post">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id_show" value="@Model.user.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id_show" value="@Model.user.fullname" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id_show" value="@Model.user.nationality" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id_show" value="@Model.user.nationality" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact" disabled>
                 </div>
                 <div class="form-group row">
                     <button onclick="showPopup('xmas-popup');" class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px" type="button">
@@ -92,20 +92,20 @@
 
 <!-- popup code -->
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:410px">
+    <div class="popup-content" style="height:450px">
         <form id="change_password_form" asp-controller="Information" asp-action="UpdatePassword" method="post">
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Current Password:</label>
-                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_current_password">
+                <input maxlength="30" type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_current_password">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">New Password:</label>
-                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_new_password">
+                <input maxlength="40" type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_new_password">
             </div>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Confirm New Password:</label>
-                <input type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
+                <input maxlength="40" type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
             </div>
             <div class="form-group row" style="margin-top: 50px;">
                 <button id="save_create" onclick="disableButton('save_create'); validateChangePassword('@sessionUser.user_id');" style="width: 80px;" type="submit" class="btn btn-success">Save</button>
@@ -126,11 +126,11 @@
                 <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="SaveProfile" method="post">
                     <div class="form-group row" style="margin-top:50px">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
+                        <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
@@ -158,7 +158,7 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -168,7 +168,7 @@
                         <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
-                        <button type="button" onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;"class="btn btn-danger">
+                        <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
                             Cancel
                         </button>
                     </div>

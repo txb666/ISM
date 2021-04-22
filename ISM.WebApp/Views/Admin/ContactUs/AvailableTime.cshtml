@@ -156,7 +156,7 @@
             <h1 style="text-align: center; margin-bottom: 40px;">Set Up Notification</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_meeting">
+                <input maxlength="3" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_meeting">
             </div>
             <div class="form-group row">
                 <button onclick="disableButton('save_setup'); validateSetupNotificationMeeting();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>

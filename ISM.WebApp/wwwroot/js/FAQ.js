@@ -34,10 +34,6 @@ function editFAQ(faq_id, question, answer) {
 function validateCreateFAQ() {
     var question = document.getElementById('create_question').value;
     var answer = document.getElementById('create_answer').value;
-    if (!question && !answer) {
-        alert("Question and Anwser must not be empty.");
-        return;
-    }
     if (/^[A-Za-z0-9\s]+$/.test(question) == false && /^[A-Za-z0-9\s]+$/.test(answer) == false) {
         alert("Question and Answer must not contain special character");
         return;
@@ -74,10 +70,6 @@ function validateEditFAQ() {
     var faq_id = document.getElementById('edit_faq_id').value;
     var question = document.getElementById('edit_question').value;
     var answer = document.getElementById('edit_answer').value;
-    if (!question && !answer) {
-        alert("Question and Anwser must not be empty.");
-        return;
-    }
     if (/^[A-Za-z0-9\s]+$/.test(question) == false && /^[A-Za-z0-9\s]+$/.test(answer) == false) {
         alert("Question and Answer must not contain special character");
         return;

@@ -16,19 +16,19 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus</label>
-                    <input name="bus" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.bus">
+                    <input maxlength="250" name="bus" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.bus">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver</label>
-                    <input name="driver" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.driver">
+                    <input maxlength="250" name="driver" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.driver">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary</label>
-                    <input name="itinerary" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.itinerary">
+                    <input maxlength="250" name="itinerary" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.itinerary">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter</label>
-                    <input name="supporter" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.supporter">
+                    <input maxlength="250" name="supporter" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.supporter">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>

@@ -91,12 +91,12 @@ function validateChangePassword(user_id) {
         alert("Please fill out all fields.");
         return;
     }
-    if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(new_password) == false) {
-        alert("Password must be minimum eight characters, at least one letter and one number.");
+    if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,40}$/.test(new_password) == false) {
+        alert("Password must be minimum 8 characters and maximun 40 characters, at least one letter and one number.");
         return;
     }
     if (new_password != confirm_password) {
-        alert("Please re-enter confirm new password. Confirm new password must be equal to new password.");
+        alert("Please re-enter confirm new password. Confirm new password must be match with new password.");
         return;
     }
     $.ajax({

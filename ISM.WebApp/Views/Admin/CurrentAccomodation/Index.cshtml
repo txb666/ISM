@@ -26,11 +26,11 @@
                 {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                        <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                        <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                     </div>
                 }
                 else if (Model.degreeOrMobility.Equals("Mobility"))
@@ -63,19 +63,19 @@
                 }
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                    <input type="text" name="type" style="width: 200px; border-radius: 5px;" id="" value="@Model.type">
+                    <input maxlength="250" type="text" name="type" style="width: 200px; border-radius: 5px;" id="" value="@Model.type">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input type="text" name="location" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
+                    <input maxlength="250" type="text" name="location" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                    <input type="text" name="description" style="width: 200px; border-radius: 5px;" id="" value="@Model.description">
+                    <input maxlength="250" type="text" name="description" style="width: 200px; border-radius: 5px;" id="" value="@Model.description">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input type="text" name="note" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
+                    <input maxlength="250" type="text" name="note" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
                 </div>
                 <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
                     @if (Model.degreeOrMobility.Equals("Degree"))
@@ -187,7 +187,7 @@
 
     <!-- popup code -->
     <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:530px">
+        <div class="popup-content" style="height:550px">
             <form id="createCurrentAccomodationForm" enctype="multipart/form-data">
                 <h1 style="text-align: center; margin-bottom: 40px;">Create Current Accomodation</h1>
                 @if (Model.degreeOrMobility.Equals("Degree"))
@@ -198,7 +198,6 @@
                             @foreach (var item in Model.degreeStudents)
                             {
                                 <option value="@item.user_id"> @(item.account) </option>
-
                             }
                         </select>
                     </div>
@@ -211,30 +210,29 @@
                             @foreach (var item in Model.manageGroup)
                             {
                                 <option value="@item.studentGroup_id"> @(item.program_name + "_" + item.campus_name + "_" + item.duration_start.ToString("dd/MM/yyyy") + "-" + item.duration_end.ToString("dd/MM/yyyy") + "_" + item.home_university) </option>
-
                             }
                         </select>
                     </div>
                 }
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_type">
+                    <input maxlength="250" type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_type">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_location">
+                    <input maxlength="250" type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_location">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                    <input type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_description">
+                    <input maxlength="250" type="text" style="width: 300px;margin-left:30px; border-radius: 5px;" id="create_description">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
-                    <input type="number" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_fee">
+                    <input maxlength="10" type="number" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_fee">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input type="text" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_note">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left:30px; border-radius: 5px;" id="create_note">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -253,7 +251,7 @@
         </div>
     </div>
     <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:530px">
+        <div class="popup-content-assign" style="height:550px">
             <form id="editCurrentAccomodationForm" enctype="multipart/form-data">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Current Accommodation</h1>
                 <input type="hidden" id="edit_current_accomodation_id" />
@@ -284,23 +282,23 @@
                 }
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_type">
+                    <input maxlength="250" type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_type">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_location">
+                    <input maxlength="250" type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_location">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_description">
+                    <input maxlength="250" type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_description">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Fee:</label>
-                    <input type="number" style="width:300px; margin-left:30px; border-radius:5px" id="edit_fee">
+                    <input maxlength="10" type="number" style="width:300px; margin-left:30px; border-radius:5px" id="edit_fee">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_note">
+                    <input maxlength="250" type="text" style="width:300px; margin-left:30px; border-radius:5px" id="edit_note">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -326,7 +324,7 @@
             <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Set Up Notification</h1>
             <div class="form-group row">
                 <label style="margin-left: 30px; font-weight: bold; width:100px;">Days before:</label>
-                <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_accomodation">
+                <input maxlength="3" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="notification_input_accomodation">
             </div>
             <div class="form-group row">
                 <button onclick="disableButton('save_setup'); validateNotificationAccomodation();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_setup">Save</button>

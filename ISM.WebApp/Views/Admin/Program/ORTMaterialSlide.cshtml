@@ -24,11 +24,11 @@
             <form id="searchForm" asp-controller="ORTMaterialSlide" asp-action="Index" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    <input maxlength="30" name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                    <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    <input maxlength="100" name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
@@ -58,9 +58,11 @@
                         @item.fullname
                     </td>
                     <td style="text-align: center;">
-                        <button class="btn btn-info">
-                            <a style="text-decoration:none; color:white" asp-controller="ORTMaterialSlide" asp-action="Detail" asp-route-student_id="@item.user_id">View Student's Material/Slide</a>
-                        </button>
+                        <a style="text-decoration:none; color:white" asp-controller="ORTMaterialSlide" asp-action="Detail" asp-route-student_id="@item.user_id">
+                            <button class="btn btn-info">
+                                View Student's Material/Slide
+                            </button>
+                        </a>
                     </td>
                 </tr>
             }

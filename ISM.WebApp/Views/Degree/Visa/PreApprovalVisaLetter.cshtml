@@ -25,49 +25,49 @@
                 <form>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Full Name:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.fullname" disabled>
+                        <input maxlength="100" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.fullname" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Gender:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.gender!=null?(Model.studentVisaLetter.gender==true?"Male":"Female"):"")" disabled>
+                        <input maxlength="10" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.gender!=null?(Model.studentVisaLetter.gender==true?"Male":"Female"):"")" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Date Of Birth:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.dob.HasValue?Model.studentVisaLetter.dob.Value.ToString("yyyy-MM-dd"):"")" disabled>
+                        <input maxlength="50" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.dob.HasValue?Model.studentVisaLetter.dob.Value.ToString("yyyy-MM-dd"):"")" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Nationality:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.nationality" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.nationality" disabled>
                     </div>
                     @if (sessionUser.role_name.Equals("Mobility"))
                     {
                         <div class="form-group row">
                             <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
-                            <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.home_univercity" disabled>
+                            <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.home_univercity" disabled>
                         </div>
                     }
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Passport Number:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.passport_number" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.passport_number" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Passport Expired Date:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.expired_date.HasValue?Model.studentVisaLetter.expired_date.Value.ToString("yyyy-MM-dd"):"")" disabled>
+                        <input maxlength="50" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisaLetter.expired_date.HasValue?Model.studentVisaLetter.expired_date.Value.ToString("yyyy-MM-dd"):"")" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">What Type Of Visa Do You Want to Apply?</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.visa_type" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.visa_type" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">What visa period do you want to apply?</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.visa_period" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.visa_period" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Where do you want to apply and receive your visa? </label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.apply_receive" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisaLetter.apply_receive" disabled>
                     </div>
                     <div class="form-group row">
-                        <button id="save_create" onclick="showPopup('xmas-popup')" style="margin-left: 330px; width: 80px; border-radius:10px" type="button" class="btn btn-info">Edit</button>
+                        <button onclick="showPopup('xmas-popup')" style="margin-left: 330px; width: 80px; border-radius:10px" type="button" class="btn btn-info">Edit</button>
                     </div>
                 </form>
             </div>
@@ -79,15 +79,16 @@
 </div>
 
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:280px;">
+    <div class="popup-content" style="height:360px; width:500px">
         <div class="row">
+            <div class="col-md-7">
                 <form style="width:500px">
                     <h2 style="text-align:center">Edit Visa Pre-Approval Letter </h2>
                     <input type="hidden" id="edit_student_id" value="@Model.studentVisaLetter.student_id" />
                     <input type="hidden" id="edit_visa_letter_id" value="@Model.studentVisaLetter.pre_approval_visa_letter_id" />
                     <div class="form-group row">
-                        <label style="margin-left: 55px; font-weight: bold; width:100px;">Type Of Visa:</label>
-                        <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_visa_type">
+                        <label style="margin-left: 30px; font-weight: bold; width:170px;">What Type Of Visa Do You Want to Apply?</label>
+                        <select style="width: 250px; margin-left: 30px; border-radius: 5px;" id="edit_visa_type">
                             @if (string.IsNullOrEmpty(Model.studentVisaLetter.visa_type))
                             {
                                 <option value="Single entry visa">Single entry visa</option>
@@ -106,15 +107,15 @@
                         </select>
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 55px; font-weight: bold; width:100px;">Visa Period: </label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_visa_period" value="@Model.studentVisaLetter.visa_period">
+                        <label style="margin-left: 30px; font-weight: bold; width:170px;">What visa period do you want to apply?</label>
+                        <input maxlength="250" type="text" style="width: 250px; margin-left: 30px; border-radius: 5px;" id="edit_visa_period" value="@Model.studentVisaLetter.visa_period">
                     </div>
                     <div class="form-group row">
-                        <label style="margin-left: 55px; font-weight: bold; width:100px;">Apply and Eeceive:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_apply_receive" value="@Model.studentVisaLetter.apply_receive">
+                        <label style="margin-left: 30px; font-weight: bold; width:170px;">Where do you want to apply and receive your visa?</label>
+                        <input maxlength="250" type="text" style="width: 250px; margin-left: 30px; border-radius: 5px;" id="edit_apply_receive" value="@Model.studentVisaLetter.apply_receive">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_edit'); validateCreateOrEditVisaLetter();" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditVisaLetter();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
@@ -125,6 +126,6 @@
             </div>
         </div>
     </div>
-
+</div>
 
 

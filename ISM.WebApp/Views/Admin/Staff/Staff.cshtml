@@ -25,15 +25,15 @@
             <form style="width: 320px;" id="searchForm" asp-controller="Staff" asp-action="Index" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                    <input name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    <input maxlength="100" name="fullname" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    <input maxlength="30" name="account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                    <input name="email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.email">
+                    <input maxlength="250" name="email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.email">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date</label>
@@ -148,15 +148,15 @@
                 <h1 style="text-align: center; margin-top: 20px;">Create Staff</h1>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input name="fullname" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_fullname">
+                    <input maxlength="100" name="fullname" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                    <input name="email" type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_email">
+                    <input maxlength="250" name="email" type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_email">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input name="account" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_account">
+                    <input maxlength="30" name="account" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
@@ -191,15 +191,15 @@
                 <input type="hidden" id="edit_originalEmail" />
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input name="fullname" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname">
+                    <input maxlength="100" name="fullname" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                    <input name="email" type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_email">
+                    <input maxlength="250" name="email" type="email" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_email">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input name="account" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
+                    <input maxlength="30" name="account" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_account" disabled>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>

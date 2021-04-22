@@ -25,52 +25,52 @@
                 <form>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Full Name:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.fullname" disabled>
+                        <input maxlength="100" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.fullname" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Email:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.email" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.email" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Home University:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.home_univercity" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.home_univercity" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Exchange Campus:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.exchange_campus" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.exchange_campus" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Accommodation Option:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.accomodation_option" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.accomodation_option" disabled>
                     </div>
                     <p style="text-align:center">
                         Room Preferences - Off-campus Housing (If you intend to live in the dormitory (Hanoi campus), you may skip this part.)
                     </p>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Cost Per Month (in USD):</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.cost_per_month" disabled>
+                        <input maxlength="10" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.cost_per_month" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Room Size (in square meter):</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_size" disabled>
+                        <input maxlength="10" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_size" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Room Type:</label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_type" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.room_type" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">
                             Distance between Accommodation and FPT University (maximum you can accept)
                             in kilometer
                         </label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.distance" disabled>
+                        <input maxlength="10" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.distance" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 50px; font-weight: bold; width:150px;">Other Request </label>
-                        <input type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.other_request" disabled>
+                        <input maxlength="250" type="text" style="width: 300px;height:30px; margin-left: 30px; border-radius: 5px;" value="@Model.student_register_accomodation.other_request" disabled>
                     </div>
                     <div class="form-group row">
-                        <button id="save_create" onclick="showPopup('xmas-popup')" style="margin-left: 330px; width: 80px; border-radius:10px" type="button" class="btn btn-info">Edit</button>
+                        <button onclick="showPopup('xmas-popup')" style="margin-left: 330px; width: 80px; border-radius:10px" type="button" class="btn btn-info">Edit</button>
                     </div>
                 </form>
             </div>
@@ -86,7 +86,7 @@
                     <input type="hidden" id="edit_register_accomodation_id" value="@Model.student_register_accomodation.register_accomodation_id" />
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Exchange Campus</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_exchange_campus" value="@Model.student_register_accomodation.exchange_campus">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_exchange_campus" value="@Model.student_register_accomodation.exchange_campus">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Accommodation Option:</label>
@@ -105,11 +105,11 @@
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Cost Per Month (in USD):</label>
-                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_cost_per_month" value="@Model.student_register_accomodation.cost_per_month">
+                        <input maxlength="10" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_cost_per_month" value="@Model.student_register_accomodation.cost_per_month">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Room Size (in square meter):</label>
-                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_room_size" value="@Model.student_register_accomodation.room_size">
+                        <input maxlength="10" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_room_size" value="@Model.student_register_accomodation.room_size">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Room Type:</label>
@@ -139,14 +139,14 @@
                             Distance between Accommodation and FPT University (maximum you can accept)
                             in kilometer
                         </label>
-                        <input type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_distance" value="@Model.student_register_accomodation.distance">
+                        <input maxlength="10" type="number" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_distance" value="@Model.student_register_accomodation.distance">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Other Request:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_other_request" value="@Model.student_register_accomodation.other_request">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_other_request" value="@Model.student_register_accomodation.other_request">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_edit'); validateCreateOrEditRegisterAccomodation();" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save'); validateCreateOrEditRegisterAccomodation();" id="save" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

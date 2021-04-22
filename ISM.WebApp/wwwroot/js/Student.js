@@ -5,15 +5,15 @@
     var student_group_id = document.getElementById("create_student_group").value;
     var status = document.getElementById("create_status").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
-        alert("email not in right format");
+        alert("Email not in right format");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
-        alert("fullname must not be empty or contain special character");
+        alert("Fullname must not be empty or contain special character");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(account) == false || /^\s*$/.test(account) == true) {
-        alert("account must not be empty or contain special character");
+    if (/^[A-Za-z0-9]+$/.test(account) == false || /^\s*$/.test(account) == true) {
+        alert("Account must not be empty or contain special character");
         return;
     }
     $.ajax({
@@ -70,11 +70,11 @@ function validateEditStudent() {
     var email = document.getElementById("edit_email").value;
     var status = document.getElementById("edit_status_student").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
-        alert("email empty or not in right format");
+        alert("Email empty or not in right format");
         return;
     }
     if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false && fullname.length != 0) {
-        alert("fullname must not be empty or contain special character");
+        alert("Fullname must not be empty or contain special character");
         return;
     }
     $.ajax({

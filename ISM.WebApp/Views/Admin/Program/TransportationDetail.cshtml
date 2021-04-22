@@ -29,19 +29,19 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus</label>
-                    <input name="bus" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.bus">
+                    <input maxlength="250" name="bus" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.bus">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver</label>
-                    <input name="driver" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.driver">
+                    <input maxlength="250" name="driver" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.driver">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary</label>
-                    <input name="itinerary" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.itinerary">
+                    <input maxlength="250" name="itinerary" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.itinerary">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter</label>
-                    <input name="supporter" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.supporter">
+                    <input maxlength="250" name="supporter" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.supporter">
                 </div>
                 <input type="hidden" name="studentGroup_id" id="search_student_group_id" value="@Model.current_student_group.studentGroup_id" />
                 <input type="hidden" name="page" id="inputPage">
@@ -109,7 +109,7 @@
     </table>
     <!-- popup code -->
     <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:490px">
+        <div class="popup-content" style="height:500px">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Create Transportation</h1>
                 <input type="hidden" id="create_student_group_id" value="@Model.current_student_group.studentGroup_id">
@@ -123,23 +123,23 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_bus">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_bus">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_driver">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_driver">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_itinerary">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_itinerary">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_supporter">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_supporter">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_note">
                 </div>
                 <div class="form-group row">
                     <button id="save_create" onclick="disableButton('save_create'); validateCreateTransportation();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>
@@ -151,7 +151,7 @@
         </div>
     </div>
     <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:490px">
+        <div class="popup-content-assign">
             <form id="editTransportationForm">
                 <h1 style="text-align: center; margin-bottom: 40px;">Edit Transportation</h1>
                 <input type="hidden" id="edit_transportation_id">
@@ -165,23 +165,23 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Bus:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_bus">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_bus">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Driver:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_driver">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_driver">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Itinerary:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_itinerary">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_itinerary">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Supporter:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_supporter">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_supporter">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_note">
                 </div>
                 <div class="form-group row">
                     <button id="save_edit" onclick="disableButton('save_edit'); validateEditTransportation();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">Save</button>

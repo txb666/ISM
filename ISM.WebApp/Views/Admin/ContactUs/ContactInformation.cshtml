@@ -25,23 +25,23 @@
                 <form style="width: 320px;" id="searchForm" asp-controller="ContactInformation" asp-action="Index" method="get">
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                        <input name="staff_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_name">
+                        <input maxlength="100" name="staff_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_name">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input name="staff_account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_account">
+                        <input maxlength="30" name="staff_account" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_account">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                        <input name="staff_email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_email">
+                        <input maxlength="250" name="staff_email" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.staff_email">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
-                        <input name="telephone" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.telephone">
+                        <input maxlength="20" name="telephone" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.telephone">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
-                        <input name="position" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.position">
+                        <input maxlength="250" name="position" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.position">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Status:</label>
@@ -154,28 +154,28 @@ else
                 <form>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name_staff_show" value="@Model.contact.staff_name" disabled>
+                        <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name_staff_show" value="@Model.contact.staff_name" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email_staff_show" value="@Model.contact.staff_email" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email_staff_show" value="@Model.contact.staff_email" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account_staff_show" value="@Model.contact.staff_account" disabled>
+                        <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account_staff_show" value="@Model.contact.staff_account" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_telephone_staff_show" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")" disabled>
+                        <input maxlength="20" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_telephone_staff_show" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff_show" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff_show" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")" disabled>
                     </div>
                     <div class="form-group row">
                         <div class="btn-group" style="margin-left: 260px;">
-                            <button style="width: 80px; border-radius: 10px;" class="btn btn-primary">
-                                <a href="#xmas-popup-assign1" style="text-decoration:none; color:white;">Edit</a>
+                            <button type="button" onclick="showPopup('xmas-popup-assign1');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">
+                                Edit
                             </button>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ else
 
 
 <div id="xmas-popup-assign1" class="popup">
-    <div id="responsive" class="popup-content-assign1" style="height:500px; width:900px">
+    <div class="popup-content-assign1" style="height:500px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
@@ -197,23 +197,23 @@ else
                     <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name_staff" value="@Model.contact.staff_name" disabled>
+                        <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name_staff" value="@Model.contact.staff_name" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email_staff" value="@Model.contact.staff_email" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email_staff" value="@Model.contact.staff_email" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account_staff" value="@Model.contact.staff_account" disabled>
+                        <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account_staff" value="@Model.contact.staff_account" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_telephone_staff" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")">
+                        <input maxlength="20" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_telephone_staff" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
@@ -223,8 +223,8 @@ else
                         <button onclick="disableButton('save_edit'); validateCreateOrEditStaff('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
                             Save
                         </button>
-                        <button id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            <a href="#" style="text-decoration:none; color:white;">Cancel</a>
+                        <button onclick="hidePopup('xmas-popup-assign1');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                            Cancel
                         </button>
                     </div>
                 </form>
@@ -236,7 +236,7 @@ else
 
 
 <div id="xmas-popup-assign" class="popup">
-    <div id="responsive" class="popup-content-assign" style="height:500px; width:900px">
+    <div class="popup-content-assign" style="height:500px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
@@ -246,23 +246,23 @@ else
                     <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Contact Information</h1>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name" value="@Model.contact.staff_name" disabled>
+                        <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_name" value="@Model.contact.staff_name" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Email:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email" value="@Model.contact.staff_email" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_email" value="@Model.contact.staff_email" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account" value="@Model.contact.staff_account" disabled>
+                        <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_account" value="@Model.contact.staff_account" disabled>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Telephone:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_phone" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")">
+                        <input maxlength="20" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_phone" value="@(!String.IsNullOrEmpty(Model.contact.staff_telephone)?Model.contact.staff_telephone:"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Position:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>

@@ -38,15 +38,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
-                    <input name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
+                    <input maxlength="250" name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
-                    <input name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
+                    <input maxlength="250" name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
