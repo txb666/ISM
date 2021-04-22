@@ -8,20 +8,24 @@
     var room_type = document.getElementById("edit_room_type").value;
     var distance = document.getElementById("edit_distance").value;
     var other_request = document.getElementById("edit_other_request").value;
-    if (exchange_campus.trim().length == 0) {
-        alert("Exchange Campus must not be empty");
+    if (/^[A-Za-z0-9\s]+$/.test(exchange_campus) == false || /^\s*$/.test(exchange_campus) == true) {
+        alert("Exchange Campus must not be empty or contain special characters.");
         return;
-    } else if (cost_per_month.trim().length == 0) {
-        alert("Cost Per of Month must not be empty")
+    }
+    if (!cost_per_month) {
+        alert("Cost Per Month must not be empty")
         return;
-    } else if (room_size.trim().length == 0) {
+    }
+    if (!room_size) {
         alert("Room size must not be empty")
         return;
-    } else if (distance.trim().length == 0) {
+    }
+    if (!distance) {
         alert("Distance must not be empty")
         return;
-    } else if (other_request.trim().length == 0) {
-        alert("Other request must not be empty")
+    }
+    if (/^[A-Za-z0-9\s]+$/.test(other_request) == false || /^\s*$/.test(other_request) == true) {
+        alert("Other request must not be empty or contain special characters.")
         return;
     }
     $.ajax({
