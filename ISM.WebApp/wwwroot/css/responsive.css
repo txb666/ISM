@@ -109,6 +109,9 @@
     #save_setup_2 {
         margin: auto !important;
     }
+    #save {
+        margin: auto !important;
+    }
 
     #cancel {
         margin: auto !important;

@@ -39,6 +39,9 @@ th {
     color: red;
 }
 
+#save {
+    margin-left: 290px !important;
+}
 #save_create {
     margin-left: 290px !important;
 }
