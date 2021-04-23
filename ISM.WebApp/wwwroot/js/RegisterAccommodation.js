@@ -9,22 +9,27 @@
     var distance = document.getElementById("edit_distance").value;
     var other_request = document.getElementById("edit_other_request").value;
     if (/^[A-Za-z0-9\s]+$/.test(exchange_campus) == false || /^\s*$/.test(exchange_campus) == true) {
+        enableButton('save');
         alert("Exchange Campus must not be empty or contain special characters.");
         return;
     }
     if (!cost_per_month) {
+        enableButton('save');
         alert("Cost Per Month must not be empty")
         return;
     }
     if (!room_size) {
+        enableButton('save');
         alert("Room size must not be empty")
         return;
     }
     if (!distance) {
+        enableButton('save');
         alert("Distance must not be empty")
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(other_request) == false || /^\s*$/.test(other_request) == true) {
+        enableButton('save');
         alert("Other request must not be empty or contain special characters.")
         return;
     }
@@ -39,6 +44,7 @@
                 window.location.href = "/RegisterAccomodation";
             }
             else {
+                enableButton('save');
                 alert("Edit failed");
             }
         },

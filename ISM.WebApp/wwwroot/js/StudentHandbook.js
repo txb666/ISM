@@ -5,6 +5,7 @@
     var fileName = document.getElementById("edit_file").value;
     var allowedExtensions = /(\.pdf)$/i;
     if (/^[A-Za-z0-9\s]+$/.test(title) == false || /^\s*$/.test(title) == true) {
+        enableButton('save');
         alert("Title must not be empty or contain special character");
         return;
     }
@@ -25,12 +26,14 @@
                 location.reload();
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save');
             alert('Only pdf file are allowed!');
             file.value = '';
             return;
@@ -51,6 +54,7 @@
                 location.reload();
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });

@@ -1,11 +1,23 @@
 ﻿function disableButton(id) {
     document.getElementById(id).disabled = true;
     document.getElementById(id).style.opacity = '0.5';
-    var wait = 2000;
-    setTimeout(function () {
-        document.getElementById(id).disabled = false;
-        document.getElementById(id).style.opacity = '1';
-    }, wait);
+    document.getElementById(id).innerHTML = 'Saving...';
+    //var wait = 3000;
+    //setTimeout(function () {
+    //    document.getElementById(id).disabled = false;
+    //    document.getElementById(id).style.opacity = '1';
+    //}, wait);
+}
+
+function enableButton(id) {
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).style.opacity = '1';
+    document.getElementById(id).innerHTML = 'Save';
+    //var wait = 3000;
+    //setTimeout(function () {
+    //    document.getElementById(id).disabled = false;
+    //    document.getElementById(id).style.opacity = '1';
+    //}, wait);
 }
 
 function validateLogin() {

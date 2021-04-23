@@ -21,12 +21,14 @@
                 location.reload();
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save');
             alert('Only xlsx/xls/csv and pdf file are allowed!');
             file.value = '';
             return;

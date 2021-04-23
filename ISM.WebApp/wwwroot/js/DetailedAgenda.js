@@ -1,10 +1,12 @@
 ﻿function validateSetupNotification() {
     var days_before = document.getElementById('notification_input_detail_agenda').value;
     if (!days_before) {
+        enableButton('save');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save');
         alert("Please input only positive number.");
         return;
     }
@@ -19,6 +21,7 @@
                 window.location.href = '/DetailedAgenda';
             }
             else {
+                enableButton('save');
                 alert("Failed");
             }
         },
@@ -40,30 +43,37 @@ function validateCreateDetailedAgenda() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById("create_date").value);
     if (!date || !time_start || !time_end) {
+        enableButton('save_create');
         alert("Date and time must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_create');
         alert("Date must be greater than current date");
         return;
     }
     if (time_start >= time_end) {
+        enableButton('save_create');
         alert("Start time must be smaller than end time");
         return;
     }
     if (/^\s*$/.test(time_zone) == true) {
+        enableButton('save_create');
         alert("Time Zone must not be empty");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(venue) == false || /^\s*$/.test(venue) == true) {
+        enableButton('save_create');
         alert("Venue must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(PIC) == false || /^\s*$/.test(PIC) == true) {
+        enableButton('save_create');
         alert("PIC must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_create');
         alert("Content must not be empty or contain special character");
         return;
     }
@@ -79,6 +89,7 @@ function validateCreateDetailedAgenda() {
                 location.reload();
             }
             else {
+                enableButton('save_create');
                 alert("Create failed");
             }
         },
@@ -111,30 +122,37 @@ function validateEditDetailedAgenda() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById("edit_date").value);
     if (!date || !time_start || !time_end) {
+        enableButton('save_edit');
         alert("date and time must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_edit');
         alert("Date must be greater than current date");
         return;
     }
     if (time_start >= time_end) {
+        enableButton('save_edit');
         alert("Start time must be smaller than end time");
         return;
     }
     if (/^\s*$/.test(time_zone) == true) {
+        enableButton('save_edit');
         alert("Time Zone must not be empty");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(venue) == false || /^\s*$/.test(venue) == true) {
+        enableButton('save_edit');
         alert("Venue must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(PIC) == false || /^\s*$/.test(PIC) == true) {
+        enableButton('save_edit');
         alert("PIC must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_edit');
         alert("Content must not be empty or contain special character");
         return;
     }
@@ -150,6 +168,7 @@ function validateEditDetailedAgenda() {
                 location.reload();
             }
             else {
+                enableButton('save_edit');
                 alert("Edit failed");
             }
         },

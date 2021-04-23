@@ -1,5 +1,4 @@
-﻿
-function deleteFAQ(faq_id) {
+﻿function deleteFAQ(faq_id) {
     if (confirm("Are you sure you want to delete this question")) {
         $.ajax({
             type: "POST",
@@ -35,14 +34,17 @@ function validateCreateFAQ() {
     var question = document.getElementById('create_question').value;
     var answer = document.getElementById('create_answer').value;
     if (/^[A-Za-z0-9\s]+$/.test(question) == false && /^[A-Za-z0-9\s]+$/.test(answer) == false) {
+        enableButton('save_create');
         alert("Question and Answer must not contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(question) == false || /^\s*$/.test(question) == true) {
+        enableButton('save_create');
         alert("Question must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(answer) == false || /^\s*$/.test(answer) == true) {
+        enableButton('save_create');
         alert("Answer must not be empty or contain special character");
         return;
     }
@@ -57,6 +59,7 @@ function validateCreateFAQ() {
                 window.location.href = "/FAQ";
             }
             else {
+                enableButton('save_create');
                 alert("Failed");
             }
         },
@@ -71,14 +74,17 @@ function validateEditFAQ() {
     var question = document.getElementById('edit_question').value;
     var answer = document.getElementById('edit_answer').value;
     if (/^[A-Za-z0-9\s]+$/.test(question) == false && /^[A-Za-z0-9\s]+$/.test(answer) == false) {
+        enableButton('save_edit');
         alert("Question and Answer must not contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(question) == false || /^\s*$/.test(question) == true) {
+        enableButton('save_edit');
         alert("Question must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(answer) == false || /^\s*$/.test(answer) == true) {
+        enableButton('save_edit');
         alert("Answer must not be empty or contain special character");
         return;
     }
@@ -93,6 +99,7 @@ function validateEditFAQ() {
                 window.location.href = "/FAQ";
             }
             else {
+                enableButton('save_edit');
                 alert("Failed");
             }
         },

@@ -23,10 +23,12 @@ function createStudentGroup() {
         coordinators.push(tableList[i].user_id);
     }
     if (!duration_start || !duration_end) {
+        enableButton('save_create');
         alert("Duration must not be empty");
         return;
     }
     if (duration_start >= duration_end) {
+        enableButton('save_create');
         alert("End date must be greater than start date.");
         return;
     }
@@ -37,6 +39,7 @@ function createStudentGroup() {
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_create');
                 alert("Student Group already exist");
                 return;
             }
@@ -52,6 +55,7 @@ function createStudentGroup() {
                             window.location.href = "/StudentGroup";
                         }
                         else {
+                            enableButton('save_create');
                             alert("Create Student Group failed");
                         }
                     },
@@ -85,6 +89,7 @@ function editStudentGroup() {
                 window.location.href = "/StudentGroup";
             }
             else {
+                enableButton('save_edit');
                 alert("Edit Student Group failed");
             }
         },
@@ -117,6 +122,7 @@ function rebuildSelectCoordinator() {
 
 function rebuildCoordinatorTable() {
     var ele = document.getElementById('create_coordinatorTable');
+    var temp = 'class="btn btn-danger"';
     var content = "<tr>"
         + "<th scope='col'>Coordinator</th>"
         + "<th scope='col'> </th>"
@@ -124,7 +130,7 @@ function rebuildCoordinatorTable() {
     for (var i = 0; i < tableList.length; i++) {
         var row = "<tr>"
             + "<td>" + tableList[i].account + "</td>"
-            + "<td> <button onclick='deleteCoordinator(" + tableList[i].user_id + ")'>Delete</button> </td>"
+            + "<td> <button onclick='deleteCoordinator(" + tableList[i].user_id + ")'" + temp + ">Remove</button></td>"
             + "</tr>";
         content += row;
     }

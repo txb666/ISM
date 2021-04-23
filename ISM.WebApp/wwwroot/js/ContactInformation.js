@@ -7,10 +7,12 @@
     var check = confirm("Do you want to save?");
     if (check) {
         if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(telephone) == false) {
+            enableButton('save_edit');
             alert("Telephone not in right format");
             return;
         }
         if (!position) {
+            enableButton('save_edit');
             alert("Position must not be empty");
             return;
         }
@@ -31,12 +33,14 @@
                     window.location.href = '/ContactInformation';
                 },
                 error: function () {
+                    enableButton('save_edit');
                     alert("Failed");
                 }
             });
         }
         else {
             if (!allowedExtensions.exec(fileName)) {
+                enableButton('save_edit');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture.value = '';
                 return;
@@ -57,6 +61,7 @@
                     window.location.href = '/ContactInformation';
                 },
                 error: function () {
+                    enableButton('save_edit');
                     alert("Failed");
                 }
             });
@@ -76,10 +81,12 @@ function validateCreateOrEditAdmin(user_id) {
     var check = confirm("Do you want to save?");
     if (check) {
         if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(telephone) == false) {
+            enableButton('save_create');
             alert("Telephone not in right format");
             return;
         }
         if (!position) {
+            enableButton('save_create');
             alert("Position must not be empty");
             return;
         }
@@ -100,12 +107,14 @@ function validateCreateOrEditAdmin(user_id) {
                     window.location.href = '/ContactInformation';
                 },
                 error: function () {
+                    enableButton('save_create');
                     alert("Failed");
                 }
             });
         }
         else {
             if (!allowedExtensions.exec(fileName)) {
+                enableButton('save_create');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture.value = '';
                 return;
@@ -126,6 +135,7 @@ function validateCreateOrEditAdmin(user_id) {
                     window.location.href = '/ContactInformation';
                 },
                 error: function () {
+                    enableButton('save_create');
                     alert("Failed");
                 }
             });

@@ -40,23 +40,28 @@ function validateEditVisa() {
     var entry_date = document.getElementById("edit_entryDate").value;
     var entry_port = document.getElementById("edit_entryPort").value;
     var searchButton = document.getElementById("searchBtn");
-    if (/^([A-Za-z0-9\s]+)$/.test(entry_port) == false && entry_port.length != 0) {
+    if (/^[A-Za-z0-9\s]+$/.test(entry_port) == false || /^\s*$/.test(entry_port) == true) {
+        enableButton('save_edit');
         alert("Entry port must not be empty or contain special character");
         return;
     }
     if (!start_date) {
+        enableButton('save_edit');
         alert("Start date must not be empty.");
         return;
     }
     if (!expired_date) {
+        enableButton('save_edit');
         alert("Expired date must not be empty.");
         return;
     }
     if (!entry_date) {
+        enableButton('save_edit');
         alert("Entry date must not be empty.");
         return;
     }
     if (start_date >= expired_date) {
+        enableButton('save_edit');
         alert("Expired date must be greater than Start date.");
         return;
     }
@@ -71,6 +76,7 @@ function validateEditVisa() {
                 searchButton.click();
             }
             else {
+                enableButton('save_edit');
                 alert("Edit Visa failed");
             }
         },
@@ -83,10 +89,12 @@ function validateEditVisa() {
 function validateNotificationVisa() {
     var days_before = document.getElementById("notification_input").value;
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -120,23 +128,28 @@ function validateCreateOrEditVisa() {
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    if (entry_port.trim().length == 0) {
+    if (/^[A-Za-z0-9\s]+$/.test(entry_port) == false || /^\s*$/.test(entry_port) == true) {
+        enableButton('save');
         alert("Entry port must not be empty");
         return;
     }
     if (!start_date) {
+        enableButton('save');
         alert("Start date must not be empty.");
         return;
     }
     if (!expired_date) {
+        enableButton('save');
         alert("Expired date must not be empty.");
         return;
     }
     if (!date_entry) {
+        enableButton('save');
         alert("Entry date must not be empty.");
         return;
     }
     if (start_date >= expired_date) {
+        enableButton('save');
         alert("Expired date must be greater than Start date.");
         return;
     }
@@ -160,12 +173,14 @@ function validateCreateOrEditVisa() {
                 window.location.href = "/Visa";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save');
             alert('Only jpg/jpeg and png files are allowed!');
             picture.value = '';
             return;
@@ -189,6 +204,7 @@ function validateCreateOrEditVisa() {
                 window.location.href = "/Visa";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });

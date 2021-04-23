@@ -28,10 +28,12 @@
 function validateNotificationPassport() {
     var days_before = document.getElementById("notification_input").value;
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -46,6 +48,7 @@ function validateNotificationPassport() {
                 window.location.href = '/Passport';
             }
             else {
+                enableButton('save_setup');
                 alert("Failed");
             }
         },
@@ -70,23 +73,28 @@ function validateEditPassport() {
     var expired_date = document.getElementById("edit_ExpiredDate").value;
     var issuing_authority = document.getElementById("edit_IssuingAuthority").value;
     var searchButton = document.getElementById("searchBtn");
-    if (/^([A-Za-z0-9\s]+)$/.test(passport_number) == false && passport_number.length != 0) {
+    if (/^[A-Za-z0-9\s]+$/.test(passport_number) == false || /^\s*$/.test(passport_number) == true) {
+        enableButton('save');
         alert("Passport number must not be empty or contain special character");
         return;
     }
     if (!start_date) {
+        enableButton('save');
         alert("Start date must not be empty.");
         return;
     }
     if (!expired_date) {
+        enableButton('save');
         alert("Expired date must not be empty.");
         return;
     }
-    if (!issuing_authority) {
+    if (issuing_authority.trim().length == 0) {
+        enableButton('save');
         alert("Issuing authority must not be empty.");
         return;
     }
     if (start_date >= expired_date) {
+        enableButton('save');
         alert("Expired date must be greater than Start date.");
         return;
     }
@@ -101,6 +109,7 @@ function validateEditPassport() {
                 searchButton.click();
             }
             else {
+                enableButton('save');
                 alert("Edit Passport failed")
             }
         },
@@ -120,23 +129,28 @@ function validateCreateOrEditPassport() {
     var picture = document.getElementById("edit_picture").files[0];
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-    if (passport_number.trim().length==0) {
+    if (/^[A-Za-z0-9\s]+$/.test(passport_number) == false || /^\s*$/.test(passport_number) == true) {
+        enableButton('save');
         alert("Passport number must not be empty or contain special character");
         return;
     }
     if (!start_date) {
+        enableButton('save');
         alert("Start date must not be empty.");
         return;
     }
     if (!expired_date) {
+        enableButton('save');
         alert("Expired date must not be empty.");
         return;
     }
-    if (issuing_authority.trim().length==0) {
+    if (issuing_authority.trim().length == 0) {
+        enableButton('save');
         alert("Issuing authority must not be empty.");
         return;
     }
     if (start_date >= expired_date) {
+        enableButton('save');
         alert("Expired date must be greater than Start date.");
         return;
     }
@@ -160,12 +174,14 @@ function validateCreateOrEditPassport() {
                 window.location.href = "/Passport";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save');
             alert('Only jpg/jpeg and png files are allowed!');
             picture.value = '';
             return;
@@ -189,6 +205,7 @@ function validateCreateOrEditPassport() {
                 window.location.href = "/Passport";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });

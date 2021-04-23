@@ -1,10 +1,12 @@
 ﻿function validateNotificationTransportation() {
     var hours_before = document.getElementById("notification_input").value;
     if (!hours_before) {
+        enableButton('save');
         alert("Hours before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(hours_before) == false) {
+        enableButton('save');
         alert("Please input only positive number.");
         return;
     }
@@ -19,6 +21,7 @@
                 window.location.href = "/Transportation";
             }
             else {
+                enableButton('save');
                 alert("Failed");
             }
         },
@@ -40,26 +43,32 @@ function validateCreateTransportation() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById("create_date").value);
     if (!date || !time) {
+        enableButton('save_create');
         alert("date and time must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_create');
         alert("Date must be greater than current date");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(bus) == false || /^\s*$/.test(bus) == true) {
+        enableButton('save_create');
         alert("Bus must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(driver) == false || /^\s*$/.test(driver) == true) {
+        enableButton('save_create');
         alert("Driver must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(itinerary) == false || /^\s*$/.test(itinerary) == true) {
+        enableButton('save_create');
         alert("Itinerary must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(supporter) == false || /^\s*$/.test(supporter) == true) {
+        enableButton('save_create');
         alert("Supporter must not be empty or contain special character");
         return;
     }
@@ -75,6 +84,7 @@ function validateCreateTransportation() {
                 location.reload();
             }
             else {
+                enableButton('save_create');
                 alert("Create Transportation failed")
             }
         },
@@ -107,26 +117,32 @@ function validateEditTransportation() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById("edit_date").value);
     if (!date || !time) {
+        enableButton('save_edit');
         alert("date and time must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_edit');
         alert("Date must be greater than current date");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(bus) == false || /^\s*$/.test(bus) == true) {
+        enableButton('save_edit');
         alert("Bus must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(driver) == false || /^\s*$/.test(driver) == true) {
+        enableButton('save_edit');
         alert("Driver must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(itinerary) == false || /^\s*$/.test(itinerary) == true) {
+        enableButton('save_edit');
         alert("Itinerary must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(supporter) == false || /^\s*$/.test(supporter) == true) {
+        enableButton('save_edit');
         alert("Supporter must not be empty or contain special character");
         return;
     }
@@ -142,6 +158,7 @@ function validateEditTransportation() {
                 location.reload();
             }
             else {
+                enableButton('save_edit');
                 alert("Edit Transportation failed")
             }
         },

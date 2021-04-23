@@ -16,10 +16,12 @@
     var fileName = document.getElementById("create_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
+        enableButton('save_create');
         alert("type must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(location) == false || /^\s*$/.test(location) == true) {
+        enableButton('save_create');
         alert("location must not be empty or contain special character");
         return;
     }
@@ -40,6 +42,7 @@
             dataType: "text",
             success: function (msg) {
                 if (msg == "true") {
+                    enableButton('save_create');
                     alert("Information about current accomodation of this student/student group already exist");
                     return;
                 }
@@ -55,6 +58,7 @@
                             window.location.href = '/CurrentAccomodation';
                         },
                         error: function () {
+                            enableButton('save_create');
                             alert("Create failed");
                         }
                     });
@@ -67,6 +71,7 @@
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save_create');
             alert('Only jpg/jpeg and png files are allowed!');
             picture.value = '';
             return;
@@ -87,6 +92,7 @@
             dataType: "text",
             success: function (msg) {
                 if (msg == "true") {
+                    enableButton('save_create');
                     alert("Information about current accomodation of this student/student group already exist");
                     return;
                 }
@@ -102,6 +108,7 @@
                             window.location.href = '/CurrentAccomodation';
                         },
                         error: function () {
+                            enableButton('save_create');
                             alert("Create failed");
                         }
                     });
@@ -150,10 +157,12 @@ function validateEditCurrentAccomodation() {
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (/^[A-Za-z0-9\s]+$/.test(type) == false || /^\s*$/.test(type) == true) {
+        enableButton('save_edit');
         alert("type must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(location) == false || /^\s*$/.test(location) == true) {
+        enableButton('save_edit');
         alert("location must not be empty or contain special character");
         return;
     }
@@ -180,12 +189,14 @@ function validateEditCurrentAccomodation() {
                 window.location.href = '/CurrentAccomodation';
             },
             error: function () {
+                enableButton('save_edit');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save_edit');
             alert('Only jpg/jpeg and png files are allowed!');
             picture.value = '';
             return;
@@ -212,6 +223,7 @@ function validateEditCurrentAccomodation() {
                 window.location.href = '/CurrentAccomodation';
             },
             error: function () {
+                enableButton('save_edit');
                 alert("Edit failed");
             }
         });
@@ -232,10 +244,12 @@ function validateFileType(id) {
 function validateNotificationAccomodation() {
     var days_before = document.getElementById("notification_input_accomodation").value;
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -250,6 +264,7 @@ function validateNotificationAccomodation() {
                 window.location.href = '/CurrentAccomodation';
             }
             else {
+                enableButton('save_setup');
                 alert("Failed");
             }
         },

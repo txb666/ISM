@@ -31,18 +31,22 @@ function validateNotificationInsuranceDegree() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById("degree_deadline_id").value);
     if (!deadline) {
+        enableButton('save_setup');
         alert("Deadline must not be empty.");
         return;
     }
     if (check_date.getTime() < current_date.getTime()) {
+        enableButton('save_setup');
         alert("Deadline must be greater than current date.");
         return;
     }
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -57,6 +61,7 @@ function validateNotificationInsuranceDegree() {
                 window.location.href = "/Insurance";
             }
             else {
+                enableButton('save_setup');
                 alert("Failed");
             }
         },
@@ -69,10 +74,12 @@ function validateNotificationInsuranceDegree() {
 function validateNotificationInsuranceMobility() {
     var days_before = document.getElementById("mobility_days_before_id").value;
     if (!days_before) {
+        enableButton('save_setup_2');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup_2');
         alert("Please input only positive number.");
         return;
     }
@@ -87,6 +94,7 @@ function validateNotificationInsuranceMobility() {
                 window.location.href = "/Insurance";
             }
             else {
+                enableButton('save_setup_2');
                 alert("Failed");
             }
         },
@@ -101,10 +109,12 @@ function validateEditInsurance() {
     var startDate = document.getElementById("edit_startDate").value;
     var expiryDate = document.getElementById("edit_expiryDate").value;
     if (!startDate || !expiryDate) {
+        enableButton('save_edit');
         alert("start date and expiry date must not be empty");
         return;
     }
     if (startDate >= expiryDate) {
+        enableButton('save_edit');
         alert("Expiry date must be greater than start date.");
         return;
     }
@@ -119,6 +129,7 @@ function validateEditInsurance() {
                 window.location.href = "/Insurance";
             }
             else {
+                enableButton('save_edit');
                 alert("Edit Insurance failed");
             }
         },
@@ -145,14 +156,17 @@ function validateCreateOrEditInsurance() {
     var fileName = document.getElementById("edit_picture").value;
     var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
     if (!start_date) {
+        enableButton('save');
         alert("Start date must not be empty.");
         return;
     }
     if (!expiry_date) {
+        enableButton('save');
         alert("Expired date must not be empty.");
         return;
     }
     if (start_date >= expiry_date) {
+        enableButton('save');
         alert("Expiry date must be greater than Start date.");
         return;
     }
@@ -174,12 +188,14 @@ function validateCreateOrEditInsurance() {
                 window.location.href = "/Insurance";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });
     }
     else {
         if (!allowedExtensions.exec(fileName)) {
+            enableButton('save');
             alert('Only jpg/jpeg and png files are allowed!');
             picture.value = '';
             return;
@@ -201,6 +217,7 @@ function validateCreateOrEditInsurance() {
                 window.location.href = "/Insurance";
             },
             error: function () {
+                enableButton('save');
                 alert("Edit failed");
             }
         });

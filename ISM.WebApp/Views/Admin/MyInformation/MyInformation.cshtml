@@ -108,7 +108,7 @@
                 <input maxlength="40" type="password" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_confirm_new_password">
             </div>
             <div class="form-group row" style="margin-top: 50px;">
-                <button id="save_create" onclick="disableButton('save_create'); validateChangePassword('@sessionUser.user_id');" style="width: 80px;" type="submit" class="btn btn-success">Save</button>
+                <button id="save_create" onclick="disableButton('save_create'); validateChangePassword('@sessionUser.user_id');" style="width: 80px;" type="button" class="btn btn-success">Save</button>
                 <button onclick="hidePopup('xmas-popup');" id="cancel" style="width: 80px;" type="button" class="btn btn-danger">
                     Cancel
                 </button>
@@ -165,7 +165,7 @@
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture_id" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

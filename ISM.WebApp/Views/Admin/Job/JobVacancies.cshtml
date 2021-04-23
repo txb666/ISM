@@ -2,8 +2,7 @@
 @using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @using ISM.WebApp.Constant;
-@{
-    var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
+@{ var sessionUser = JsonConvert.DeserializeObject<Account>(Context.Session.GetString(LoginConst.SessionKeyName));
     if (sessionUser.role_name == "Admin")
     {
         ViewData["Title"] = "Job Vancancies Page";
@@ -13,183 +12,181 @@
     {
         ViewData["Title"] = "Job Vancancies Page";
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
-    }
-}
+    } }
 @*<div style="height: 500px; background-color: white;">*@
-    <h1 style="text-align: center;"> Job Vacancies </h1>
-    <div style="height:50px">
-        <div class="dropdown_search">
-            <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
-            <div id="myDropdown_search" class="dropdown-content_search" style="height: 330px; margin-top: 10px;">
-                <form style="width: 320px;" id="searchForm" asp-controller="JobVacancy" asp-action="Index" method="get">
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
-                        <input maxlength="250" name="job_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_name">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                        <input maxlength="250" name="job_location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_location">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Employment Type:</label>
-                        <input maxlength="250" name="employment_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.employment_type">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                        <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline for Apply:</label>
-                        <input name="deadline" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.deadline.HasValue?Model.deadline.Value.ToString("yyyy-MMM-dd"):"")">
-                    </div>
-                    <input type="hidden" name="page" id="inputPage">
-                    <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
-                </form>
-            </div>
-        </div>
-        <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px" class="btn btn-success">
-           Create
-        </button>
-    </div>
-    <br>
-    <br>
-    <div class="table-scroll">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Job</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Employment Type</th>
-                    <th scope="col">Content</th>
-                    <th scope="col">Deadline for Apply</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.jobVacancies)
-                {
-                    <tr>
-                        <td>
-                            @item.job_name
-                        </td>
-                        <td>
-                            @item.job_location
-                        </td>
-                        <td>
-                            @item.employment_type
-                        </td>
-                        <td>
-                            @item.content
-                        </td>
-                        <td>
-                            @item.deadline.ToString("yyyy-MMM-dd")
-                        </td>
-                        <td style="text-align: center;">
-                            <button style="width:80px; border-radius:10px;" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)');showPopup('xmas-popup-assign');"class="btn btn-info">
-                                Edit
-                            </button>
-                            <button style="width:80px; border-radius:10px;" onclick="deleteJV('@item.jobVacancy_id');" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
-                        </td>
-                    </tr>
-                }
-        </table>
-    </div>
-    <div>
-        @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
-    </div>
-
-
-
-    <div id="xmas-popup" class="popup">
-        <div class="popup-content" style="height:460px">
-            <form>
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Job Vacancies</h1>
+<h1 style="text-align: center;"> Job Vacancies </h1>
+<div style="height:50px">
+    <div class="dropdown_search">
+        <button onclick="myFunction1()" style="width:80px; border-radius:10px" class="btn btn-primary">Search</button>
+        <div id="myDropdown_search" class="dropdown-content_search" style="height: 330px; margin-top: 10px;">
+            <form style="width: 320px;" id="searchForm" asp-controller="JobVacancy" asp-action="Index" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_jv_name_id">
+                    <input maxlength="250" name="job_name" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_name">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_jv_location_id">
+                    <input maxlength="250" name="job_location" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.job_location">
                 </div>
                 <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Employee Type:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_et_id">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Employment Type:</label>
+                    <input maxlength="250" name="employment_type" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.employment_type">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content_id">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline for Apply:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_deadline_id">
+                    <input name="deadline" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.deadline.HasValue?Model.deadline.Value.ToString("yyyy-MMM-dd"):"")">
                 </div>
-                <div class="form-group row">
-                    <button onclick="disableButton('save_create'); validateCreateJobVacancy();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_create">
-                        Save
-                    </button>
-                    <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                       Cancel
-                    </button>
-                </div>
+                <input type="hidden" name="page" id="inputPage">
+                <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
             </form>
         </div>
     </div>
+    <button onclick="showPopup('xmas-popup')" style="float: right; width:80px; border-radius:10px" class="btn btn-success">
+        Create
+    </button>
+</div>
+<br>
+<br>
+<div class="table-scroll">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Job</th>
+                <th scope="col">Location</th>
+                <th scope="col">Employment Type</th>
+                <th scope="col">Content</th>
+                <th scope="col">Deadline for Apply</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.jobVacancies)
+            {
+<tr>
+    <td>
+        @item.job_name
+    </td>
+    <td>
+        @item.job_location
+    </td>
+    <td>
+        @item.employment_type
+    </td>
+    <td>
+        @item.content
+    </td>
+    <td>
+        @item.deadline.ToString("yyyy-MMM-dd")
+    </td>
+    <td style="text-align: center;">
+        <button style="width:80px; border-radius:10px;" onclick="editJV('@item.jobVacancy_id', '@item.job_name', '@item.job_location', '@item.employment_type', '@item.content', '@ISM.WebApp.Utils.FormatUtil.ToInputDate(item.deadline)');showPopup('xmas-popup-assign');" class="btn btn-info">
+            Edit
+        </button>
+        <button style="width:80px; border-radius:10px;" onclick="deleteJV('@item.jobVacancy_id');" class="btn btn-danger" asp-controller="JobVacancy" asp-action="DeleteJV">Delete</button>
+    </td>
+</tr>
+}
+    </table>
+</div>
+<div>
+    @Html.Raw(ISM.WebApp.Utils.PagingUtils.pager(Model.totalPage, Model.page, 3))
+</div>
 
-    <div id="xmas-popup-assign" class="popup">
-        <div class="popup-content-assign" style="height:460px">
-            <form>
-                <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Job Vacancies</h1>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_jv_name_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_jv_location_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Employee Type:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_et_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content_id">
-                </div>
-                <div class="form-group row">
-                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine for Apply:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_deadline_id">
-                </div>
-                <input type="hidden" id="edit_jv_id" />
-                <div class="form-group row">
-                    <button onclick="disableButton('save_edit'); validateEditJobVacancy();" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success" id="save_edit">
-                        Save
-                    </button>
-                    <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+
+
+<div id="xmas-popup" class="popup">
+    <div class="popup-content" style="height:460px">
+        <form>
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Job Vacancies</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_jv_name_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_jv_location_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Employee Type:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_et_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_content_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Deadline for Apply:</label>
+                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="create_deadline_id">
+            </div>
+            <div class="form-group row">
+                <button onclick="disableButton('save_create'); validateCreateJobVacancy();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save_create">
+                    Save
+                </button>
+                <button onclick="hidePopup('xmas-popup')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
-    <script>
-        function myFunction1() {
-            document.getElementById("myDropdown_search").classList.toggle("show_search_jobVacancy");
-        }
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown_search");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+</div>
+
+<div id="xmas-popup-assign" class="popup">
+    <div class="popup-content-assign" style="height:460px">
+        <form>
+            <h1 style="text-align: center; margin-top: 20px;margin-bottom: 50px;">Job Vacancies</h1>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Job:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_jv_name_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_jv_location_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Employee Type:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_et_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Content:</label>
+                <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_content_id">
+            </div>
+            <div class="form-group row">
+                <label style="margin-left: 30px; font-weight: bold; width:100px;">Dealine for Apply:</label>
+                <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_deadline_id">
+            </div>
+            <input type="hidden" id="edit_jv_id" />
+            <div class="form-group row">
+                <button onclick="disableButton('save_edit'); validateEditJobVacancy();" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success" id="save_edit">
+                    Save
+                </button>
+                <button onclick="hidePopup('xmas-popup-assign')" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger" id="cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function myFunction1() {
+        document.getElementById("myDropdown_search").classList.toggle("show_search_jobVacancy");
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown_search");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
             }
         }
-    </script>
-@*</div>*@
+    }
+</script>

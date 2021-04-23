@@ -4,14 +4,17 @@
     var program = document.getElementById("create_program").value;
     var material = document.getElementById("create_material").value;
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_create');
         alert("Content must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(program) == false || /^\s*$/.test(program) == true) {
+        enableButton('save_create');
         alert("Program must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(material) == false || /^\s*$/.test(material) == true) {
+        enableButton('save_create');
         alert("Material must not be empty or contain special character");
         return;
     }
@@ -27,6 +30,7 @@
                 location.reload();
             }
             else {
+                enableButton('save_create');
                 alert("Create failed")
             }
         },
@@ -49,14 +53,17 @@ function validateEditORTMaterialSlide() {
     var program = document.getElementById("edit_program").value;
     var material = document.getElementById("edit_material").value;
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_edit');
         alert("Content must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(program) == false || /^\s*$/.test(program) == true) {
+        enableButton('save_edit');
         alert("Program must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(material) == false || /^\s*$/.test(material) == true) {
+        enableButton('save_edit');
         alert("Material must not be empty or contain special character");
         return;
     }
@@ -72,6 +79,7 @@ function validateEditORTMaterialSlide() {
                 location.reload();
             }
             else {
+                enableButton('save_edit');
                 alert("Edit failed")
             }
         },

@@ -5,18 +5,22 @@
     var date_check = new Date(document.getElementById("create_date_id").value);
     var current = new Date();
     if (!dateAT) {
+        enableButton('save_create');
         alert("Date must not be empty.");
         return;
     }
     if (date_check.getTime() <= current.getTime()) {
+        enableButton('save_create');
         alert("Date must not be smaller than current date.");
         return;
     }
     if (!startTimeAT || !endTimeAT) {
+        enableButton('save_create');
         alert("Time must not be empty.");
         return;
     }
     if (startTimeAT >= endTimeAT) {
+        enableButton('save_create');
         alert("End time must be greater than start time");
         return;
     }
@@ -27,6 +31,7 @@
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_create');
                 alert("Can not create Available time at same time.");
                 return;
             }
@@ -42,6 +47,7 @@
                             window.location.href = "/Meeting";
                         }
                         else {
+                            enableButton('save_create');
                             alert("Create failed")
                         }
                     },
@@ -97,14 +103,17 @@ function validateEditMAT(staff_id) {
     var startTimeAT = document.getElementById("edit_startTime_id").value;
     var endTimeAT = document.getElementById("edit_endTime_id").value;
     if (!dateAT) {
+        enableButton('save_edit');
         alert("Date must not be empty.");
         return;
     }
     if (!startTimeAT || !endTimeAT) {
+        enableButton('save_edit');
         alert("Time must not be empty.");
         return;
     }
     if (startTimeAT >= endTimeAT) {
+        enableButton('save_edit');
         alert("End time must be greater than start time");
         return;
     }
@@ -115,6 +124,7 @@ function validateEditMAT(staff_id) {
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_edit');
                 alert("Already exist cannot edit.");
                 return;
             }
@@ -130,6 +140,7 @@ function validateEditMAT(staff_id) {
                             window.location.href = "/Meeting";
                         }
                         else {
+                            enableButton('save_edit');
                             alert("Edit failed")
                         }
                     },
@@ -175,10 +186,12 @@ function acceptMR(ms_id) {
 function validateSetupNotificationMeeting() {
     var days_before = document.getElementById('notification_input_meeting').value;
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -193,6 +206,7 @@ function validateSetupNotificationMeeting() {
                 window.location.href = '/Meeting';
             }
             else {
+                enableButton('save_setup');
                 alert("Failed");
             }
         },
@@ -217,6 +231,7 @@ function validateBookAMeeting(student_id) {
     var endTimeAT = document.getElementById("book_endTime_id").value;
     var note = document.getElementById("book_note_id").value;
     if (!note) {
+        enableButton('save');
         alert("Please enter meeting note.");
         return;
     }
@@ -227,6 +242,7 @@ function validateBookAMeeting(student_id) {
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save');
                 alert("Can not book a meeting at same time.");
                 return;
             }
@@ -243,6 +259,7 @@ function validateBookAMeeting(student_id) {
                             location.reload();
                         }
                         else {
+                            enableButton('save');
                             alert("Book failed")
                         }
                     },

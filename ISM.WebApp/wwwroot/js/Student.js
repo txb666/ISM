@@ -5,14 +5,17 @@
     var student_group_id = document.getElementById("create_student_group").value;
     var status = document.getElementById("create_status").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
+        enableButton('save_create');
         alert("Email not in right format");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
+        enableButton('save_create');
         alert("Fullname must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9]+$/.test(account) == false || /^\s*$/.test(account) == true) {
+        enableButton('save_create');
         alert("Account must not be empty or contain special character");
         return;
     }
@@ -23,6 +26,7 @@
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_create');
                 alert("Account or email already exist");
                 return;
             }
@@ -38,6 +42,7 @@
                             window.location.href = "/Student";
                         }
                         else {
+                            enableButton('save_create');
                             alert("Create Student failed")
                         }
                     },
@@ -70,10 +75,12 @@ function validateEditStudent() {
     var email = document.getElementById("edit_email").value;
     var status = document.getElementById("edit_status_student").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
+        enableButton('save_edit');
         alert("Email empty or not in right format");
         return;
     }
     if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false && fullname.length != 0) {
+        enableButton('save_edit');
         alert("Fullname must not be empty or contain special character");
         return;
     }
@@ -84,6 +91,7 @@ function validateEditStudent() {
         dataType: "text",
         success: function (msg) {
             if (msg == "true" && email != originalEmail) {
+                enableButton('save_edit');
                 alert("Email already exist");
                 return;
             }
@@ -99,6 +107,7 @@ function validateEditStudent() {
                             searchButton.click();
                         }
                         else {
+                            enableButton('save_edit');
                             alert("Edit Student failed")
                         }
                     },

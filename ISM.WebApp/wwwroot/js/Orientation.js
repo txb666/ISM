@@ -8,26 +8,32 @@
     var current_date = new Date();
     var check_date = new Date(document.getElementById('ort_date_id').value);
     if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
+        enableButton('save_create');
         alert("Content must not be empty or contain special character.");
         return;
     }
     if (!date) {
+        enableButton('save_create');
         alert("Date must not be empty.");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_create');
         alert("Date must be greater than current date.");
         return;
     }
     if (!time) {
+        enableButton('save_create');
         alert("Time must not be empty.");
         return;
     }
     if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
+        enableButton('save_create');
         alert("Location must not be empty or contain special character.");
         return;
     }
     if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
+        enableButton('save_create');
         alert("Requirement must not be empty or contain special character.");
         return;
     }
@@ -38,6 +44,7 @@
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_create');
                 alert("Orientation already exist.");
                 return;
             }
@@ -49,6 +56,7 @@
                     dataType: "text",
                     success: function (msg) {
                         if (msg == "true") {
+                            enableButton('save_create');
                             alert("Cannot create other Orientation at same time.");
                             return;
                         }
@@ -65,6 +73,7 @@
                                         location.reload();
                                     }
                                     else {
+                                        enableButton('save_create');
                                         alert("Create failed")
                                     }
                                 },
@@ -105,26 +114,32 @@ function validateEditORT() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById('edit_ort_date_id').value);
     if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
+        enableButton('save_edit');
         alert("Content must not be empty or contain special character.");
         return;
     }
     if (!date) {
+        enableButton('save_edit');
         alert("Date must not be empty.");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_edit');
         alert("Date must be greater than current date.");
         return;
     }
     if (!time) {
+        enableButton('save_edit');
         alert("Time must not be empty.");
         return;
     }
     if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
+        enableButton('save_edit');
         alert("Location must not be empty or contain special character.");
         return;
     }
     if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
+        enableButton('save_edit');
         alert("Requirement must not be empty or contain special character.");
         return;
     }
@@ -140,6 +155,7 @@ function validateEditORT() {
                 location.reload();
             }
             else {
+                enableButton('save_edit');
                 alert("Edit failed")
             }
         },
@@ -180,10 +196,12 @@ function deleteORT() {
 function validateNotificationORT() {
     var days_before = document.getElementById("ort_notification_input").value;
     if (!days_before) {
+        enableButton('save');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save');
         alert("Please input only positive number.");
         return;
     }
@@ -198,6 +216,7 @@ function validateNotificationORT() {
                 window.location.href = '/Orientation';
             }
             else {
+                enableButton('save');
                 alert("Failed");
             }
         },

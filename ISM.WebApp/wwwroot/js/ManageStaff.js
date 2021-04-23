@@ -42,23 +42,28 @@ function validateCreateStaff() {
     var endDate = document.getElementById("create_endDate").value;
     var status = document.getElementById("create_status").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
+        enableButton('save_create');
         alert("Email not in right format.");
         return;
     }
     if (/^[A-Za-z0-9\s]+$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
+        enableButton('save_create');
         alert("Fullname must not be empty or contain special character");
         return;
     }
     if (/^[A-Za-z0-9]+$/.test(account) == false || /^\s*$/.test(account) == true) {
+        enableButton('save_create');
         alert("Account must not be empty or contain special character");
         return;
     }
     if (account.length < 8) {
+        enableButton('save_create');
         alert("Length of account must be greater than 8 characters");
         return;
     }
     if (startDate || endDate) {
         if (startDate >= endDate) {
+            enableButton('save_create');
             alert("End date must be greater than start date.");
             return;
         }
@@ -70,6 +75,7 @@ function validateCreateStaff() {
         dataType: "text",
         success: function (msg) {
             if (msg == "true") {
+                enableButton('save_create');
                 alert("Account or email already exist");
                 return;
             }
@@ -85,6 +91,7 @@ function validateCreateStaff() {
                             location.reload();
                         }
                         else {
+                            enableButton('save_create');
                             alert("Create Staff failed")
                         }
                     },
@@ -120,15 +127,18 @@ function validateEditStaff() {
     var endDate = document.getElementById("edit_endDate").value;
     var status = document.getElementById("edit_status").value;
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email) == false) {
+        enableButton('save_edit');
         alert("Email empty or not in right format");
         return;
     }
     if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
+        enableButton('save_edit');
         alert("Fullname must not be empty or contain special character");
         return;
     }
     if (startDate || endDate) {
         if (startDate >= endDate) {
+            enableButton('save_edit');
             alert("End date must be greater than start date.");
             return;
         }
@@ -155,6 +165,7 @@ function validateEditStaff() {
                             location.reload();
                         }
                         else {
+                            enableButton('save_edit');
                             alert("Edit Staff failed")
                         }
                     },

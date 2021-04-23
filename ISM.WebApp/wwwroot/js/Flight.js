@@ -41,42 +41,52 @@ function validateEditFlight() {
         var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
         var airport_arrival_d = document.getElementById("edit_airport_arrival_d").value;
         if (!arrival_date_a) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_a) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!arrival_date_d) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_d) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!flight_number_a) {
+            enableButton('save');
             alert("Flight number must not be empty.");
             return;
         }
         if (!flight_number_d) {
+            enableButton('save');
             alert("Flight Number must not be empty.");
             return;
         }
         if (!airport_departure_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_departure_d) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_d) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
@@ -91,6 +101,7 @@ function validateEditFlight() {
                     searchBtn.click();
                 }
                 else {
+                    enableButton('save');
                     alert("Edit Flight failed");
                 }
             },
@@ -107,22 +118,27 @@ function validateEditFlight() {
         var airport_departure_a = document.getElementById("edit_airport_departure_a").value;
         var airport_arrival_a = document.getElementById("edit_airport_arrival_a").value;
         if (!arrival_date_a) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_a) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!flight_number_a) {
+            enableButton('save');
             alert("Flight number must not be empty.");
             return;
         }
         if (!airport_departure_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
@@ -137,6 +153,7 @@ function validateEditFlight() {
                     searchBtn.click();
                 }
                 else {
+                    enableButton('save');
                     alert("Edit Flight failed");
                 }
             },
@@ -182,18 +199,22 @@ function validateNotificationFlightDegree() {
     var current_date = new Date();
     var date_check = new Date(document.getElementById("degree_deadline_id").value);
     if (!deadline) {
+        enableButton('save_setup');
         alert("Deadline must not be empty.");
         return;
     }
     if (!days_before) {
+        enableButton('save_setup');
         alert("Days before must not be empty.");
         return;
     }
     if (date_check.getTime() < current_date.getTime()) {
+        enableButton('save_setup');
         alert("Deadline must be greater than current date.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup');
         alert("Please input only positive number.");
         return;
     }
@@ -208,6 +229,7 @@ function validateNotificationFlightDegree() {
                 window.location.href = "/Flight";
             }
             else {
+                enableButton('save_setup');
                 alert("Failed");
             }
         },
@@ -220,10 +242,12 @@ function validateNotificationFlightDegree() {
 function validateNotificationFlightMobility() {
     var days_before = document.getElementById("mobility_days_before_id").value;
     if (!days_before) {
+        enableButton('save_setup_2');
         alert("Days before must not be empty.");
         return;
     }
     if (/^[1-9]\d*$/.test(days_before) == false) {
+        enableButton('save_setup_2');
         alert("Please input only positive number.");
         return;
     }
@@ -238,6 +262,7 @@ function validateNotificationFlightMobility() {
                 window.location.href = "/Flight";
             }
             else {
+                enableButton('save_setup_2');
                 alert("Failed");
             }
         },
@@ -268,42 +293,52 @@ function validateCreateOrEditFlight() {
         var fileName = document.getElementById("edit_picture_a").value;
         var fileName_d = document.getElementById("edit_picture_d").value;
         if (!arrival_date_a) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_a) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!arrival_date_d) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_d) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!flight_number_a) {
+            enableButton('save');
             alert("Flight number must not be empty.");
             return;
         }
         if (!flight_number_d) {
+            enableButton('save');
             alert("Flight Number must not be empty.");
             return;
         }
         if (!airport_departure_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_departure_d) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_d) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
@@ -334,17 +369,20 @@ function validateCreateOrEditFlight() {
                     window.location.href = "/Flight";
                 },
                 error: function () {
+                    enableButton('save');
                     alert("Edit failed");
                 }
             });
         }
         else {
             if (!allowedExtensions.exec(fileName)) {
+                enableButton('save');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture_a.value = '';
                 return;
             }
             if (!allowedExtensions.exec(fileName_d)) {
+                enableButton('save');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture_d.value = '';
                 return;
@@ -375,6 +413,7 @@ function validateCreateOrEditFlight() {
                     window.location.href = "/Flight";
                 },
                 error: function () {
+                    enableButton('save');
                     alert("Edit failed");
                 }
             });
@@ -391,22 +430,27 @@ function validateCreateOrEditFlight() {
         var picture_a = document.getElementById("edit_picture_a").files[0];
         var fileName = document.getElementById("edit_picture_a").value;
         if (!arrival_date_a) {
+            enableButton('save');
             alert("Date must not be empty.");
             return;
         }
         if (!arrival_time_a) {
+            enableButton('save');
             alert("Time must not be empty.");
             return;
         }
         if (!flight_number_a) {
+            enableButton('save');
             alert("Flight number must not be empty.");
             return;
         }
         if (!airport_departure_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
         if (!airport_arrival_a) {
+            enableButton('save');
             alert("Airport must not be empty.");
             return;
         }
@@ -431,12 +475,14 @@ function validateCreateOrEditFlight() {
                     window.location.href = "/Flight";
                 },
                 error: function () {
+                    enableButton('save');
                     alert("Edit failed");
                 }
             });
         }
         else {
             if (!allowedExtensions.exec(fileName)) {
+                enableButton('save');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture_a.value = '';
                 return;
@@ -461,6 +507,7 @@ function validateCreateOrEditFlight() {
                     window.location.href = "/Flight";
                 },
                 error: function () {
+                    enableButton('save');
                     alert("Edit failed");
                 }
             });

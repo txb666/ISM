@@ -7,26 +7,32 @@
     var current_date = new Date();
     var check_date = new Date(document.getElementById('create_deadline_id').value);
     if (!job_name) {
+        enableButton('save_create');
         alert("Job name must not be empty");
         return;
     }
     if (!job_location) {
+        enableButton('save_create');
         alert("Job location must not be empty");
         return;
     }
     if (!job_emp_type) {
+        enableButton('save_create');
         alert("Job employment type must not be empty");
         return;
     }
     if (!job_content) {
+        enableButton('save_create');
         alert("Job content must not be empty");
         return;
     }
     if (!job_deadline) {
+        enableButton('save_create');
         alert("Job deadline must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_create');
         alert("Deadline must be greater than current date.");
         return;
     }
@@ -41,6 +47,7 @@
                 window.location.href = "/JobVacancy";
             }
             else {
+                enableButton('save_create');
                 alert("Create failed")
             }
         },
@@ -69,26 +76,32 @@ function validateEditJobVacancy() {
     var current_date = new Date();
     var check_date = new Date(document.getElementById('edit_deadline_id').value);
     if (!job_name) {
+        enableButton('save_edit');
         alert("Job name must not be empty");
         return;
     }
     if (!job_location) {
+        enableButton('save_edit');
         alert("Job location must not be empty");
         return;
     }
     if (!job_emp_type) {
+        enableButton('save_edit');
         alert("Job employment type must not be empty");
         return;
     }
     if (!job_content) {
+        enableButton('save_edit');
         alert("Job content must not be empty");
         return;
     }
     if (!job_deadline) {
+        enableButton('save_edit');
         alert("Job deadline must not be empty");
         return;
     }
     if (check_date.getTime() <= current_date.getTime()) {
+        enableButton('save_edit');
         alert("Deadline must be greater than current date.");
         return;
     }
@@ -103,6 +116,7 @@ function validateEditJobVacancy() {
                 window.location.href = "/JobVacancy";
             }
             else {
+                enableButton('save_edit');
                 alert("Edit failed")
             }
         },

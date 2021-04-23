@@ -59,8 +59,14 @@ function validateEditVisaLetter() {
     var visa_period = document.getElementById("edit_VisaPeriod").value;
     var apply_receive = document.getElementById("edit_ApplyReceive").value;
     var searchButton = document.getElementById("searchBtn");
-    if (visa_period.length === 0 || apply_receive.length === 0) {
-        alert("Visa period or Apply and receive must not be empty");
+    if (visa_period.trim().length == 0) {
+        enableButton('save');
+        alert("Visa period must not be empty");
+        return;
+    }
+    if (apply_receive.trim().length == 0) {
+        enableButton('save');
+        alert("Apply and receive must not be empty");
         return;
     }
     $.ajax({
@@ -90,10 +96,12 @@ function validateCreateOrEditVisaLetter() {
     var visa_period = document.getElementById("edit_visa_period").value;
     var apply_receive = document.getElementById("edit_apply_receive").value;
     if (visa_period.trim().length == 0) {
+        enableButton('save');
         alert("Visa period must not be empty");
         return;
     }
     if (apply_receive.trim().length == 0) {
+        enableButton('save');
         alert("Apply and receive must not be empty");
         return;
     }

@@ -220,7 +220,7 @@ else
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_staff" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_edit'); validateCreateOrEditStaff('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save_edit'); validateCreateOrEditStaff('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup-assign1');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
@@ -269,7 +269,7 @@ else
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="contact_information_picture_admin" value="Choose a picture" accept=".jpg,.jpeg,.png">
                     </div>
                     <div class="form-group row">
-                        <button onclick="disableButton('save_create'); validateCreateOrEditAdmin('@sessionUser.user_id');" id="save_create" style="margin-left: 190px; width: 80px;" type="submit" class="btn btn-success">
+                        <button onclick="disableButton('save_create'); validateCreateOrEditAdmin('@sessionUser.user_id');" id="save_create" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
                             Save
                         </button>
                         <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">

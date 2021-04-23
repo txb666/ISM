@@ -12,14 +12,17 @@
     var check = confirm("Do you want to save?");
     if (check) {
         if (!fullname || !nationality || !dob || !gender || !contact) {
+            enableButton('save_edit');
             alert("Please fill out all information fields.");
             return;
         }
         if (dob_check.getTime() > current.getTime()) {
+            enableButton('save_edit');
             alert("Date of Birth must not be greater than current date.");
             return;
         }
         if (dob_check.getFullYear() < 1940) {
+            enableButton('save_edit');
             alert("Year of birth date must be greater than 1940.");
             return;
         }
@@ -43,12 +46,14 @@
                     window.location.href = '/Information';
                 },
                 error: function () {
+                    enableButton('save_edit');
                     alert("Failed");
                 }
             });
         }
         else {
             if (!allowedExtensions.exec(fileName)) {
+                enableButton('save_edit');
                 alert('Only jpg/jpeg and png files are allowed!');
                 picture.value = '';
                 return;
@@ -72,6 +77,7 @@
                     window.location.href = '/Information';
                 },
                 error: function () {
+                    enableButton('save_edit');
                     alert("Failed");
                 }
             });
@@ -88,14 +94,17 @@ function validateChangePassword(user_id) {
     var confirm_password = document.getElementById("edit_confirm_new_password").value;
     var logout = document.getElementById("logout_btn_id");
     if (!current_password || !new_password || !confirm_password) {
+        enableButton('save_create');
         alert("Please fill out all fields.");
         return;
     }
     if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,40}$/.test(new_password) == false) {
+        enableButton('save_create');
         alert("Password must be minimum 8 characters and maximun 40 characters, at least one letter and one number.");
         return;
     }
     if (new_password != confirm_password) {
+        enableButton('save_create');
         alert("Please re-enter confirm new password. Confirm new password must be match with new password.");
         return;
     }
@@ -106,6 +115,7 @@ function validateChangePassword(user_id) {
         dataType: "text",
         success: function (msg) {
             if (msg == "false") {
+                enableButton('save_create');
                 alert("Current password not match.");
                 return;
             }
@@ -121,6 +131,7 @@ function validateChangePassword(user_id) {
                             logout.click();
                         }
                         else {
+                            enableButton('save_create');
                             alert("Change password failed");
                         }
                     },

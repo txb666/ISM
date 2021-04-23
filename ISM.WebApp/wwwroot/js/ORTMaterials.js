@@ -3,6 +3,7 @@
     var content = document.getElementById("create_content").value;
     var note = document.getElementById("create_note").value;
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_create');
         alert("Content must not be empty or contain special character");
         return;
     }  
@@ -18,6 +19,7 @@
                 location.reload();
             }
             else {
+                enableButton('save_create');
                 alert("Create ORT Materials failed")
             }
         },
@@ -38,6 +40,7 @@ function validateEditORTMaterials() {
     var content = document.getElementById("edit_content").value;
     var note = document.getElementById("edit_note").value;
     if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+        enableButton('save_edit');
         alert("Content must not be empty or contain special character");
         return;
     }    
@@ -53,6 +56,7 @@ function validateEditORTMaterials() {
                 location.reload();
             }
             else {
+                enableButton('save_ecit');
                 alert("Edit ORT Materials failed")
             }
         },
