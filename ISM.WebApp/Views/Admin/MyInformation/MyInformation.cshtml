@@ -40,19 +40,19 @@
             <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="Index" method="post">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id_show" value="@Model.user.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id_show" value="@Model.user.fullname"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id_show" value="@Model.user.nationality" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id_show" value="@Model.user.nationality"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
-                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id_show" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)" disabled>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id_show" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
-                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id_show" disabled>
+                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id_show"  readonly>
                         @if (Model.user.gender == null)
                         {
                             <option value="" selected>All</option>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id_show" value="@Model.user.emergency_contact"  readonly>
                 </div>
                 <div class="form-group row">
                     <button onclick="showPopup('xmas-popup');" class="btn btn-success" style="margin-left: 160px; border-radius:10px;width:150px" type="button">
@@ -92,7 +92,7 @@
 
 <!-- popup code -->
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:450px">
+    <div class="popup-content" style="height:410px">
         <form id="change_password_form" asp-controller="Information" asp-action="UpdatePassword" method="post">
             <h1 style="text-align: center; margin-bottom: 50px;">Change Password</h1>
             <div class="form-group row">

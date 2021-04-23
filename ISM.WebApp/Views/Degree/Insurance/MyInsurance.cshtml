@@ -27,22 +27,22 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentInsurance.account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentInsurance.account"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentInsurance.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentInsurance.fullname"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentInsurance.start_date.HasValue?Model.studentInsurance.start_date.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentInsurance.start_date.HasValue?Model.studentInsurance.start_date.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentInsurance.expiry_date.HasValue?Model.studentInsurance.expiry_date.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentInsurance.expiry_date.HasValue?Model.studentInsurance.expiry_date.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
-                    <button type="button" onclick="showPopup('xmas-popup')" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button id="save_create" type="button" onclick="showPopup('xmas-popup')" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -53,7 +53,7 @@
 <button id="insurance_btn_skip" type="button" onclick="disableButton('insurance_btn_skip'); skipNotificationInsurance('@sessionUser.user_id');" style="border-radius: 10px; width: auto; float:right" class="btn btn-danger">Skip Notification</button>
 
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:420px; width:900px">
+    <div id="responsive" class="popup-content" style="height:420px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">

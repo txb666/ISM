@@ -32,57 +32,57 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.fullname"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.account"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_a"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_a.HasValue?Model.student_flight.arrival_date_a.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_a.HasValue?Model.student_flight.arrival_date_a.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time in Vietnam:</label>
-                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_a" disabled>
+                    <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_a"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_a"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_a" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_a"  readonly>
                 </div>
                 @if (sessionUser.role_name.Equals("Mobility"))
                 {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.flight_number_d"  readonly>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Date:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_d.HasValue ? Model.student_flight.arrival_date_d.Value.ToString("dd-MM-yyyy") : "")" disabled>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.student_flight.arrival_date_d.HasValue ? Model.student_flight.arrival_date_d.Value.ToString("dd-MM-yyyy") : "")"  readonly>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Departure Time in Vietnam:</label>
-                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_d" disabled>
+                        <input type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.arrival_time_d"  readonly>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Departure:</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_departure_d"  readonly>
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport of Arrival:</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_d" disabled>
+                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.student_flight.airport_arrival_d"  readonly>
                     </div>
                 }
                 <div class="form-group row">
-                    <button type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>

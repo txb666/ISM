@@ -27,30 +27,30 @@
             <form>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.fullname" disabled>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.fullname" readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account</label>
-                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.account" disabled>
+                    <input maxlength="30" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.account"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.start_date.HasValue?Model.studentVisa.start_date.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.start_date.HasValue?Model.studentVisa.start_date.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
-                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.expired_date.HasValue?Model.studentVisa.expired_date.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.expired_date.HasValue?Model.studentVisa.expired_date.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date:</label>
-                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.date_entry.HasValue?Model.studentVisa.date_entry.Value.ToString("dd-MM-yyyy"):"")" disabled>
+                    <input maxlength="50" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@(Model.studentVisa.date_entry.HasValue?Model.studentVisa.date_entry.Value.ToString("dd-MM-yyyy"):"")"  readonly>
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port</label>
-                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.entry_port" disabled>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.entry_port"  readonly>
                 </div>
                 <div class="form-group row">                  
-                    <button type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                    <button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
                 </div>
@@ -62,7 +62,7 @@
 <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your visa" style="text-decoration: none;">How to renew your Visa</a>
 
 <div id="xmas-popup" class="popup">
-    <div class="popup-content" style="height:450px; width:900px">
+    <div id="responsive" class="popup-content" style="height:450px; width:900px">
         <div class="row">
             <div class="col-md-5">
                 <img src="~/image/Visa/@Model.studentVisa.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
