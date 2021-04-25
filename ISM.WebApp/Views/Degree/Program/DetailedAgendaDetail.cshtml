@@ -12,7 +12,7 @@
             <form style="width: 320px;" id="searchForm" asp-controller="DetailedAgenda" asp-action="Detail" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date</label>
-                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
+                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MM-dd"):"")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Time Zone</label>
@@ -38,15 +38,15 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Venue</label>
-                    <input maxlength="250" name="venue" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.venue">
+                    <input maxlength="250" name="venue" type="text" style="width: 200px; border-radius: 5px;" value="@Model.venue">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">PIC</label>
-                    <input maxlength="250" name="PIC" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.PIC">
+                    <input maxlength="250" name="PIC" type="text" style="width: 200px; border-radius: 5px;" value="@Model.PIC">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Content</label>
-                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" id="" value="@Model.content">
+                    <input maxlength="250" name="content" type="text" style="width: 200px; border-radius: 5px;" value="@Model.content">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>

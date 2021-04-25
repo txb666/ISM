@@ -26,11 +26,11 @@
                 {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                        <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                        <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" value="@Model.account">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
-                        <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                        <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" value="@Model.fullname">
                     </div>
                 }
                 else if (Model.degreeOrMobility.Equals("Mobility"))
@@ -63,19 +63,19 @@
                 }
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Type:</label>
-                    <input maxlength="250" type="text" name="type" style="width: 200px; border-radius: 5px;" id="" value="@Model.type">
+                    <input maxlength="250" type="text" name="type" style="width: 200px; border-radius: 5px;" value="@Model.type">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Location:</label>
-                    <input maxlength="250" type="text" name="location" style="width: 200px; border-radius: 5px;" id="" value="@Model.location">
+                    <input maxlength="250" type="text" name="location" style="width: 200px; border-radius: 5px;" value="@Model.location">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Description:</label>
-                    <input maxlength="250" type="text" name="description" style="width: 200px; border-radius: 5px;" id="" value="@Model.description">
+                    <input maxlength="250" type="text" name="description" style="width: 200px; border-radius: 5px;" value="@Model.description">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Note:</label>
-                    <input maxlength="250" type="text" name="note" style="width: 200px; border-radius: 5px;" id="" value="@Model.note">
+                    <input maxlength="250" type="text" name="note" style="width: 200px; border-radius: 5px;" value="@Model.note">
                 </div>
                 <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px ; margin-left:40%; display:none;">
                     @if (Model.degreeOrMobility.Equals("Degree"))

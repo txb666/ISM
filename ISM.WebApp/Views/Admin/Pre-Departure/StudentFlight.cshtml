@@ -24,53 +24,53 @@
             <form id="searchForm" asp-controller="Flight" asp-action="Index" method="get" style="width: 320px;">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Account:</label>
-                    <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" id="" value="@Model.account">
+                    <input maxlength="30" type="text" name="account" style="width: 200px; border-radius: 5px;" value="@Model.account">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Name:</label>
-                    <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" id="" value="@Model.fullname">
+                    <input maxlength="100" type="text" name="fullname" style="width: 200px; border-radius: 5px;" value="@Model.fullname">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Arrival):</label>
-                    <input maxlength="250" type="text" name="flight_number_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_a">
+                    <input maxlength="250" type="text" name="flight_number_a" style="width: 200px; border-radius: 5px;" value="@Model.flight_number_a">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Arrival):</label>
-                    <input type="date" name="arrival_date_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_a.HasValue?Model.arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")">
+                    <input type="date" name="arrival_date_a" style="width: 200px; border-radius: 5px;" value="@(Model.arrival_date_a.HasValue?Model.arrival_date_a.Value.ToString("yyyy-MMM-dd"):"")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Arrival):</label>
-                    <input type="time" name="arrival_time_a" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_a.HasValue?Model.arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")">
+                    <input type="time" name="arrival_time_a" style="width: 200px; border-radius: 5px;" value="@(Model.arrival_time_a.HasValue?Model.arrival_time_a.Value.ToString(@"hh\:mm\:ss"):"")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Arrival):</label>
-                    <input maxlength="250" type="text" name="airport_departure_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_a">
+                    <input maxlength="250" type="text" name="airport_departure_a" style="width: 200px; border-radius: 5px;" value="@Model.airport_departure_a">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Arrival):</label>
-                    <input maxlength="250" type="text" name="airport_arrival_a" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_a">
+                    <input maxlength="250" type="text" name="airport_arrival_a" style="width: 200px; border-radius: 5px;" value="@Model.airport_arrival_a">
                 </div>
                 @if (Model.degreeOrMobility.Equals("Mobility"))
                 {
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Flight Number (Departure):</label>
-                        <input maxlength="250" type="text" name="flight_number_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.flight_number_d">
+                        <input maxlength="250" type="text" name="flight_number_d" style="width: 200px; border-radius: 5px;" value="@Model.flight_number_d">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Date (Departure):</label>
-                        <input maxlength="250" type="date" name="arrival_date_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_date_d.HasValue?Model.arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")">
+                        <input maxlength="250" type="date" name="arrival_date_d" style="width: 200px; border-radius: 5px;" value="@(Model.arrival_date_d.HasValue?Model.arrival_date_d.Value.ToString("yyyy-MMM-dd"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Arrival Time (Departure):</label>
-                        <input maxlength="250" type="time" name="arrival_time_d" style="width: 200px; border-radius: 5px;" id="" value="@(Model.arrival_time_d.HasValue?Model.arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")">
+                        <input maxlength="250" type="time" name="arrival_time_d" style="width: 200px; border-radius: 5px;" value="@(Model.arrival_time_d.HasValue?Model.arrival_time_d.Value.ToString(@"hh\:mm\:ss"):"")">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Departure (Departure):</label>
-                        <input maxlength="250" type="text" name="airport_departure_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_departure_d">
+                        <input maxlength="250" type="text" name="airport_departure_d" style="width: 200px; border-radius: 5px;" value="@Model.airport_departure_d">
                     </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Airport Arrival (Departure):</label>
-                        <input maxlength="250" type="text" name="airport_arrival_d" style="width: 200px; border-radius: 5px;" id="" value="@Model.airport_arrival_d">
+                        <input maxlength="250" type="text" name="airport_arrival_d" style="width: 200px; border-radius: 5px;" value="@Model.airport_arrival_d">
                     </div>
                 }
                 <select name="degreeOrMobility" id="search_degreeOrMobility" style="width:150px; margin-left:40%; display:none;">

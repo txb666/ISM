@@ -25,15 +25,15 @@
             <form style="width: 320px;" id="searchForm" asp-controller="Meeting" asp-action="StaffAvailableTime" method="get">
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Date:</label>
-                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" id="" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MMM-dd"):"")">
+                    <input name="date" type="date" style="width: 200px; border-radius: 5px;" value="@(Model.date.HasValue?Model.date.Value.ToString("yyyy-MMM-dd"):"")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Time:</label>
-                    <input name="start_time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.start_time.HasValue?Model.start_time.Value.ToString(@"hh\:mm\:ss"):"")">
+                    <input name="start_time" type="time" style="width: 200px; border-radius: 5px;" value="@(Model.start_time.HasValue?Model.start_time.Value.ToString(@"hh\:mm\:ss"):"")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">End Time:</label>
-                    <input name="end_time" type="time" style="width: 200px; border-radius: 5px;" id="" value="@(Model.end_time.HasValue?Model.end_time.Value.ToString(@"hh\:mm\:ss"):"")">
+                    <input name="end_time" type="time" style="width: 200px; border-radius: 5px;" value="@(Model.end_time.HasValue?Model.end_time.Value.ToString(@"hh\:mm\:ss"):"")">
                 </div>
                 <input type="hidden" name="page" id="inputPage">
                 <button id="searchBtn" type="submit" onclick="disableButton('searchBtn'); search(1);" class="btn btn-info" style="margin-left: 150px;">Search</button>
