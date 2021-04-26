@@ -61,7 +61,7 @@ namespace ISM.WebApp.DAOImpl
                 {
                     com.Parameters["@picture"].Value = DBNull.Value;
                 }
-                com.Parameters.Add("@note", SqlDbType.Text);
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
                 com.Parameters["@note"].Value = note;
                 if (string.IsNullOrEmpty(note))
                 {
@@ -225,7 +225,7 @@ namespace ISM.WebApp.DAOImpl
                 {
                     com.Parameters["@fee"].Value = DBNull.Value;
                 }
-                com.Parameters.Add("@note", SqlDbType.Text);
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
                 com.Parameters["@note"].Value = note;
                 if (string.IsNullOrEmpty(note))
                 {
@@ -394,7 +394,7 @@ namespace ISM.WebApp.DAOImpl
                 if (!string.IsNullOrEmpty(note))
                 {
                     where += " and upper(a.note) like upper('%' + @note + '%')";
-                    com.Parameters.Add("@note", SqlDbType.Text);
+                    com.Parameters.Add("@note", SqlDbType.NVarChar);
                     com.Parameters["@note"].Value = note;
                 }
                 com.Parameters.Add("@from", SqlDbType.Int);
