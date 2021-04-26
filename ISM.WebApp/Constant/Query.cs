@@ -7,7 +7,8 @@ namespace ISM.WebApp.Constant
 {
     public class Query
     {
-
+        public const string STRING_CONNECTION = "Data Source=ism.cg4xkfzdm9sl.ap-southeast-1.rds.amazonaws.com,1433;" +
+                                                "Initial Catalog=ISM;User ID=haidm13; Password=HG85aaF73d1";
     }
 
     public class LoginConst

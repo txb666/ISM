@@ -307,7 +307,7 @@ namespace ISM.WebApp.DAOImpl
                         sql = " select * from"
                             + " (select ROW_NUMBER() over (order by a.visa_id asc) rownumber, a.visa_id,a.student_id,b.fullname,b.account,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
                             + " from Visa a, Users b, Student_Group c, Programs d"
-                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'"+where+")"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and d.[type]='Mobility'" + where + ")"
                             + " as temp"
                             + " where temp.rownumber>=@from and temp.rownumber<=@to";
                     }
@@ -316,7 +316,7 @@ namespace ISM.WebApp.DAOImpl
                         sql = " select * from"
                             + " (select ROW_NUMBER() over (order by a.visa_id asc) rownumber, a.visa_id,a.student_id,b.fullname,b.account,a.picture,a.[start_date],a.expired_date,a.date_entry,a.entry_port"
                             + " from Visa a, Users b, Student_Group c, Programs d, Coordinators e"
-                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and c.student_group_id=e.studentGroup_id and d.[type]='Mobility' and e.staff_id=@current_staff_id"+where+")"
+                            + " where a.student_id=b.[user_id] and b.studentGroup_id=c.student_group_id and c.program_id=d.program_id and c.student_group_id=e.studentGroup_id and d.[type]='Mobility' and e.staff_id=@current_staff_id" + where + ")"
                             + " as temp"
                             + " where temp.rownumber>=@from and temp.rownumber<=@to";
                         com.Parameters.Add("@current_staff_id", SqlDbType.Int);

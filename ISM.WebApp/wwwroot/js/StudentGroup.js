@@ -12,6 +12,7 @@ function initializeEdit(coordinatorListNew, tableListNew) {
 }
 
 function createStudentGroup() {
+    var program_text = $("#create_program option:selected").text();
     var program_id = document.getElementById('create_program').value;
     var duration_start = document.getElementById('create_duration_start').value;
     var duration_end = document.getElementById('create_duration_end').value;
@@ -31,6 +32,13 @@ function createStudentGroup() {
         enableButton('save_create');
         alert("End date must be greater than start date.");
         return;
+    }
+    if (program_text != 'Degree') {
+        if (home_univercity.trim().length == 0) {
+            enableButton('save_create');
+            alert("Student Group for mobility must have Home University");
+            return;
+        }
     }
     $.ajax({
         type: "POST",

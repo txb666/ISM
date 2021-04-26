@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using ISM.WebApp.Constant;
 
 namespace ISM.WebApp.Utils
 {
@@ -14,7 +15,7 @@ namespace ISM.WebApp.Utils
             try
             {
                 //string connectionString = "Data Source=localhost;Initial Catalog=ISM;Integrated Security=true;";
-                string connectionString = "Data Source=ism.cg4xkfzdm9sl.ap-southeast-1.rds.amazonaws.com,1433;Initial Catalog=ISM;User ID=haidm13; Password=HG85aaF73d1";
+                string connectionString = Query.STRING_CONNECTION;
                 return new SqlConnection(connectionString);
             }
             catch (Exception e)

@@ -79,7 +79,7 @@ function validateEditStudent() {
         alert("Email empty or not in right format");
         return;
     }
-    if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false && fullname.length != 0) {
+    if (/^([A-Za-z0-9\s]+)$/.test(fullname) == false || /^\s*$/.test(fullname) == true) {
         enableButton('save_edit');
         alert("Fullname must not be empty or contain special character");
         return;
