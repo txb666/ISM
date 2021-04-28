@@ -77,7 +77,7 @@ namespace ISM.WebApp.DAOImpl
                 {
                     com.Parameters["@home_univercity"].Value = DBNull.Value;
                 }
-                com.Parameters.Add("@note", SqlDbType.Text);
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
                 com.Parameters["@note"].Value = note;
                 if (note == null)
                 {
@@ -511,19 +511,38 @@ namespace ISM.WebApp.DAOImpl
             return group;
         }
 
-        public bool editStudentGroup(int studentGroup_id, string note, List<int> coordinators)
+        public bool editStudentGroup(int studentGroup_id, string note, List<int> coordinators, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity, DateTime original_duration_start, DateTime original_duration_end, int original_campus_id, string original_home_univercity, int program_id)
         {
             SqlConnection con = null;
-            string sql = "update Student_Group set note=@note where student_group_id=@studentGroup_id";
+            string sql = " update Student_Group set [year]=@year, note=@note, duration_start=@duration_start, duration_end=@duration_end, home_univercity=@home_univercity, campus_id=@campus_id"
+                       + " where student_group_id=@studentGroup_id";
             SqlCommand com = null;
             try
             {
+                if(isStudentGroupExist(program_id,campus_id,duration_start,duration_end,home_univercity)==true && (duration_start!=original_duration_start || duration_end != original_duration_end || campus_id != original_campus_id || home_univercity != original_home_univercity))
+                {
+                    return false;
+                }
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
                 com.Parameters.Add("@studentGroup_id", SqlDbType.Int);
                 com.Parameters["@studentGroup_id"].Value = studentGroup_id;
-                com.Parameters.Add("@note", SqlDbType.Text);
+                com.Parameters.Add("@year", SqlDbType.Int);
+                com.Parameters["@year"].Value = duration_start.Year;
+                com.Parameters.Add("@campus_id", SqlDbType.Int);
+                com.Parameters["@campus_id"].Value = campus_id;
+                com.Parameters.Add("@duration_start", SqlDbType.Date);
+                com.Parameters["@duration_start"].Value = duration_start;
+                com.Parameters.Add("@duration_end", SqlDbType.Date);
+                com.Parameters["@duration_end"].Value = duration_end;
+                com.Parameters.Add("@home_univercity", SqlDbType.NVarChar);
+                com.Parameters["@home_univercity"].Value = home_univercity;
+                if (home_univercity == null)
+                {
+                    com.Parameters["@home_univercity"].Value = DBNull.Value;
+                }
+                com.Parameters.Add("@note", SqlDbType.NVarChar);
                 com.Parameters["@note"].Value = note;
                 if (note == null)
                 {

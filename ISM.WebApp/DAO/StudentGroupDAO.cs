@@ -11,7 +11,7 @@ namespace ISM.WebApp.DAO
         List<StudentGroup> GetStudentGroups(int page, int pageSize, int? year, string program, string home_univercity, string campus);
         int getTotalStudentGroup(int? year, string program, string home_univercity, string campus);
         bool createStudentGroup(int program_id, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity, string note, List<int> coordinators);
-        bool editStudentGroup(int studentGroup_id, string note, List<int> coordinators);
+        bool editStudentGroup(int studentGroup_id, string note, List<int> coordinators, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity, DateTime original_duration_start, DateTime original_duration_end, int original_campus_id, string original_home_univercity, int program_id);
         int assignCoordinator(int staff_id, int studentGroup_id);
         bool isStudentGroupExist(int program_id, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity);
         bool resetCoordinator(int studentGroup_id);

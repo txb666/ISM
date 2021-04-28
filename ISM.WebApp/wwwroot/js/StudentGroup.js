@@ -81,30 +81,75 @@ function createStudentGroup() {
 
 function editStudentGroup() {  
     var id = document.getElementById('edit_id').value;
+    var program_id = document.getElementById('edit_program').value;
+    var program_text = $("#edit_program option:selected").text();
     var note = document.getElementById('edit_note').value;
     var coordinators = [];
+    var duration_start = document.getElementById('edit_duration_start').value;
+    var duration_end = document.getElementById('edit_duration_end').value;
+    var home_univercity = document.getElementById('edit_home_univercity').value;
+    var campus_id = document.getElementById('edit_campus').value;
+    var original_duration_start = document.getElementById('original_duration_start').value;
+    var original_duration_end = document.getElementById('original_duration_end').value;
+    var original_home_univercity = document.getElementById('original_home_univercity').value;
+    var original_campus_id = document.getElementById('original_campus').value;
     for (var i = 0; i < tableList.length; i++) {
         coordinators.push(tableList[i].user_id);
-    }   
+    }
+    if (!duration_start || !duration_end) {
+        enableButton('save_edit');
+        alert("Duration must not be empty");
+        return;
+    }
+    if (duration_start >= duration_end) {
+        enableButton('save_edit');
+        alert("End date must be greater than start date.");
+        return;
+    }
+    if (program_text != 'Degree') {
+        if (home_univercity.trim().length == 0) {
+            enableButton('save_edit');
+            alert("Student Group for mobility must have Home University");
+            return;
+        }
+    }
     $.ajax({
         type: "POST",
-        url: "/StudentGroup/Edit",
-        data: { id: id, note: note, coordinators: JSON.stringify(coordinators) },
+        url: "/StudentGroup/isStudentGroupExist",
+        data: { program_id: program_id, campus_id: campus_id, duration_start: duration_start, duration_end: duration_end, home_univercity: home_univercity },
         dataType: "text",
         success: function (msg) {
-            if (msg == "true") {
-                alert("Edit Student Group successfull");
-                window.location.href = "/StudentGroup";
+            if (msg == "true" && (duration_start != original_duration_start || duration_end != original_duration_end || home_univercity != original_home_univercity || campus_id != original_campus_id)) {
+                enableButton('save_edit');
+                alert("Student Group already exist");
+                return;
             }
             else {
-                enableButton('save_edit');
-                alert("Edit Student Group failed");
+                $.ajax({
+                    type: "POST",
+                    url: "/StudentGroup/Edit",
+                    data: { id: id, campus_id: campus_id, duration_start: duration_start, duration_end: duration_end, home_univercity: home_univercity, note: note, coordinators: JSON.stringify(coordinators), original_campus_id: original_campus_id, original_duration_start: original_duration_start, original_duration_end: original_duration_end, original_home_univercity: original_home_univercity, program_id: program_id },
+                    dataType: "text",
+                    success: function (msg) {
+                        if (msg == "true") {
+                            alert("Edit Student Group successfull");
+                            window.location.href = "/StudentGroup";
+                        }
+                        else {
+                            enableButton('save_edit');
+                            alert("Edit Student Group failed");
+                        }
+                    },
+                    error: function (req, status, error) {
+                        alert(error);
+                    }
+                });
             }
         },
         error: function (req, status, error) {
             alert(error);
         }
-    });
+    }); 
 }
 
 function addCoordinator() {

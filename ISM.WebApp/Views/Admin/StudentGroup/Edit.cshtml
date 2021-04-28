@@ -26,6 +26,10 @@
                 <h1 style="text-align: center; margin-top: 20px;">Edit Student Group</h1>
                 <div class="form-group row">
                     <input type="hidden" name="id" value="@Model.group.studentGroup_id" id="edit_id" />
+                    <input type="date" style="display:none;" value="@Model.group.duration_start.ToString("yyyy-MM-dd")" id="original_duration_start" />
+                    <input type="date" style="display:none;" value="@Model.group.duration_end.ToString("yyyy-MM-dd")" id="original_duration_end" />
+                    <input type="hidden" value="@Model.group.home_university" id="original_home_univercity" />
+                    <input type="hidden" value="@Model.group.campus_id" id="original_campus" />
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Program:</label>
                     <select name="program" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_program" disabled>
                         @for (int i = 0; i < Model.programList.Count; i++)
@@ -43,19 +47,19 @@
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration Start:</label>
-                    <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_start" value="@Model.group.duration_start.ToString("yyyy-MM-dd")" disabled>
+                    <input type="date" name="duration_start" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_start" value="@Model.group.duration_start.ToString("yyyy-MM-dd")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Duration End:</label>
-                    <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_end" value="@Model.group.duration_end.ToString("yyyy-MM-dd")" disabled>
+                    <input type="date" name="duration_end" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_duration_end" value="@Model.group.duration_end.ToString("yyyy-MM-dd")">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Home University:</label>
-                    <input maxlength="250" type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_home_univercity" value="@Model.group.home_university" disabled>
+                    <input maxlength="250" type="text" name="home_univercity" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_home_univercity" value="@Model.group.home_university">
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Campus:</label>
-                    <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus" disabled>
+                    <select name="campus" style="margin-left: 30px;border-radius: 5px; width: 300px;" id="edit_campus">
                         @for (int i = 1; i < Model.campusList.Count; i++)
                         {
                             if (Model.group.campus_id == Model.campusList[i].campus_id)

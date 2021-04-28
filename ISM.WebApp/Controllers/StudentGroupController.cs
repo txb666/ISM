@@ -97,10 +97,10 @@ namespace ISM.WebApp.Controllers
         }
 
         [HttpPost]
-        public bool Edit(int id, string note, string coordinators)
+        public bool Edit(int id, string note, string coordinators, int campus_id, DateTime duration_start, DateTime duration_end, string home_univercity, DateTime original_duration_start, DateTime original_duration_end, int original_campus_id, string original_home_univercity, int program_id)
         {
             List<int> coordinatorList = FormatUtil.JsonStringToIntegerList(coordinators);
-            bool result = studentGroupDAO.editStudentGroup(id, note, coordinatorList);
+            bool result = studentGroupDAO.editStudentGroup(id, note, coordinatorList, campus_id, duration_start, duration_end, home_univercity,original_duration_start,original_duration_end,original_campus_id,original_home_univercity,program_id);
             return result;
         }
     }
