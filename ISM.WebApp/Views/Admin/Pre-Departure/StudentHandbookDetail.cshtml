@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<a href="~/Article/Student Handbook/@Model.file_name" style="font-size:24px;" download>download file</a>
+<a href="~/Article/Student Handbook/@Model.file_name" style="font-size:24px;" download="@Model.title">download file</a>
 <br />
 <h1>Preview</h1>
 <br />
@@ -66,8 +66,8 @@
             </span>
         </div>
         <br />
-        <canvas id="pdf-canvas" style="width:100%;"></canvas>
         <div id="page-loader" style="height:100%; font-size:30px;">Loading page ...</div>
+        <canvas id="pdf-canvas" style="width:100%;"></canvas>
         <div class="top-bar">
             <button class="btn prev-page">
                 <i class="fas fa-arrow-circle-left"></i> Prev Page

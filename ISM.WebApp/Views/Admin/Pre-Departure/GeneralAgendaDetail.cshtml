@@ -26,7 +26,7 @@
 <br>
 <br>
 <div>
-    <a href="~/GeneralAgenda/@Model.generalAgenda.content" style="font-size:18px;" download>Download General Agenda</a>
+    <a href="~/GeneralAgenda/@Model.generalAgenda.content" style="font-size:18px;" download="General Agenda For Student Group @(Model.current_student_group.program_name + "_" + Model.current_student_group.campus_name + "_" + Model.current_student_group.duration_start.ToString("dd/MM/yyyy") + "-" + Model.current_student_group.duration_end.ToString("dd/MM/yyyy") + "_" + Model.current_student_group.home_university)">Download General Agenda</a>
     <h3>Note:</h3>
     <p style="font-size:16px;">@Model.generalAgenda.note</p>
     <!-- popup code -->
