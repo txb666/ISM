@@ -187,12 +187,14 @@ namespace ISM.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
         public bool AccountIsActive(string username, string password)
         {
             bool result = _accountDAO.checkAccountInactive(username, password);
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
         public bool AccountIsExist(string username, string password)
         {
             bool result = _accountDAO.checkLogin(username, password);
