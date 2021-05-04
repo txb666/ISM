@@ -17,7 +17,7 @@ namespace ISM.WebApp.Utils
         }
         public static String pager(int totalpage, int pageindex, int gap)
         {
-            String result = "";
+            String result = "<b>Page:</b> ";
             if (pageindex - gap > 1)
                 result += hyperlink("1","First");
             for (int i = gap; i > 0; i--)
