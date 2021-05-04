@@ -396,7 +396,7 @@ namespace ISM.WebApp.Jobs
         private void InsertNotificationInformation(int user_id, string title, string content)
         {
             SqlConnection con = null;
-            string sql = "insert into Notification_Information([user_id],title,content) values(@user_id,@title,@content)";
+            string sql = "insert into Notification_Information([user_id],title,content,isRead) values(@user_id,@title,@content,0)";
             SqlCommand com = null;
             try
             {

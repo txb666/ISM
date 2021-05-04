@@ -199,6 +199,13 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility")]
+        public bool UpdateWebNotification(int noti_id, int user_id)
+        {
+            bool result = _accountDAO.UpdateWebNotification(noti_id, user_id);
+            return result;
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

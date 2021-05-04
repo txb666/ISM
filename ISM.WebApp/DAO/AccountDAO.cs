@@ -15,5 +15,6 @@ namespace ISM.WebApp.DAO
         bool checkAccountInactive(string username, string password);
         List<WebNotification> GetWebNotifications(int user_id);
         int GetTotalNotification(int user_id);
+        bool UpdateWebNotification(int noti_id, int user_id);
     }
 }

@@ -217,9 +217,13 @@
                     @foreach (var item in sessionUser.webNotifications)
                     {
                         <p></p>
-                        <div class="border border-warning" style="border:5px; border-radius:10px;">
+                        <div class="border border-warning" style="border:5px; border-radius:10px; text-align: center;">
                             <p style="font-weight:bold; color:red">@item.title</p>
                             <p style="font-weight:bold;">@item.content</p>
+                            @if (!item.isRead)
+                            { 
+                                <button onclick="updateWebNotification('@item.noti_id', '@item.user_id')" id="admin_seen_btn" style="margin: auto; width: 80px;" type="button" class="btn btn-info">Seen</button>
+                            }
                         </div>
                     }
                 </div>

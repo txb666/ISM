@@ -20,6 +20,33 @@ function enableButton(id) {
     //}, wait);
 }
 
+function updateWebNotification(noti_id, user_id) {
+    var check = confirm("Are you sure?");
+    if (check) {
+        $.ajax({
+            type: "POST",
+            url: "/Login/UpdateWebNotification",
+            data: { noti_id: noti_id, user_id: user_id },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "true") {
+                    alert("Successfull");
+                    location.reload();
+                }
+                else {
+                    alert("Failed");
+                }
+            },
+            error: function (req, status, error) {
+                alert(error);
+            }
+        });
+    }
+    else {
+        return;
+    }
+}
+
 function validateLogin() {
     var check = document.getElementById("login_username_id").value;
     if (/^[A-Za-z0-9]+$/.test(check) == false || /^\s*$/.test(check) == true) {

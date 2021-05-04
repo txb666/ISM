@@ -170,7 +170,7 @@ namespace ISM.WebApp.DAOImpl
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select count(*) from (select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id) as temp";
+                sql = "select count(*) from (select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id and a.isRead = 0) as temp";
                 com.Parameters.Add("@user_id", SqlDbType.Int);
                 com.Parameters["@user_id"].Value = user_id;
                 com.CommandText = sql;
@@ -199,7 +199,7 @@ namespace ISM.WebApp.DAOImpl
                 con = DBUtils.GetConnection();
                 con.Open();
                 com = new SqlCommand(sql, con);
-                sql = "select a.notification_information_id,a.[user_id],a.title,a.content from Notification_Information a where a.[user_id] = @user_id order by a.created_date desc";
+                sql = "select a.notification_information_id,a.[user_id],a.title,a.content,a.isRead from Notification_Information a where a.[user_id] = @user_id order by a.created_date desc";
                 com.Parameters.Add("@user_id", SqlDbType.Int);
                 com.Parameters["@user_id"].Value = user_id;
                 com.CommandText = sql;
@@ -211,6 +211,7 @@ namespace ISM.WebApp.DAOImpl
                     notification.user_id = (int)reader.GetValue(reader.GetOrdinal("user_id"));
                     notification.title = (string)reader.GetValue(reader.GetOrdinal("title"));
                     notification.content = (string)reader.GetValue(reader.GetOrdinal("content"));
+                    notification.isRead = (bool)reader.GetValue(reader.GetOrdinal("isRead"));
                     webNotifications.Add(notification);
                 }
             }
@@ -255,6 +256,34 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, null, null);
             }
             return result;
+        }
+
+        public bool UpdateWebNotification(int noti_id, int user_id)
+        {
+            SqlConnection con = null;
+            string sql = "update Notification_Information set isRead = 1  where notification_information_id = @notification_information_id and [user_id] = @user_id";
+            SqlCommand com = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@notification_information_id", SqlDbType.Int);
+                com.Parameters["@notification_information_id"].Value = noti_id;
+                com.Parameters.Add("@user_id", SqlDbType.Int);
+                com.Parameters["@user_id"].Value = user_id;
+                com.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, null, null);
+            }
+            return false;
         }
     }
 }
