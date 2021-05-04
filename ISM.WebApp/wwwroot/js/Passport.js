@@ -12,6 +12,7 @@
                     window.location.href = '/Passport';
                 }
                 else {
+                    enableButtonSkip("passport_btn_skip");
                     alert("Failed");
                 }
             },
@@ -21,6 +22,7 @@
         });
     }
     else {
+        enableButtonSkip("passport_btn_skip");
         return;
     }
 }

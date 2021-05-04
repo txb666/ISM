@@ -84,6 +84,7 @@
         }
     }
     else {
+        enableButton('save_edit');
         return;
     }
 }

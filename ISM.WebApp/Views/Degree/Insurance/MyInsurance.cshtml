@@ -21,7 +21,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+            @if (!String.IsNullOrEmpty(Model.studentInsurance.picture))
+            {
+                <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+            }
         </div>
         <div class="col-md-8">
             <form>
@@ -56,7 +59,10 @@
     <div id="responsive" class="popup-content" style="height:420px; width:900px">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.studentInsurance.picture))
+                { 
+                    <img src="~/image/Insurance/@Model.studentInsurance.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                }
             </div>
             <div class="col-md-7">
                 <form enctype="multipart/form-data" style="margin-top:50px">

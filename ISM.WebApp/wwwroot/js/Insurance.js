@@ -12,6 +12,7 @@
                     window.location.href = '/Insurance';
                 }
                 else {
+                    enableButtonSkip("insurance_btn_skip");
                     alert("Failed");
                 }
             },
@@ -21,6 +22,7 @@
         });
     }
     else {
+        enableButtonSkip("insurance_btn_skip");
         return;
     }
 }

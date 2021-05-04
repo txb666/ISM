@@ -148,7 +148,10 @@ else
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.contact.picture))
+                { 
+                    <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+                }
             </div>
             <div class="col-md-8">
                 <form>
@@ -190,7 +193,10 @@ else
     <div class="popup-content-assign1" style="height:500px; width:900px">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.contact.picture))
+                { 
+                    <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
+                }
             </div>
             <div class="col-md-7">
                 <form asp-controller="ContactInformation" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
@@ -239,7 +245,10 @@ else
     <div class="popup-content-assign" style="height:500px; width:900px">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.contact.picture))
+                { 
+                    <img src="~/image/ContactInformation/@Model.contact.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-top:100px;margin-left:60px" asp-append-version="true">
+                }
             </div>
             <div class="col-md-7">
                 <form asp-controller="ContactInformation" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">

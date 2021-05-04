@@ -68,6 +68,7 @@
         }
     }
     else {
+        enableButton('save_edit');
         return;
     }
 }
@@ -142,6 +143,7 @@ function validateCreateOrEditAdmin(user_id) {
         }
     }
     else {
+        enableButton('save_create');
         return;
     }
 }

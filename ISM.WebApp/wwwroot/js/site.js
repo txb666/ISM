@@ -2,22 +2,24 @@
     document.getElementById(id).disabled = true;
     document.getElementById(id).style.opacity = '0.5';
     document.getElementById(id).innerHTML = 'Saving...';
-    //var wait = 3000;
-    //setTimeout(function () {
-    //    document.getElementById(id).disabled = false;
-    //    document.getElementById(id).style.opacity = '1';
-    //}, wait);
 }
 
 function enableButton(id) {
     document.getElementById(id).disabled = false;
     document.getElementById(id).style.opacity = '1';
     document.getElementById(id).innerHTML = 'Save';
-    //var wait = 3000;
-    //setTimeout(function () {
-    //    document.getElementById(id).disabled = false;
-    //    document.getElementById(id).style.opacity = '1';
-    //}, wait);
+}
+
+function enableButtonSkip(id) {
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).style.opacity = '1';
+    document.getElementById(id).innerHTML = 'Skip Notification';
+}
+
+function enableButtonAccept(id) {
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).style.opacity = '1';
+    document.getElementById(id).innerHTML = 'Accept';
 }
 
 function updateWebNotification(noti_id, user_id) {

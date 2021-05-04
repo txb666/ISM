@@ -123,7 +123,10 @@
     <div id="responsive" class="popup-content-assign" style="height:450px; width:900px;">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.user.picture))
+                { 
+                    <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                }
             </div>
             <div class="col-md-7">
                 <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="SaveProfile" method="post">

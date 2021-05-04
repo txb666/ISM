@@ -21,11 +21,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <img src="~/image/Flight/@Model.student_flight.picture_a" class="rounded float-left" style="width: 300px; height: 300px; margin-bottom:20px" asp-append-version="true">
-
+            @if (!String.IsNullOrEmpty(Model.student_flight.picture_a))
+            {
+                <img src="~/image/Flight/@Model.student_flight.picture_a" class="rounded float-left" style="width: 300px; height: 300px; margin-bottom:20px" asp-append-version="true">
+            }
             @if (sessionUser.role_name.Equals("Mobility"))
             {
-                <img src="~/image/Flight/@Model.student_flight.picture_d" class="rounded float-left" style="width: 300px; height: 300px;" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.student_flight.picture_d))
+                {
+                    <img src="~/image/Flight/@Model.student_flight.picture_d" class="rounded float-left" style="width: 300px; height: 300px; margin-bottom:20px" asp-append-version="true">
+                }
             }
         </div>
         <div class="col-md-8">
@@ -96,10 +101,16 @@
     <div class="popup-content" style="height:470px; width:900px; overflow-y:scroll; overflow-x:hidden">
         <div class="row">
             <div class="col-md-5">
-                <img src="~/image/Flight/@Model.student_flight.picture_a" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                @if (!String.IsNullOrEmpty(Model.student_flight.picture_a))
+                {
+                    <img src="~/image/Flight/@Model.student_flight.picture_a" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                }
                 @if (sessionUser.role_name.Equals("Mobility"))
                 {
-                    <img src="~/image/Flight/@Model.student_flight.picture_d" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                    @if (!String.IsNullOrEmpty(Model.student_flight.picture_d))
+                    {
+                        <img src="~/image/Flight/@Model.student_flight.picture_d" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
+                    }
                 }
             </div>
             <div class="col-md-7">

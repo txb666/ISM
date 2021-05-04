@@ -180,6 +180,32 @@ namespace ISM.WebApp.Controllers
         }
 
         [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
+        public IActionResult Home()
+        {
+            Account sessionUser = JsonConvert.DeserializeObject<Account>(HttpContext.Session.GetString(LoginConst.SessionKeyName));
+            if (sessionUser.role_name.Equals("Admin"))
+            {
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
+            }
+            else if (sessionUser.role_name.Equals("Staff"))
+            {
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
+            }
+            else if (sessionUser.role_name.Equals("Degree"))
+            {
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
+            }
+            else if (sessionUser.role_name.Equals("Mobility"))
+            {
+                return View("Views/Admin/Homepage/AdminHomepage.cshtml");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize(Roles = "Admin,Staff,Degree,Mobility,Guest")]
         [HttpPost, ActionName("Logout")]
         public async Task<IActionResult> Logout()
         {

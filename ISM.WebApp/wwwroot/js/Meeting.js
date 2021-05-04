@@ -170,6 +170,7 @@ function acceptMR(ms_id) {
                     window.location.href = "/Meeting";
                 }
                 else {
+                    enableButtonAccept("accept_btn_id");
                     alert("Failed")
                 }
             },
@@ -179,6 +180,7 @@ function acceptMR(ms_id) {
         });
     }
     else {
+        enableButtonAccept("accept_btn_id");
         return;
     }
 }
