@@ -19,11 +19,15 @@
     <link rel="stylesheet" type="text/css" href="~/css/responsive.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
     <link rel="stylesheet" href="~/css/footer.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     @*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>*@
-    <script>/* When the user clicks on the button,
-        toggle between hiding and showing the dropdown content */
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>*@
+    <script>
+        /* When the user clicks on the button,
+                    toggle between hiding and showing the dropdown content */
         function myFunction_showuser() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
@@ -44,7 +48,9 @@
 
         //window.onload = function () {
         //    document.getElementById("initializeButton").click();
-        //};</script>
+        //};
+    </script>
+  
 </head>
 
 <body>
@@ -244,7 +250,7 @@
                         </p>
                     </div>
                     <div class="col-md-6 col-lg-6 footer-contact wow fadeInDown">
-                        
+
                         <p style="margin-top:50px"><i class="fas fa-map-marker-alt"></i> FPT Education Global – Da Nang Campus</p>
                         <p><i class="fas fa-phone"></i> Phone: (84+) 903575247</p>
                         <p>
@@ -255,16 +261,12 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/Passport.js" asp-append-version="true"></script>
     <script src="~/js/ManageStaff.js" asp-append-version="true"></script>
@@ -292,5 +294,6 @@
     <script src="~/js/RegisterAccommodation.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

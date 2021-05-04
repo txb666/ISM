@@ -28,7 +28,7 @@
                 <input type="hidden" id="edit_student_handbook_id" value="@Model.student_handbook_id" />
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;" for="title">Title</label>
-                    <input  maxlength="250" style="width: 300px; margin-left: 30px; border-radius: 5px;" type="text" name="title" id="edit_title" value="@Model.title" disabled />
+                    <input maxlength="250" style="width: 300px; margin-left: 30px; border-radius: 5px;" type="text" name="title" id="edit_title" value="@Model.title" disabled />
                 </div>
                 <div class="form-group row">
                     <label style="margin-left: 30px; font-weight: bold; width:100px;" for="uploadFile">Select a PDF file:</label>
@@ -48,64 +48,87 @@
 <a href="~/Article/Student Handbook/@Model.file_name" style="font-size:24px;" download>download file</a>
 <br />
 <h1>Preview</h1>
-<div class="top-bar">
-    <button class="btn" id="prev-page">
-        <i class="fas fa-arrow-circle-left"></i> Prev Page
-    </button>
-    <button class="btn" id="next-page">
-        Next Page <i class="fas fa-arrow-circle-right"></i>
-    </button>
-    <span class="page-info">
-        Page <span id="page-num"></span> of <span id="page-count"></span>
-    </span>
-</div>
 <br />
+<div id="pdf-main-container">
+    <div id="pdf-loader">
+        <div id="pdf-loading-bar"><div id="pdf-loading-completed"></div></div>
+    </div>
+    <div id="pdf-contents">
+        <div class="top-bar">
+            <button class="btn prev-page">
+                <i class="fas fa-arrow-circle-left"></i> Prev Page
+            </button>
+            <button class="btn next-page">
+                Next Page <i class="fas fa-arrow-circle-right"></i>
+            </button>
+            <span class="page-info">
+                Page <span class="page-num"></span> of <span class="page-count"></span>
+            </span>
+        </div>
+        <br />
+        <canvas id="pdf-canvas" style="width:100%;"></canvas>
+        <div id="page-loader" style="height:100%; font-size:30px;">Loading page ...</div>
+        <div class="top-bar">
+            <button class="btn prev-page">
+                <i class="fas fa-arrow-circle-left"></i> Prev Page
+            </button>
+            <button class="btn next-page">
+                Next Page <i class="fas fa-arrow-circle-right"></i>
+            </button>
+            <span class="page-info">
+                Page <span class="page-num"></span> of <span class="page-count"></span>
+            </span>
+        </div>
+    </div>
+</div>
 
-<canvas id="pdf-render" style="width:100%;"></canvas>
 <script>
 
-    const url = '../../Article/Student Handbook/@Model.file_name?' + performance.now();
+    var url = '../../Article/Student Handbook/@Model.file_name?' + performance.now();
 
-    let pdfDoc = null,
+    var pdfDoc = null,
         pageNum = 1,
         pageIsRendering = false,
-        pageNumIsPending = null;
-
-    const scale = 5,
-        canvas = document.getElementById('pdf-render'),
+        pageNumIsPending = null,
+        scale = 4,
+        canvas = document.getElementById('pdf-canvas'),
         ctx = canvas.getContext('2d');
 
     // Render the page
-    const renderPage = num => {
+    var renderPage = num => {
         pageIsRendering = true;
+        $("#pdf-canvas").hide();
+        $("#page-loader").show();
         // Get page
         pdfDoc.getPage(num).then(page => {
             // Set scale
-            const viewport = page.getViewport({ scale });
+            var viewport = page.getViewport({ scale });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
+            $("#page-loader").height(viewport.height);
 
-            const renderCtx = {
+            var renderCtx = {
                 canvasContext: ctx,
                 viewport
             };
 
             page.render(renderCtx).promise.then(() => {
                 pageIsRendering = false;
-
                 if (pageNumIsPending !== null) {
                     renderPage(pageNumIsPending);
                     pageNumIsPending = null;
                 }
+                $("#pdf-canvas").show();
+                $("#page-loader").hide();
             });
 
             // Output current page
-            document.getElementById('page-num').textContent = num;
+            $(".page-num").text(num);
         });
     };
 
     // Check for pages rendering
-    const queueRenderPage = num => {
+    var queueRenderPage = num => {
         if (pageIsRendering) {
             pageNumIsPending = num;
         } else {
@@ -113,46 +136,48 @@
         }
     };
 
-    // Show Prev Page
-    const showPrevPage = () => {
+    //load document
+    var loadingTask = pdfjsLib.getDocument(url);
+
+    //get progress data
+    loadingTask.onProgress = function (data) {
+        var percent_loaded = (data.loaded / data.total) * 100;
+        $("#pdf-loading-completed").css('width', percent_loaded + '%');
+    }
+
+    $("#pdf-loader").show();
+    loadingTask.promise.then(function (pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        $(".page-count").text(pdfDoc.numPages);
+        $("#pdf-loader").hide();
+        $("#pdf-contents").show();
+        renderPage(pageNum);
+    }).catch(err => {
+        // Display error
+        $("#pdf-loader").hide();
+        var div = document.createElement('div');
+        div.className = 'error';
+        div.appendChild(document.createTextNode(err.message));
+        document.querySelector('body').insertBefore(div, canvas);
+        // Remove top bar
+        document.querySelector('.top-bar').style.display = 'none';
+    });
+
+    // Button Events
+    $(".prev-page").on('click', function () {
         if (pageNum <= 1) {
             return;
         }
         pageNum--;
         queueRenderPage(pageNum);
-    };
+    });
 
-    // Show Next Page
-    const showNextPage = () => {
+    $(".next-page").on('click', function () {
         if (pageNum >= pdfDoc.numPages) {
             return;
         }
         pageNum++;
         queueRenderPage(pageNum);
-    };
-
-    // Get Document
-    pdfjsLib
-        .getDocument(url)
-        .promise.then(pdfDoc_ => {
-            pdfDoc = pdfDoc_;
-
-            document.querySelector('#page-count').textContent = pdfDoc.numPages;
-
-            renderPage(pageNum);
-        })
-        .catch(err => {
-            // Display error
-            const div = document.createElement('div');
-            div.className = 'error';
-            div.appendChild(document.createTextNode(err.message));
-            document.querySelector('body').insertBefore(div, canvas);
-            // Remove top bar
-            document.querySelector('.top-bar').style.display = 'none';
-        });
-
-    // Button Events
-    document.querySelector('#prev-page').addEventListener('click', showPrevPage);
-    document.querySelector('#next-page').addEventListener('click', showNextPage);
+    });
 
 </script>
