@@ -97,6 +97,12 @@ namespace ISM.WebApp.Controllers
             return result;
         }
 
+        public bool CreateAccountNotification(string account, string email)
+        {
+            bool result = userDAO.CreateAccountNotification(account, email);
+            return result;
+        }
+
         public IActionResult ExportToExcel()
         {
             List<User> studentExcel = new List<User>();

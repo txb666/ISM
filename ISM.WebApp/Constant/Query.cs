@@ -35,6 +35,7 @@ namespace ISM.WebApp.Constant
 
     public class notificationConst
     {
+        public const string URL = "http://ism-dev.ap-southeast-1.elasticbeanstalk.com/";
         public const string TYPE_PASSPORT = "passport";
         public const string TYPE_VISA = "visa";
         public const string TYPE_ORIENTATION = "ort_schedule";

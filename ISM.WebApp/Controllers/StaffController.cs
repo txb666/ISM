@@ -61,5 +61,11 @@ namespace ISM.WebApp.Controllers
             bool result = userDAO.editStaff(id, fullname, email, startDate, endDate, status, originalEmail);
             return result;
         }
+
+        public bool CreateAccountNotification(string account, string email)
+        {
+            bool result = userDAO.CreateAccountNotification(account, email);
+            return result;
+        }
     }
 }
