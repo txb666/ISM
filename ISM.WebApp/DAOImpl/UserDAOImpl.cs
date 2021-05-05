@@ -7,11 +7,24 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using ISM.WebApp.Utils;
 using System.Data;
+using System.Text;
 
 namespace ISM.WebApp.DAOImpl
 {
     public class UserDAOImpl : UserDAO
     {
+        public static string GetRandomPassword(int length)
+        {
+            string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            StringBuilder sb = new StringBuilder();
+            Random rnd = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                int index = rnd.Next(chars.Length);
+                sb.Append(chars[index]);
+            }
+            return sb.ToString();
+        }
         public int createStaff(string fullname, string email, string account, DateTime? startDate, DateTime? endDate, bool status)
         {
             SqlConnection con = null;
@@ -35,7 +48,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@account", SqlDbType.NVarChar);
                 com.Parameters["@account"].Value = account;
                 com.Parameters.Add("@password", SqlDbType.NVarChar);
-                com.Parameters["@password"].Value = account;
+                com.Parameters["@password"].Value = GetRandomPassword(8);
                 com.Parameters.Add("@start_date", SqlDbType.Date);
                 com.Parameters["@start_date"].Value = startDate;
                 if (startDate == null)
@@ -87,7 +100,7 @@ namespace ISM.WebApp.DAOImpl
                 com.Parameters.Add("@account", SqlDbType.NVarChar);
                 com.Parameters["@account"].Value = account;
                 com.Parameters.Add("@password", SqlDbType.NVarChar);
-                com.Parameters["@password"].Value = account;
+                com.Parameters["@password"].Value = GetRandomPassword(8);
                 com.Parameters.Add("@status", SqlDbType.Bit);
                 com.Parameters["@status"].Value = status;
                 com.Parameters.Add("@isFirstLoggedIn", SqlDbType.Bit);
