@@ -170,8 +170,49 @@ ul li {
     border: 5px solid #fff;
 }
 
+/*POPUP Student Account*/
+#xmas-popup .popup-content-assign {
+    width: 500px;
+    height: 420px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+#xmas-popup .popup-content-assign1 {
+    width: 500px;
+    height: 460px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
 
+#xmas-popup .popup-content-myinsurance {
+    width: 500px;
+    height: 300px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
 
+#xmas-popup-assign .popup-content-myinfor {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
+#xmas-popup-assign1 .popup-content-mycontactinforadmin {
+    width: 500px;
+    height: 500px;
+    background: white;
+    margin: 10px auto;
+    position: relative;
+    border: 5px solid #fff;
+}
 /* POP UP ASSIGN */
 .popup {
     position: fixed;

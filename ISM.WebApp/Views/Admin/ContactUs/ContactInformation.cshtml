@@ -145,7 +145,7 @@
 }
 else
 {
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
                 @if (!String.IsNullOrEmpty(Model.contact.picture))
@@ -176,8 +176,8 @@ else
                         <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="contact_infor_position_staff_show" value="@(!String.IsNullOrEmpty(Model.contact.staff_position)?Model.contact.staff_position:"")" disabled>
                     </div>
                     <div class="form-group row">
-                        <div class="btn-group" style="margin-left: 260px;">
-                            <button type="button" onclick="showPopup('xmas-popup-assign1');" style="width: 80px; border-radius: 10px;" class="btn btn-primary">
+                        <div style="margin-left: 260px;">
+                            <button type="button" onclick="showPopup('xmas-popup-assign1')" style="width: 80px; border-radius: 10px;" class="btn btn-info">
                                 Edit
                             </button>
                         </div>

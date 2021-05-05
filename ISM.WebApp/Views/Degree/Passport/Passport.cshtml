@@ -65,50 +65,88 @@
 <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your passport" style="text-decoration: none;">How to renew your Passport</a>
 
 <div id="xmas-popup" class="popup">
-    <div id="responsive" class="popup-content" style="height:510px; width:900px">
-        <h1 style="text-align: center;">Edit My Passport</h1>
-        <div class="row">
-            <div class="col-md-5">
-                @if (!String.IsNullOrEmpty(Model.student_passport.picture))
-                { 
+    @if (!String.IsNullOrEmpty(Model.student_passport.picture))
+    {
+        <div id="responsive" class="popup-content" style="height:510px; width:900px">
+            <h1 style="text-align: center;">Edit My Passport</h1>
+            <div class="row">
+                <div class="col-md-5">
                     <img src="~/image/Passport/@Model.student_passport.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
-                }
-            </div>
-            <div class="col-md-7">
-                <form enctype="multipart/form-data" style="margin-top:50px">
+                </div>
+                <div class="col-md-7">
+                    <form enctype="multipart/form-data" style="margin-top:50px">
 
-                    <input type="hidden" id="edit_student_id" value="@Model.student_passport.student_id" />
-                    <input type="hidden" id="edit_passport_id" value="@Model.student_passport.passport_id" />
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_passport_number" value="@Model.student_passport.passport_number">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.student_passport.start_date.HasValue?Model.student_passport.start_date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.student_passport.expired_date.HasValue?Model.student_passport.expired_date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_issuing_authority" value="@Model.student_passport.issuing_authority">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
-                    </div>
-                    <div class="form-group row">
-                        <button onclick="disableButton('save'); validateCreateOrEditPassport();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
-                            Save
-                        </button>
-                        <button onclick="hidePopup('xmas-popup');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+                        <input type="hidden" id="edit_student_id" value="@Model.student_passport.student_id" />
+                        <input type="hidden" id="edit_passport_id" value="@Model.student_passport.passport_id" />
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_passport_number" value="@Model.student_passport.passport_number">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.student_passport.start_date.HasValue?Model.student_passport.start_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.student_passport.expired_date.HasValue?Model.student_passport.expired_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_issuing_authority" value="@Model.student_passport.issuing_authority">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                            <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
+                        </div>
+                        <div class="form-group row">
+                            <button onclick="disableButton('save'); validateCreateOrEditPassport();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                                Save
+                            </button>
+                            <button onclick="hidePopup('xmas-popup');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div id="responsive" class="popup-content-assign1">
+            <h1 style="text-align: center;">Edit My Passport</h1>
+                    <form enctype="multipart/form-data" style="margin-top:50px">
+                        <input type="hidden" id="edit_student_id" value="@Model.student_passport.student_id" />
+                        <input type="hidden" id="edit_passport_id" value="@Model.student_passport.passport_id" />
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Passport Number:</label>
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_passport_number" value="@Model.student_passport.passport_number">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.student_passport.start_date.HasValue?Model.student_passport.start_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.student_passport.expired_date.HasValue?Model.student_passport.expired_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Issuing Authority:</label>
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_issuing_authority" value="@Model.student_passport.issuing_authority">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                            <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
+                        </div>
+                        <div class="form-group row">
+                            <button onclick="disableButton('save'); validateCreateOrEditPassport();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                                Save
+                            </button>
+                            <button onclick="hidePopup('xmas-popup');" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+    }
 </div>
