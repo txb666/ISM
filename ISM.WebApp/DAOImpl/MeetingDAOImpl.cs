@@ -701,5 +701,44 @@ namespace ISM.WebApp.DAOImpl
             }
             return staff;
         }
+
+        public bool CheckMeetingSchedule(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
+        {
+            SqlConnection con = null;
+            string sql = "select count(*) from Meeting_Schedule a where a.staff_id = @staff_id " +
+                         "and a.[date] = @date and a.start_time = @start_time and a.end_time = @end_time";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            bool isExist = false;
+            int? count = null;
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                com.Parameters.Add("@staff_id", SqlDbType.Int);
+                com.Parameters["@staff_id"].Value = staff_id;
+                com.Parameters.Add("@date", SqlDbType.Date);
+                com.Parameters["@date"].Value = date;
+                com.Parameters.Add("@start_time", SqlDbType.Time);
+                com.Parameters["@start_time"].Value = start_time;
+                com.Parameters.Add("@end_time", SqlDbType.Time);
+                com.Parameters["@end_time"].Value = end_time;
+                count = (int)com.ExecuteScalar();
+                if (count == 0)
+                {
+                    isExist = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return isExist;
+        }
     }
 }

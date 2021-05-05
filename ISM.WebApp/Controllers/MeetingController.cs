@@ -106,6 +106,13 @@ namespace ISM.WebApp.Controllers
         }
 
         [Authorize(Roles = "Admin,Staff")]
+        public bool CheckMeetingSchedule(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time)
+        {
+            bool result = _meetingDAO.CheckMeetingSchedule(staff_id, date, start_time, end_time);
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Staff")]
         public bool SetupNotification(int days_before)
         {
             bool result = _meetingDAO.SetupNotification(days_before);

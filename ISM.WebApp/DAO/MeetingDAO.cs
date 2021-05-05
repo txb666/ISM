@@ -24,5 +24,6 @@ namespace ISM.WebApp.DAO
         bool BookAMeeting(int staff_id, int student_id, DateTime date, TimeSpan start_time, TimeSpan end_time, string note);
         List<MeetingSchedule> GetStudentMeetingSchedule(int student_id);
         User GetStaffById(int staff_id);
+        bool CheckMeetingSchedule(int staff_id, DateTime date, TimeSpan start_time, TimeSpan end_time);
     }
 }

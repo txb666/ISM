@@ -63,30 +63,43 @@
     });
 }
 
-function deleteMAT(mat_id, staff_id) {
+function deleteMAT(mat_id, staff_id, date, start_time, end_time) {
     var temp = confirm("Do you want to delete?");
     if (temp) {
         $.ajax({
             type: "POST",
-            url: "/Meeting/DeleteMAT",
-            data: { mat_id: mat_id, staff_id: staff_id },
+            url: "/Meeting/CheckMeetingSchedule",
+            data: { staff_id: staff_id, date: date, start_time: start_time, end_time, end_time },
             dataType: "text",
             success: function (msg) {
                 if (msg == "true") {
-                    alert("Delete successfull");
-                    window.location.href = "/Meeting";
+                    $.ajax({
+                        type: "POST",
+                        url: "/Meeting/DeleteMAT",
+                        data: { mat_id: mat_id, staff_id: staff_id },
+                        dataType: "text",
+                        success: function (msg) {
+                            if (msg == "true") {
+                                alert("Delete successfull");
+                                window.location.href = "/Meeting";
+                            }
+                            else {
+                                alert("Delete failed")
+                            }
+                        },
+                        error: function (req, status, error) {
+                            alert(error);
+                        }
+                    });
                 }
                 else {
-                    alert("Delete failed")
+                    alert("Cannot delete because available time already book by a student.")
                 }
             },
             error: function (req, status, error) {
                 alert(error);
             }
         });
-    }
-    else {
-        return;
     }
 }
 
