@@ -56,9 +56,9 @@ function validateCreateStaff() {
         alert("Account must not be empty or contain special character");
         return;
     }
-    if (account.length < 8) {
+    if (account.length <= 3) {
         enableButton('save_create');
-        alert("Length of account must be greater than 8 characters");
+        alert("Length of account must be greater than 3 characters");
         return;
     }
     if (startDate || endDate) {

@@ -62,19 +62,19 @@ function validateCreateDetailedAgenda() {
         alert("Time Zone must not be empty");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(venue) == false || /^\s*$/.test(venue) == true) {
+    if (venue.trim().length <= 0) {
         enableButton('save_create');
-        alert("Venue must not be empty or contain special character");
+        alert("Venue must not be empty.");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(PIC) == false || /^\s*$/.test(PIC) == true) {
+    if (PIC.trim().length <= 0) {
         enableButton('save_create');
-        alert("PIC must not be empty or contain special character");
+        alert("PIC must not be empty.");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+    if (content.trim().length <= 0) {
         enableButton('save_create');
-        alert("Content must not be empty or contain special character");
+        alert("Content must not be empty.");
         return;
     }
     $.ajax({
@@ -141,19 +141,19 @@ function validateEditDetailedAgenda() {
         alert("Time Zone must not be empty");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(venue) == false || /^\s*$/.test(venue) == true) {
+    if (venue.trim().length <= 0) {
         enableButton('save_edit');
-        alert("Venue must not be empty or contain special character");
+        alert("Venue must not be empty.");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(PIC) == false || /^\s*$/.test(PIC) == true) {
+    if (PIC.trim().length <= 0) {
         enableButton('save_edit');
-        alert("PIC must not be empty or contain special character");
+        alert("PIC must not be empty.");
         return;
     }
-    if (/^[A-Za-z0-9\s]+$/.test(content) == false || /^\s*$/.test(content) == true) {
+    if (content.trim().length <= 0) {
         enableButton('save_edit');
-        alert("Content must not be empty or contain special character");
+        alert("Content must not be empty.");
         return;
     }
     $.ajax({

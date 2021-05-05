@@ -6,9 +6,9 @@
     var file = document.getElementById("edit_file").files[0];
     var fileName = document.getElementById("edit_file").value;
     var allowedExtensions = /(\.pdf)$/i;
-    if (/^[A-Za-z0-9\s]+$/.test(title) == false || /^\s*$/.test(title) == true) {
+    if (title.trim().length == 0) {
         enableButton('save');
-        alert("Title must not be empty or contain special character");
+        alert("Title must not be empty.");
         return;
     }
     if (!fileName) {
@@ -73,9 +73,9 @@ function validateCreateArticle() {
     var file = document.getElementById("create_file").files[0];
     var fileName = document.getElementById("create_file").value;
     var allowedExtensions = /(\.pdf)$/i;
-    if (/^[A-Za-z0-9\s]+$/.test(title) == false || /^\s*$/.test(title) == true) {
+    if (title.trim().length == 0) {
         enableButton('save');
-        alert("Title must not be empty or contain special character");
+        alert("Title must not be empty.");
         return;
     }
     if (!fileName) {

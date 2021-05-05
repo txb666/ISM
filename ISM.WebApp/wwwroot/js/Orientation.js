@@ -7,9 +7,9 @@
     var requirement = document.getElementById('ort_requirement_id').value;
     var current_date = new Date();
     var check_date = new Date(document.getElementById('ort_date_id').value);
-    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
+    if (content.trim().length <= 0) {
         enableButton('save_create');
-        alert("Content must not be empty or contain special character.");
+        alert("Content must not be empty.");
         return;
     }
     if (!date) {
@@ -27,14 +27,14 @@
         alert("Time must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
+    if (location_ort.trim().length <= 0) {
         enableButton('save_create');
-        alert("Location must not be empty or contain special character.");
+        alert("Location must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
+    if (requirement.trim().length <= 0) {
         enableButton('save_create');
-        alert("Requirement must not be empty or contain special character.");
+        alert("Requirement must not be empty.");
         return;
     }
     $.ajax({
@@ -113,9 +113,9 @@ function validateEditORT() {
     var requirement = document.getElementById('edit_ort_requirement_id').value;
     var current_date = new Date();
     var check_date = new Date(document.getElementById('edit_ort_date_id').value);
-    if (/^[a-zA-Z0-9 ,-]*$/.test(content) == false || !content) {
+    if (content.trim().length <= 0) {
         enableButton('save_edit');
-        alert("Content must not be empty or contain special character.");
+        alert("Content must not be empty.");
         return;
     }
     if (!date) {
@@ -133,14 +133,14 @@ function validateEditORT() {
         alert("Time must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(location_ort) == false || !location_ort) {
+    if (location_ort.trim().length <= 0) {
         enableButton('save_edit');
-        alert("Location must not be empty or contain special character.");
+        alert("Location must not be empty.");
         return;
     }
-    if (/^[a-zA-Z0-9 ,-]*$/.test(requirement) == false || !requirement) {
+    if (requirement.trim().length <= 0) {
         enableButton('save_edit');
-        alert("Requirement must not be empty or contain special character.");
+        alert("Requirement must not be empty.");
         return;
     }
     $.ajax({
