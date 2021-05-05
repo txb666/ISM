@@ -120,13 +120,13 @@
     </div>
 </div>
 <div id="xmas-popup-assign" class="popup">
-    <div id="responsive" class="popup-content-assign" style="height:450px; width:900px;">
+    @if (!String.IsNullOrEmpty(Model.user.picture))
+    {
+    <div id="responsive" class="popup-content-assign" style="height:500px; width:900px;">
+        <h1 style="text-align:center;">Edit My Information</h1>
         <div class="row">
             <div class="col-md-5">
-                @if (!String.IsNullOrEmpty(Model.user.picture))
-                { 
-                    <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
-                }
+                <img src="~/image/Profile/@Model.user.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
             </div>
             <div class="col-md-7">
                 <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="SaveProfile" method="post">
@@ -182,4 +182,62 @@
             </div>
         </div>
     </div>
+    }
+    else
+    {
+        <div id="responsive" class="popup-content-myinfor">
+            <h1 style="text-align:center;">Edit My Information</h1>
+            <form id="profile_form_id" enctype="multipart/form-data" asp-controller="Information" asp-action="SaveProfile" method="post">
+                <div class="form-group row" style="margin-top:50px">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Full Name:</label>
+                    <input maxlength="100" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_fullname_id" value="@Model.user.fullname">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Nationality:</label>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_nationality_id" value="@Model.user.nationality">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Date of Birth:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_dob_id" value="@ISM.WebApp.Utils.FormatUtil.ToInputDate(Model.user.dob)">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Gender:</label>
+                    <select style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_gender_id">
+                        @if (Model.user.gender == null)
+                        {
+                            <option value="True">Male</option>
+                            <option value="False">Female</option>
+                        }
+                        else if (Model.user.gender == true)
+                        {
+                            <option value="True" selected>Male</option>
+                            <option value="False">Female</option>
+                        }
+                        else
+                        {
+                            <option value="True">Male</option>
+                            <option value="False" selected>Female</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Emergency Contact:</label>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="profile_contact_id" value="@Model.user.emergency_contact">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="profile_picture_id" value="Choose a picture" accept=".jpg,.jpeg,.png">
+                </div>
+                <div class="form-group row">
+                    <button onclick="disableButton('save_edit'); validateSaveInformation('@sessionUser.user_id');" id="save_edit" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        Save
+                    </button>
+                    <button onclick="hidePopup('xmas-popup-assign')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+
 </div>

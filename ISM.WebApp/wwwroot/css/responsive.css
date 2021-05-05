@@ -32,10 +32,15 @@
         overflow-y:scroll;
         overflow-x:hidden;
     }
+    #xmas-popup-assign .popup-content-myinfor {
+        height: 520px !important;
+        width: 320px !important;
+    }
     #xmas-popup-assign .popup-content-assign {
         height: 520px !important;
         width: 320px !important;
     }
+
     #xmas-popup-assign1 .popup-content-assign1 {
         height: 520px !important;
         width: 320px !important;
@@ -48,9 +53,17 @@
         height: 525px !important;
         width: 320px !important;
     }
-    #xmas-popup-setupnotification-degree .popup-content-setupnotification-degree{
-        height:400px !important;
-        width :320px !important
+    #xmas-popup .popup-content-assign1 {
+        height: 525px !important;
+        width: 320px !important;
+    }
+    #xmas-popup .popup-content-myinsurance {
+        height: 350px !important;
+        width: 320px !important;
+    }
+    #xmas-popup-setupnotification-degree .popup-content-setupnotification-degree {
+        height: 400px !important;
+        width: 320px !important
     }
     #xmas-popup-setupnotification-mobility .popup-content-setupnotification-mobility {
         height: 400px !important;

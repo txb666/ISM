@@ -52,10 +52,15 @@
                     <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Port</label>
                     <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" value="@Model.studentVisa.entry_port"  readonly>
                 </div>
-                <div class="form-group row">                  
+                <div class="form-group row">
                     <button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
                         Edit
                     </button>
+
+        
+                    @*<button id="save_create" type="button" onclick="showPopup('xmas-popup');" style="border-radius: 10px; width: 80px; margin-left:270px" class="btn btn-info">
+                        Edit
+                    </button>*@
                 </div>
             </form>
         </div>
@@ -65,50 +70,91 @@
 <a asp-controller="Article" asp-action="Index" asp-route-id="" asp-route-type="How to renew your visa" style="text-decoration: none;">How to renew your Visa</a>
 
 <div id="xmas-popup" class="popup">
-    <div id="responsive" class="popup-content" style="height:450px; width:900px">
-        <h1 style="text-align: center;">Edit My Visa</h1>
-        <div class="row">
-            <div class="col-md-5">
-                @if (!String.IsNullOrEmpty(Model.studentVisa.picture))
-                { 
+    @if (!String.IsNullOrEmpty(Model.studentVisa.picture))
+    {
+        <div id="responsive" class="popup-content" style="height:450px; width:900px">
+            <h1 style="text-align: center;">Edit My Visa</h1>
+            <div class="row">
+
+                <div class="col-md-5">
+
                     <img src="~/image/Visa/@Model.studentVisa.picture" class="rounded float-left" style="width: 300px; height: 300px; margin-left:60px;margin-top:60px" asp-append-version="true">
-                }
-            </div>
-            <div class="col-md-7">
-                <form enctype="multipart/form-data" style="margin-top:50px">
-                    <input type="hidden" id="edit_student_id" value="@Model.studentVisa.student_id" />
-                    <input type="hidden" id="edit_visa_id" value="@Model.studentVisa.visa_id" />
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.studentVisa.start_date.HasValue?Model.studentVisa.start_date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.studentVisa.expired_date.HasValue?Model.studentVisa.expired_date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date:</label>
-                        <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date_entry" value="@(Model.studentVisa.date_entry.HasValue?Model.studentVisa.date_entry.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry port:</label>
-                        <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entry_port" value="@Model.studentVisa.entry_port">
-                    </div>
-                    <div class="form-group row">
-                        <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
-                        <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
-                    </div>
-                    <div class="form-group row">
-                        <button onclick="disableButton('save'); validateCreateOrEditVisa();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
-                            Save
-                        </button>
-                        <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+
+                </div>
+                <div class="col-md-7">
+                    <form enctype="multipart/form-data" style="margin-top:50px">
+                        <input type="hidden" id="edit_student_id" value="@Model.studentVisa.student_id" />
+                        <input type="hidden" id="edit_visa_id" value="@Model.studentVisa.visa_id" />
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.studentVisa.start_date.HasValue?Model.studentVisa.start_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Expired Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.studentVisa.expired_date.HasValue?Model.studentVisa.expired_date.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry Date:</label>
+                            <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date_entry" value="@(Model.studentVisa.date_entry.HasValue?Model.studentVisa.date_entry.Value.ToString("yyyy-MM-dd"):"")">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Entry port:</label>
+                            <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entry_port" value="@Model.studentVisa.entry_port">
+                        </div>
+                        <div class="form-group row">
+                            <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
+                            <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
+                        </div>
+                        <div class="form-group row">
+                            <button onclick="disableButton('save'); validateCreateOrEditVisa();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                                Save
+                            </button>
+                            <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div id="responsive" class="popup-content-assign">
+            <h1 style="text-align: center;">Edit My Visa</h1>
+            <form enctype="multipart/form-data" style="margin-top:50px">
+                <input type="hidden" id="edit_student_id" value="@Model.studentVisa.student_id" />
+                <input type="hidden" id="edit_visa_id" value="@Model.studentVisa.visa_id" />
+                <div class="form-group row">
+                    <label style="margin-left: 40px; font-weight: bold; width:100px;">Start Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.studentVisa.start_date.HasValue?Model.studentVisa.start_date.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 40px; font-weight: bold; width:100px;">Expired Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expired_date" value="@(Model.studentVisa.expired_date.HasValue?Model.studentVisa.expired_date.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 40px; font-weight: bold; width:100px;">Entry Date:</label>
+                    <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_date_entry" value="@(Model.studentVisa.date_entry.HasValue?Model.studentVisa.date_entry.Value.ToString("yyyy-MM-dd"):"")">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 40px; font-weight: bold; width:100px;">Entry port:</label>
+                    <input maxlength="250" type="text" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_entry_port" value="@Model.studentVisa.entry_port">
+                </div>
+                <div class="form-group row">
+                    <label style="margin-left: 40px; font-weight: bold; width:100px;">Picture:</label>
+                    <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
+                </div>
+                <div class="form-group row">
+                    <button onclick="disableButton('save'); validateCreateOrEditVisa();" id="save" style="margin-left: 190px; width: 80px;" type="button" class="btn btn-success">
+                        Save
+                    </button>
+                    <button onclick="hidePopup('xmas-popup')" id="cancel" style="margin-left: 80px;width: 80px;" type="button" class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+    
 </div>
-
