@@ -56,7 +56,8 @@
 <button id="insurance_btn_skip" type="button" onclick="disableButton('insurance_btn_skip'); skipNotificationInsurance('@sessionUser.user_id');" style="border-radius: 10px; width: auto; float:right" class="btn btn-danger">Skip Notification</button>
 
 <div id="xmas-popup" class="popup">
-    <div id="responsive" class="popup-content" style="height:420px; width:900px">
+    <div id="responsive" class="popup-content" style="height:450px; width:900px">
+        <h1 style="text-align: center;">Edit My Insurance</h1>
         <div class="row">
             <div class="col-md-5">
                 @if (!String.IsNullOrEmpty(Model.studentInsurance.picture))
@@ -67,7 +68,7 @@
             <div class="col-md-7">
                 <form enctype="multipart/form-data" style="margin-top:50px">
                     <input type="hidden" id="edit_student_id" value="@Model.studentInsurance.student_id" />
-                    <input type="hidden" id="edit_insurance_id" value="@Model.studentInsurance.insurance_id" />                 
+                    <input type="hidden" id="edit_insurance_id" value="@Model.studentInsurance.insurance_id" />
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Start Date:</label>
                         <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_start_date" value="@(Model.studentInsurance.start_date.HasValue?Model.studentInsurance.start_date.Value.ToString("yyyy-MM-dd"):"")">
@@ -75,7 +76,7 @@
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Expiry Date:</label>
                         <input type="date" style="width: 300px; margin-left: 30px; border-radius: 5px;" id="edit_expiry_date" value="@(Model.studentInsurance.expiry_date.HasValue?Model.studentInsurance.expiry_date.Value.ToString("yyyy-MM-dd"):"")">
-                    </div>                  
+                    </div>
                     <div class="form-group row">
                         <label style="margin-left: 30px; font-weight: bold; width:100px;">Picture:</label>
                         <input type="file" style="width: 300px;margin-left:30px; border-radius: 5px;" id="edit_picture" value="Choose a picture" accept=".jpg,.jpeg,.png">
