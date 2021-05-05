@@ -25,5 +25,6 @@ namespace ISM.WebApp.DAO
         User getUserById(int id);
         List<User> GetVisaLettersAdminToExcel();
         List<User> GetVisaLettersStaffToExcel(int staff_id);
+        bool CreateAccountNotification(string account, string email);
     }
 }

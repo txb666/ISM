@@ -37,12 +37,38 @@ namespace ISM.WebApp.Helper
         {
             try
             {
-                string display = "ISM Notification";
+                string display = "FISM Notification";
                 EmailConfig config = GetEmailConfig();
                 var fromEmailAdress = new MailAddress(config.email,display);
                 var toEmailAdress = new MailAddress(toEmail);
                 MailMessage message = new MailMessage(fromEmailAdress, toEmailAdress);
                 message.Subject = subject;
+                message.Body = content;
+
+                var client = new SmtpClient();
+                client.Credentials = new NetworkCredential(config.email, config.password);
+                client.Host = config.host;
+                client.EnableSsl = true;
+                client.Port = config.port;
+                client.Send(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void SendMailHtml(string toEmail, string subject, string content)
+        {
+            try
+            {
+                string display = "FISM Notification";
+                EmailConfig config = GetEmailConfig();
+                var fromEmailAdress = new MailAddress(config.email, display);
+                var toEmailAdress = new MailAddress(toEmail);
+                MailMessage message = new MailMessage(fromEmailAdress, toEmailAdress);
+                message.Subject = subject;
+                message.IsBodyHtml = true;
                 message.Body = content;
 
                 var client = new SmtpClient();

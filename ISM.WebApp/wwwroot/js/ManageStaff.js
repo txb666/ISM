@@ -87,8 +87,25 @@ function validateCreateStaff() {
                     dataType: "text",
                     success: function (msg) {
                         if (msg > 0) {
-                            alert("Create Staff successfull");
-                            location.reload();
+                            $.ajax({
+                                type: "POST",
+                                url: "/Staff/CreateAccountNotification",
+                                data: { account: account, email: email },
+                                dataType: "text",
+                                success: function (msg) {
+                                    if (msg == "true") {
+                                        alert("Create Staff successfull");
+                                        location.reload();
+                                    }
+                                    else {
+                                        enableButton('save_create');
+                                        alert("Create Staff failed")
+                                    }
+                                },
+                                error: function (req, status, error) {
+                                    alert(error);
+                                }
+                            });
                         }
                         else {
                             enableButton('save_create');

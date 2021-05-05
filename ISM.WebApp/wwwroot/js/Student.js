@@ -38,12 +38,29 @@
                     dataType: "text",
                     success: function (msg) {
                         if (msg == "true") {
-                            alert("Create Student successfull");
-                            window.location.href = "/Student";
+                            $.ajax({
+                                type: "POST",
+                                url: "/Student/CreateAccountNotification",
+                                data: { account: account, email: email },
+                                dataType: "text",
+                                success: function (msg) {
+                                    if (msg == "true") {
+                                        alert("Create Student successfull");
+                                        window.location.href = "/Student";
+                                    }
+                                    else {
+                                        enableButton('save_create');
+                                        alert("Create Student failed");
+                                    }
+                                },
+                                error: function (req, status, error) {
+                                    alert(error);
+                                }
+                            });
                         }
                         else {
                             enableButton('save_create');
-                            alert("Create Student failed")
+                            alert("Create Student failed");
                         }
                     },
                     error: function (req, status, error) {

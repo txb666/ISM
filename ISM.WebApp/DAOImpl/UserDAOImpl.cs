@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using ISM.WebApp.Utils;
 using System.Data;
+using ISM.WebApp.Helper;
+using ISM.WebApp.Constant;
 
 namespace ISM.WebApp.DAOImpl
 {
@@ -1156,6 +1158,59 @@ namespace ISM.WebApp.DAOImpl
                 DBUtils.closeAllResource(con, com, reader, null);
             }
             return students;
+        }
+
+        public bool CreateAccountNotification(string account, string email)
+        {
+            SqlConnection con = null;
+            string sql = "";
+            SqlDataReader reader = null;
+            SqlCommand com = null;
+            User student = new User();
+            EmailHelper helper = new EmailHelper();
+            try
+            {
+                con = DBUtils.GetConnection();
+                con.Open();
+                com = new SqlCommand(sql, con);
+                sql = "select a.account,a.[password],a.email from Users a where a.account = @account and a.email = @email";
+                com.Parameters.Add("@account", SqlDbType.NVarChar);
+                com.Parameters["@account"].Value = account;
+                com.Parameters.Add("@email", SqlDbType.NVarChar);
+                com.Parameters["@email"].Value = email;
+                com.CommandText = sql;
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    student.account = (string)reader.GetValue(reader.GetOrdinal("account"));
+                    student.password = (string)reader.GetValue(reader.GetOrdinal("password"));
+                    student.email = (string)reader.GetValue(reader.GetOrdinal("email"));
+                }
+                string body = "<!DOCTYPE html>" +
+                              "<html>" +
+                              "<body>" +
+                              "<p>Hello</p>" +
+                              "<p>The account has been created on FPT International Student Management Application with</p>" +
+                              "<div>" +
+                              "<div> - Username: <span style='font-weight: bold; '>"+student.account+"</span></div>" +
+                              "<div> - Password: <span style='font-weight: bold; '>"+student.password+"</span></div>" +
+                              "</div>" +
+                              "<br/>" +
+                              "Click <a href='"+notificationConst.URL+"' target='_blank'>here</a> to login using your new account." +
+                              "</body>" +
+                              "</html>";
+                helper.SendMailHtml(student.email, "Account Notification", body);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                DBUtils.closeAllResource(con, com, reader, null);
+            }
+            return false;
         }
     }
 }
